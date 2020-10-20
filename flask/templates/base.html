@@ -13,13 +13,43 @@
     />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <!-- <link href="lib/ionic/css/ionic.css" rel="stylesheet" />
-    <script src="lib/ionic/js/ionic.bundle.js"></script> -->
-    <!-- <link
-      rel="icon"
-      type="image/png"
-      href="static/icon/deustoCoin.png"
-    /> -->
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"
+    />
+    <style>
+      :root {
+        --ion-safe-area-top: 20px;
+        --ion-safe-area-bottom: 22px;
+      }
+
+      header {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        margin-bottom: 1.25em;
+        text-transform: uppercase;
+      }
+
+      section {
+        margin-top: 1em;
+        margin-bottom: 2.5em;
+      }
+
+      section:not(.full-width),
+      .full-width > header {
+        padding: 0 10px;
+      }
+    </style>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}">
     <meta name="google-signin-scope" content="profile email" />
     <meta
       name="google-signin-client_id"
@@ -34,5 +64,23 @@
 
   <body>
     {% block body %}{% endblock %}
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="tab1">
+          <ion-icon name="wallet-outline"></ion-icon>
+          <ion-label>Cartera</ion-label>
+        </ion-tab-button>
+    
+        <ion-tab-button tab="tab2">
+          <ion-icon name="cash-outline"></ion-icon>
+          <ion-label>Canjear</ion-label>
+        </ion-tab-button>
+    
+        <ion-tab-button tab="tab3">
+          <ion-icon name="cart-outline"></ion-icon>
+          <ion-label>Ofertas</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
   </body>
 </html>
