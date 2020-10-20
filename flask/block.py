@@ -28,6 +28,7 @@ class Block:
 
 
 class Blockchain:
+    difficulty = 2
 
     def __init__(self):
         # """
@@ -36,6 +37,19 @@ class Blockchain:
         self.unconfirmed_transactions = []  # data yet to get into blockchain
         self.chain = []
         self.create_genesis_block()
+
+    def proof_of_work(self, block):
+        """
+        Function that tries different values of the nonce to get a hash
+        that satisfies our difficulty criteria.
+        """
+        block.nonce = 0
+        computed_hash = block.compute_hash()
+        while not computed_hash.startswith('0' * Blockchain.difficulty):
+            block.nonce += 1
+            computed_hash = block.compute_hash()
+
+        return computed_hash
 
     def create_genesis_block(self):
         # """
@@ -64,6 +78,23 @@ class Blockchain:
         #   in the chain match.
         # """
         previous_hash = self.last_block.hash
+        if previous_hash != block.previous_hash:
+            return False
+
+        if not Blockchain.is_valid_proof(self, block, proof):
+            return False
+
+        block.hash = proof
+        self.chain.append(block)
+        return True
+
+    def is_valid_proof(self, block, block_hash):
+        """
+        Check if block_hash is valid hash of block and satisfies
+        the difficulty criteria.
+        """
+        return (block_hash.startswith('0' * Blockchain.difficulty) and
+                block_hash == block.compute_hash())
 
     def add_new_transaction(self, transaction):
         self.unconfirmed_transactions.append(transaction)

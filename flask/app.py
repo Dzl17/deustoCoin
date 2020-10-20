@@ -7,7 +7,17 @@ def index():
     return render_template('login.html')
 #Mirar SQLAlchemy ORM
 
+@app.route('/wallet')
+def wallet():
+    return render_template('tab1cartera.html', title = 'Cartera')
 
+@app.route('/getcoins')
+def getcoins():
+    return render_template('tab2get.html')
+
+@app.route('/offers')
+def coins():
+    return render_template('tab3offers.html')
 # def login():
 #     error =None
 #     if request.method == 'POST':
