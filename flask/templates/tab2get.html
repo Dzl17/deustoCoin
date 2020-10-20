@@ -1,0 +1,27 @@
+{% extends "basetabs.html" %} {% block body %}
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> Canjear </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Canjear</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content padding>
+    <ion-item>
+      <ion-label class="ion-text-wrap"
+        >Hola, Jorge, aquí podrás ganar UDC acreditando que has realizado una
+        serie de buenas acciones.</ion-label
+      >
+    </ion-item>
+    <ion-footer>
+      <ion-button expand="block">Cargar QR</ion-button>
+    </ion-footer>
+  </ion-content>
+</ion-content>
+{% endblock %}

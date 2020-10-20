@@ -1,6 +1,11 @@
 {% extends "base.html" %} {% block body %}
-<p>Google Login</p>
-<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Inicia sesión con Google
+    </ion-title>
+  </ion-toolbar>
+</ion-header><div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 <script>
   function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
