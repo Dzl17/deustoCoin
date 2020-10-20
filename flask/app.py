@@ -140,3 +140,6 @@ def coins():
 #     return render_template('login.html', error=error)
 if __name__ == "__main__":
     app.run(debug=True)
+
+# if __name__ == "__main__":
+#     app.run(ssl_context="adhoc")
