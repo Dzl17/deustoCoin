@@ -3,6 +3,7 @@ from flask_login import LoginManager, current_user, login_required, login_user, 
 from authlib.integrations.flask_client import OAuth
 import json
 import os
+import sys
 import sqlite3
 from db import init_db_command
 from user import User
@@ -17,20 +18,22 @@ from flask_restful import Resource, Api
 #     "https://accounts.google.com/.well-known/openid-configuration"
 # )
 GOOGLE_CLIENT_ID = "543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET = "T6BNa4xfhp3SeKRObBiw86tH"
+GOOGLE_CLIENT_SECRET = "60ajlp1BRZMnryrOBFD1sMkz"
 GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
 
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+
+
 api = Api(app) 
 
 #Configurando OAuth
 oauth = OAuth(app)
-oauth.register{
+google = oauth.register(
     name='google',
-    client_id=os.getenv("GOOGLE_CLIENT_ID"),
-    client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
+    client_id='543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com',
+    client_secret='60ajlp1BRZMnryrOBFD1sMkz',
     access_token_url='https://accounts.google.com/o/oauth2/token',
     access_token_params=None,
     authorize_url='https://accounts.google.com/o/oauth2/auth',
@@ -38,24 +41,27 @@ oauth.register{
     api_base_url='https://www.googleapis.com/oauth2/v1/',
     userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',  # This is only needed if using openId to fetch user info
     client_kwargs={'scope': 'openid email profile'},
-}
+)
 
 @app.route('/')
 def hello_world():
-    return "HHello world"
+    email = dict(session).get('email', None)
+    print((dict(session)), file=sys.stderr)
+    return f"Hello, {email}"
 
-@app.route('/login'):
+@app.route('/login')
 def login():
     google = oauth.create_client('google')
-    redirect_uri = url_for('authorize', external=True)
+    redirect_uri = url_for('authorize', _external=True)
     return google.authorize_redirect(redirect_uri)
 
-@app.route('/authorize'):
+@app.route('/authorize')
 def authorize():
     google = oauth.create_client('google')
     token = google.authorize_access_token()
     resp = google.get('userinfo')
     user_info = resp.json()
+    session['email'] = user_info['email']
     return redirect('/')
 
 @app.route('/wallet')
