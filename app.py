@@ -10,6 +10,7 @@ from user import User
 import requests
 from oauthlib.oauth2 import WebApplicationClient
 from flask_restful import Resource, Api
+from web3 import Web3
 
 # GOOGLE_CLIENT_ID = os.environ.get(
 #     "543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com", None)
@@ -17,6 +18,10 @@ from flask_restful import Resource, Api
 # GOOGLE_DISCOVERY_URL = (
 #     "https://accounts.google.com/.well-known/openid-configuration"
 # )
+
+infura_url = "https://mainnet.infura.io/v3/834fad9971d14e4cb81715ed0f7adb0a"
+infura_secret = "0bc36d15c0a841b7835509d9b9fd0f52"
+ropsten_url = "https://ropsten.etherscan.io/address/0x99ad62313b591405ba1c51aa50294245a36f1289"
 GOOGLE_CLIENT_ID = "543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com"
 GOOGLE_CLIENT_SECRET = "60ajlp1BRZMnryrOBFD1sMkz"
 GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
