@@ -45,8 +45,7 @@ google = oauth.register(
 
 @app.route('/')
 def hello_world():
-    email = dict(session).get('email', None)
-    print((dict(session)), file=sys.stderr)
+    email = dict(session).get('token', None)
     return f"Hello, {email}"
 
 @app.route('/login')
@@ -59,9 +58,13 @@ def login():
 def authorize():
     google = oauth.create_client('google')
     token = google.authorize_access_token()
+
     resp = google.get('userinfo')
     user_info = resp.json()
+    print((dict(user_info)), file=sys.stderr)
     session['email'] = user_info['email']
+    session['token'] = token
+
     return redirect('/')
 
 @app.route('/wallet')
