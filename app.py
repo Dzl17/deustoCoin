@@ -25,14 +25,17 @@ ropsten_url = "https://ropsten.etherscan.io/address/0x99ad62313b591405ba1c51aa50
 GOOGLE_CLIENT_ID = "543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com"
 GOOGLE_CLIENT_SECRET = "60ajlp1BRZMnryrOBFD1sMkz"
 GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
-
+test_address = "0x99AD62313b591405Ba1C51aa50294245A36F1289"
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
 
 api = Api(app) 
+web3 = Web3(Web3.HTTPProvider(infura_url))
+balance = web3.eth.getBalance(test_address)
 
+print("Tu balance es de ", web3.fromWei(balance, "ether"))
 #Configurando OAuth
 oauth = OAuth(app)
 google = oauth.register(
