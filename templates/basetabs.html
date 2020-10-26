@@ -49,7 +49,10 @@
         padding: 0 10px;
       }
     </style>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}">
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='icon/deustoCoin.ico') }}"
+    />
     <meta name="google-signin-scope" content="profile email" />
     <meta
       name="google-signin-client_id"
@@ -63,24 +66,29 @@
   </head>
 
   <body>
-    
-    {% block body %}{% endblock %}
+    {% block body %} {% endblock %}
     <ion-tabs>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="cartera">
-          <ion-icon name="wallet-outline"></ion-icon>
-          <ion-label>Cartera</ion-label>
-        </ion-tab-button>
-    
-        <ion-tab-button tab="obtenerdc">
-          <ion-icon name="cash-outline"></ion-icon>
-          <ion-label>Obtener UDC</ion-label>
-        </ion-tab-button>
-    
-        <ion-tab-button tab="ofertas">
-          <ion-icon name="cart-outline"></ion-icon>
-          <ion-label>Ofertas</ion-label>
-        </ion-tab-button>
+        <a href="{{ url_for('wallet') }}"
+          ><ion-tab-button tab="cartera">
+            <ion-icon name="wallet-outline"></ion-icon>
+            <ion-label>Cartera</ion-label>
+          </ion-tab-button></a
+        >
+
+        <a href="{{ url_for('getcoins') }}">
+          <ion-tab-button tab="obtenerdc">
+            <ion-icon name="cash-outline"></ion-icon>
+            <ion-label>Obtener UDC</ion-label>
+          </ion-tab-button>
+        </a>
+
+        <a href="{{ url_for('offers') }}">
+          <ion-tab-button tab="ofertas">
+            <ion-icon name="cart-outline"></ion-icon>
+            <ion-label>Ofertas</ion-label>
+          </ion-tab-button>
+        </a>
       </ion-tab-bar>
     </ion-tabs>
   </body>
