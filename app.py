@@ -10,7 +10,7 @@ from user import User
 import requests
 from oauthlib.oauth2 import WebApplicationClient
 from flask_restful import Resource, Api
-from web3 import Web3
+from web3.auto import w3;
 
 # GOOGLE_CLIENT_ID = os.environ.get(
 #     "543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com", None)
@@ -19,9 +19,10 @@ from web3 import Web3
 #     "https://accounts.google.com/.well-known/openid-configuration"
 # )
 
-infura_url = "https://mainnet.infura.io/v3/834fad9971d14e4cb81715ed0f7adb0a"
+infura_url = "https://ropsten.infura.io/v3/834fad9971d14e4cb81715ed0f7adb0a"
 infura_secret = "0bc36d15c0a841b7835509d9b9fd0f52"
 ropsten_url = "https://ropsten.etherscan.io/address/0x99ad62313b591405ba1c51aa50294245a36f1289"
+WEB3_INFURA_PROJECT_ID="834fad9971d14e4cb81715ed0f7adb0a"
 GOOGLE_CLIENT_ID = "543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com"
 GOOGLE_CLIENT_SECRET = "60ajlp1BRZMnryrOBFD1sMkz"
 GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
@@ -32,10 +33,10 @@ app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
 
 api = Api(app) 
-web3 = Web3(Web3.HTTPProvider(infura_url))
-balance = web3.eth.getBalance(test_address)
-
-print("Tu balance es de ", web3.fromWei(balance, "ether"))
+# web3 = Web3(Web3.HTTPProvider(ropsten_url))
+# balance = web3.eth.getBalance(test_address)
+# int_balance = web3.fromWei(balance, "ether")
+# print("Tu balance es de ", web3.fromWei(balance, "ether"))
 #Configurando OAuth
 oauth = OAuth(app)
 google = oauth.register(
@@ -54,7 +55,7 @@ google = oauth.register(
 @app.route('/')
 def hello_world():
     email = dict(session).get('token', None)
-    return f"Hello, {email}"
+    return f"Tu balance es de {int_balance}"
 
 @app.route('/login')
 def login():
