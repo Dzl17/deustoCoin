@@ -34,8 +34,8 @@ api = Api(app)
 web3 = Web3(Web3.HTTPProvider(ropsten_url))
 balance = web3.eth.getBalance(test_address)
 int_balance = web3.fromWei(balance, "ether")
-# print("Tu balance es de ", web3.fromWei(balance, "ether"))
-#Configurando OAuth
+
+
 oauth = OAuth(app)
 google = oauth.register(
     name='google',
@@ -76,7 +76,7 @@ def authorize():
 @app.route('/wallet')
 def wallet():
     email = dict(session).get('email', None)
-    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email)
+    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, w3 = web3)
 
 
 @app.route('/getcoins')
