@@ -10,6 +10,7 @@ import requests
 from oauthlib.oauth2 import WebApplicationClient
 from flask_restful import Resource, Api
 from web3 import Web3;
+import json
 
 # GOOGLE_CLIENT_ID = os.environ.get(
 #     "543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com", None)
@@ -35,6 +36,35 @@ web3 = Web3(Web3.HTTPProvider(ropsten_url))
 balance = web3.eth.getBalance(test_address)
 int_balance = web3.fromWei(balance, "ether")
 
+str_abi = '[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"INITIAL_SUPPLY","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"burn","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_value","type":"uint256"}],"name":"burnFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_name","type":"string"},{"name":"_symbol","type":"string"},{"name":"_decimals","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_burner","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]'
+abi = json.loads(str_abi)
+address = "0x4BFBa4a8F28755Cb2061c413459EE562c6B9c51b" #OMG Network
+contract = web3.eth.contract(address=address, abi=abi)
+totalSupply = contract.functions.totalSupply().call()
+print(web3.fromWei(totalSupply,'ether'))
+destname = contract.functions.name().call()
+destsymbol = contract.functions.symbol().call()
+print(destname)
+print(destsymbol)
+
+
+# account_1 = "0x99AD62313b591405Ba1C51aa50294245A36F1289"
+# account_2 = "0x52351E33B3C693cc05f21831647EBdAb8a68Eb95"
+
+# private_key = "e49aed1a79c5f2c703b5651dd09c840d3193175fd748fbea37e00ce8d83a3c7d"
+# nonce = web3.eth.getTransactionCount(account_1)
+
+
+# tx = {
+#     'nonce': nonce,
+#     'to':account_2,
+#     'value': web3.toWei(0.5, 'ether'),
+#     'gas': 2000000,
+#     'gasPrice': web3.toWei('50', 'gwei')
+#     }
+# signed_tx = web3.eth.account.signTransaction(tx, private_key)
+# tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+# print(tx_hash)
 
 oauth = OAuth(app)
 google = oauth.register(
