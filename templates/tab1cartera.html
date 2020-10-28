@@ -1,33 +1,21 @@
 {% extends "basetabs.html" %} {% block body %}
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Cartera</ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-content>
-  <ion-list-header
-    ><h3>&emsp;Hola, <b> {{email}}</b></h3>
-    <br />
-    <h3>
-      &emsp;Número de bloque: <b> {{w3.eth.blockNumber}}</b>
-    </h3></ion-list-header
-  >
-  <ion-list-header
-    ><ion-icon name="link-outline"></ion-icon>
-    <h5>&emsp;Tu saldo actual es de <b> {{wallet}} UDC</b></h5></ion-list-header
-  >
-  <ion-list-header
-    >  <button onclick="mostrarForm()" id="botonEnviarUdc">Enviar UDC</button>
-    </ion-list-header
-  >
-  <!-- <ion-button expand="block">Enviar UDC</ion-button> -->
-  <script>
-    function mostrarForm() {
-      document.getElementById("botonEnviarUdc").innerHTML = "Hello World";
-      console.log("Hello world!");
-      // document.getElementById("botonEnviarUdc").style.display = "none";
-    }
-  </script>
-  <form></form>
-</ion-content>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2">Cartera</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group mr-2">
+      <button class="btn btn-sm btn-outline-secondary">Share</button>
+      <button class="btn btn-sm btn-outline-secondary">Export</button>
+    </div>
+    <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+      This week
+    </button>
+  </div>
+</div>
+<div class="view">
+  <div class="jumbotron">
+    <h2>¡Hola, {{ name }}!</h2><h2><span style="font-size: 1rem;">Número de bloque: <b>{{w3.eth.blockNumber}}</b></span></h2><h2><span style="font-size: 1rem;">Tu saldo actual es de <b>{{ wallet }}</b> UDC.</span><br></h2>
+    <p><a class="btn btn-primary btn-large" href="#">Enviar UDC</a></p>
+  </div>
+</div>
 {% endblock %}

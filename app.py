@@ -78,7 +78,7 @@ google = oauth.register(
 #         'to': account_2,
 #         'value': web3.toWei(0.5, 'ether'),
 #         'gas': 2000000,
-#         'gasPrice': web3.toWei('50', 'gwei')
+#         'gasPrice': web3.toWei('50', 'gwei') //gas: rapidez de transaccion
 #     }
 #     signed_tx = web3.eth.account.signTransaction(tx, private_key)
 #     tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
@@ -86,7 +86,7 @@ google = oauth.register(
 
 
 @app.route('/')
-def hello_world():
+def home():
     return render_template("login.html")
 
 
@@ -106,6 +106,7 @@ def authorize():
     user_info = resp.json()
     print((dict(user_info)), file=sys.stderr)
     session['email'] = user_info['email']
+    session['given_name'] = user_info['given_name']
     session['token'] = token
 
     return redirect('/wallet')
@@ -114,7 +115,9 @@ def authorize():
 @app.route('/wallet')
 def wallet():
     email = dict(session).get('email', None)
-    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, w3=web3)
+    name = dict(session).get('given_name', None)
+
+    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=name, w3=web3)
 
 
 @app.route('/getcoins')
@@ -125,6 +128,11 @@ def getcoins():
 @app.route('/offers')
 def offers():
     return render_template('tab3offers.html')
+
+# @app.route('/logout')
+# def logout():
+#     logouturl = "https://appengine.google.com/_ah/logout?continue=" + "localhost:5000"
+#     return redirect(logouturl)
 
 
 # def login():
