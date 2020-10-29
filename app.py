@@ -11,6 +11,7 @@ from oauthlib.oauth2 import WebApplicationClient
 from flask_restful import Resource, Api
 from web3 import Web3
 import json
+from forms import EnviarUDCForm
 
 # GOOGLE_CLIENT_ID = os.environ.get(
 #     "543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com", None)
@@ -29,7 +30,7 @@ test_address = "0x99AD62313b591405Ba1C51aa50294245A36F1289"
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
-
+app.config["SECRET_KEY"] = app.secret_key
 
 api = Api(app)
 web3 = Web3(Web3.HTTPProvider(ropsten_url))
@@ -41,11 +42,8 @@ abi = json.loads(str_abi)
 address = "0x4BFBa4a8F28755Cb2061c413459EE562c6B9c51b"  # OMG Network
 contract = web3.eth.contract(address=address, abi=abi)
 totalSupply = contract.functions.totalSupply().call()
-print(web3.fromWei(totalSupply, 'ether'))
 destname = contract.functions.name().call()
 destsymbol = contract.functions.symbol().call()
-print(destname)
-print(destsymbol)
 
 
 oauth = OAuth(app)
@@ -112,13 +110,31 @@ def authorize():
     return redirect('/wallet')
 
 
-@app.route('/wallet')
+@app.route('/wallet', methods=['GET', 'POST'])
 def wallet():
+    form = EnviarUDCForm()
+    if form.validate_on_submit():
+        account_1 = "0x99AD62313b591405Ba1C51aa50294245A36F1289"
+        account_2 = request.form['destino']
+
+        private_key = "e49aed1a79c5f2c703b5651dd09c840d3193175fd748fbea37e00ce8d83a3c7d"
+        nonce = web3.eth.getTransactionCount(account_1)
+        float_amount = float(request.form['cantidad'])/1000
+        tx = {
+            'nonce': nonce,
+            'to': account_2,
+            'value': web3.toWei(float_amount, 'ether'),
+            'gas': 2000,
+            'gasPrice': web3.toWei(50, 'gwei') #gas: rapidez de transaccion
+        }
+        signed_tx = web3.eth.account.signTransaction(tx, private_key)
+        tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+        print(tx_hash)
+    else:
+        print("form no submitteado")
     email = dict(session).get('email', None)
     name = dict(session).get('given_name', None)
-
-    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=name, w3=web3)
-
+    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=name, w3=web3, form = form)
 
 @app.route('/getcoins')
 def getcoins():
