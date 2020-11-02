@@ -1,0 +1,20 @@
+areas a mejorar: movil
+poner elasticsearch en el area de palabras clave
+
+TIPOS DE USUARIOS:
+ADMIN: DEUSTO - organiza campañas et
+SODEXO:  se da de alta y dona fondos a deusto
+Base de datos: MONGO, campos que me permitan hablar con el mundo ethereum
+Addresses de agentes
+Ver transacciones de campañas
+
+
+###Instalar un sistema de informacion
+
+Smart contracts: o se implementa directamente sobre blockchain o logica (SendRawTransaction WEB3)
+Mirar cotizacion del ether e implementar una fórmula que mantenga la equivalencia
+Comisión en sodexo (pagas un cafe y metemos una comision)
+AVERIGUAR VALOR DE CONVERSION: IMPORTANTISIMO
+
+base de datos: lo miramos hoy en clase
+heroku y google app engine
