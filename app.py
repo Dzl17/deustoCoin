@@ -124,8 +124,8 @@ def wallet():
             'nonce': nonce,
             'to': account_2,
             'value': web3.toWei(float_amount, 'ether'),
-            'gas': 2000,
-            'gasPrice': web3.toWei(50, 'gwei') #gas: rapidez de transaccion
+            'gas': 50000,
+            'gasPrice': web3.toWei(100, 'gwei') #gas: rapidez de transaccion
         }
         signed_tx = web3.eth.account.signTransaction(tx, private_key)
         tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
