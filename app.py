@@ -160,20 +160,20 @@ def wallet():
         account_1 = user.blockHash
         destUser = User.get_by_email(request.form['destino'])
         account_2 = destUser.blockHash
-
-        private_key = "e49aed1a79c5f2c703b5651dd09c840d3193175fd748fbea37e00ce8d83a3c7d"
-        nonce = web3.eth.getTransactionCount(account_1)
-        float_amount = float(request.form['cantidad'])/1000
-        tx = {
-            'nonce': nonce,
-            'to': account_2,
-            'value': web3.toWei(float_amount, 'ether'),
-            'gas': 50000,
-            'gasPrice': web3.toWei(100, 'gwei') #gas: rapidez de transaccion
-        }
-        signed_tx = web3.eth.account.signTransaction(tx, private_key)
-        tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-        print(tx_hash)
+        print(account_2)
+        # private_key = "e49aed1a79c5f2c703b5651dd09c840d3193175fd748fbea37e00ce8d83a3c7d"
+        # nonce = web3.eth.getTransactionCount(account_1)
+        # float_amount = float(request.form['cantidad'])/1000
+        # tx = {
+        #     'nonce': nonce,
+        #     'to': account_2,
+        #     'value': web3.toWei(float_amount, 'ether'),
+        #     'gas': 50000,
+        #     'gasPrice': web3.toWei(100, 'gwei') #gas: rapidez de transaccion
+        # }
+        # signed_tx = web3.eth.account.signTransaction(tx, private_key)
+        # tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+        # print(tx_hash)
     else:
         print("form no submitteado")
     given_name = dict(session).get('given_name', None)
