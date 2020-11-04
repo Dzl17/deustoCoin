@@ -121,13 +121,21 @@ def authorize():
     session['picture'] = user_info['picture']
 
     session['token'] = token
-
-    return redirect('/wallet')
+    user = User.get_by_email(user_info['email'])
+    if user != None:
+        return redirect('/wallet')
+    else:
+        return redirect('/register')
+    #return redirect('/wallet')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     print(dict)
+    email = dict(session).get('email', None)
+    name = dict(session).get('name', None)
+    picture = dict(session).get('picture', None)
     if request.method == "POST":
+        print("postttt")
         nombre = request.form['nombre'] 
         email = request.form['email']
         blockchainAddr = request.form['email']
@@ -138,7 +146,9 @@ def register():
         s.commit()
         s.close()
         print(u)
-    return render_template("register.html")
+    else:
+        print("no pilla el post")
+    return render_template("register.html", email = email, nombre = name)
 
 @app.route('/wallet', methods=['GET', 'POST'])
 def wallet():
@@ -165,13 +175,8 @@ def wallet():
     email = dict(session).get('email', None)
     given_name = dict(session).get('given_name', None)
     name = dict(session).get('name', None)
+    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=given_name, w3=web3, form = form)
 
-    user = User.get_by_email(email)
-    if user != None:
-        return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=given_name, w3=web3, form = form)
-    else:
-        return render_template('register.html', email=email, nombre=name)
-        #return redirect(url_for("register", dict=dict(session)))
 
 @app.route('/getcoins')
 def getcoins():

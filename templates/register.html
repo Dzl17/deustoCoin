@@ -41,7 +41,7 @@
           DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain
            y llevarla al ámbito universitario. 
         </p>
-        <form id="registerform" method="POST">
+        <form id="registerform" action="/register" method="POST">
           <div class="form-group">
             <p>
               <input type="text" class="form-control" placeholder="Nombre y apellidos" name="nombre" value='{{nombre}}'></input>
@@ -64,9 +64,8 @@
               <option>Campaña</option>
           </div>
           <p>
-            <a class="btn btn-primary btn-large" href="{{ url_for('register') }}">
-              Regístrate
-            </a>
+            <input type="submit" formmethod="POST" value="Regístrate" class="btn btn-primary btn-large">
+            </input>
           </p>
           </form>
       
