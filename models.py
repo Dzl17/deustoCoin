@@ -28,6 +28,7 @@ class User(Base):
         if not self.id:
             s.add(self)
         s.commit()
+        s.expunge(self)
         s.close()
     @staticmethod
     def get_by_email(email):

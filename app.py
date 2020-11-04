@@ -138,17 +138,17 @@ def register():
         print("postttt")
         nombre = request.form['nombre'] 
         email = request.form['email']
-        blockchainAddr = request.form['email']
+        blockchainAddr = request.form['blockAddr']
         rol = request.form['rol']
         s = Session()
         u = User(nombre, email, blockchainAddr, rol)
+        #u.save()
         s.add(u)
         s.commit()
-        s.close()
-        print(u)
+        return redirect(url_for('wallet'))
     else:
-        print("no pilla el post")
-    return render_template("register.html", email = email, nombre = name)
+        return render_template("register.html", email = email, nombre = name)
+    
 
 @app.route('/wallet', methods=['GET', 'POST'])
 def wallet():
@@ -175,7 +175,9 @@ def wallet():
     email = dict(session).get('email', None)
     given_name = dict(session).get('given_name', None)
     name = dict(session).get('name', None)
-    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=given_name, w3=web3, form = form)
+    picture = dict(session).get('picture', None)
+
+    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture)
 
 
 @app.route('/getcoins')
