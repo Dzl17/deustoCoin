@@ -139,9 +139,10 @@ def register():
         nombre = request.form['nombre'] 
         email = request.form['email']
         blockchainAddr = request.form['blockAddr']
+        session['blockchainAddr'] = blockchainAddr
         rol = request.form['rol']
         s = Session()
-        u = User(nombre, email, blockchainAddr, rol)
+        u = User(nombre, email, blockchainAddr, picture, rol)
         #u.save()
         s.add(u)
         s.commit()
@@ -153,9 +154,12 @@ def register():
 @app.route('/wallet', methods=['GET', 'POST'])
 def wallet():
     form = EnviarUDCForm()
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
     if form.validate_on_submit():
-        account_1 = "0x99AD62313b591405Ba1C51aa50294245A36F1289"
-        account_2 = request.form['destino']
+        account_1 = user.blockHash
+        destUser = User.get_by_email(request.form['destino'])
+        account_2 = destUser.blockHash
 
         private_key = "e49aed1a79c5f2c703b5651dd09c840d3193175fd748fbea37e00ce8d83a3c7d"
         nonce = web3.eth.getTransactionCount(account_1)
@@ -172,12 +176,11 @@ def wallet():
         print(tx_hash)
     else:
         print("form no submitteado")
-    email = dict(session).get('email', None)
     given_name = dict(session).get('given_name', None)
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
 
-    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture)
+    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user)
 
 
 @app.route('/getcoins')
