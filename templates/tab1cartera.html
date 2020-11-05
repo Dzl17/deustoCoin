@@ -1,14 +1,12 @@
 {% extends "basetabs.html" %} {% block body %}
-<div
-  class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom"
->
-  <h1 class="h2">Cartera</h1>
-  <div class="btn-toolbar mb-2 mb-md-0">
-    <div class="btn-group mr-2">
-      <button class="btn btn-sm btn-outline-secondary">Share</button>
-      <button class="btn btn-sm btn-outline-secondary">Export</button>
-    </div>
-    <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">Cartera</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <button class="btn btn-sm btn-outline-secondary">Share</button>
+            <button class="btn btn-sm btn-outline-secondary">Export</button>
+        </div>
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -28,14 +26,13 @@
       </svg>
       This week
     </button>
-  </div>
+    </div>
 </div>
 <div class="view">
-  <div class="jumbotron">
-    <h2>¡Hola, {{ name }}!</h2>
-    <h2>
-      <span style="font-size: 1rem"
-        >Número de bloque: <b>{{w3.eth.blockNumber}}</b></span
+    <div class="jumbotron">
+        <h2>¡Hola, {{ name }}!</h2>
+        <h2>
+            <span style="font-size: 1rem">Número de bloque: <b>{{w3.eth.blockNumber}}</b></span
       >
     </h2>
     <h2>
@@ -43,7 +40,7 @@
         >Tu saldo actual es de <b>{{ wallet * 1000 }}</b> UDC.</span
       ><br />
     </h2>
-    <p><button class="btn btn-primary btn-large" id="mostrarformudc">Enviar UDC</button></p>
+    <p><button class="btn btn-primary btn-large" id="mostrarformudc">Enviar UDC</button>&nbsp;<button class="btn btn-primary btn-large" id="mostrartransacciones">Mostrar transacciones</button></p>
   </div>
   <form style="display: none;" id="udcform" method="POST">
     {{ form.csrf_token }}
@@ -69,10 +66,48 @@
     </p>
     </form>
 </div>
+<div id="transacciones" style="display: none;">
+  {% if transacciones|length >= 1 %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Fecha</th>
+        <th scope="col">Código</th>
+        <th scope="col">Remitente</th>
+        <th scope="col">Destinatario</th>
+        <th scope="col">Cantidad</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in transacciones %}
+      <tr>
+        <th scope="row">{{t.fecha}}</th>
+        <td>{{t.transHash}}</td>
+        <td>{{t.remitente}}</td>
+        <td>{{t.destinatario}}</td>
+        <td>{{t.cantidad}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <h4>No hay transacciones para mostrar</h4>
+  <p>El usuario no ha estado involucrado en ninguna transacción.</p>
+  {% endif %}
+</div>
+
 <script>
   $(document).ready(function(){
     $("#mostrarformudc").click(function(){
       $("#udcform").show();
+    });
+  });
+  </script>
+  <script>
+  $(document).ready(function(){
+    $("#mostrartransacciones").click(function(){
+      $("#transacciones").show();
     });
   });
   </script>
