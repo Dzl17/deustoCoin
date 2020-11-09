@@ -148,11 +148,14 @@ def register():
         org = request.form['organizacion']
 
         s = Session()
-        u = User(nombre, email, blockchainAddr, picture, rol)
+        u = User(nombre, email, blockchainAddr, picture, rol, org)
         #u.save()
         s.add(u)
         s.commit()
-        return redirect(url_for('wallet'))
+        if rol == 'Profesor':
+            return redirect('/wallet')
+        if rol == 'Campaña':
+            return redirect('/campanya')
     else:
         return render_template("register.html", email = email, nombre = name)
     
@@ -204,9 +207,9 @@ def campanya():
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
     campanyas = Campanya.getCampaigns(user.organizacion)
+    s = Session()
     if form.validate_on_submit():
-        c = Campanya(request.form['nomCamp'],request.form['empresa'],request.form['desc'],request.form['recompensa'])
-        #u.save()
+        c = Campanya(request.form['nomCamp'],user.organizacion,request.form['desc'],request.form['recompensa'])
         s.add(c)
         s.commit()
     return render_template('campanya.html', title='Campaña', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, campanyas = campanyas)
