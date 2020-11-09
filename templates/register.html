@@ -1,78 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <link
-      rel="icon"
-      href="{{ url_for('static', filename='icon/deustoCoin.ico') }}"
-    />
+    <link rel="icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}" />
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <title>DeustoCoin - Registro</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
+
     <link href="{{ url_for('static', filename='css/floating-labels.css') }}" rel="stylesheet" />
     <meta name="google-signin-scope" content="profile email" />
-    <meta
-      name="google-signin-client_id"
-      content="543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com"
-    />
+    <meta name="google-signin-client_id" content="543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com" />
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-  </head>
+</head>
 
-  <body>
+<body>
     <form class="form-signin">
-      <div class="text-center mb-4">
-        <img
-          class="mb-4"
-          src="{{ url_for('static', filename='icon/deustoCoin.ico') }}"
-          alt=""
-          width="72"
-          height="72"
-        />
-        <h1 class="h3 mb-3 font-weight-normal">DeustoCoin</h1>
-        <p>
-          DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain
-           y llevarla al ámbito universitario. 
-        </p>
-        <form id="registerform" action="/register" method="POST">
-          <div class="form-group">
+        <div class="text-center mb-4">
+            <img class="mb-4" src="{{ url_for('static', filename='icon/deustoCoin.ico') }}" alt="" width="72" height="72" />
+            <h1 class="h3 mb-3 font-weight-normal">DeustoCoin</h1>
             <p>
-              <input type="text" class="form-control" placeholder="Nombre y apellidos" name="nombre" value='{{nombre}}'></input>
+                DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain y llevarla al ámbito universitario.
             </p>
-          </div>
-          <div class="form-group">
-            <p>
-              <input type="email" class="form-control" placeholder="Correo electrónico" name="email" value="{{email}}"></input>
-            </p>
-          </div>
-          <div class="form-group">
-            <p>
-              <input type="text" placeholder="Dirección blockchain" class="form-control" name="blockAddr"></input>
-            </p>
-          </div>
-          <div class="form-group">
-          <select class="form-control" name="rol" id="exampleFormControlSelect1">
+            <form id="registerform" action="/register" method="POST">
+                <div class="form-group">
+                    <p>
+                        <input type="text" class="form-control" placeholder="Nombre y apellidos" name="nombre" value='{{nombre}}'></input>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <p>
+                        <input type="email" class="form-control" placeholder="Correo electrónico" name="email" value="{{email}}"></input>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <p>
+                        <input type="text" placeholder="Dirección blockchain" class="form-control" name="blockAddr"></input>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <p>
+
+                        <select class="form-control" name="rol" id="userrole">
               <option>Alumno</option>
               <option>Profesor</option>
               <option>Campaña</option>
+            </p>
+            <br>
           </div>
+          <div class="form-group">
+            <p>
+                <input type="text" class="form-control" placeholder="Organización" name="organizacion" id="organizacion" value="Deusto">
+            </p>
+        </div>
+            
           <p>
             <input type="submit" formmethod="POST" value="Regístrate" class="btn btn-primary btn-large">
             </input>
           </p>
           </form>
-      
     </div>
-      
-      <p class="mt-5 mb-3 text-muted text-center">&copy; 2020-2021 - MORELab</p>
     </form>
+    <script>
+      $("#userrole").on("change", function () {
+        var value = $(this).val();
+        console.log(value);
+        if (value == "Campaña"){
+          $('#organizacion').val(""); 
+        } else {
+          $('#organizacion').val("Deusto"); 
+        };
+      });
+      </script>
     <script>
       function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
@@ -88,4 +91,7 @@
       }
     </script>
   </body>
+  <footer class="page-footer">
+    <p class="mt-5 mb-3 text-muted text-center">&copy; 2020-2021 - MORELab</p>
+</footer>
 </html>

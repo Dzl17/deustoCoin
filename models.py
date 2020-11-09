@@ -11,14 +11,16 @@ class User(Base):
     # password = db.Column(db.String(128), nullable=False)
     blockHash = Column(String(128), nullable=False)
     picture = Column(String(128), nullable=True)
-
     role = Column(String(128), nullable=False)
-    def __init__(self, name, email, blockHash, picture, role):
+    organizacion = Column(String(128), nullable=False)
+
+    def __init__(self, name, email, blockHash, picture, role, organizacion):
         self.name = name
         self.email = email
         self.blockHash = blockHash
         self.picture = picture
         self.role = role
+        self.organizacion = organizacion
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -54,10 +56,6 @@ class Transaccion(Base):
 
     def __repr__(self):
         return f'<Transaccion {self.transHash}>'
-    # def set_password(self, password):
-    #     self.password = generate_password_hash(password)
-    # def check_password(self, password):
-    #     return check_password_hash(self.password, password)
 
     def save(self):
         s = Session()
@@ -71,3 +69,33 @@ class Transaccion(Base):
         s = Session()
         query = s.query(Transaccion)
         return query.filter(or_(Transaccion.remitente==email, Transaccion.destinatario==email)).all()
+
+class Campanya(Base):
+    __tablename__ = 'campanya'
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(80), nullable=False)
+    empresa = Column(String(80), nullable=False)
+    descripcion = Column(String, unique=True, nullable=False)
+    recompensa = Column(Float, nullable=False)
+
+    def __init__(self, nombre, empresa, descripcion, recompensa):
+        self.nombre = nombre
+        self.empresa = empresa
+        self.descripcion = descripcion
+        self.recompensa = recompensa
+
+    def __repr__(self):
+        return f'<Campaña {self.nombre}>: {self.descripcion}'
+
+    def save(self):
+        s = Session()
+        if not self.id:
+            s.add(self)
+        s.commit()
+        s.expunge(self)
+        s.close()
+    @staticmethod
+    def getCampaigns(empresa):
+        s = Session()
+        query = s.query(Campanya)
+        return query.filter(Campanya.empresa==empresa).all()

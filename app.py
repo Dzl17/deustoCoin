@@ -6,14 +6,14 @@ import os
 import sys
 import sqlite3
 from base import Base, Session, init_db
-from models import User, Transaccion
+from models import User, Transaccion, Campanya
 from datetime import datetime
 import requests
 from oauthlib.oauth2 import WebApplicationClient
 from flask_restful import Resource, Api
 from web3 import Web3
 import json
-from forms import EnviarUDCForm
+from forms import EnviarUDCForm, CrearCampanaForm
 # import pymongo
 # from pymongo import MongoClient
 
@@ -124,7 +124,10 @@ def authorize():
     session['token'] = token
     user = User.get_by_email(user_info['email'])
     if user != None:
-        return redirect('/wallet')
+        if user.role == 'Profesor':
+            return redirect('/wallet')
+        if user.role == 'Campaña':
+            return redirect('/campanya')
     else:
         return redirect('/register')
     #return redirect('/wallet')
@@ -142,6 +145,8 @@ def register():
         blockchainAddr = request.form['blockAddr']
         session['blockchainAddr'] = blockchainAddr
         rol = request.form['rol']
+        org = request.form['organizacion']
+
         s = Session()
         u = User(nombre, email, blockchainAddr, picture, rol)
         #u.save()
@@ -189,6 +194,22 @@ def wallet():
     picture = dict(session).get('picture', None)
     transacciones = Transaccion.getTransactions(email)
     return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, transacciones = transacciones)
+
+@app.route('/campanya', methods=['GET', 'POST'])
+def campanya():
+    form = CrearCampanaForm()
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+    name = dict(session).get('name', None)
+    picture = dict(session).get('picture', None)
+    campanyas = Campanya.getCampaigns(user.organizacion)
+    if form.validate_on_submit():
+        c = Campanya(request.form['nomCamp'],request.form['empresa'],request.form['desc'],request.form['recompensa'])
+        #u.save()
+        s.add(c)
+        s.commit()
+    return render_template('campanya.html', title='Campaña', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, campanyas = campanyas)
 
 
 @app.route('/getcoins')
