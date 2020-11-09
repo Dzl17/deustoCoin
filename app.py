@@ -207,6 +207,7 @@ def campanya():
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
     campanyas = Campanya.getCampaigns(user.organizacion)
+    print(campanyas)
     s = Session()
     if form.validate_on_submit():
         c = Campanya(request.form['nomCamp'],user.organizacion,request.form['desc'],request.form['recompensa'])
