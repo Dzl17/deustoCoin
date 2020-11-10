@@ -13,7 +13,7 @@ from oauthlib.oauth2 import WebApplicationClient
 from flask_restful import Resource, Api
 from web3 import Web3
 import json
-from forms import EnviarUDCForm, CrearCampanaForm
+from forms import EnviarUDCForm, CrearCampanaForm, AccionesForm
 # import pymongo
 # from pymongo import MongoClient
 
@@ -238,13 +238,21 @@ def historialtrans():
 
 @app.route('/editor', methods=['GET', 'POST'])
 def editor():
+    # form = AccionesForm()
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
     campanyas = Campanya.getCampaigns(user.organizacion)
+    # s = Session()
+    if request.method == 'POST':
+        if 'editar' in request.form:
+            pass # do something
+        elif 'eliminar' in request.form:
+            print(request.form['id'])
     return render_template('editorcampanyas.html', title='Campaña', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas)
+
 
 
 @app.route('/getcoins')

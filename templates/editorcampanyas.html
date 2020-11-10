@@ -3,8 +3,7 @@
     <h1 class="h2">Editor de campañas de {{user.organizacion}}</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-            <button class="btn btn-sm btn-outline-secondary">Share</button>
-            <button class="btn btn-sm btn-outline-secondary">Export</button>
+            <p>✎ Editar | Eliminar ✖</p>
         </div>
     </div>
 </div>
@@ -16,6 +15,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th scope="col">Acciones</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Empresa</th>
                 <th scope="col">Descripción</th>
@@ -25,6 +25,13 @@
         <tbody>
             {% for c in campanyas %}
             <tr>
+                <td style="text-align: center;">
+                    <form action="{{ url_for('editor') }}" method="post">
+                        <input type="submit" name="editar" class="{{c.id}}" value="✎">
+                        <input type="submit" name="eliminar" class="{{c.id}}" value="✖">
+                        <input value="{{c.id}}" name="id" style="display: none;">
+                    </form>
+                </td>
                 <th scope="row">{{c.nombre}}</th>
                 <td>{{c.empresa}}</td>
                 <td>{{c.descripcion}}</td>
