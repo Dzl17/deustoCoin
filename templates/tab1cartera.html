@@ -40,7 +40,7 @@
         >Tu saldo actual es de <b>{{ wallet * 1000 }}</b> UDC.</span
       ><br />
     </h2>
-    <p><button class="btn btn-primary btn-large" id="mostrarformudc">Enviar UDC</button>&nbsp;<button class="btn btn-primary btn-large" id="mostrartransacciones">Mostrar transacciones</button></p>
+    <p><button class="btn btn-primary btn-large" id="mostrarformudc">Enviar UDC</button>&nbsp;<button class="btn btn-primary btn-large" id="mostrartransacciones">Mostrar transacciones</button>&nbsp;<button class="btn btn-primary btn-large" id="mostrarcampanyas">Mostrar campañas</button></p>
   </div>
   <form style="display: none;" id="udcform" method="POST">
     {{ form.csrf_token }}
@@ -96,6 +96,33 @@
   <p>El usuario no ha estado involucrado en ninguna transacción.</p>
   {% endif %}
 </div>
+<div id="campanyas" style="display: none;">
+  {% if campanyas|length >= 1 %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Empresa</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Recompensa (en UDC)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in campanyas %}
+      <tr>
+        <th scope="row">{{c.nombre}}</th>
+        <td>{{c.empresa}}</td>
+        <td>{{c.descripcion}}</td>
+        <td>{{c.recompensa}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <h4>No hay campañas vigentes de momento.</h4>
+  <p>El usuario no ha estado involucrado en ninguna transacción.</p>
+  {% endif %}
+</div>
 
 <script>
   $(document).ready(function(){
@@ -111,4 +138,11 @@
     });
   });
   </script>
+  <script>
+    $(document).ready(function(){
+      $("#mostrarcampanyas").click(function(){
+        $("#campanyas").show();
+      });
+    });
+    </script>
 {% endblock %}

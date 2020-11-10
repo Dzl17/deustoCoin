@@ -196,7 +196,8 @@ def wallet():
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
     transacciones = Transaccion.getTransactions(email)
-    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, transacciones = transacciones)
+    campanyas = Campanya.getAllCampaigns()
+    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, transacciones = transacciones, campanyas = campanyas)
 
 @app.route('/campanya', methods=['GET', 'POST'])
 def campanya():
@@ -214,6 +215,36 @@ def campanya():
         s.add(c)
         s.commit()
     return render_template('campanya.html', title='Campaña', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, campanyas = campanyas)
+
+@app.route('/campanyalumnos', methods=['GET', 'POST'])
+def campanyalumnos():
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+    name = dict(session).get('name', None)
+    picture = dict(session).get('picture', None)
+    campanyas = Campanya.getAllCampaigns()
+    return render_template('campanyalumnos.html', title='Campaña', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas)
+
+@app.route('/historialtrans', methods=['GET', 'POST'])
+def historialtrans():
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+    name = dict(session).get('name', None)
+    picture = dict(session).get('picture', None)
+    transacciones = Transaccion.getTransactions(user.email)
+    return render_template('historialtrans.html', title='Campaña', wallet=int_balance, email=email, name=name, w3=web3, picture=picture, user = user, transacciones = transacciones)
+
+@app.route('/editor', methods=['GET', 'POST'])
+def editor():
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+    name = dict(session).get('name', None)
+    picture = dict(session).get('picture', None)
+    campanyas = Campanya.getCampaigns(user.organizacion)
+    return render_template('editorcampanyas.html', title='Campaña', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas)
 
 
 @app.route('/getcoins')

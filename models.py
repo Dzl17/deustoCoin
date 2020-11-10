@@ -99,3 +99,8 @@ class Campanya(Base):
         s = Session()
         query = s.query(Campanya)
         return query.filter(Campanya.empresa==empresa).all()
+    @staticmethod
+    def getAllCampaigns():
+        s = Session()
+        query = s.query(Campanya)
+        return query.all()
