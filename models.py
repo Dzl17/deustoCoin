@@ -43,7 +43,7 @@ class Transaccion(Base):
     id = Column(Integer, primary_key=True)
     fecha = Column(String(80), nullable=False)
     transHash = Column(String(80), nullable=False)
-    remitente = Column(String(50), unique=True, nullable=False)
+    remitente = Column(String(50), nullable=False)
     destinatario = Column(String(50), nullable=False)
     cantidad = Column(Float, nullable=False)
 

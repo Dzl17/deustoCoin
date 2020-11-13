@@ -245,25 +245,39 @@ def editor():
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
     campanyas = Campanya.getCampaigns(user.organizacion)
-    # s = Session()
+    s = Session()
     if request.method == 'POST':
         if 'editar' in request.form:
-            pass # do something
+            return redirect(url_for('editorCamp' ,campanya_id=request.form['id']))
         elif 'eliminar' in request.form:
-            print(request.form['id'])
-    return render_template('editorcampanyas.html', title='Campaña', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas)
+            query = s.query(Campanya)
+            pk = request.form['id']
+            query = query.filter(Campanya.id==pk).first()
+            s.delete(query)
+            s.commit()
+    return render_template('admincampanyas.html', title='Campaña', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas)
 
+@app.route('/editor/<int:campanya_id>', methods=["GET", "POST"])
+def editorCamp(campanya_id):
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+    name = dict(session).get('name', None)
+    picture = dict(session).get('picture', None)
+    user = User.get_by_email(email)
 
+    s = Session()  
+    query = s.query(Campanya)
+    campanya = query.filter(Campanya.id==campanya_id).first()
+    if request.method == 'POST':
+        dictupdate = {Campanya.nombre: request.form['nombre'], Campanya.descripcion: request.form['descripcion'], Campanya.recompensa: float(request.form['recompensa'])}
+        query.filter(Campanya.id == campanya_id).update(dictupdate, synchronize_session=False)
+        s.commit()
 
-@app.route('/getcoins')
-def getcoins():
-    return render_template('tab2get.html')
-
-
-@app.route('/offers')
-def offers():
-    return render_template('tab3offers.html')
-
+    #     campanya.update(dictupdate, synchronize_session=False)
+    #     #session.query(Campanya).filter(Campanya.id==campanya_id).update(dictupdate, synchronize_session=False)
+    #     session.commit()
+    return render_template("editorcampanya.html", campanya = campanya, email=email, name=given_name, picture=picture, user=user)
 
 # @app.route('/logout')
 # def logout():
