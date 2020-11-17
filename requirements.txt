@@ -6,3 +6,4 @@ oauthlib==3.1.0
 web3==5.12.3
 authlib==0.15.2
 pymongo=3.11.0
+cryptocompare==0.7.3
