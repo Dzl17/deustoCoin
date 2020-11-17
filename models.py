@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import create_engine, Column, String, Integer, ForeignKey, Boolean,Float, or_
 from base import Base, Session
 
+
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
@@ -37,6 +38,8 @@ class User(Base):
         s = Session()
         query = s.query(User)
         return query.filter(User.email==email).first()
+    
+
 
 class Transaccion(Base):
     __tablename__ = 'transaccion'

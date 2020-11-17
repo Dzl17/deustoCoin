@@ -16,6 +16,8 @@ import json
 from forms import EnviarUDCForm, CrearCampanaForm, AccionesForm
 import cryptocompare
 
+
+
 # import pymongo
 # from pymongo import MongoClient
 
@@ -76,6 +78,13 @@ google = oauth.register(
     userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',
     client_kwargs={'scope': 'openid email profile'},
 )
+def get_balance(test_address):
+    web3 = Web3(Web3.HTTPProvider(ropsten_url))
+    balance = web3.eth.getBalance(test_address)
+    valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
+    balancefloat = float(web3.fromWei(balance, "ether")) * valorUDC
+    print("Tu balance es de %.2f UDC" % balancefloat)
+    return balancefloat
 
 @app.route('/')
 def home():
@@ -146,6 +155,7 @@ def wallet():
     form = EnviarUDCForm()
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
+    salary = get_balance(user.blockHash)
     if form.validate_on_submit():
         account_1 = user.blockHash
         destUser = User.get_by_email(request.form['destino'])
@@ -178,7 +188,7 @@ def wallet():
     picture = dict(session).get('picture', None)
     transacciones = Transaccion.getTransactions(email)
     campanyas = Campanya.getAllCampaigns()
-    return render_template('tab1cartera.html', title='Cartera', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, transacciones = transacciones, campanyas = campanyas)
+    return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, transacciones = transacciones, campanyas = campanyas)
 
 @app.route('/campanya', methods=['GET', 'POST'])
 def campanya():
