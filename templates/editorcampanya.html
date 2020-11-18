@@ -15,17 +15,20 @@
     <form id="editorcamp" action="{{ url_for('editorCamp' ,campanya_id=campanya.id) }}" method="POST">
         <div class="form-group">
             <p>
-                <input type="text" class="form-control" placeholder="Nombre" name="nombre" value='{{campanya.nombre}}'></input>
+                <input type="text" class="form-control" placeholder="Nombre" name="nombre"
+                    value='{{campanya.nombre}}'></input>
             </p>
         </div>
         <div class="form-group">
             <p>
-                <input type="text" class="form-control" placeholder="Descripción" name="descripcion" value="{{campanya.descripcion}}"></input>
+                <input type="text" class="form-control" placeholder="Descripción" name="descripcion"
+                    value="{{campanya.descripcion}}"></input>
             </p>
         </div>
         <div class="form-group">
             <p>
-                <input type="text" placeholder="Recompensa (en UDC)" class="form-control" name="recompensa" value="{{campanya.recompensa}}"></input>
+                <input type="text" placeholder="Recompensa (en UDC)" class="form-control" name="recompensa"
+                    value="{{campanya.recompensa}}"></input>
             </p>
         </div>
         <p>
@@ -62,15 +65,15 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $("#mostrarformcamp").click(function() {
+    $(document).ready(function () {
+        $("#mostrarformcamp").click(function () {
             $("#campanyasform").show();
         });
     });
 </script>
 <script>
-    $(document).ready(function() {
-        $("#mostrarcamp").click(function() {
+    $(document).ready(function () {
+        $("#mostrarcamp").click(function () {
             $("#campanyas").show();
         });
     });

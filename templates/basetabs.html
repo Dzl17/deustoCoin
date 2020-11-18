@@ -10,18 +10,22 @@
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <meta name="color-scheme" content="light dark" />
-    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport"
+        content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
     <style>
-         :root {
+        :root {
             --ion-safe-area-top: 20px;
             --ion-safe-area-bottom: 22px;
         }
-        
+
         header {
             font-size: 11px;
             font-weight: 600;
@@ -29,12 +33,12 @@
             margin-bottom: 1.25em;
             text-transform: uppercase;
         }
-        
+
         section {
             margin-top: 1em;
             margin-bottom: 2.5em;
         }
-        
+
         section:not(.full-width),
         .full-width>header {
             padding: 0 10px;
@@ -43,7 +47,8 @@
     <link rel="icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}" />
     <meta name="google-signin-scope" content="profile email" />
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-    <meta name="google-signin-client_id" content="543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com" />
+    <meta name="google-signin-client_id"
+        content="543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com" />
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <!-- add to homescreen for ios -->
     {% block head %} {% endblock %}
@@ -74,17 +79,20 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link active" href="{{ url_for('wallet')}}">
-                                <span class="iconify" data-icon="fe-wallet" data-inline="false"></span> Cartera <span class="sr-only">(current)</span>
+                                <span class="iconify" data-icon="fe-wallet" data-inline="false"></span> Cartera <span
+                                    class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('campanyalumnos')}}">
-                                <span class="iconify" data-icon="ic:outline-local-offer" data-inline="false"></span> Campañas
+                                <span class="iconify" data-icon="ic:outline-local-offer" data-inline="false"></span>
+                                Campañas
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('historialtrans')}}">
-                                <span class="iconify" data-icon="grommet-icons:document-time" data-inline="false"></span> Historial de transacciones
+                                <span class="iconify" data-icon="grommet-icons:document-time"
+                                    data-inline="false"></span> Historial de transacciones
                             </a>
                         </li>
                         <li class="nav-item">
@@ -104,7 +112,8 @@
                         </li>
                     </ul>
 
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <h6
+                        class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <span>Saved reports</span>
                         <a class="d-flex align-items-center text-muted" href="#">
                             <span data-feather="plus-circle"></span>
@@ -170,7 +179,7 @@
                     borderColor: "#007bff",
                     borderWidth: 4,
                     pointBackgroundColor: "#007bff",
-                }, ],
+                },],
             },
             options: {
                 scales: {
@@ -178,7 +187,7 @@
                         ticks: {
                             beginAtZero: false,
                         },
-                    }, ],
+                    },],
                 },
                 legend: {
                     display: false,
