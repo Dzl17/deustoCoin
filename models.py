@@ -107,3 +107,8 @@ class Campanya(Base):
         s = Session()
         query = s.query(Campanya)
         return query.all()
+    @staticmethod
+    def getIdByName(nombre):
+        s = Session()
+        query = s.query(Campanya)
+        return query.filter(Campanya.nombre==nombre).first().id

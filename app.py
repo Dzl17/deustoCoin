@@ -15,22 +15,7 @@ from web3 import Web3
 import json
 from forms import EnviarUDCForm, CrearCampanaForm, AccionesForm
 import cryptocompare
-
-
-
-# import pymongo
-# from pymongo import MongoClient
-
-# GOOGLE_CLIENT_ID = os.environ.get(
-#     "543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com", None)
-# GOOGLE_CLIENT_SECRET = os.environ.get("T6BNa4xfhp3SeKRObBiw86tH", None)
-# GOOGLE_DISCOVERY_URL = (
-#     "https://accounts.google.com/.well-known/openid-configuration"
-# )
-
-# cluster = MongoClient("mongodb+srv://root:root@cluster0.aaqli.mongodb.net/DeustoCoin?retryWrites=true&w=majority")
-# db = cluster["deustoCoin"]
-# collection = db["deustoCoin"]
+import qrcode
 
 ropsten_url = "https://ropsten.infura.io/v3/834fad9971d14e4cb81715ed0f7adb0a"
 infura_secret = "0bc36d15c0a841b7835509d9b9fd0f52"
@@ -205,6 +190,10 @@ def campanya():
         c = Campanya(request.form['nomCamp'],user.organizacion,request.form['desc'],request.form['recompensa'])
         s.add(c)
         s.commit()
+        intId = Campanya.getIdByName(c.nombre)
+        qr = qrcode.make(url_for("editorCamp", campanya_id=intId, _external=True))
+        qr.save('./static/qr/'+ str(intId) + ".png")
+        #qr.save(url_for('static', filename='qr/'+ str(intId) + ".png"))
     return render_template('campanya.html', title='Campaña', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, campanyas = campanyas)
 
 @app.route('/campanyalumnos', methods=['GET', 'POST'])
