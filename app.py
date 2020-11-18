@@ -87,7 +87,6 @@ def login():
 def authorize():
     google = oauth.create_client('google')
     token = google.authorize_access_token()
-
     resp = google.get('userinfo')
     user_info = resp.json()
     print((dict(user_info)), file=sys.stderr)
@@ -95,7 +94,10 @@ def authorize():
     session['given_name'] = user_info['given_name']
     session['name'] = user_info['name']
     session['picture'] = user_info['picture']
-
+    if 'campId' in session:
+        print("Si hay campaña para printear")
+    else:
+        print("No hay campaña")
     session['token'] = token
     user = User.get_by_email(user_info['email'])
     if user != None:
@@ -103,6 +105,8 @@ def authorize():
             return redirect('/wallet')
         if user.role == 'Campaña':
             return redirect('/campanya')
+            # else:
+            #     return redirect(url_for("editorCamp", campanya_id=session['campId'], _external=True))            
     else:
         return redirect('/register')
     #return redirect('/wallet')
@@ -191,7 +195,7 @@ def campanya():
         s.add(c)
         s.commit()
         intId = Campanya.getIdByName(c.nombre)
-        qr = qrcode.make(url_for("editorCamp", campanya_id=intId, _external=True))
+        qr = qrcode.make(url_for("redeem", campanya_id=intId, _external=True))
         qr.save('./static/qr/'+ str(intId) + ".png")
         #qr.save(url_for('static', filename='qr/'+ str(intId) + ".png"))
     return render_template('campanya.html', title='Campaña', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, campanyas = campanyas)
@@ -218,7 +222,6 @@ def historialtrans():
 
 @app.route('/editor', methods=['GET', 'POST'])
 def editor():
-    # form = AccionesForm()
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -258,6 +261,38 @@ def editorCamp(campanya_id):
     #     #session.query(Campanya).filter(Campanya.id==campanya_id).update(dictupdate, synchronize_session=False)
     #     session.commit()
     return render_template("editorcampanya.html", campanya = campanya, email=email, name=given_name, picture=picture, user=user)
+
+@app.route('/redeem/<int:campanya_id>', methods=["GET", "POST"])
+def redeem(campanya_id):
+    google = oauth.create_client('google')
+    redirect_uri = url_for('authorize',_external=True)
+    session['campId'] = campanya_id
+    return google.authorize_redirect(redirect_uri)
+
+# @app.route('/authorizeredeem/<int:campanya_id>')
+# def authorizeredeem():
+#     google = oauth.create_client('google')
+#     token = google.authorize_access_token()
+#     print("Este es el ID")
+#     print(request.get['campanya_id'])
+#     resp = google.get('userinfo')
+#     user_info = resp.json()
+#     print((dict(user_info)), file=sys.stderr)
+#     session['email'] = user_info['email']
+#     session['given_name'] = user_info['given_name']
+#     session['name'] = user_info['name']
+#     session['picture'] = user_info['picture']
+
+#     session['token'] = token
+#     user = User.get_by_email(user_info['email'])
+#     if user != None:
+#         if user.role == 'Profesor':
+#             return redirect('/wallet')
+#         if user.role == 'Campaña':
+#             return redirect('/campanya')
+#     else:
+#         return redirect('/register')
+
 
 # @app.route('/logout')
 # def logout():
