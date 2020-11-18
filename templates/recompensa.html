@@ -1,0 +1,55 @@
+{% extends "basecampaign.html" %} {% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2">¡Enhorabuena!</h1>
+</div>
+<div class="view">
+  <div class="jumbotron">
+    <h2>¡Hola, {{ name }}!</h2>
+    <h2>
+      <span style="font-size: 1rem">Has obtenido {{campanya.recompensa}} UDCoins.</span>
+    </h2>
+  </div>
+
+</div>
+<div id="campanyas" style="display: none;">
+  {% if campanyas|length >= 1 %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Empresa</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Recompensa (en UDC)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in campanyas %}
+      <tr>
+        <th scope="row">{{c.nombre}}</th>
+        <td>{{c.empresa}}</td>
+        <td>{{c.descripcion}}</td>
+        <td>{{c.recompensa}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <h4>No hay campañas para mostrar</h4>
+  {% endif %}
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("#mostrarformcamp").click(function () {
+      $("#campanyasform").show();
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $("#mostrarcamp").click(function () {
+      $("#campanyas").show();
+    });
+  });
+</script>
+{% endblock %}

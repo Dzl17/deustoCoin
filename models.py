@@ -112,3 +112,8 @@ class Campanya(Base):
         s = Session()
         query = s.query(Campanya)
         return query.filter(Campanya.nombre==nombre).first().id
+    @staticmethod
+    def getCampaignById(id):
+        s = Session()
+        query = s.query(Campanya)
+        return query.filter(Campanya.id==id).first()

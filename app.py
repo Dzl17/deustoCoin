@@ -63,6 +63,7 @@ google = oauth.register(
     userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',
     client_kwargs={'scope': 'openid email profile'},
 )
+
 def get_balance(test_address):
     web3 = Web3(Web3.HTTPProvider(ropsten_url))
     balance = web3.eth.getBalance(test_address)
@@ -70,6 +71,32 @@ def get_balance(test_address):
     balancefloat = float(web3.fromWei(balance, "ether")) * valorUDC
     print("Tu balance es de %.2f UDC" % balancefloat)
     return balancefloat
+
+def sendCoins(dest, amount):
+    destUser = User.get_by_email(dest)
+    account_2 = destUser.blockHash
+    print(account_2)
+    private_key = "e49aed1a79c5f2c703b5651dd09c840d3193175fd748fbea37e00ce8d83a3c7d"
+    nonce = web3.eth.getTransactionCount(test_address)
+    float_amount = float(amount)/valorUDC
+    tx = {
+        'nonce': nonce,
+        'to': account_2,
+        'value': web3.toWei(float_amount, 'ether'),
+        'gas': 50000,
+        'gasPrice': web3.toWei(100, 'gwei') #gas: rapidez de transaccion
+    }
+    signed_tx = web3.eth.account.signTransaction(tx, private_key)
+    tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    print(tx_hash)
+    s = Session()
+    dateTimeObj = datetime.now()
+    timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+    t = Transaccion(timestampStr,tx_hash,"Universidad de Deusto",dest,amount)
+    print("Funciona la transaccion desde aqui")
+    #u.save()
+    s.add(t)
+    s.commit()
 
 @app.route('/')
 def home():
@@ -94,21 +121,23 @@ def authorize():
     session['given_name'] = user_info['given_name']
     session['name'] = user_info['name']
     session['picture'] = user_info['picture']
+    session['token'] = token
     if 'campId' in session:
         print("Si hay campaña para printear")
+        cReward = Campanya.getCampaignById(session['campId'])
+        sendCoins(user_info['email'], cReward.recompensa)
+        return render_template("recompensa.html", name=session['name'], campanya = cReward)
     else:
+        if user != None:
+            if user.role == 'Profesor':
+                return redirect('/wallet')
+            if user.role == 'Campaña':
+                return redirect('/campanya')         
+        else:
+            return redirect('/register')
         print("No hay campaña")
-    session['token'] = token
-    user = User.get_by_email(user_info['email'])
-    if user != None:
-        if user.role == 'Profesor':
-            return redirect('/wallet')
-        if user.role == 'Campaña':
-            return redirect('/campanya')
-            # else:
-            #     return redirect(url_for("editorCamp", campanya_id=session['campId'], _external=True))            
-    else:
-        return redirect('/register')
+    
+    
     #return redirect('/wallet')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -188,6 +217,7 @@ def campanya():
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
     campanyas = Campanya.getCampaigns(user.organizacion)
+    salary = get_balance(test_address)
     print(campanyas)
     s = Session()
     if form.validate_on_submit():
@@ -198,7 +228,7 @@ def campanya():
         qr = qrcode.make(url_for("redeem", campanya_id=intId, _external=True))
         qr.save('./static/qr/'+ str(intId) + ".png")
         #qr.save(url_for('static', filename='qr/'+ str(intId) + ".png"))
-    return render_template('campanya.html', title='Campaña', wallet=int_balance, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, campanyas = campanyas)
+    return render_template('campanya.html', title='Campaña', wallet=salary, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, campanyas = campanyas)
 
 @app.route('/campanyalumnos', methods=['GET', 'POST'])
 def campanyalumnos():
