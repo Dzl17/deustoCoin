@@ -1,4 +1,4 @@
-from flask import Flask, url_for, render_template, request, redirect, session
+from flask import Flask, url_for, render_template, request, redirect, session, send_file
 # from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
@@ -16,6 +16,7 @@ import json
 from forms import EnviarUDCForm, CrearCampanaForm, AccionesForm
 import cryptocompare
 import qrcode
+import re
 
 ropsten_url = "https://ropsten.infura.io/v3/834fad9971d14e4cb81715ed0f7adb0a"
 infura_secret = "0bc36d15c0a841b7835509d9b9fd0f52"
@@ -88,20 +89,18 @@ def sendCoins(dest, amount):
     }
     signed_tx = web3.eth.account.signTransaction(tx, private_key)
     tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-    print(tx_hash)
+    
     s = Session()
     dateTimeObj = datetime.now()
     timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
     t = Transaccion(timestampStr,tx_hash,"Universidad de Deusto",dest,amount)
     print("Funciona la transaccion desde aqui")
-    #u.save()
     s.add(t)
     s.commit()
 
 @app.route('/')
 def home():
     return render_template("login.html")
-
 
 @app.route('/login')
 def login():
@@ -122,11 +121,13 @@ def authorize():
     session['name'] = user_info['name']
     session['picture'] = user_info['picture']
     session['token'] = token
-    if 'campId' in session:
+    user = User.get_by_email(session['email'])
+    if 'campId' in session and user != None:
+        print(session['campId'])
         print("Si hay campaña para printear")
         cReward = Campanya.getCampaignById(session['campId'])
         sendCoins(user_info['email'], cReward.recompensa)
-        return render_template("recompensa.html", name=session['name'], campanya = cReward)
+        return render_template("recompensa.html", name=session['name'], campanya = cReward, email = session['email'])
     else:
         if user != None:
             if user.role == 'Profesor':
@@ -136,9 +137,7 @@ def authorize():
         else:
             return redirect('/register')
         print("No hay campaña")
-    
-    
-    #return redirect('/wallet')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -157,7 +156,6 @@ def register():
 
         s = Session()
         u = User(nombre, email, blockchainAddr, picture, rol, org)
-        #u.save()
         s.add(u)
         s.commit()
         if rol == 'Profesor':
@@ -191,12 +189,10 @@ def wallet():
         }
         signed_tx = web3.eth.account.signTransaction(tx, private_key)
         tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-        print(tx_hash)
         s = Session()
         dateTimeObj = datetime.now()
         timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
         t = Transaccion(timestampStr,tx_hash,email,request.form['destino'],request.form['cantidad'])
-        #u.save()
         s.add(t)
         s.commit()
     else:
@@ -227,7 +223,6 @@ def campanya():
         intId = Campanya.getIdByName(c.nombre)
         qr = qrcode.make(url_for("redeem", campanya_id=intId, _external=True))
         qr.save('./static/qr/'+ str(intId) + ".png")
-        #qr.save(url_for('static', filename='qr/'+ str(intId) + ".png"))
     return render_template('campanya.html', title='Campaña', wallet=salary, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, campanyas = campanyas)
 
 @app.route('/campanyalumnos', methods=['GET', 'POST'])
@@ -286,11 +281,12 @@ def editorCamp(campanya_id):
         dictupdate = {Campanya.nombre: request.form['nombre'], Campanya.descripcion: request.form['descripcion'], Campanya.recompensa: float(request.form['recompensa'])}
         query.filter(Campanya.id == campanya_id).update(dictupdate, synchronize_session=False)
         s.commit()
-
-    #     campanya.update(dictupdate, synchronize_session=False)
-    #     #session.query(Campanya).filter(Campanya.id==campanya_id).update(dictupdate, synchronize_session=False)
-    #     session.commit()
     return render_template("editorcampanya.html", campanya = campanya, email=email, name=given_name, picture=picture, user=user)
+
+@app.route('/qr/<int:campanya_id>')
+def qr(campanya_id):
+    path = 'static/qr/'+ str(campanya_id) + ".png"
+    return send_file(path, as_attachment=True)
 
 @app.route('/redeem/<int:campanya_id>', methods=["GET", "POST"])
 def redeem(campanya_id):
@@ -299,47 +295,6 @@ def redeem(campanya_id):
     session['campId'] = campanya_id
     return google.authorize_redirect(redirect_uri)
 
-# @app.route('/authorizeredeem/<int:campanya_id>')
-# def authorizeredeem():
-#     google = oauth.create_client('google')
-#     token = google.authorize_access_token()
-#     print("Este es el ID")
-#     print(request.get['campanya_id'])
-#     resp = google.get('userinfo')
-#     user_info = resp.json()
-#     print((dict(user_info)), file=sys.stderr)
-#     session['email'] = user_info['email']
-#     session['given_name'] = user_info['given_name']
-#     session['name'] = user_info['name']
-#     session['picture'] = user_info['picture']
-
-#     session['token'] = token
-#     user = User.get_by_email(user_info['email'])
-#     if user != None:
-#         if user.role == 'Profesor':
-#             return redirect('/wallet')
-#         if user.role == 'Campaña':
-#             return redirect('/campanya')
-#     else:
-#         return redirect('/register')
-
-
-# @app.route('/logout')
-# def logout():
-#     logouturl = "https://appengine.google.com/_ah/logout?continue=" + "localhost:5000"
-#     return redirect(logouturl)
-
-
-# def login():
-#     error =None
-#     if request.method == 'POST':
-#         if valid_login(request.form['username'], request.form['password']):
-#             return log_the_user_in(request.form['username'])
-#         else:
-#             error = 'Invalid username or password'
-#     return render_template('login.html', error=error)
 if __name__ == "__main__":
     app.run(debug=True)
 
-# if __name__ == "__main__":
-#     app.run(ssl_context="adhoc")

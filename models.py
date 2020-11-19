@@ -45,7 +45,7 @@ class Transaccion(Base):
     __tablename__ = 'transaccion'
     id = Column(Integer, primary_key=True)
     fecha = Column(String(80), nullable=False)
-    transHash = Column(String(80), nullable=False)
+    transHash = Column(String(255), nullable=False)
     remitente = Column(String(50), nullable=False)
     destinatario = Column(String(50), nullable=False)
     cantidad = Column(Float, nullable=False)

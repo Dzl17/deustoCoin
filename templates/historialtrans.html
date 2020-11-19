@@ -32,7 +32,6 @@
         <thead>
             <tr>
                 <th scope="col">Fecha</th>
-                <th scope="col">Código</th>
                 <th scope="col">Remitente</th>
                 <th scope="col">Destinatario</th>
                 <th scope="col">Cantidad</th>
@@ -43,7 +42,6 @@
             {% for t in transacciones %}
             <tr>
                 <th scope="row">{{t.fecha}}</th>
-                <td>{{t.transHash}}</td>
                 <td>{{t.remitente}}</td>
                 <td>{{t.destinatario}}</td>
                 <td>{{t.cantidad}}</td>
