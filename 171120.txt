@@ -1,4 +1,4 @@
-para el tema de campañas, vincular N smart contracts a las campañas
+para el tema de acciones, vincular N smart contracts a las acciones
 ¿quién va a decir que X ha reciclado 7 veces?
 registrar buenas acciones - ¿cómo?
 auditar y acreditar buenas acciones

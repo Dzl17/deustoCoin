@@ -1,6 +1,6 @@
-{% extends "basecampaign.html" %} {% block body %}
+{% extends "baseaction.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">Campañas</h1>
+  <h1 class="h2">Acciones</h1>
   <div class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">
       <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -12,15 +12,15 @@
   <div class="jumbotron">
     <h2>¡Hola, {{ name }}!</h2>
     <h2>
-      <span style="font-size: 1rem">Bienvenido al menú de campañas.</span>
+      <span style="font-size: 1rem">Bienvenido al menú de acciones.</span>
     </h2>
     <h2>
       <span style="font-size: 1rem">El saldo actual de la universidad es de <b>{{ wallet }}</b> UDC.</span><br />
     </h2>
-    <p><button class="btn btn-primary btn-large" id="mostrarformcamp">Crear campaña</button>&nbsp;<button
-        class="btn btn-primary btn-large" id="mostrarcamp">Mostrar campañas</button></p>
+    <p><button class="btn btn-primary btn-large" id="mostrarformcamp">Crear acción</button>&nbsp;<button
+        class="btn btn-primary btn-large" id="mostrarcamp">Mostrar acciones</button></p>
   </div>
-  <form style="display: none;" id="campanyasform" method="POST">
+  <form style="display: none;" id="accionesform" method="POST">
     {{ form.csrf_token }}
     <div class="form-group">
       <p>
@@ -45,8 +45,8 @@
     </p>
   </form>
 </div>
-<div id="campanyas" style="display: none;">
-  {% if campanyas|length >= 1 %}
+<div id="acciones" style="display: none;">
+  {% if acciones|length >= 1 %}
   <table class="table">
     <thead>
       <tr>
@@ -58,33 +58,33 @@
       </tr>
     </thead>
     <tbody>
-      {% for c in campanyas %}
+      {% for c in acciones %}
       <tr>
         <th scope="row">{{c.nombre}}</th>
         <td>{{c.empresa}}</td>
         <td>{{c.descripcion}}</td>
         <td>{{c.recompensa}}</td>
-        <td><a href="{{ url_for('qr' ,campanya_id=c.id) }}">Descargar</a></td>
+        <td><a href="{{ url_for('qr' ,accion_id=c.id) }}">Descargar</a></td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
   {% else %}
-  <h4>No hay campañas para mostrar</h4>
+  <h4>No hay acciones para mostrar</h4>
   {% endif %}
 </div>
 
 <script>
   $(document).ready(function () {
     $("#mostrarformcamp").click(function () {
-      $("#campanyasform").show();
+      $("#accionesform").show();
     });
   });
 </script>
 <script>
   $(document).ready(function () {
     $("#mostrarcamp").click(function () {
-      $("#campanyas").show();
+      $("#acciones").show();
     });
   });
 </script>

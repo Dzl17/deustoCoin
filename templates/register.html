@@ -60,7 +60,7 @@
             <select class="form-control" name="rol" id="userrole">
               <option>Alumno</option>
               <option>Profesor</option>
-              <option>Campaña</option>
+              <option>Promotor</option>
           </p>
           <br>
         </div>
@@ -76,7 +76,7 @@
     $("#userrole").on("change", function () {
       var value = $(this).val();
       console.log(value);
-      if (value == "Campaña") {
+      if (value == "Promotor") {
         $('#organizacion').val("");
       } else {
         $('#organizacion').val("Deusto");

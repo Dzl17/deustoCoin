@@ -1,6 +1,7 @@
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import create_engine, Column, String, Integer, ForeignKey, Boolean,Float, or_
+from sqlalchemy.orm import relationship
 from base import Base, Session
 
 
@@ -73,13 +74,14 @@ class Transaccion(Base):
         query = s.query(Transaccion)
         return query.filter(or_(Transaccion.remitente==email, Transaccion.destinatario==email)).all()
 
-class Campanya(Base):
-    __tablename__ = 'campanya'
+class Accion(Base):
+    __tablename__ = 'accion'
     id = Column(Integer, primary_key=True)
     nombre = Column(String(80), nullable=False)
     empresa = Column(String(80), nullable=False)
     descripcion = Column(String, unique=True, nullable=False)
     recompensa = Column(Float, nullable=False)
+    campanya_id = Column(Integer, ForeignKey('campanya.id'))
 
     def __init__(self, nombre, empresa, descripcion, recompensa):
         self.nombre = nombre
@@ -88,7 +90,7 @@ class Campanya(Base):
         self.recompensa = recompensa
 
     def __repr__(self):
-        return f'<Campaña {self.nombre}>: {self.descripcion}'
+        return f'<Acción {self.nombre}>: {self.descripcion}'
 
     def save(self):
         s = Session()
@@ -97,6 +99,40 @@ class Campanya(Base):
         s.commit()
         s.expunge(self)
         s.close()
+    @staticmethod
+    def getActions(empresa):
+        s = Session()
+        query = s.query(Accion)
+        return query.filter(Accion.empresa==empresa).all()
+    @staticmethod
+    def getAllActions():
+        s = Session()
+        query = s.query(Accion)
+        return query.all()
+    @staticmethod
+    def getIdByName(nombre):
+        s = Session()
+        query = s.query(Accion)
+        return query.filter(Accion.nombre==nombre).first().id
+    @staticmethod
+    def getActionById(id):
+        s = Session()
+        query = s.query(Accion)
+        return query.filter(Accion.id==id).first()
+
+class Campanya(Base):
+    __tablename__ = 'campanya'
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(80), nullable=False)
+    empresa = Column(String(80), nullable=False)
+    descripcion = Column(String, nullable=False)
+    acciones = relationship("Accion")
+
+    def __init__(self, nombre, empresa, descripcion):
+        self.nombre = nombre
+        self.empresa = empresa
+        self.descripcion = descripcion
+
     @staticmethod
     def getCampaigns(empresa):
         s = Session()

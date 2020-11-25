@@ -1,6 +1,6 @@
-{% extends "basecampaign.html" %} {% block body %}
+{% extends "baseaction.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">Campañas</h1>
+    <h1 class="h2">Acciones</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
             <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -10,25 +10,25 @@
 </div>
 <div class="view">
     <div class="jumbotron">
-        <h2>Campaña {{campanya.id}}: {{campanya.nombre}}</h2>
+        <h2>Acción {{accion.id}}: {{accion.nombre}}</h2>
     </div>
-    <form id="editorcamp" action="{{ url_for('editorCamp' ,campanya_id=campanya.id) }}" method="POST">
+    <form id="editorcamp" action="{{ url_for('editorAccion' ,accion_id=accion.id) }}" method="POST">
         <div class="form-group">
             <p>
                 <input type="text" class="form-control" placeholder="Nombre" name="nombre"
-                    value='{{campanya.nombre}}'></input>
+                    value='{{accion.nombre}}'></input>
             </p>
         </div>
         <div class="form-group">
             <p>
                 <input type="text" class="form-control" placeholder="Descripción" name="descripcion"
-                    value="{{campanya.descripcion}}"></input>
+                    value="{{accion.descripcion}}"></input>
             </p>
         </div>
         <div class="form-group">
             <p>
                 <input type="text" placeholder="Recompensa (en UDC)" class="form-control" name="recompensa"
-                    value="{{campanya.recompensa}}"></input>
+                    value="{{accion.recompensa}}"></input>
             </p>
         </div>
         <p>
@@ -37,8 +37,8 @@
         </p>
     </form>
 </div>
-<div id="campanyas" style="display: none;">
-    {% if campanyas|length >= 1 %}
+<div id="acciones" style="display: none;">
+    {% if acciones|length >= 1 %}
     <table class="table">
         <thead>
             <tr>
@@ -49,7 +49,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for c in campanyas %}
+            {% for c in acciones %}
             <tr>
                 <th scope="row">{{c.nombre}}</th>
                 <td>{{c.empresa}}</td>
@@ -60,21 +60,21 @@
         </tbody>
     </table>
     {% else %}
-    <h4>No hay campañas para mostrar</h4>
+    <h4>No hay acciones para mostrar</h4>
     {% endif %}
 </div>
 
 <script>
     $(document).ready(function () {
         $("#mostrarformcamp").click(function () {
-            $("#campanyasform").show();
+            $("#accionesform").show();
         });
     });
 </script>
 <script>
     $(document).ready(function () {
         $("#mostrarcamp").click(function () {
-            $("#campanyas").show();
+            $("#acciones").show();
         });
     });
 </script>

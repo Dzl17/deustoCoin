@@ -10,12 +10,12 @@ class EnviarUDCForm(FlaskForm):
     cantidad = FloatField('Cantidad de UDCs a enviar')
     submit = SubmitField('Enviar')
 
-class CrearCampanaForm(FlaskForm):
-    nomCamp = StringField('Nombre de la campaña')
+class CrearAccionForm(FlaskForm):
+    nomCamp = StringField('Nombre de la acción')
     empresa = StringField('Empresa proveedora')
     desc = TextField('Descripción')
     recompensa = FloatField('Recompensa (en UDC)')
-    submit = SubmitField('Añadir campaña')
+    submit = SubmitField('Añadir acción')
 
 class AccionesForm(FlaskForm):
     editar = SubmitField("✎")

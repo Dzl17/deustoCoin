@@ -2,11 +2,11 @@ areas a mejorar: movil
 poner elasticsearch en el area de palabras clave
 
 TIPOS DE USUARIOS:
-ADMIN: DEUSTO - organiza campañas et
+ADMIN: DEUSTO - organiza acciones et
 SODEXO:  se da de alta y dona fondos a deusto
 Base de datos: MONGO, campos que me permitan hablar con el mundo ethereum
 Addresses de agentes
-Ver transacciones de campañas
+Ver transacciones de acciones
 
 
 ###Instalar un sistema de informacion
