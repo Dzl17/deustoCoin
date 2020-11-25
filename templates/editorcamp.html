@@ -1,0 +1,79 @@
+{% extends "baseaction.html" %} {% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">campanyas</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <button class="btn btn-sm btn-outline-secondary">Share</button>
+            <button class="btn btn-sm btn-outline-secondary">Export</button>
+        </div>
+    </div>
+</div>
+<div class="view">
+    <div class="jumbotron">
+        <h2>Acción {{campanya.id}}: {{campanya.nombre}}</h2>
+    </div>
+    <form id="editorcamp" action="{{ url_for('editorCamp' ,campanya_id=campanya.id) }}" method="POST">
+        <div class="form-group">
+            <p>
+                <input type="text" class="form-control" placeholder="Nombre" name="nombre"
+                    value='{{campanya.nombre}}'></input>
+            </p>
+        </div>
+        <div class="form-group">
+            <p>
+                <input type="text" class="form-control" placeholder="Descripción" name="descripcion"
+                    value="{{campanya.descripcion}}"></input>
+            </p>
+        </div>
+        <div class="form-group">
+            <p>
+                <input type="text" placeholder="Recompensa (en UDC)" class="form-control" name="recompensa"
+                    value="{{campanya.recompensa}}"></input>
+            </p>
+        </div>
+        <p>
+            <input type="submit" formmethod="POST" value="Actualizar" class="btn btn-primary btn-large">
+            </input>
+        </p>
+    </form>
+</div>
+<div id="campanyas" style="display: none;">
+    {% if campanyas|length >= 1 %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Empresa</th>
+                <th scope="col">Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in campanyas %}
+            <tr>
+                <th scope="row">{{c.nombre}}</th>
+                <td>{{c.empresa}}</td>
+                <td>{{c.descripcion}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <h4>No hay campañas para mostrar</h4>
+    {% endif %}
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#mostrarformcamp").click(function () {
+            $("#campanyasform").show();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#mostrarcamp").click(function () {
+            $("#campanyas").show();
+        });
+    });
+</script>
+{% endblock %}

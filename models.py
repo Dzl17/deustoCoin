@@ -139,6 +139,15 @@ class Campanya(Base):
         query = s.query(Campanya)
         return query.filter(Campanya.empresa==empresa).all()
     @staticmethod
+    def getCampaignNames(empresa):
+        s = Session()
+        query = s.query(Campanya)
+        arrayCamps = query.filter(Campanya.empresa==empresa).all()
+        arrayNames = []
+        for i in arrayCamps:
+            arrayNames.append(i.nombre)
+        return arrayNames
+    @staticmethod
     def getAllCampaigns():
         s = Session()
         query = s.query(Campanya)

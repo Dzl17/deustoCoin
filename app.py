@@ -6,14 +6,14 @@ import os
 import sys
 import sqlite3
 from base import Base, Session, init_db
-from models import User, Transaccion, Accion
+from models import User, Transaccion, Accion, Campanya
 from datetime import datetime
 import requests
 from oauthlib.oauth2 import WebApplicationClient
 from flask_restful import Resource, Api
 from web3 import Web3
 import json
-from forms import EnviarUDCForm, CrearAccionForm, AccionesForm
+from forms import EnviarUDCForm, CrearCampForm, CampanyasForm
 import cryptocompare
 import qrcode
 import re
@@ -132,7 +132,7 @@ def authorize():
         if user != None:
             if user.role == 'Profesor':
                 return redirect('/wallet')
-            if user.role == 'Acción':
+            if user.role == 'Promotor':
                 return redirect('/accion')         
         else:
             return redirect('/register')
@@ -206,24 +206,26 @@ def wallet():
 
 @app.route('/accion', methods=['GET', 'POST'])
 def accion():
-    form = CrearAccionForm()
+    form = CrearCampForm()
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
     acciones = Accion.getActions(user.organizacion)
+    campanyas = Campanya.getCampaigns(user.organizacion)
     salary = get_balance(test_address)
-    print(acciones)
     s = Session()
+    print("todo bien creado hasta aquí")
     if form.validate_on_submit():
-        c = Accion(request.form['nomCamp'],user.organizacion,request.form['desc'],request.form['recompensa'])
+        c = Accion(request.form['nomCamp'],user.organizacion,request.form['desc'])
         s.add(c)
         s.commit()
-        intId = Accion.getIdByName(c.nombre)
-        qr = qrcode.make(url_for("redeem", accion_id=intId, _external=True))
-        qr.save('./static/qr/'+ str(intId) + ".png")
-    return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, acciones = acciones)
+        # intId = Accion.getIdByName(c.nombre)
+        # qr = qrcode.make(url_for("redeem", accion_id=intId, _external=True))
+        # qr.save('./static/qr/'+ str(intId) + ".png")
+
+    return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, acciones = acciones, campanyas = campanyas)
 
 @app.route('/accionalumnos', methods=['GET', 'POST'])
 def accionalumnos():
@@ -282,6 +284,24 @@ def editorAccion(accion_id):
         query.filter(Accion.id == accion_id).update(dictupdate, synchronize_session=False)
         s.commit()
     return render_template("editoraccion.html", accion = accion, email=email, name=given_name, picture=picture, user=user)
+
+@app.route('/editorCampanyas/<int:campanya_id>', methods=["GET", "POST"])
+def editorCamp(campanya_id):
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+    name = dict(session).get('name', None)
+    picture = dict(session).get('picture', None)
+    user = User.get_by_email(email)
+
+    s = Session()  
+    query = s.query(Campanya)
+    accion = query.filter(Campanya.id==campanya_id).first()
+    if request.method == 'POST':
+        dictupdate = {Campanya.nombre: request.form['nombre'], Campanya.descripcion: request.form['descripcion'], Campanya.recompensa: float(request.form['recompensa'])}
+        query.filter(Campanya.id == campanya_id).update(dictupdate, synchronize_session=False)
+        s.commit()
+    return render_template("editorcamp.html", accion = accion, email=email, name=given_name, picture=picture, user=user)
 
 @app.route('/qr/<int:accion_id>')
 def qr(accion_id):
