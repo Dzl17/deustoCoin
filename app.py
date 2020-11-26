@@ -276,6 +276,27 @@ def editor():
             s.commit()
     return render_template('adminacciones.html', title='Acción', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, acciones = acciones)
 
+@app.route('/editorC', methods=['GET', 'POST'])
+def editorC():
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+    name = dict(session).get('name', None)
+    picture = dict(session).get('picture', None)
+    campanyas = Campanya.getCampaigns(user.organizacion)
+    s = Session()
+    if request.method == 'POST':
+        if 'editar' in request.form:
+            return redirect(url_for('editorCamp' ,campanya_id=request.form['id']))
+        elif 'eliminar' in request.form:
+            query = s.query(Campanya)
+            pk = request.form['id']
+            query = query.filter(Campanya.id==pk).first()
+            s.delete(query)
+            s.commit()
+    return render_template('admincampanyas.html', title='Campañas', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas)
+
+
 @app.route('/editor/<int:accion_id>', methods=["GET", "POST"])
 def editorAccion(accion_id):
     email = dict(session).get('email', None)
@@ -305,12 +326,12 @@ def editorCamp(campanya_id):
 
     s = Session()  
     query = s.query(Campanya)
-    accion = query.filter(Campanya.id==campanya_id).first()
+    campanya = query.filter(Campanya.id==campanya_id).first()
     if request.method == 'POST':
-        dictupdate = {Campanya.nombre: request.form['nombre'], Campanya.descripcion: request.form['descripcion'], Campanya.recompensa: float(request.form['recompensa'])}
+        dictupdate = {Campanya.nombre: request.form['nombre'], Campanya.descripcion: request.form['descripcion']}
         query.filter(Campanya.id == campanya_id).update(dictupdate, synchronize_session=False)
         s.commit()
-    return render_template("editorcamp.html", accion = accion, email=email, name=given_name, picture=picture, user=user)
+    return render_template("editorcamp.html", campanya = campanya, email=email, name=given_name, picture=picture, user=user)
 
 @app.route('/qr/<int:accion_id>')
 def qr(accion_id):
