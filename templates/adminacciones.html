@@ -1,6 +1,6 @@
 {% extends "baseaction.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">Editor de acciones de {{user.organizacion}}</h1>
+    <h1 class="h2">Editor de acciones de {{campanya.nombre}} ({{campanya.empresa}})</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
             <p>✎ Editar | Eliminar ✖</p>
@@ -23,20 +23,19 @@
             </tr>
         </thead>
         <tbody>
-            {% for c in acciones %}
+            {% for a in acciones %}
             <tr>
                 <td style="text-align: center;">
-
-                    <form action="{{ url_for('editor') }}" method="post">
-                        <input type="submit" name="editar" class="{{c.id}}" value="✎">
-                        <input type="submit" name="eliminar" class="{{c.id}}" value="✖">
-                        <input value="{{c.id}}" name="id" style="display: none;">
+                    <form action="{{ url_for('editorAccion', accion_id=a.id) }}" method="post">
+                        <input type="submit" name="editar" class="{{a.id}}" value="✎">
+                        <input type="submit" name="eliminar" class="{{a.id}}" value="✖">
+                        <input value="{{a.id}}" name="id" style="display: none;">
                     </form>
                 </td>
-                <th scope="row">{{c.nombre}}</th>
-                <td>{{c.empresa}}</td>
-                <td>{{c.descripcion}}</td>
-                <td>{{c.recompensa}}</td>
+                <th scope="row">{{a.nombre}}</th>
+                <td>{{a.empresa}}</td>
+                <td>{{a.descripcion}}</td>
+                <td>{{a.recompensa}}</td>
             </tr>
             {% endfor %}
         </tbody>

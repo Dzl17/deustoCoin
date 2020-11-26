@@ -106,6 +106,11 @@ class Accion(Base):
         query = s.query(Accion)
         return query.filter(Accion.empresa==empresa).all()
     @staticmethod
+    def getActionsOfCampaign(campanya_id):
+        s = Session()
+        query = s.query(Accion)
+        return query.filter(Accion.campanya_id==campanya_id).all()
+    @staticmethod
     def getAllActions():
         s = Session()
         query = s.query(Accion)
@@ -139,15 +144,6 @@ class Campanya(Base):
         s = Session()
         query = s.query(Campanya)
         return query.filter(Campanya.empresa==empresa).all()
-    @staticmethod
-    def getCampaignNames(empresa):
-        s = Session()
-        query = s.query(Campanya)
-        arrayCamps = query.filter(Campanya.empresa==empresa).all()
-        arrayNames = []
-        for i in arrayCamps:
-            arrayNames.append(i.nombre)
-        return arrayNames
     @staticmethod
     def getAllCampaigns():
         s = Session()

@@ -19,6 +19,7 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Empresa</th>
                 <th scope="col">Descripción</th>
+                <th scope="col">&nbsp;</th>
             </tr>
         </thead>
         <tbody>
@@ -35,6 +36,11 @@
                 <th scope="row">{{c.nombre}}</th>
                 <td>{{c.empresa}}</td>
                 <td>{{c.descripcion}}</td>
+                <td>
+                    <form action="{{ url_for('editor', campanya_id=c.id) }}" method="post">
+                        <input type="submit" name="verAcc" class="{{c.id}}" value="Ver acciones">
+                        <input value="{{c.id}}" name="id" style="display: none;">
+                    </form>
             </tr>
             {% endfor %}
         </tbody>

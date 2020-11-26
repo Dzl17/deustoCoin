@@ -256,25 +256,26 @@ def historialtrans():
     transacciones = Transaccion.getTransactions(user.email)
     return render_template('historialtrans.html', title='Acción', wallet=int_balance, email=email, name=name, w3=web3, picture=picture, user = user, transacciones = transacciones)
 
-@app.route('/editor', methods=['GET', 'POST'])
-def editor():
+@app.route('/editor/<int:campanya_id>', methods=['GET', 'POST'])
+def editor(campanya_id):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
-    acciones = Accion.getActions(user.organizacion)
+    acciones = Accion.getActionsOfCampaign(campanya_id)
+    campanya = Campanya.getCampaignById(campanya_id)
     s = Session()
     if request.method == 'POST':
         if 'editar' in request.form:
-            return redirect(url_for('editorAccion' ,accion_id=request.form['id']))
+            return redirect(url_for('editorAccion',accion_id=request.form['id']))
         elif 'eliminar' in request.form:
             query = s.query(Accion)
             pk = request.form['id']
             query = query.filter(Accion.id==pk).first()
             s.delete(query)
             s.commit()
-    return render_template('adminacciones.html', title='Acción', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, acciones = acciones)
+    return render_template('adminacciones.html', title='Acción', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, acciones = acciones, campanya = campanya)
 
 @app.route('/editorC', methods=['GET', 'POST'])
 def editorC():
@@ -294,17 +295,18 @@ def editorC():
             query = query.filter(Campanya.id==pk).first()
             s.delete(query)
             s.commit()
+        elif 'verAcc' in request.form:
+            return redirect(url_for('editor' ,campanya_id=request.form['id']))
     return render_template('admincampanyas.html', title='Campañas', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas)
 
 
-@app.route('/editor/<int:accion_id>', methods=["GET", "POST"])
+@app.route('/editarAcc/<int:accion_id>', methods=["GET", "POST"])
 def editorAccion(accion_id):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
-    user = User.get_by_email(email)
 
     s = Session()  
     query = s.query(Accion)
