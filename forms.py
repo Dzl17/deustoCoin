@@ -15,10 +15,10 @@ class EnviarUDCForm(FlaskForm):
 
 
 class CrearCampForm(FlaskForm):
-    nomCamp = StringField('Nombre de la acción')
+    nomCamp = StringField('Nombre de la campaña')
     empresa = StringField('Empresa proveedora')
     desc = TextAreaField('Descripción')
-    submit = SubmitField('Añadir acción')
+    submit = SubmitField('Crear campaña')
 
 class CampanyasForm(FlaskForm):
     editar = SubmitField("✎")

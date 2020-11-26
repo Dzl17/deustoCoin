@@ -146,7 +146,6 @@ def register():
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
     if request.method == "POST":
-        print("postttt")
         nombre = request.form['nombre'] 
         email = request.form['email']
         blockchainAddr = request.form['blockAddr']
@@ -215,15 +214,25 @@ def accion():
     acciones = Accion.getActions(user.organizacion)
     campanyas = Campanya.getCampaigns(user.organizacion)
     salary = get_balance(test_address)
-    s = Session()
     print("todo bien creado hasta aquí")
     if form.validate_on_submit():
-        c = Accion(request.form['nomCamp'],user.organizacion,request.form['desc'])
+        s = Session()
+        c = Campanya(request.form['nomCamp'],user.organizacion,request.form['desc'])
+        print("objeto creado")
         s.add(c)
         s.commit()
-        # intId = Accion.getIdByName(c.nombre)
-        # qr = qrcode.make(url_for("redeem", accion_id=intId, _external=True))
-        # qr.save('./static/qr/'+ str(intId) + ".png")
+    if request.method == 'POST' and 'crearAccion' in request.form:
+        nombre = request.form['nombre']
+        desc = request.form['desc']
+        recompensa = request.form['recompensa']
+        camp = request.form['campanya']
+        s = Session()
+        a = Accion(nombre, user.organizacion, desc, recompensa, camp)
+        s.add(a)
+        s.commit()
+        intId = Accion.getIdByName(nombre)
+        qr = qrcode.make(url_for("redeem", accion_id=intId, _external=True))
+        qr.save('./static/qr/'+ str(intId) + ".png")
 
     return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3, form = form, picture=picture, user = user, acciones = acciones, campanyas = campanyas)
 

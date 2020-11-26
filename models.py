@@ -83,11 +83,12 @@ class Accion(Base):
     recompensa = Column(Float, nullable=False)
     campanya_id = Column(Integer, ForeignKey('campanya.id'))
 
-    def __init__(self, nombre, empresa, descripcion, recompensa):
+    def __init__(self, nombre, empresa, descripcion, recompensa, campanya_id):
         self.nombre = nombre
         self.empresa = empresa
         self.descripcion = descripcion
         self.recompensa = recompensa
+        self.campanya_id = campanya_id
 
     def __repr__(self):
         return f'<Acción {self.nombre}>: {self.descripcion}'
@@ -156,7 +157,7 @@ class Campanya(Base):
     def getIdByName(nombre):
         s = Session()
         query = s.query(Campanya)
-        return query.filter(Campanya.nombre==nombre).first().id
+        return query.filter(Campanya.nombre==nombre).first()
     @staticmethod
     def getCampaignById(id):
         s = Session()

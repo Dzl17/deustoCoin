@@ -19,10 +19,8 @@
     </h2>
     <p><button class="btn btn-primary btn-large" id="mostrarformacc">Crear acción</button>&nbsp;<button
         class="btn btn-primary btn-large" id="mostraracc">Mostrar acciones</button>
-        &nbsp;<button
-        class="btn btn-primary btn-large" id="mostrarformcamp">Crear campañas</button>
-        &nbsp;<button
-        class="btn btn-primary btn-large" id="mostrarcamp">Mostrar campañas</button></p>
+      &nbsp;<button class="btn btn-primary btn-large" id="mostrarformcamp">Crear campaña</button>
+      &nbsp;<button class="btn btn-primary btn-large" id="mostrarcamp">Mostrar campañas</button></p>
   </div>
   <form style="display: none;" id="campanyasform" method="POST">
     {{ form.csrf_token }}
@@ -44,7 +42,33 @@
     </p>
   </form>
   <form style="display: none;" id="accionesform" method="POST">
-  
+    <div class="form-group">
+      <p>
+        <input type="text" class="form-control" placeholder="Nombre de la acción" name="nombre"></input>
+      </p>
+    </div>
+    <div class="form-group">
+      <p>
+        <input type="text" class="form-control" placeholder="Descripción" name="desc"></input>
+      </p>
+    </div>
+    <div class="form-group">
+      <p>
+        <input type="number" step="0.01" placeholder="Recompensa (en UDC)" class="form-control"
+          name="recompensa"></input>
+      </p>
+    </div>
+    <div class="form-group">
+      <p>
+        <select class="form-control" name="campanya">
+            <option disabled selected>Campaña</option>
+            {% for c in campanyas %}
+            <option value='{{c.id}}'>{{c.nombre}}</option>
+            {% endfor %}
+        </select>
+      </p>
+    </div>
+    <div class="form-group"><input type="submit" name="crearAccion" value="Crear acción"></div>
   </form>
 </div>
 <div id="acciones" style="display: none;">
@@ -103,13 +127,19 @@
   $(document).ready(function () {
     $("#mostrarformcamp").click(function () {
       $("#campanyasform").show();
+      $("#acciones").hide();
+      $("#campanyas").hide();
+      $("#accionesform").hide();
     });
   });
 </script>
 <script>
   $(document).ready(function () {
     $("#mostrarcamp").click(function () {
+      $("#campanyasform").hide();
+      $("#acciones").hide();
       $("#campanyas").show();
+      $("#accionesform").hide();
     });
   });
 </script>
@@ -117,12 +147,18 @@
   $(document).ready(function () {
     $("#mostrarformacc").click(function () {
       $("#accionesform").show();
+      $("#campanyas").hide();
+      $("#campanyasform").hide();
+      $("#acciones").hide();
     });
   });
 </script>
 <script>
   $(document).ready(function () {
     $("#mostraracc").click(function () {
+      $("#accionesform").hide();
+      $("#campanyas").hide();
+      $("#campanyasform").hide();
       $("#acciones").show();
     });
   });
