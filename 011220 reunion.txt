@@ -1,0 +1,8 @@
+json con metadatos de las campañas objetivos
+ciclogreen - TRATAR DE EMULAR CICLOGREEN
+las acciones podrían aumentar objetivos
+KPIs se monitorizan en el tiempo
+Acciones de una campaña incrementan valores
+ORGANIZACION HOST
+organizaciones dependientes que organizan campañas
+objetivo final: cumplir el objetivo

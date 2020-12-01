@@ -353,6 +353,17 @@ def logout():
     session.clear()
     return redirect('/')
 
+@app.route('/campanyas')
+def campanyas():
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+    name = dict(session).get('name', None)
+    picture = dict(session).get('picture', None)
+    campanyas = Campanya.getOrderedCampaigns()
+    empresas = Campanya.getDistinctCompanies()
+    return render_template('campanyas.html', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas, empresas = empresas)
+
 if __name__ == "__main__":
     app.run(debug=True)
 

@@ -155,6 +155,21 @@ class Campanya(Base):
         query = s.query(Campanya)
         return query.all()
     @staticmethod
+    def getOrderedCampaigns():
+        s = Session()
+        query = s.query(Campanya)
+        query = query.order_by(Campanya.empresa).all()
+        return query
+    @staticmethod
+    def getDistinctCompanies():
+        s = Session()
+        query = s.query(Campanya)
+        query = query.distinct(Campanya.empresa).all()
+        companies = []
+        for campaign in query:
+            companies.append(campaign.empresa)
+        return companies
+    @staticmethod
     def getIdByName(nombre):
         s = Session()
         query = s.query(Campanya)
