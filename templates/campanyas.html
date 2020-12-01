@@ -8,13 +8,35 @@
   </p>
 
   {% if campanyas|length >= 1 %}
+  {% for empresa in empresas %}
+  <h4 class="empresa" value="{{empresa}}">{{empresa}}</h4>
+  {% endfor %}
+
   {% for c in campanyas %}
   <!-- <th scope="row">{{c.nombre}}</th> -->
-  <h3>{{c.empresa}}</h3>
-  <!-- <td>{{c.descripcion}}</td> -->
+  <div class="{{c.empresa}}" style="display: none;">
+    <h5>{{c.nombre}}</h5>
+    <p>{{c.descripcion}}</p>
+  </div>
+  
   {% endfor %}
   {% else %}
   <h4>No hay campañas para mostrar</h4>
   {% endif %}
 </div>
+<script>
+  $(".empresa").on("click", function() {
+      console.log("Saving value " + this.innerHTML);
+      var valEmp = this.innerHTML;
+      var campanyasEmp = document.getElementsByClassName(valEmp);
+      // for (var i = 0; i < appBanners.length; i ++) {
+      //     appBanners[i].style.display = 'none';
+      // }
+      var campanyasNotEmp = document.querySelector("div:not([class=" + valEmp + "])")
+      console.log(campanyasNotEmp)
+      $(campanyasEmp).show();
+      // $(campanyasNotEmp).hide();
+      // $(!("." + valEmp)).hide();
+  });
+</script>
 {% endblock %}
