@@ -79,6 +79,7 @@ def sendCoins(dest, amount):
     print(account_2)
     private_key = "e49aed1a79c5f2c703b5651dd09c840d3193175fd748fbea37e00ce8d83a3c7d"
     nonce = web3.eth.getTransactionCount(test_address)
+    accion = Accion.getActionById(session['accionId'])
     float_amount = float(amount)/valorUDC
     tx = {
         'nonce': nonce,
@@ -93,7 +94,7 @@ def sendCoins(dest, amount):
     s = Session()
     dateTimeObj = datetime.now()
     timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-    t = Transaccion(timestampStr,tx_hash,"Universidad de Deusto",dest,amount)
+    t = Transaccion(timestampStr,tx_hash,accion.empresa,dest,amount)
     print("Funciona la transaccion desde aqui")
     s.add(t)
     s.commit()

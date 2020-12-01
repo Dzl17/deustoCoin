@@ -39,6 +39,11 @@ class User(Base):
         s = Session()
         query = s.query(User)
         return query.filter(User.email==email).first()
+    @staticmethod
+    def get_by_blockAddr(blockHash):
+        s = Session()
+        query = s.query(User)
+        return query.filter(User.blockHash==blockHash).first()
     
 
 
