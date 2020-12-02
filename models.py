@@ -54,13 +54,15 @@ class Transaccion(Base):
     transHash = Column(String(255), nullable=False)
     remitente = Column(String(50), nullable=False)
     destinatario = Column(String(50), nullable=False)
+    campanya = Column(Integer, ForeignKey('campanya.id'))
     cantidad = Column(Float, nullable=False)
 
-    def __init__(self, fecha, transHash, remitente, destinatario, cantidad):
+    def __init__(self, fecha, transHash, remitente, destinatario, campanya, cantidad):
         self.fecha = fecha
         self.transHash = transHash
         self.remitente = remitente
         self.destinatario = destinatario
+        self.campanya = campanya
         self.cantidad = cantidad
 
     def __repr__(self):
@@ -138,11 +140,13 @@ class Campanya(Base):
     empresa = Column(String(80), nullable=False)
     descripcion = Column(String, nullable=False)
     acciones = relationship("Accion")
+    kpi = Column(Integer)
 
-    def __init__(self, nombre, empresa, descripcion):
+    def __init__(self, nombre, empresa, descripcion, kpi):
         self.nombre = nombre
         self.empresa = empresa
         self.descripcion = descripcion
+        self.kpi = kpi
 
     @staticmethod
     def getCampaigns(empresa):

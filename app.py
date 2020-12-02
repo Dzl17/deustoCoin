@@ -94,10 +94,16 @@ def sendCoins(dest, amount):
     s = Session()
     dateTimeObj = datetime.now()
     timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-    t = Transaccion(timestampStr,tx_hash,accion.empresa,dest,amount)
+    t = Transaccion(timestampStr,tx_hash,accion.empresa,dest,accion.campanya_id,amount)
     print("Funciona la transaccion desde aqui")
     s.add(t)
     s.commit()
+    query = s.query(Campanya)
+    # accion = query.filter(Campanya.id==accion.campanya_id).first()
+    dictupdate = {Campanya.kpi: Campanya.kpi + 10}
+    query.filter(Campanya.id==accion.campanya_id).update(dictupdate, synchronize_session=False)
+    s.commit()
+    s.close()
 
 @app.route('/')
 def home():
@@ -192,7 +198,7 @@ def wallet():
         s = Session()
         dateTimeObj = datetime.now()
         timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-        t = Transaccion(timestampStr,tx_hash,email,request.form['destino'],request.form['cantidad'])
+        t = Transaccion(timestampStr,tx_hash,email,request.form['destino'], "Envío de UDC",request.form['cantidad'])
         s.add(t)
         s.commit()
     given_name = dict(session).get('given_name', None)
@@ -213,11 +219,10 @@ def accion():
     acciones = Accion.getActions(user.organizacion)
     campanyas = Campanya.getCampaigns(user.organizacion)
     salary = get_balance(test_address)
-    print("todo bien creado hasta aquí")
     if form.validate_on_submit():
         s = Session()
-        c = Campanya(request.form['nomCamp'],user.organizacion,request.form['desc'])
-        print("objeto creado")
+        c = Campanya(request.form['nomCamp'],user.organizacion,request.form['desc'],0)
+        # print("objeto creado")
         s.add(c)
         s.commit()
     if request.method == 'POST' and 'crearAccion' in request.form:
@@ -253,6 +258,9 @@ def historialtrans():
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
     transacciones = Transaccion.getTransactions(user.email)
+    for t in transacciones:
+        campId = t.campanya
+        t.campanya = Campanya.getCampaignById(campId).nombre
     return render_template('historialtrans.html', title='Acción', wallet=int_balance, email=email, name=name, w3=web3, picture=picture, user = user, transacciones = transacciones)
 
 @app.route('/editor/<int:campanya_id>', methods=['GET', 'POST'])
