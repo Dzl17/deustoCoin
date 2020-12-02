@@ -1,20 +1,15 @@
 {% extends "basetabs.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">Campañas</h1>
+  <h1 class="h2">{{empresa}} - Campañas</h1>
 </div>
 <div id="campanyas">
-  <p>La Universidad de Deusto colabora con varias empresas que buscan fomentar la sostenibilidad.
-    Dichas empresas organizan campañas, que puedes visualizar con más detalle aquí.
+  <p>Estas son las campañas que promueve {{empresa}}.
   </p>
 
   {% if campanyas|length >= 1 %}
-  {% for empresa in empresas %}
-  <h4 class="empresa" value="{{empresa}}">{{empresa}}</h4>
-  {% endfor %}
-
   {% for c in campanyas %}
   <!-- <th scope="row">{{c.nombre}}</th> -->
-  <div class="{{c.empresa}}" style="display: none;">
+  <div class="{{c.empresa}}">
     <h5>{{c.nombre}}</h5>
     <p>{{c.descripcion}}</p>
   </div>
@@ -24,19 +19,5 @@
   <h4>No hay campañas para mostrar</h4>
   {% endif %}
 </div>
-<script>
-  $(".empresa").on("click", function() {
-      console.log("Saving value " + this.innerHTML);
-      var valEmp = this.innerHTML;
-      var campanyasEmp = document.getElementsByClassName(valEmp);
-      // for (var i = 0; i < appBanners.length; i ++) {
-      //     appBanners[i].style.display = 'none';
-      // }
-      var campanyasNotEmp = document.querySelector("div:not([class=" + valEmp + "])")
-      console.log(campanyasNotEmp)
-      $(campanyasEmp).show();
-      // $(campanyasNotEmp).hide();
-      // $(!("." + valEmp)).hide();
-  });
-</script>
+
 {% endblock %}

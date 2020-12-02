@@ -195,8 +195,6 @@ def wallet():
         t = Transaccion(timestampStr,tx_hash,email,request.form['destino'],request.form['cantidad'])
         s.add(t)
         s.commit()
-    else:
-        print("form no submitteado")
     given_name = dict(session).get('given_name', None)
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
@@ -362,7 +360,19 @@ def campanyas():
     picture = dict(session).get('picture', None)
     campanyas = Campanya.getOrderedCampaigns()
     empresas = Campanya.getDistinctCompanies()
-    return render_template('campanyas.html', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas, empresas = empresas)
+    return render_template('empresas.html', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas, empresas = empresas)
+
+@app.route('/campanyas/<emp>',  methods=['GET', 'POST'])
+def empresa(emp):
+    print(emp)
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+    name = dict(session).get('name', None)
+    picture = dict(session).get('picture', None)
+    campanyas = Campanya.getCampaigns(emp)
+    return render_template('campanyas.html', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas, empresa = emp)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
