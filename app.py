@@ -1,60 +1,49 @@
 from flask import Flask, url_for, render_template, request, redirect, session, send_file
-# from flask_login import LoginManager, current_user, login_required, login_user, logout_user
-from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
 import os
 import sys
-import sqlite3
-from base import Base, Session, init_db
+from base import Session, init_db
 from models import User, Transaccion, Accion, Campanya
 from datetime import datetime
-import requests
-from oauthlib.oauth2 import WebApplicationClient
 from flask_restful import Resource, Api
 from web3 import Web3
 import json
 from forms import EnviarUDCForm, CrearCampForm, CampanyasForm
 import cryptocompare
 import qrcode
-import re
 
-ropsten_url = "https://ropsten.infura.io/v3/834fad9971d14e4cb81715ed0f7adb0a"
-infura_secret = "0bc36d15c0a841b7835509d9b9fd0f52"
-WEB3_INFURA_PROJECT_ID = "834fad9971d14e4cb81715ed0f7adb0a"
-GOOGLE_CLIENT_ID = "543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET = "60ajlp1BRZMnryrOBFD1sMkz"
-GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
-test_address = "0x99AD62313b591405Ba1C51aa50294245A36F1289"
+# ropsten_url = Config.ROPSTEN_URL
+# infura_secret = Config.INFURA_SECRET
+# WEB3_INFURA_PROJECT_ID = Config.WEB3_INFURA_PROJECT_ID
+# GOOGLE_DISCOVERY_URL = config.GOOGLE_DISCOVERY_URL
+
 
 app = Flask(__name__)
+app.config.from_object("config.Config")
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 app.config["SECRET_KEY"] = app.secret_key
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/deustoCoin'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# login_manager = LoginManager(app)
-# login_manager.login_view = "login"
-# db = SQLAlchemy(app)
+test_address = app.config['TEST_ADDRESS']
 
-api = Api(app)
-web3 = Web3(Web3.HTTPProvider(ropsten_url))
-balance = web3.eth.getBalance(test_address)
-valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
-int_balance = float(web3.fromWei(balance, "ether")) * valorUDC
+web3 = Web3(Web3.HTTPProvider(app.config['ROPSTEN_URL']))
+# balance = web3.eth.getBalance(test_address)
+# valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
+# int_balance = float(web3.fromWei(balance, "ether")) * valorUDC
 init_db()
-str_abi = '[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"INITIAL_SUPPLY","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"burn","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_value","type":"uint256"}],"name":"burnFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_name","type":"string"},{"name":"_symbol","type":"string"},{"name":"_decimals","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_burner","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]'
-abi = json.loads(str_abi)
-address = "0x4BFBa4a8F28755Cb2061c413459EE562c6B9c51b"  # OMG Network
-contract = web3.eth.contract(address=address, abi=abi)
-totalSupply = contract.functions.totalSupply().call()
-destname = contract.functions.name().call()
-destsymbol = contract.functions.symbol().call()
+# str_abi = '[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"INITIAL_SUPPLY","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"burn","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_value","type":"uint256"}],"name":"burnFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_name","type":"string"},{"name":"_symbol","type":"string"},{"name":"_decimals","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_burner","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]'
+# abi = json.loads(str_abi)
+# address = "0x4BFBa4a8F28755Cb2061c413459EE562c6B9c51b"  # OMG Network
+# contract = web3.eth.contract(address=address, abi=abi)
+# totalSupply = contract.functions.totalSupply().call()
+# destname = contract.functions.name().call()
+# destsymbol = contract.functions.symbol().call()
 
 
 oauth = OAuth(app)
 google = oauth.register(
     name='google',
-    client_id='543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com',
-    client_secret='60ajlp1BRZMnryrOBFD1sMkz',
+    client_id=app.config['GOOGLE_CLIENT_ID'],
+    client_secret=app.config['GOOGLE_CLIENT_SECRET'],
     access_token_url='https://accounts.google.com/o/oauth2/token',
     access_token_params=None,
     authorize_url='https://accounts.google.com/o/oauth2/auth',
@@ -66,7 +55,7 @@ google = oauth.register(
 )
 
 def get_balance(test_address):
-    web3 = Web3(Web3.HTTPProvider(ropsten_url))
+    web3 = Web3(Web3.HTTPProvider(app.config['ROPSTEN_URL']))
     balance = web3.eth.getBalance(test_address)
     valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
     balancefloat = float(web3.fromWei(balance, "ether")) * valorUDC
@@ -77,7 +66,7 @@ def sendCoins(dest, amount):
     destUser = User.get_by_email(dest)
     account_2 = destUser.blockHash
     print(account_2)
-    private_key = "e49aed1a79c5f2c703b5651dd09c840d3193175fd748fbea37e00ce8d83a3c7d"
+    private_key = os.environ.get('PRIVATE_KEY')
     nonce = web3.eth.getTransactionCount(test_address)
     accion = Accion.getActionById(session['accionId'])
     float_amount = float(amount)/valorUDC
@@ -140,10 +129,11 @@ def authorize():
             if user.role == 'Profesor':
                 return redirect('/wallet')
             if user.role == 'Promotor':
-                return redirect('/accion')         
+                return redirect('/accion')
+                print("No hay acción")
+
         else:
             return redirect('/register')
-        print("No hay acción")
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -383,5 +373,5 @@ def empresa(emp):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
 

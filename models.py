@@ -11,7 +11,7 @@ class User(Base):
     name = Column(String(80), nullable=False)
     email = Column(String(256), unique=True, nullable=False)
     # password = db.Column(db.String(128), nullable=False)
-    blockHash = Column(String(128), nullable=False)
+    blockHash = Column(String(128), nullable=True)
     picture = Column(String(128), nullable=True)
     role = Column(String(128), nullable=False)
     organizacion = Column(String(128), nullable=False)
@@ -44,8 +44,6 @@ class User(Base):
         s = Session()
         query = s.query(User)
         return query.filter(User.blockHash==blockHash).first()
-    
-
 
 class Transaccion(Base):
     __tablename__ = 'transaccion'
