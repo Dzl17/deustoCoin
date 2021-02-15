@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import create_engine, Column, String, Integer, ForeignKey, Boolean,Float, or_
 from sqlalchemy.orm import relationship
 from base import Base, Session
+import datetime
 
 
 class User(Base):
@@ -181,3 +182,43 @@ class Campanya(Base):
         s = Session()
         query = s.query(Campanya)
         return query.filter(Campanya.id==id).first()
+
+
+class KPIporFechas(Base):
+    __tablename__ = 'kpi_fechas'
+    id = Column(Integer, primary_key=True)
+    campanya = Column(Integer, ForeignKey('campanya.id'))
+    fecha = Column(String(80), nullable=False)
+    kpi = Column(Integer)
+    def __init__(self, fecha, campanya, kpi):
+        self.fecha = fecha
+        self.campanya = campanya
+        self.kpi = kpi
+    @staticmethod
+    def getAllKPIs():
+        s = Session()
+        query = s.query(KPIporFechas)
+        return query.all()
+    @staticmethod
+    def saveTodaysKPI():
+        fechas = []
+        campanyas = Campanya.getAllCampaigns()
+        kpis = this.getAllKPIs()
+        for k in kpis:
+            fechas.append(k.fecha)
+        dt = datetime.datetime.today()
+        today = (dt.day, dt.month, dt.year)
+        if today not in fechas:
+            s = Session()
+            fechas.append(arrayDt)
+            for c in campanyas:
+                kpi = KPIporFechas(today, c, c.kpi)
+                s.add(kpi)
+            s.commit()
+            s.close()
+        else:
+            pass
+
+
+
+
