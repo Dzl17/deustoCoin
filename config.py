@@ -5,6 +5,7 @@ class Config(object):
     GOOGLE_CLIENT_ID = "543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com"
     GOOGLE_CLIENT_SECRET = "60ajlp1BRZMnryrOBFD1sMkz"
     GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
+    PRIVATE_KEY = "e49aed1a79c5f2c703b5651dd09c840d3193175fd748fbea37e00ce8d83a3c7d"
     TEST_ADDRESS = "0x99AD62313b591405Ba1C51aa50294245A36F1289"
     SQLALCHEMY_DATABASE_URI = "postgresql://postgres:root@localhost:5432/deustoCoin"
     SQLALCHEMY_TRACK_MODIFICATIONS = False

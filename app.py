@@ -5,9 +5,7 @@ import sys
 from base import Session, init_db
 from models import User, Transaccion, Accion, Campanya
 from datetime import datetime
-from flask_restful import Resource, Api
 from web3 import Web3
-import json
 from forms import EnviarUDCForm, CrearCampForm, CampanyasForm
 import cryptocompare
 import qrcode
@@ -24,10 +22,11 @@ app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 app.config["SECRET_KEY"] = app.secret_key
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 test_address = app.config['TEST_ADDRESS']
+private_key = app.config['PRIVATE_KEY']
 
 web3 = Web3(Web3.HTTPProvider(app.config['ROPSTEN_URL']))
 # balance = web3.eth.getBalance(test_address)
-# valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
+valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
 # int_balance = float(web3.fromWei(balance, "ether")) * valorUDC
 init_db()
 # str_abi = '[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"INITIAL_SUPPLY","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"burn","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_value","type":"uint256"}],"name":"burnFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_name","type":"string"},{"name":"_symbol","type":"string"},{"name":"_decimals","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_burner","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]'
@@ -66,7 +65,7 @@ def sendCoins(dest, amount):
     destUser = User.get_by_email(dest)
     account_2 = destUser.blockHash
     print(account_2)
-    private_key = os.environ.get('PRIVATE_KEY')
+    print(private_key)
     nonce = web3.eth.getTransactionCount(test_address)
     accion = Accion.getActionById(session['accionId'])
     float_amount = float(amount)/valorUDC
@@ -77,19 +76,17 @@ def sendCoins(dest, amount):
         'gas': 50000,
         'gasPrice': web3.toWei(100, 'gwei') #gas: rapidez de transaccion
     }
+    print("Funciona la transaccion desde aqui")
     signed_tx = web3.eth.account.signTransaction(tx, private_key)
     tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-    
     s = Session()
     dateTimeObj = datetime.now()
-    timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+    timestampStr = dateTimeObj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
     t = Transaccion(timestampStr,tx_hash,accion.empresa,dest,accion.campanya_id,amount)
-    print("Funciona la transaccion desde aqui")
     s.add(t)
     s.commit()
     query = s.query(Campanya)
-    # accion = query.filter(Campanya.id==accion.campanya_id).first()
-    dictupdate = {Campanya.kpi: Campanya.kpi + 10}
+    dictupdate = {Campanya.kpi: Campanya.kpi + (10 * accion.recompensa)}
     query.filter(Campanya.id==accion.campanya_id).update(dictupdate, synchronize_session=False)
     s.commit()
     s.close()
@@ -131,6 +128,8 @@ def authorize():
             if user.role == 'Promotor':
                 return redirect('/accion')
                 print("No hay acción")
+            if user.role == 'Alumno':
+                return redirect('/wallet')
 
         else:
             return redirect('/register')
@@ -208,7 +207,7 @@ def accion():
     picture = dict(session).get('picture', None)
     acciones = Accion.getActions(user.organizacion)
     campanyas = Campanya.getCampaigns(user.organizacion)
-    salary = get_balance(test_address)
+    salary = get_balance(user.blockHash)
     if form.validate_on_submit():
         s = Session()
         c = Campanya(request.form['nomCamp'],user.organizacion,request.form['desc'],0)
@@ -236,22 +235,24 @@ def accionalumnos():
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     name = dict(session).get('name', None)
+    salary = get_balance(user.blockHash)
     picture = dict(session).get('picture', None)
     acciones = Accion.getAllActions()
-    return render_template('accionalumnos.html', title='Acción', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, acciones = acciones)
+    return render_template('accionalumnos.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3, picture=picture, user = user, acciones = acciones)
 
 @app.route('/historialtrans', methods=['GET', 'POST'])
 def historialtrans():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
+    salary = get_balance(user.blockHash)
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
     transacciones = Transaccion.getTransactions(user.email)
     for t in transacciones:
         campId = t.campanya
         t.campanya = Campanya.getCampaignById(campId).nombre
-    return render_template('historialtrans.html', title='Acción', wallet=int_balance, email=email, name=name, w3=web3, picture=picture, user = user, transacciones = transacciones)
+    return render_template('historialtrans.html', title='Acción', wallet=salary, email=email, name=name, w3=web3, picture=picture, user = user, transacciones = transacciones)
 
 @app.route('/editor/<int:campanya_id>', methods=['GET', 'POST'])
 def editor(campanya_id):
@@ -262,6 +263,7 @@ def editor(campanya_id):
     picture = dict(session).get('picture', None)
     acciones = Accion.getActionsOfCampaign(campanya_id)
     campanya = Campanya.getCampaignById(campanya_id)
+    salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':
         if 'editar' in request.form:
@@ -272,7 +274,7 @@ def editor(campanya_id):
             query = query.filter(Accion.id==pk).first()
             s.delete(query)
             s.commit()
-    return render_template('adminacciones.html', title='Acción', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, acciones = acciones, campanya = campanya)
+    return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3, picture=picture, user = user, acciones = acciones, campanya = campanya)
 
 @app.route('/editorC', methods=['GET', 'POST'])
 def editorC():
@@ -282,6 +284,7 @@ def editorC():
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
     campanyas = Campanya.getCampaigns(user.organizacion)
+    salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':
         if 'editar' in request.form:
@@ -294,7 +297,7 @@ def editorC():
             s.commit()
         elif 'verAcc' in request.form:
             return redirect(url_for('editor' ,campanya_id=request.form['id']))
-    return render_template('admincampanyas.html', title='Campañas', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas)
+    return render_template('admincampanyas.html', title='Campañas', wallet=salary, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas)
 
 
 @app.route('/editarAcc/<int:accion_id>', methods=["GET", "POST"])
@@ -304,7 +307,6 @@ def editorAccion(accion_id):
     given_name = dict(session).get('given_name', None)
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
-
     s = Session()  
     query = s.query(Accion)
     accion = query.filter(Accion.id==accion_id).first()
@@ -355,10 +357,11 @@ def campanyas():
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     name = dict(session).get('name', None)
+    salary = get_balance(user.blockHash)
     picture = dict(session).get('picture', None)
     campanyas = Campanya.getOrderedCampaigns()
     empresas = Campanya.getDistinctCompanies()
-    return render_template('empresas.html', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas, empresas = empresas)
+    return render_template('empresas.html', wallet=salary, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas, empresas = empresas)
 
 @app.route('/campanyas/<emp>',  methods=['GET', 'POST'])
 def empresa(emp):
@@ -367,9 +370,10 @@ def empresa(emp):
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     name = dict(session).get('name', None)
+    salary = get_balance(user.blockHash)
     picture = dict(session).get('picture', None)
     campanyas = Campanya.getCampaigns(emp)
-    return render_template('campanyas.html', wallet=int_balance, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas, empresa = emp)
+    return render_template('campanyas.html', wallet=salary, email=email, name=given_name, w3=web3, picture=picture, user = user, campanyas = campanyas, empresa = emp)
 
 
 if __name__ == "__main__":
