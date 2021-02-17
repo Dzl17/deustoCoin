@@ -200,19 +200,32 @@ class KPIporFechas(Base):
         query = s.query(KPIporFechas)
         return query.all()
     @staticmethod
+    def getGraphData(id):
+        s = Session()
+        query = s.query(KPIporFechas)
+        results = query.filter(KPIporFechas.campanya == id).all()
+        query2 = s.query(Campanya)
+        name = query2.filter(Campanya.id==id).first().nombre
+        data = {
+            "name" : name,
+            "results" : results
+        }
+        return data
+    @staticmethod
     def saveTodaysKPI():
         fechas = []
         campanyas = Campanya.getAllCampaigns()
-        kpis = this.getAllKPIs()
-        for k in kpis:
-            fechas.append(k.fecha)
+        kpis = KPIporFechas.getAllKPIs()
+        if len(kpis) > 0:
+            for k in kpis:
+                fechas.append(k.fecha)
         dt = datetime.datetime.today()
-        today = (dt.day, dt.month, dt.year)
+        today = dt.strftime("%d/%m/%Y")
         if today not in fechas:
             s = Session()
-            fechas.append(arrayDt)
+            fechas.append(today)
             for c in campanyas:
-                kpi = KPIporFechas(today, c, c.kpi)
+                kpi = KPIporFechas(today, c.id, c.kpi)
                 s.add(kpi)
             s.commit()
             s.close()

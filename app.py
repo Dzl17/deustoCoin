@@ -1,14 +1,17 @@
-from flask import Flask, url_for, render_template, request, redirect, session, send_file
+from flask import Flask, url_for, render_template, request, redirect, Response, session, send_file
 from authlib.integrations.flask_client import OAuth
-import os
-import sys
 from base import Session, init_db
-from models import User, Transaccion, Accion, Campanya
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+from models import User, Transaccion, Accion, Campanya, KPIporFechas
 from datetime import datetime
 from web3 import Web3
 from forms import EnviarUDCForm, CrearCampForm, CampanyasForm
 import cryptocompare
+import io
 import qrcode
+import os
+import sys
 
 # ropsten_url = Config.ROPSTEN_URL
 # infura_secret = Config.INFURA_SECRET
@@ -25,17 +28,9 @@ test_address = app.config['TEST_ADDRESS']
 private_key = app.config['PRIVATE_KEY']
 
 web3 = Web3(Web3.HTTPProvider(app.config['ROPSTEN_URL']))
-# balance = web3.eth.getBalance(test_address)
 valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
-# int_balance = float(web3.fromWei(balance, "ether")) * valorUDC
 init_db()
-# str_abi = '[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"INITIAL_SUPPLY","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"burn","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_value","type":"uint256"}],"name":"burnFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_name","type":"string"},{"name":"_symbol","type":"string"},{"name":"_decimals","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_burner","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]'
-# abi = json.loads(str_abi)
-# address = "0x4BFBa4a8F28755Cb2061c413459EE562c6B9c51b"  # OMG Network
-# contract = web3.eth.contract(address=address, abi=abi)
-# totalSupply = contract.functions.totalSupply().call()
-# destname = contract.functions.name().call()
-# destsymbol = contract.functions.symbol().call()
+
 
 
 oauth = OAuth(app)
@@ -91,8 +86,26 @@ def sendCoins(dest, amount):
     s.commit()
     s.close()
 
+def create_figure(id):
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    data = KPIporFechas.getGraphData(id)
+    titulo = data.get("name")
+    axis.set_title("Valor de KPIs de la campaña " + titulo)
+    axis.set_xlabel("Fecha")
+    axis.set_ylabel("Valor del KPI")
+    results = data.get("results")[::-1]
+    xs = [x.fecha for x in results]
+    print(xs)
+    ys = [y.kpi for y in results]
+    print(ys)
+    axis.plot(xs, ys)
+    return fig
+
 @app.route('/')
 def home():
+    KPIporFechas.saveTodaysKPI()
+    create_figure(1)
     return render_template("login.html")
 
 @app.route('/login')
@@ -275,6 +288,13 @@ def editor(campanya_id):
             s.delete(query)
             s.commit()
     return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3, picture=picture, user = user, acciones = acciones, campanya = campanya)
+
+@app.route('/plot<int:campanya_id>.png')
+def plot_png(campanya_id):
+    fig = create_figure(campanya_id)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
 @app.route('/editorC', methods=['GET', 'POST'])
 def editorC():
