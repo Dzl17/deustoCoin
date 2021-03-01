@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy import create_engine, Column, String, Integer, ForeignKey, Boolean,Float, or_
+from sqlalchemy import create_engine, Column, String, Integer, ForeignKey, Boolean,Float, or_, desc
 from sqlalchemy.orm import relationship
 from base import Base, Session
 import datetime
@@ -203,7 +203,7 @@ class KPIporFechas(Base):
     def getGraphData(id):
         s = Session()
         query = s.query(KPIporFechas)
-        results = query.filter(KPIporFechas.campanya == id).all()
+        results = query.filter(KPIporFechas.campanya == id).order_by(desc(KPIporFechas.kpi)).all()
         query2 = s.query(Campanya)
         name = query2.filter(Campanya.id==id).first().nombre
         data = {

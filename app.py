@@ -132,8 +132,8 @@ def authorize():
         print(session['accionId'])
         print("Si hay acción para printear")
         cReward = Accion.getActionById(session['accionId'])
-        sendCoins(user_info['email'], cReward.recompensa)
-        return render_template("recompensa.html", name=session['name'], accion = cReward, email = session['email'])
+        #sendCoins(user_info['email'], cReward.recompensa)
+        return render_template("subirimagen.html", name=session['name'], accion = cReward, email = session['email'], user = user)
     else:
         if user != None:
             if user.role == 'Profesor':
