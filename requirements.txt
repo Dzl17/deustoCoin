@@ -6,11 +6,12 @@ Flask-RESTful==0.3.8
 flask-sqlalchemy==2.4.4
 flask-wtf==0.14.3
 Image==1.5.33
+ipfshttpclient==0.7.0a1
 oauthlib==3.1.0
 pillow==8.1.0
 psycopg2==2.8.6
 py-solc==3.2.0
 qrcode==6.1
 SQLAlchemy==1.3.20
-web3==5.12.3
+web3==5.17.0
 WTForms==2.3.3

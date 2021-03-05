@@ -9,6 +9,7 @@ from web3 import Web3
 from forms import EnviarUDCForm, CrearCampForm, CampanyasForm
 import cryptocompare
 import io
+import ipfshttpclient
 import qrcode
 import os
 import sys
@@ -26,6 +27,7 @@ app.config["SECRET_KEY"] = app.secret_key
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 test_address = app.config['TEST_ADDRESS']
 private_key = app.config['PRIVATE_KEY']
+client = ipfshttpclient.connect(app.config['IPFS_CONNECT_URL'])
 
 web3 = Web3(Web3.HTTPProvider(app.config['ROPSTEN_URL']))
 valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
