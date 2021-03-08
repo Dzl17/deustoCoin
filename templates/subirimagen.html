@@ -7,8 +7,9 @@
     <h2>Subir imagen</h2>
     <p>Tienes que subir una imagen que corrobore que la acción gracias a la cual pretendes ser recompensado es verídica.</p>
     <br>
-    <form action="/action_page.php">
-      <input type="file" id="myFile" name="filename">
+    <form action="/upload" method="POST" enctype="multipart/form-data" name="fileform" id="uplaodfile">
+      <input type="file" id="filename" name="filename">
+      <input type="text" id="text" name="text">
       <input type="submit">
     </form>
   </div>

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, FloatField, TextAreaField
+from wtforms import StringField, SubmitField, FloatField, TextAreaField, FileField
 from markupsafe import Markup
 from models import Campanya
 
@@ -27,3 +27,7 @@ class CampanyasForm(FlaskForm):
 class AccionesForm(FlaskForm):
     editar = SubmitField("✎")
     eliminar = SubmitField("✖")
+
+class ImageForm(FlaskForm):
+    image = FileField('Imagen')
+    submit = SubmitField('Enviar')
