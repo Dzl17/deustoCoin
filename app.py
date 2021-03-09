@@ -27,7 +27,7 @@ app.config["SECRET_KEY"] = app.secret_key
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 test_address = app.config['TEST_ADDRESS']
 private_key = app.config['PRIVATE_KEY']
-
+client = ipfshttpclient.connect(app.config['IPFS_CONNECT_URL'])
 web3 = Web3(Web3.HTTPProvider(app.config['ROPSTEN_URL']))
 valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
 init_db()
@@ -57,28 +57,32 @@ def get_balance(test_address):
     return balancefloat
 
 
-def sendCoins(dest, amount):
+def sendCoins(dest, amount, imgHash):
     destUser = User.get_by_email(dest)
     account_2 = destUser.blockHash
-    print(account_2)
-    print(private_key)
+
     nonce = web3.eth.getTransactionCount(test_address)
+
     accion = Accion.getActionById(session['accionId'])
     float_amount = float(amount) / valorUDC
     tx = {
         'nonce': nonce,
         'to': account_2,
         'value': web3.toWei(float_amount, 'ether'),
-        'gas': 50000,
-        'gasPrice': web3.toWei(100, 'gwei')  # gas: rapidez de transaccion
+        'gas': 21000,
+        'gasPrice': web3.toWei(50, 'gwei')
     }
-    print("Funciona la transaccion desde aqui")
+    print("Account 1")
+    print(nonce)
+    print("private key")
+    print(private_key)
+    print(tx)
     signed_tx = web3.eth.account.signTransaction(tx, private_key)
     tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
     s = Session()
     dateTimeObj = datetime.now()
     timestampStr = dateTimeObj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
-    t = Transaccion(timestampStr, tx_hash, accion.empresa, dest, accion.campanya_id, amount)
+    t = Transaccion(timestampStr, tx_hash, accion.empresa, dest, accion.campanya_id, amount, imgHash)
     s.add(t)
     s.commit()
     query = s.query(Campanya)
@@ -121,12 +125,12 @@ def login():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    client = ipfshttpclient.connect(app.config['IPFS_CONNECT_URL'])
     file = request.files['filename']
     res = client.add(file)
     print(res)
+    client.close()
     cReward = Accion.getActionById(session['accionId'])
-    sendCoins(session['email'], cReward.recompensa)
+    sendCoins(session['email'], cReward.recompensa, res['Hash'])
     return render_template("recompensa.html", name=session['name'], accion=cReward, email=session['email'])
 
 
@@ -147,7 +151,6 @@ def authorize():
         print(session['accionId'])
         print("Si hay acción para printear")
         cReward = Accion.getActionById(session['accionId'])
-        # sendCoins(user_info['email'], cReward.recompensa)
         return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
                                session=session, user=user, accionId=cReward)
     else:
@@ -211,12 +214,14 @@ def wallet():
             'gas': 50000,
             'gasPrice': web3.toWei(100, 'gwei')  # gas: rapidez de transaccion
         }
-        signed_tx = web3.eth.account.signTransaction(tx, private_key)
-        tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+        signedTx = web3.eth.sign_transaction(tx)
+        tx_hash = web3.eth.send_transaction(signedTx)
+        #signed_tx = web3.eth.account.signTransaction(tx, private_key)
+        #tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
         s = Session()
         dateTimeObj = datetime.now()
         timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-        t = Transaccion(timestampStr, tx_hash, email, request.form['destino'], "Envío de UDC", request.form['cantidad'])
+        t = Transaccion(timestampStr, tx_hash, email, request.form['destino'], "Envío de UDC", request.form['cantidad'], "No image")
         s.add(t)
         s.commit()
     given_name = dict(session).get('given_name', None)
