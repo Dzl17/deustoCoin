@@ -65,6 +65,7 @@ def sendCoins(dest, amount, imgHash):
     accion = Accion.getActionById(session['accionId'])
     float_amount = float(amount) / valorUDC
     tx = {
+        'chainId': 3,
         'nonce': nonce,
         'to': account_2,
         'value': web3.toWei(float_amount, 'ether'),

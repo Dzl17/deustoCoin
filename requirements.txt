@@ -8,6 +8,7 @@ flask-uploads==0.2.1
 flask-wtf==0.14.3
 Image==1.5.33
 ipfshttpclient==0.7.0a1
+matplotlib==3.3.4
 oauthlib==3.1.0
 pillow==8.1.0
 psycopg2==2.8.6
