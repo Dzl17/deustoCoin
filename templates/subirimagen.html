@@ -8,8 +8,12 @@
     <p>Tienes que subir una imagen que corrobore que la acción gracias a la cual pretendes ser recompensado es verídica.</p>
     <br>
     <form action="/upload" method="POST" enctype="multipart/form-data" name="fileform" id="uplaodfile">
-      <input type="file" id="filename" name="filename">
-      <input type="text" id="kpi" name="kpi">
+      <div class="form-group">
+        <input type="file" id="filename" name="filename">
+      </div>
+      <div class="form-group">
+        <h6><b>{{cReward.indicadorKpi}}</b>&nbsp;<input type="text" id="kpi" name="kpi"></h6>
+      </div>
       <input type="submit">
     </form>
   </div>

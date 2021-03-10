@@ -12,6 +12,9 @@
     <h5>{{c.nombre}}</h5>
     <p>{{c.descripcion}}</p>
     <h6>Valor generado</h6>
+    {% for a in acciones %}
+        <img src="/plot{{a.id}}.png" width="640" height="480">
+    {% endfor %}
     <!--<img src="/plot{{c.id}}.png" width="640" height="480">-->
   </div>
   

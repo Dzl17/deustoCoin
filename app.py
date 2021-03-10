@@ -85,10 +85,10 @@ def sendCoins(dest, amount, imgHash):
     t = Transaccion(timestampStr, tx_hash, accion.empresa, dest, accion.campanya_id, amount, imgHash)
     s.add(t)
     s.commit()
-    query = s.query(Campanya)
-    kpi = request.get['kpi']
-    dictupdate = {Campanya.kpi: Campanya.kpi + (10 * accion.recompensa)}
-    query.filter(Campanya.id == accion.campanya_id).update(dictupdate, synchronize_session=False)
+    query = s.query(Accion)
+    kpi = request.form['kpi']
+    dictupdate = {Accion.kpi: Accion.kpi + kpi}
+    query.filter(Accion.id == accion.id).update(dictupdate, synchronize_session=False)
     s.commit()
     s.close()
 
@@ -96,11 +96,13 @@ def sendCoins(dest, amount, imgHash):
 def create_figure(id):
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
+    accion = Accion.getActionById(id)
     data = KPIporFechas.getGraphData(id)
     titulo = data.get("name")
-    axis.set_title("Valor de KPIs de la campaña " + titulo)
+    axis.set_title(titulo + " - " + accion.indicadorKpi)
+    axis.set_ylim(0, accion.kpiObj)
     axis.set_xlabel("Fecha")
-    axis.set_ylabel("Valor del KPI")
+    axis.set_ylabel(accion.indicadorKpi)
     results = data.get("results")[::-1]
     xs = [x.fecha for x in results]
     print(xs)
@@ -440,8 +442,9 @@ def empresa(emp):
     salary = get_balance(user.blockHash)
     picture = dict(session).get('picture', None)
     campanyas = Campanya.getCampaigns(emp)
+    acciones = Accion.getActions(emp)
     return render_template('campanyas.html', wallet=salary, email=email, name=given_name, w3=web3, picture=picture,
-                           user=user, campanyas=campanyas, empresa=emp)
+                           user=user, campanyas=campanyas, empresa=emp, acciones=acciones)
 
 
 if __name__ == "__main__":
