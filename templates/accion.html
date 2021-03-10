@@ -31,6 +31,11 @@
       <br />
       {{form.desc(class="form-control")}}
     </div>
+    <div class="form-group">
+      {{form.desc.label}}
+      <br />
+      {{form.desc(class="form-control")}}
+    </div>
     <p>
       {{form.submit()}}
     </p>
@@ -62,6 +67,18 @@
         </select>
       </p>
     </div>
+    <div class="form-group">
+      <p>
+        <input type="number" step="0.01" placeholder="Indicador de KPI" class="form-control"
+          name="kpi"></input>
+      </p>
+    </div>
+    <div class="form-group">
+      <p>
+        <input type="number" step="0.01" placeholder="Objetivo" class="form-control"
+          name="obj"></input>
+      </p>
+    </div>
     <div class="form-group"><input type="submit" name="crearAccion" value="Crear acción"></div>
   </form>
 </div>
@@ -74,6 +91,9 @@
         <th scope="col">Empresa</th>
         <th scope="col">Descripción</th>
         <th scope="col">Recompensa (en UDC)</th>
+        <th scope="col">Indicador</th>
+        <th scope="col">Estado actual</th>
+        <th scope="col">Objetivo</th>
         <th scope="col">Código QR</th>
       </tr>
     </thead>
@@ -84,6 +104,9 @@
         <td>{{a.empresa}}</td>
         <td>{{a.descripcion}}</td>
         <td>{{a.recompensa}}</td>
+        <td>{{a.indicadorKpi}}</td>
+        <td>{{a.kpi}}</td>
+        <td>{{a.kpiObj}}</td>
         <td><a href="{{ url_for('qr' ,accion_id=a.id) }}">Descargar</a></td>
       </tr>
       {% endfor %}

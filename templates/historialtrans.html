@@ -18,7 +18,7 @@
                 <th scope="col">Remitente</th>
                 <th scope="col">Campaña</th>
                 <th scope="col">Cantidad</th>
-
+                <th scope="col">Prueba</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +28,7 @@
                 <td>{{t.remitente}}</td>
                 <td>{{t.campanya}}</td>
                 <td>{{t.cantidad}} UDC</td>
+                <td> <a href="http://ipfs.io/ipfs/{{t.imgHash}}">Ver imagen</a> </td>
             </tr>
             {% endfor %}
         </tbody>

@@ -8,12 +8,11 @@
 
   {% if campanyas|length >= 1 %}
   {% for c in campanyas %}
-  <!-- <th scope="row">{{c.nombre}}</th> -->
   <div class="{{c.empresa}}">
     <h5>{{c.nombre}}</h5>
     <p>{{c.descripcion}}</p>
     <h6>Valor generado</h6>
-    <img src="/plot{{c.id}}.png" width="640" height="480">
+    <!--<img src="/plot{{c.id}}.png" width="640" height="480">-->
   </div>
   
   {% endfor %}

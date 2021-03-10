@@ -65,7 +65,7 @@ def sendCoins(dest, amount, imgHash):
     accion = Accion.getActionById(session['accionId'])
     float_amount = float(amount) / valorUDC
     tx = {
-        'chainId': 3,
+        'chainId': 3, #es 3 para Ropsten
         'nonce': nonce,
         'to': account_2,
         'value': web3.toWei(float_amount, 'ether'),
@@ -86,6 +86,7 @@ def sendCoins(dest, amount, imgHash):
     s.add(t)
     s.commit()
     query = s.query(Campanya)
+    kpi = request.get['kpi']
     dictupdate = {Campanya.kpi: Campanya.kpi + (10 * accion.recompensa)}
     query.filter(Campanya.id == accion.campanya_id).update(dictupdate, synchronize_session=False)
     s.commit()
@@ -209,6 +210,7 @@ def wallet():
         nonce = web3.eth.getTransactionCount(account_1)
         float_amount = float(request.form['cantidad']) / valorUDC
         tx = {
+            'chainId' : 3,
             'nonce': nonce,
             'to': account_2,
             'value': web3.toWei(float_amount, 'ether'),
@@ -247,7 +249,7 @@ def accion():
     salary = get_balance(user.blockHash)
     if form.validate_on_submit():
         s = Session()
-        c = Campanya(request.form['nomCamp'], user.organizacion, request.form['desc'], 0)
+        c = Campanya(request.form['nomCamp'], user.organizacion, request.form['desc'])
         # print("objeto creado")
         s.add(c)
         s.commit()
@@ -255,9 +257,11 @@ def accion():
         nombre = request.form['nombre']
         desc = request.form['desc']
         recompensa = request.form['recompensa']
+        indKpi = request.form['kpi']
+        kpiObj = request.form['obj']
         camp = request.form['campanya']
         s = Session()
-        a = Accion(nombre, user.organizacion, desc, recompensa, camp)
+        a = Accion(nombre, user.organizacion, desc, recompensa, indKpi, kpiObj, camp)
         s.add(a)
         s.commit()
         intId = Accion.getIdByName(nombre)

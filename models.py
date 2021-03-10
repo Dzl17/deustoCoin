@@ -89,13 +89,18 @@ class Accion(Base):
     empresa = Column(String(80), nullable=False)
     descripcion = Column(String, unique=True, nullable=False)
     recompensa = Column(Float, nullable=False)
+    indicadorKpi = Column(String(80), nullable=False)
     campanya_id = Column(Integer, ForeignKey('campanya.id'))
+    kpi = Column(Integer, default=0)
+    kpiObj = Column(Integer, default=0)
 
-    def __init__(self, nombre, empresa, descripcion, recompensa, campanya_id):
+    def __init__(self, nombre, empresa, descripcion, recompensa, indicadorKpi, kpiObj, campanya_id):
         self.nombre = nombre
         self.empresa = empresa
         self.descripcion = descripcion
         self.recompensa = recompensa
+        self.indicadorKpi = indicadorKpi
+        self.kpiObj = kpiObj
         self.campanya_id = campanya_id
 
     def __repr__(self):
@@ -141,13 +146,11 @@ class Campanya(Base):
     empresa = Column(String(80), nullable=False)
     descripcion = Column(String, nullable=False)
     acciones = relationship("Accion")
-    kpi = Column(Integer)
 
-    def __init__(self, nombre, empresa, descripcion, kpi):
+    def __init__(self, nombre, empresa, descripcion):
         self.nombre = nombre
         self.empresa = empresa
         self.descripcion = descripcion
-        self.kpi = kpi
 
     @staticmethod
     def getCampaigns(empresa):
@@ -189,12 +192,12 @@ class Campanya(Base):
 class KPIporFechas(Base):
     __tablename__ = 'kpi_fechas'
     id = Column(Integer, primary_key=True)
-    campanya = Column(Integer, ForeignKey('campanya.id'))
+    accion = Column(Integer, ForeignKey('accion.id'))
     fecha = Column(String(80), nullable=False)
     kpi = Column(Integer)
-    def __init__(self, fecha, campanya, kpi):
+    def __init__(self, fecha, accion, kpi):
         self.fecha = fecha
-        self.campanya = campanya
+        self.accion = accion
         self.kpi = kpi
     @staticmethod
     def getAllKPIs():
@@ -205,9 +208,9 @@ class KPIporFechas(Base):
     def getGraphData(id):
         s = Session()
         query = s.query(KPIporFechas)
-        results = query.filter(KPIporFechas.campanya == id).order_by(desc(KPIporFechas.kpi)).all()
-        query2 = s.query(Campanya)
-        name = query2.filter(Campanya.id==id).first().nombre
+        results = query.filter(KPIporFechas.accion == id).order_by(desc(KPIporFechas.kpi)).all()
+        query2 = s.query(Accion)
+        name = query2.filter(Accion.id==id).first().nombre
         data = {
             "name" : name,
             "results" : results
@@ -216,7 +219,7 @@ class KPIporFechas(Base):
     @staticmethod
     def saveTodaysKPI():
         fechas = []
-        campanyas = Campanya.getAllCampaigns()
+        acciones = Accion.getAllActions()
         kpis = KPIporFechas.getAllKPIs()
         if len(kpis) > 0:
             for k in kpis:
@@ -226,8 +229,8 @@ class KPIporFechas(Base):
         if today not in fechas:
             s = Session()
             fechas.append(today)
-            for c in campanyas:
-                kpi = KPIporFechas(today, c.id, c.kpi)
+            for a in acciones:
+                kpi = KPIporFechas(today, a.id, a.kpi)
                 s.add(kpi)
             s.commit()
             s.close()
