@@ -43,18 +43,18 @@
   <form style="display: none;" id="accionesform" method="POST">
     <div class="form-group">
       <p>
-        <input type="text" class="form-control" placeholder="Nombre de la acción" name="nombre"></input>
+        <input type="text" class="form-control" placeholder="Nombre de la acción" name="nombre" required></input>
       </p>
     </div>
     <div class="form-group">
       <p>
-        <input type="text" class="form-control" placeholder="Descripción" name="desc"></input>
+        <input type="text" class="form-control" placeholder="Descripción" name="desc" required></input>
       </p>
     </div>
     <div class="form-group">
       <p>
         <input type="number" step="0.01" placeholder="Recompensa (en UDC)" class="form-control"
-          name="recompensa"></input>
+          name="recompensa" required></input>
       </p>
     </div>
     <div class="form-group">
@@ -70,13 +70,13 @@
     <div class="form-group">
       <p>
         <input type="number" step="0.01" placeholder="Indicador de KPI" class="form-control"
-          name="kpi"></input>
+          name="kpi" required></input>
       </p>
     </div>
     <div class="form-group">
       <p>
         <input type="number" step="0.01" placeholder="Objetivo" class="form-control"
-          name="obj"></input>
+          name="obj" required></input>
       </p>
     </div>
     <div class="form-group"><input type="submit" name="crearAccion" value="Crear acción"></div>
