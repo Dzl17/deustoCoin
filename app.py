@@ -447,6 +447,12 @@ def empresa(emp):
     return render_template('campanyas.html', wallet=salary, email=email, name=given_name, w3=web3, picture=picture,
                            user=user, campanyas=campanyas, empresa=emp, acciones=acciones)
 
+@app.route('/registraraccion/<int:accion_id>', methods=['GET', 'POST'])
+def registrarAccion(accion_id):
+    user = User.get_by_email(session['email'])
+    cReward = Accion.getActionById(accion_id)
+    return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
+                           session=session, user=user, accionId=accion_id)
 
 if __name__ == "__main__":
     app.run()

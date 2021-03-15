@@ -36,7 +36,7 @@
         <td>{{c.empresa}}</td>
         <td>{{c.descripcion}}</td>
         <td>{{c.recompensa}}</td>
-        <td><a href="{{ url_for('redeem', accion_id=c.id) }}">Registrar acción</a></td>
+        <td><a href="{{ url_for('registrarAccion', accion_id=c.id) }}">Registrar acción</a></td>
       </tr>
       {% endfor %}
     </tbody>
