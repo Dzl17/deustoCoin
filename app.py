@@ -56,7 +56,7 @@ def get_balance(test_address):
     return balancefloat
 
 
-def sendCoins(dest, amount, imgHash):
+def sendCoins(dest, amount, imgHash, urlProof):
     destUser = User.get_by_email(dest)
     account_2 = destUser.blockHash
 
@@ -82,7 +82,7 @@ def sendCoins(dest, amount, imgHash):
     s = Session()
     dateTimeObj = datetime.now()
     timestampStr = dateTimeObj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
-    t = Transaccion(timestampStr, tx_hash, accion.empresa, dest, accion.campanya_id, amount, imgHash)
+    t = Transaccion(timestampStr, tx_hash, accion.empresa, dest, accion.campanya_id, amount, imgHash, urlProof)
     s.add(t)
     s.commit()
     query = s.query(Accion)
@@ -129,12 +129,16 @@ def login():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     client = ipfshttpclient.connect(app.config['IPFS_CONNECT_URL'])
+    try:
+        urlProof = request.form['proof']
+    except:
+        urlProof = ""
     file = request.files['filename']
     res = client.add(file)
     print(res)
     client.close()
     cReward = Accion.getActionById(session['accionId'])
-    sendCoins(session['email'], cReward.recompensa, res['Hash'])
+    sendCoins(session['email'], cReward.recompensa, res['Hash'], urlProof)
     return render_template("recompensa.html", name=session['name'], accion=cReward, email=session['email'])
 
 
@@ -223,7 +227,7 @@ def wallet():
         s = Session()
         dateTimeObj = datetime.now()
         timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-        t = Transaccion(timestampStr, tx_hash, email, request.form['destino'], "Envío de UDC", request.form['cantidad'], "No image")
+        t = Transaccion(timestampStr, tx_hash, email, request.form['destino'], "Envío de UDC", request.form['cantidad'], "", "")
         s.add(t)
         s.commit()
     given_name = dict(session).get('given_name', None)

@@ -55,9 +55,10 @@ class Transaccion(Base):
     destinatario = Column(String(50), nullable=False)
     campanya = Column(Integer, ForeignKey('campanya.id'))
     cantidad = Column(Float, nullable=False)
-    imgHash = Column(String(255), nullable=False)
+    imgHash = Column(String(255), nullable=True)
+    proof = Column(String(255), nullable=True)
 
-    def __init__(self, fecha, transHash, remitente, destinatario, campanya, cantidad, imgHash):
+    def __init__(self, fecha, transHash, remitente, destinatario, campanya, cantidad, imgHash, proof):
         self.fecha = fecha
         self.transHash = transHash
         self.remitente = remitente
@@ -65,6 +66,7 @@ class Transaccion(Base):
         self.campanya = campanya
         self.cantidad = cantidad
         self.imgHash = imgHash
+        self.proof = proof
 
     def __repr__(self):
         return f'<Transaccion {self.transHash}>'
