@@ -26,6 +26,7 @@
         <th scope="col">Empresa</th>
         <th scope="col">Descripción</th>
         <th scope="col">Recompensa (en UDC)</th>
+        <th scope="col"> </th>
       </tr>
     </thead>
     <tbody>
@@ -35,6 +36,7 @@
         <td>{{c.empresa}}</td>
         <td>{{c.descripcion}}</td>
         <td>{{c.recompensa}}</td>
+        <td><a href="{{ url_for('redeem', accion_id=c.id) }}">Registrar acción</a></td>
       </tr>
       {% endfor %}
     </tbody>
