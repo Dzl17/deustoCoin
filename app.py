@@ -139,7 +139,7 @@ def upload():
     client.close()
     cReward = Accion.getActionById(session['accionId'])
     sendCoins(session['email'], cReward.recompensa, res['Hash'], urlProof)
-    return render_template("recompensa.html", name=session['name'], accion=cReward, email=session['email'])
+    return render_template("recompensa.html", name=session['name'], accion=cReward, email=session['email'], picture = session['picture'])
 
 
 @app.route('/authorize')
@@ -153,6 +153,7 @@ def authorize():
     session['given_name'] = user_info['given_name']
     session['name'] = user_info['name']
     session['picture'] = user_info['picture']
+    picture = user_info['picture']
     session['token'] = token
     user = User.get_by_email(session['email'])
     if 'accionId' in session and user != None:
@@ -160,7 +161,7 @@ def authorize():
         print("Si hay acción para printear")
         cReward = Accion.getActionById(session['accionId'])
         return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
-                               session=session, user=user, accionId=cReward)
+                               session=session, user=user, picture=picture, accionId=cReward)
     else:
         if user != None:
             if user.role == 'Promotor':
