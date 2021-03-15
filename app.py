@@ -159,8 +159,6 @@ def authorize():
                                session=session, user=user, accionId=cReward)
     else:
         if user != None:
-            if user.role == 'Profesor':
-                return redirect('/wallet')
             if user.role == 'Promotor':
                 return redirect('/accion')
                 print("No hay acción")
@@ -189,7 +187,7 @@ def register():
         u = User(nombre, email, blockchainAddr, picture, rol, org)
         s.add(u)
         s.commit()
-        if rol == 'Profesor':
+        if rol == 'Alumno':
             return redirect('/wallet')
         if rol == 'Promotor':
             return redirect('/accion')
