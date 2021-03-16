@@ -77,6 +77,7 @@
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
+                        {% if user.role == "Promotor" %}
                         <li class="nav-item">
                             <a class="nav-link active" href="{{ url_for('accion')}}">
                                 <span class="iconify" data-icon="fe-wallet" data-inline="false"></span> Menú principal
@@ -88,6 +89,33 @@
                                 <span class="iconify" data-icon="ic:baseline-campaign" data-inline="false"></span></span> Editor de campañas
                             </a>
                         </li>
+                        {% endif %}
+                        {% if user.role == "Alumno" %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('wallet')}}">
+                                <span class="iconify" data-icon="fe-wallet" data-inline="false"></span> Cartera <span
+                                    class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('accionalumnos')}}">
+                                <span class="iconify" data-icon="ic:outline-local-offer" data-inline="false"></span>
+                                Acciones
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('historialtrans')}}">
+                                <span class="iconify" data-icon="grommet-icons:document-time"
+                                    data-inline="false"></span> Historial de transacciones
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('campanyas')}}">
+                                <span class="iconify" data-icon="ic:baseline-campaign" data-inline="false"></span></span> Campañas
+                            </a>
+                        </li>
+                        {% endif %}
+
                     </ul>
                 </div>
             </nav>

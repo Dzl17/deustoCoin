@@ -1,4 +1,4 @@
-{% extends "basetabs.html" %} {% block body %}
+{% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
     <h1 class="h2">Historial de transacciones</h1>
 </div>
@@ -20,6 +20,7 @@
                 <th scope="col">Campaña</th>
                 <th scope="col">Cantidad</th>
                 <th scope="col">Prueba</th>
+                <th scope="col">2ª prueba <i>(Opcional)</i></th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +35,11 @@
                 <td><a href="http://ipfs.io/ipfs/{{t.imgHash}}">Ver imagen</a></td>
                 {% else %}
                 <td>No hay imagen</td>
+                {% endif %}
+                {% if t.proof != "" %}
+                <td><a href="{{t.proof}}">Ver prueba</a></td>
+                {% else %}
+                <td>No hay URL adicional</td>
                 {% endif %}
             </tr>
             {% endfor %}
