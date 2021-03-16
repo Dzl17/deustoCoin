@@ -16,6 +16,7 @@
             <tr>
                 <th scope="col">Fecha</th>
                 <th scope="col">Remitente</th>
+                <th scope="col">Destinatario</th>
                 <th scope="col">Campaña</th>
                 <th scope="col">Cantidad</th>
                 <th scope="col">Prueba</th>
@@ -26,9 +27,14 @@
             <tr>
                 <th scope="row">{{t.fecha}}</th>
                 <td>{{t.remitente}}</td>
+                <td>{{t.destinatario}}</td>
                 <td>{{t.campanya}}</td>
                 <td>{{t.cantidad}} UDC</td>
+                {% if t.imgHash != "" %}
                 <td><a href="http://ipfs.io/ipfs/{{t.imgHash}}">Ver imagen</a></td>
+                {% else %}
+                <td>No hay imagen</td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

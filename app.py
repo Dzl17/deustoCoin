@@ -227,7 +227,7 @@ def wallet():
         s = Session()
         dateTimeObj = datetime.now()
         timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-        t = Transaccion(timestampStr, tx_hash, email, request.form['destino'], "Envío de UDC", request.form['cantidad'], "", "")
+        t = Transaccion(timestampStr, tx_hash, email, request.form['destino'], None, request.form['cantidad'], "", "")
         s.add(t)
         s.commit()
     given_name = dict(session).get('given_name', None)
@@ -290,7 +290,10 @@ def historialtrans():
     transacciones = Transaccion.getTransactions(user.email)
     for t in transacciones:
         campId = t.campanya
-        t.campanya = Campanya.getCampaignById(campId).nombre
+        try:
+            t.campanya = Campanya.getCampaignById(campId).nombre
+        except:
+            t.campanya = "Envío de UDCoins"
     return render_template('historialtrans.html', title='Acción', wallet=salary, email=email, name=name, w3=web3, user=user, transacciones=transacciones)
 
 

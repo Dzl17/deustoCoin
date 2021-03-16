@@ -53,7 +53,7 @@ class Transaccion(Base):
     transHash = Column(String(255), nullable=False)
     remitente = Column(String(50), nullable=False)
     destinatario = Column(String(50), nullable=False)
-    campanya = Column(Integer, ForeignKey('campanya.id'))
+    campanya = Column(Integer, ForeignKey('campanya.id'), nullable=True) #Es posible que las transacciones sean únicamente por envío de UDC
     cantidad = Column(Float, nullable=False)
     imgHash = Column(String(255), nullable=True)
     proof = Column(String(255), nullable=True)
