@@ -139,7 +139,7 @@ def upload():
     client.close()
     cReward = Accion.getActionById(session['accionId'])
     sendCoins(session['email'], cReward.recompensa, res['Hash'], urlProof)
-    return render_template("recompensa.html", name=session['name'], accion=cReward, email=session['email'], picture = session['picture'])
+    return render_template("recompensa.html", name=session['name'], accion=cReward, email=session['email'])
 
 
 @app.route('/authorize')
@@ -153,7 +153,6 @@ def authorize():
     session['given_name'] = user_info['given_name']
     session['name'] = user_info['name']
     session['picture'] = user_info['picture']
-    picture = user_info['picture']
     session['token'] = token
     user = User.get_by_email(session['email'])
     if 'accionId' in session and user != None:
@@ -161,7 +160,7 @@ def authorize():
         print("Si hay acción para printear")
         cReward = Accion.getActionById(session['accionId'])
         return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
-                               session=session, user=user, picture=picture, accionId=cReward)
+                               session=session, user=user, accionId=cReward)
     else:
         if user != None:
             if user.role == 'Promotor':
@@ -232,12 +231,10 @@ def wallet():
         s.add(t)
         s.commit()
     given_name = dict(session).get('given_name', None)
-    name = dict(session).get('name', None)
-    picture = dict(session).get('picture', None)
     transacciones = Transaccion.getTransactions(email)
     acciones = Accion.getAllActions()
     return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, w3=web3,
-                           form=form, picture=picture, user=user, transacciones=transacciones, acciones=acciones)
+                           form=form, user=user, transacciones=transacciones, acciones=acciones)
 
 
 @app.route('/accion', methods=['GET', 'POST'])
@@ -246,8 +243,6 @@ def accion():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    name = dict(session).get('name', None)
-    picture = dict(session).get('picture', None)
     acciones = Accion.getActions(user.organizacion)
     campanyas = Campanya.getCampaigns(user.organizacion)
     salary = get_balance(user.blockHash)
@@ -273,7 +268,7 @@ def accion():
         qr.save('./static/qr/' + str(intId) + ".png")
 
     return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
-                           form=form, picture=picture, user=user, acciones=acciones, campanyas=campanyas)
+                           form=form, user=user, acciones=acciones, campanyas=campanyas)
 
 
 @app.route('/accionalumnos', methods=['GET', 'POST'])
@@ -281,28 +276,22 @@ def accionalumnos():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    name = dict(session).get('name', None)
     salary = get_balance(user.blockHash)
-    picture = dict(session).get('picture', None)
     acciones = Accion.getAllActions()
-    return render_template('accionalumnos.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
-                           picture=picture, user=user, acciones=acciones)
+    return render_template('accionalumnos.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3, user=user, acciones=acciones)
 
 
 @app.route('/historialtrans', methods=['GET', 'POST'])
 def historialtrans():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
-    given_name = dict(session).get('given_name', None)
     salary = get_balance(user.blockHash)
     name = dict(session).get('name', None)
-    picture = dict(session).get('picture', None)
     transacciones = Transaccion.getTransactions(user.email)
     for t in transacciones:
         campId = t.campanya
         t.campanya = Campanya.getCampaignById(campId).nombre
-    return render_template('historialtrans.html', title='Acción', wallet=salary, email=email, name=name, w3=web3,
-                           picture=picture, user=user, transacciones=transacciones)
+    return render_template('historialtrans.html', title='Acción', wallet=salary, email=email, name=name, w3=web3, user=user, transacciones=transacciones)
 
 
 @app.route('/editor/<int:campanya_id>', methods=['GET', 'POST'])
@@ -310,8 +299,6 @@ def editor(campanya_id):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    name = dict(session).get('name', None)
-    picture = dict(session).get('picture', None)
     acciones = Accion.getActionsOfCampaign(campanya_id)
     campanya = Campanya.getCampaignById(campanya_id)
     salary = get_balance(user.blockHash)
@@ -325,8 +312,7 @@ def editor(campanya_id):
             query = query.filter(Accion.id == pk).first()
             s.delete(query)
             s.commit()
-    return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
-                           picture=picture, user=user, acciones=acciones, campanya=campanya)
+    return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3, user=user, acciones=acciones, campanya=campanya)
 
 
 @app.route('/plot<int:campanya_id>.png')
@@ -342,8 +328,6 @@ def editorC():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    name = dict(session).get('name', None)
-    picture = dict(session).get('picture', None)
     campanyas = Campanya.getCampaigns(user.organizacion)
     salary = get_balance(user.blockHash)
     s = Session()
@@ -359,7 +343,7 @@ def editorC():
         elif 'verAcc' in request.form:
             return redirect(url_for('editor', campanya_id=request.form['id']))
     return render_template('admincampanyas.html', title='Campañas', wallet=salary, email=email, name=given_name,
-                           w3=web3, picture=picture, user=user, campanyas=campanyas)
+                           w3=web3, user=user, campanyas=campanyas)
 
 
 @app.route('/editarAcc/<int:accion_id>', methods=["GET", "POST"])
@@ -367,8 +351,6 @@ def editorAccion(accion_id):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    name = dict(session).get('name', None)
-    picture = dict(session).get('picture', None)
     s = Session()
     query = s.query(Accion)
     accion = query.filter(Accion.id == accion_id).first()
@@ -377,16 +359,13 @@ def editorAccion(accion_id):
                       Accion.recompensa: float(request.form['recompensa'])}
         query.filter(Accion.id == accion_id).update(dictupdate, synchronize_session=False)
         s.commit()
-    return render_template("editoraccion.html", accion=accion, email=email, name=given_name, picture=picture, user=user)
+    return render_template("editoraccion.html", accion=accion, email=email, name=given_name, user=user)
 
 
 @app.route('/editorCampanyas/<int:campanya_id>', methods=["GET", "POST"])
 def editorCamp(campanya_id):
     email = dict(session).get('email', None)
-    user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    name = dict(session).get('name', None)
-    picture = dict(session).get('picture', None)
     user = User.get_by_email(email)
 
     s = Session()
@@ -396,7 +375,7 @@ def editorCamp(campanya_id):
         dictupdate = {Campanya.nombre: request.form['nombre'], Campanya.descripcion: request.form['descripcion']}
         query.filter(Campanya.id == campanya_id).update(dictupdate, synchronize_session=False)
         s.commit()
-    return render_template("editorcamp.html", campanya=campanya, email=email, name=given_name, picture=picture,
+    return render_template("editorcamp.html", campanya=campanya, email=email, name=given_name,
                            user=user)
 
 
@@ -425,12 +404,10 @@ def campanyas():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    name = dict(session).get('name', None)
     salary = get_balance(user.blockHash)
-    picture = dict(session).get('picture', None)
     campanyas = Campanya.getOrderedCampaigns()
     empresas = Campanya.getDistinctCompanies()
-    return render_template('empresas.html', wallet=salary, email=email, name=given_name, w3=web3, picture=picture,
+    return render_template('empresas.html', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, campanyas=campanyas, empresas=empresas)
 
 
@@ -440,12 +417,10 @@ def empresa(emp):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    name = dict(session).get('name', None)
     salary = get_balance(user.blockHash)
-    picture = dict(session).get('picture', None)
     campanyas = Campanya.getCampaigns(emp)
     acciones = Accion.getActions(emp)
-    return render_template('campanyas.html', wallet=salary, email=email, name=given_name, w3=web3, picture=picture,
+    return render_template('campanyas.html', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, campanyas=campanyas, empresa=emp, acciones=acciones)
 
 @app.route('/registraraccion/<int:accion_id>', methods=['GET', 'POST'])
