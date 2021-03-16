@@ -163,11 +163,10 @@ def authorize():
                                session=session, user=user, accionId=cReward)
     else:
         if user != None:
-            if user.role == 'Promotor':
-                return redirect('/accion')
-                print("No hay acción")
-            else:
+            if user.role == 'Alumno':
                 return redirect('/wallet')
+            else:
+                return redirect('/accion')
 
         else:
             return redirect('/register')
@@ -243,12 +242,23 @@ def accion():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    acciones = Accion.getActions(user.organizacion)
-    campanyas = Campanya.getCampaigns(user.organizacion)
+
+    if user.role == "Promotor":
+        campanyas = Campanya.getCampaigns(user.organizacion)
+        acciones = Accion.getActions(user.organizacion)
+    elif user.role == "Administrador":
+        campanyas = Campanya.getAllCampaigns()
+        acciones = Accion.getAllActions()
+    else:
+        return redirect("/login")
+
     salary = get_balance(user.blockHash)
     if form.validate_on_submit():
         s = Session()
-        c = Campanya(request.form['nomCamp'], user.organizacion, request.form['desc'])
+        if user.role == "Promotor":
+            c = Campanya(request.form['nomCamp'], user.organizacion, request.form['desc'])
+        elif user.role == "Administrador":
+            c = Campanya(request.form['nomCamp'], request.form['empresa'], request.form['desc'])
         # print("objeto creado")
         s.add(c)
         s.commit()

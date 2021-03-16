@@ -26,11 +26,13 @@
         {{form.nomCamp(class="form-control")}}
       </p>
     </div>
+    {% if user.role == "Administrador" %}
     <div class="form-group">
-      {{form.desc.label}}
+      {{form.empresa.label}}
       <br />
-      {{form.desc(class="form-control")}}
+      {{form.empresa(class="form-control")}}
     </div>
+    {% endif %}
     <div class="form-group">
       {{form.desc.label}}
       <br />
@@ -69,8 +71,7 @@
     </div>
     <div class="form-group">
       <p>
-        <input type="number" step="0.01" placeholder="Indicador de KPI" class="form-control"
-          name="kpi" required></input>
+        <input type="text" class="form-control" placeholder="Indicador de KPI" name="kpi" required></input>
       </p>
     </div>
     <div class="form-group">
