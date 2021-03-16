@@ -84,6 +84,12 @@ class Transaccion(Base):
         query = s.query(Transaccion)
         return query.filter(or_(Transaccion.remitente==email, Transaccion.destinatario==email)).all()
 
+    @staticmethod
+    def getAllTransactions():
+        s = Session()
+        query = s.query(Transaccion)
+        return query.all()
+
 class Accion(Base):
     __tablename__ = 'accion'
     id = Column(Integer, primary_key=True)

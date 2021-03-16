@@ -166,7 +166,7 @@ def authorize():
             if user.role == 'Promotor':
                 return redirect('/accion')
                 print("No hay acción")
-            if user.role == 'Alumno':
+            else:
                 return redirect('/wallet')
 
         else:
@@ -287,7 +287,10 @@ def historialtrans():
     user = User.get_by_email(email)
     salary = get_balance(user.blockHash)
     name = dict(session).get('name', None)
-    transacciones = Transaccion.getTransactions(user.email)
+    if user.role == "Alumno":
+        transacciones = Transaccion.getTransactions(user.email)
+    else:
+        transacciones = Transaccion.getAllTransactions()
     for t in transacciones:
         campId = t.campanya
         try:
