@@ -446,5 +446,25 @@ def registrarAccion(accion_id):
     return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
                            session=session, user=user, accionId=accion_id)
 
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template("error.html", code="500", type="Internal Server Error"), 500
+
+@app.errorhandler(403)
+def forbidden(e):
+    return render_template("error.html", code="403", type="Forbidden"), 403
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("error.html", code="404", type="Not Found"), 404
+
+@app.errorhandler(400)
+def bad_request(e):
+    return render_template("error.html", code="400", type="Bad Request"), 400
+
+@app.errorhandler(401)
+def unauthorized(e):
+    return render_template("error.html", code="401", type="Unauthorized"), 401
+
 if __name__ == "__main__":
     app.run()
