@@ -3,22 +3,16 @@ from authlib.integrations.flask_client import OAuth
 from base import Session, init_db
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-from models import User, Transaccion, Accion, Campanya, KPIporFechas
+from models import User, Transaccion, Accion, Campanya, KPIporFechas, Oferta
 from datetime import datetime
 from web3 import Web3
-from forms import EnviarUDCForm, CrearCampForm, AccionesForm, CampanyasForm, ImageForm
+from forms import EnviarUDCForm, CrearCampForm, CrearOfertaForm
 import cryptocompare
 import io
 import ipfshttpclient
 import qrcode
 import os
 import sys
-
-# ropsten_url = Config.ROPSTEN_URL
-# infura_secret = Config.INFURA_SECRET
-# WEB3_INFURA_PROJECT_ID = Config.WEB3_INFURA_PROJECT_ID
-# GOOGLE_DISCOVERY_URL = config.GOOGLE_DISCOVERY_URL
-
 
 app = Flask(__name__)
 app.config.from_object("config.Config")
@@ -65,7 +59,7 @@ def sendCoins(dest, amount, imgHash, urlProof):
     accion = Accion.getActionById(session['accionId'])
     float_amount = float(amount) / valorUDC
     tx = {
-        'chainId': 3, #es 3 para Ropsten
+        'chainId': 3,  # es 3 para Ropsten
         'nonce': nonce,
         'to': account_2,
         'value': web3.toWei(float_amount, 'ether'),
@@ -212,7 +206,7 @@ def wallet():
         nonce = web3.eth.getTransactionCount(account_1)
         float_amount = float(request.form['cantidad']) / valorUDC
         tx = {
-            'chainId' : 3,
+            'chainId': 3,
             'nonce': nonce,
             'to': account_2,
             'value': web3.toWei(float_amount, 'ether'),
@@ -221,8 +215,8 @@ def wallet():
         }
         signed_tx = web3.eth.account.signTransaction(tx, private_key)
         tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-        #signed_tx = web3.eth.account.signTransaction(tx, private_key)
-        #tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+        # signed_tx = web3.eth.account.signTransaction(tx, private_key)
+        # tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
         s = Session()
         dateTimeObj = datetime.now()
         timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
@@ -239,6 +233,7 @@ def wallet():
 @app.route('/accion', methods=['GET', 'POST'])
 def accion():
     form = CrearCampForm()
+    form2 = CrearOfertaForm()
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -246,14 +241,16 @@ def accion():
     if user.role == "Promotor":
         campanyas = Campanya.getCampaigns(user.organizacion)
         acciones = Accion.getActions(user.organizacion)
+        ofertas = Oferta.getOffers(user.organizacion)
     elif user.role == "Administrador":
         campanyas = Campanya.getAllCampaigns()
         acciones = Accion.getAllActions()
+        ofertas = Oferta.getAllOffers()
     else:
         return redirect("/login")
 
     salary = get_balance(user.blockHash)
-    if form.validate_on_submit():
+    if form.validate_on_submit() and form.crearCamp.data:
         s = Session()
         if user.role == "Promotor":
             c = Campanya(request.form['nomCamp'], user.organizacion, request.form['desc'])
@@ -262,6 +259,20 @@ def accion():
         # print("objeto creado")
         s.add(c)
         s.commit()
+    elif form2.validate_on_submit() and form2.crearOf.data:
+        nombre = request.form['nomOferta']
+        s = Session()
+        if user.role == "Promotor":
+            o = Oferta(request.form['nomOferta'], user.organizacion, request.form['desc'], request.form['precio'])
+        elif user.role == "Administrador":
+            o = Oferta(request.form['nomOferta'], request.form['empresa'], request.form['desc'], request.form['precio'])
+        s.add(o)
+        s.commit()
+        #meter qr
+        intId = Oferta.getIdByName(nombre)
+       # qr = qrcode.make(url_for("offer", offer_id=intId, _external=True))
+       # qr.save('./static/qr/ofertas/' + str(intId) + ".png")
+
     if request.method == 'POST' and 'crearAccion' in request.form:
         nombre = request.form['nombre']
         desc = request.form['desc']
@@ -275,10 +286,10 @@ def accion():
         s.commit()
         intId = Accion.getIdByName(nombre)
         qr = qrcode.make(url_for("redeem", accion_id=intId, _external=True))
-        qr.save('./static/qr/' + str(intId) + ".png")
+        qr.save('./static/qr/acciones/' + str(intId) + ".png")
 
     return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
-                           form=form, user=user, acciones=acciones, campanyas=campanyas)
+                           form=form, form2=form2, user=user, acciones=acciones, campanyas=campanyas, ofertas=ofertas)
 
 
 @app.route('/accionalumnos', methods=['GET', 'POST'])
@@ -288,7 +299,8 @@ def accionalumnos():
     given_name = dict(session).get('given_name', None)
     salary = get_balance(user.blockHash)
     acciones = Accion.getAllActions()
-    return render_template('accionalumnos.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3, user=user, acciones=acciones)
+    return render_template('accionalumnos.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
+                           user=user, acciones=acciones)
 
 
 @app.route('/historialtrans', methods=['GET', 'POST'])
@@ -307,7 +319,8 @@ def historialtrans():
             t.campanya = Campanya.getCampaignById(campId).nombre
         except:
             t.campanya = "Envío de UDCoins"
-    return render_template('historialtrans.html', title='Acción', wallet=salary, email=email, name=name, w3=web3, user=user, transacciones=transacciones)
+    return render_template('historialtrans.html', title='Acción', wallet=salary, email=email, name=name, w3=web3,
+                           user=user, transacciones=transacciones)
 
 
 @app.route('/editor/<int:campanya_id>', methods=['GET', 'POST'])
@@ -328,7 +341,8 @@ def editor(campanya_id):
             query = query.filter(Accion.id == pk).first()
             s.delete(query)
             s.commit()
-    return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3, user=user, acciones=acciones, campanya=campanya)
+    return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
+                           user=user, acciones=acciones, campanya=campanya)
 
 
 @app.route('/plot<int:campanya_id>.png')
@@ -439,6 +453,7 @@ def empresa(emp):
     return render_template('campanyas.html', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, campanyas=campanyas, empresa=emp, acciones=acciones)
 
+
 @app.route('/registraraccion/<int:accion_id>', methods=['GET', 'POST'])
 def registrarAccion(accion_id):
     user = User.get_by_email(session['email'])
@@ -446,25 +461,31 @@ def registrarAccion(accion_id):
     return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
                            session=session, user=user, accionId=accion_id)
 
+
 @app.errorhandler(500)
 def internal_error(e):
     return render_template("error.html", code="500", type="Internal Server Error"), 500
+
 
 @app.errorhandler(403)
 def forbidden(e):
     return render_template("error.html", code="403", type="Forbidden"), 403
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("error.html", code="404", type="Not Found"), 404
+
 
 @app.errorhandler(400)
 def bad_request(e):
     return render_template("error.html", code="400", type="Bad Request"), 400
 
+
 @app.errorhandler(401)
 def unauthorized(e):
     return render_template("error.html", code="401", type="Unauthorized"), 401
+
 
 if __name__ == "__main__":
     app.run()

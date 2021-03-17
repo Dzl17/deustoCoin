@@ -14,7 +14,9 @@
     <p><button class="btn btn-primary btn-large" id="mostrarformacc">Crear acción</button>&nbsp;<button
         class="btn btn-primary btn-large" id="mostraracc">Mostrar acciones</button>
       &nbsp;<button class="btn btn-primary btn-large" id="mostrarformcamp">Crear campaña</button>
-      &nbsp;<button class="btn btn-primary btn-large" id="mostrarcamp">Mostrar campañas</button></p>
+      &nbsp;<button class="btn btn-primary btn-large" id="mostrarcamp">Mostrar campañas</button>
+          &nbsp;<button class="btn btn-primary btn-large" id="crearofertas">Crear oferta</button>
+    &nbsp;<button class="btn btn-primary btn-large" id="mostrarofertas">Mostrar ofertas</button></p>
   </div>
   <form style="display: none;" id="campanyasform" method="POST">
     {{ form.csrf_token }}
@@ -39,7 +41,7 @@
       {{form.desc(class="form-control")}}
     </div>
     <p>
-      {{form.submit()}}
+      {{form.crearCamp()}}
     </p>
   </form>
   <form style="display: none;" id="accionesform" method="POST">
@@ -81,6 +83,37 @@
       </p>
     </div>
     <div class="form-group"><input type="submit" name="crearAccion" value="Crear acción"></div>
+  </form>
+  <form style="display: none;" id="ofertasform" method="POST">
+    {{ form2.csrf_token }}
+    <div class="form-group">
+      <p>
+        <label for="exampleInputEmail1">{{form2.nomOferta.label}}</label>
+
+        <br />
+        {{form2.nomOferta(class="form-control")}}
+      </p>
+    </div>
+    {% if user.role == "Administrador" %}
+    <div class="form-group">
+      {{form2.empresa.label}}
+      <br />
+      {{form2.empresa(class="form-control")}}
+    </div>
+    {% endif %}
+    <div class="form-group">
+      {{form2.desc.label}}
+      <br />
+      {{form2.desc(class="form-control")}}
+    </div>
+    <div class="form-group">
+      {{form2.precio.label}}
+      <br />
+      {{form2.precio(class="form-control")}}
+    </div>
+    <p>
+      {{form2.crearOf()}}
+    </p>
   </form>
 </div>
 <div id="acciones" style="display: none;">
@@ -141,6 +174,32 @@
   <h4>No hay campañas para mostrar</h4>
   {% endif %}
 </div>
+<div id="ofertas" style="display: none;">
+  {% if ofertas|length >= 1 %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Empresa</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Precio</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for o in ofertas %}
+      <tr>
+        <th scope="row">{{o.nombre}}</th>
+        <td>{{o.empresa}}</td>
+        <td>{{o.descripcion}}</td>
+        <td>{{o.precio}} UDC</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <h4>No hay ofertas para mostrar</h4>
+  {% endif %}
+</div>
 <script>
   $(document).ready(function () {
     $("#mostrarformcamp").click(function () {
@@ -148,6 +207,8 @@
       $("#acciones").hide();
       $("#campanyas").hide();
       $("#accionesform").hide();
+      $("#ofertas").hide();
+      $("#ofertasform").hide();
     });
   });
 </script>
@@ -158,6 +219,8 @@
       $("#acciones").hide();
       $("#campanyas").show();
       $("#accionesform").hide();
+      $("#ofertas").hide();
+      $("#ofertasform").hide();
     });
   });
 </script>
@@ -168,6 +231,8 @@
       $("#campanyas").hide();
       $("#campanyasform").hide();
       $("#acciones").hide();
+      $("#ofertas").hide();
+      $("#ofertasform").hide();
     });
   });
 </script>
@@ -178,6 +243,32 @@
       $("#campanyas").hide();
       $("#campanyasform").hide();
       $("#acciones").show();
+      $("#ofertas").hide();
+      $("#ofertasform").hide();
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $("#mostrarofertas").click(function () {
+      $("#accionesform").hide();
+      $("#campanyas").hide();
+      $("#campanyasform").hide();
+      $("#acciones").hide();
+      $("#ofertas").show();
+      $("#ofertasform").hide();
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $("#crearofertas").click(function () {
+      $("#accionesform").hide();
+      $("#campanyas").hide();
+      $("#campanyasform").hide();
+      $("#acciones").hide();
+      $("#ofertas").hide();
+      $("#ofertasform").show();
     });
   });
 </script>

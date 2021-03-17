@@ -18,7 +18,14 @@ class CrearCampForm(FlaskForm):
     nomCamp = StringField('Nombre de la campaña')
     empresa = StringField('Empresa proveedora')
     desc = TextAreaField('Descripción')
-    submit = SubmitField('Crear campaña')
+    crearCamp = SubmitField('Crear campaña')
+
+class CrearOfertaForm(FlaskForm):
+    nomOferta = StringField('Nombre de la oferta')
+    empresa = StringField('Organización')
+    desc = TextAreaField('Descripción')
+    precio = FloatField('Precio')
+    crearOf = SubmitField('Crear oferta')
 
 class CampanyasForm(FlaskForm):
     editar = SubmitField("✎")
