@@ -150,11 +150,13 @@ def authorize():
     session['token'] = token
     user = User.get_by_email(session['email'])
     if 'accionId' in session and user != None:
-        print(session['accionId'])
-        print("Si hay acción para printear")
         cReward = Accion.getActionById(session['accionId'])
         return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
                                session=session, user=user, accionId=cReward)
+    if 'offerId' in session and user != None: #RETOMAR AQUI
+        offer = Oferta.getOfferById(session['offerId'])
+        return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
+                               session=session, user=user)
     else:
         if user != None:
             if user.role == 'Alumno':
@@ -268,10 +270,9 @@ def accion():
             o = Oferta(request.form['nomOferta'], request.form['empresa'], request.form['desc'], request.form['precio'])
         s.add(o)
         s.commit()
-        #meter qr
         intId = Oferta.getIdByName(nombre)
-       # qr = qrcode.make(url_for("offer", offer_id=intId, _external=True))
-       # qr.save('./static/qr/ofertas/' + str(intId) + ".png")
+        qr = qrcode.make(url_for("offer", offer_id=intId, _external=True))
+        qr.save('./static/qr/ofertas/' + str(intId) + ".png")
 
     if request.method == 'POST' and 'crearAccion' in request.form:
         nombre = request.form['nombre']
@@ -422,6 +423,12 @@ def redeem(accion_id):
     session['accionId'] = accion_id
     return google.authorize_redirect(redirect_uri)
 
+@app.route('/pay/<int:offer_id>', methods=["GET", "POST"])
+def pay(offer_id):
+    google = oauth.create_client('google')
+    redirect_uri = url_for('authorize', _external=True)
+    session['offer_id'] = offer_id
+    return google.authorize_redirect(redirect_uri)
 
 @app.route('/logout')
 def logout():

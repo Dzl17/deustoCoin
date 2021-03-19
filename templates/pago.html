@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2">Pago por oferta - {{offer.nombre}}</h1>
+</div>
+<div class="view">
+  <div class="jumbotron">
+    <h2>¡Hola, {{ name }}!</h2>
+    <h2>
+      <span style="font-size: 1rem">Has pagado {{offer.precio}} UDCoins a {{offer.empresa}} por {{offer.nombre}}.</span>
+    </h2>
+  </div>
+
+{% endblock %}
