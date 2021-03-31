@@ -27,12 +27,12 @@
             <tr>
                 <td style="text-align: center;">
                     <form action="{{ url_for('editorAccion', accion_id=a.id) }}" method="post">
-                        <input type="submit" name="editar" class="{{a.id}}" value="✎">
-                        <input type="submit" name="eliminar" class="{{a.id}}" value="✖">
-                        <input value="{{a.id}}" name="id" style="display: none;">
+                        <input type="submit" name="editarA" class="{{a.id}}" value="✎">
+                        <input type="submit" name="eliminarA" class="{{a.id}}" value="✖">
+                        <input value="{{a.id}}" name="accion_id" style="display: none;">
                     </form>
                 </td>
-                <th scope="row">{{a.nombre}}</th>
+                <td><b>{{a.nombre}}</b></th>
                 <td>{{a.empresa}}</td>
                 <td>{{a.descripcion}}</td>
                 <td>{{a.recompensa}}</td>

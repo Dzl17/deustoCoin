@@ -63,7 +63,7 @@
         <ul class="navbar-nav">
             <!-- <li</li> -->
             <li class="nav-link">
-                <h6><img src="{{session['picture']}}" width="20" height="20"> {{ email }}</h6>
+                <h6><img src="{{ session['picture'] }}" width="20" height="20"> {{ email }}</h6>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('logout')}}">Cerrar sesión</a>
@@ -95,7 +95,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('editorC')}}">
+                        <a class="nav-link" href="{{ url_for('editorO')}}">
                             <span class="iconify" data-icon="carbon:tag-edit" data-inline="false"></span> Editor de
                             ofertas
                         </a>

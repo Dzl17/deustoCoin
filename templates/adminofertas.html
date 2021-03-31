@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">Editor de ofertas de {{user.organizacion}}</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <p>✎ Editar | Eliminar ✖</p>
+        </div>
+    </div>
+</div>
+<div class="view">
+
+</div>
+<div id="ofertas">
+    {% if ofertas|length >= 1 %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Ofertas</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Empresa</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for o in ofertas %}
+            <tr>
+                <td style="text-align: center;">
+
+                    <form action="{{ url_for('editorO') }}" method="post">
+                        <input type="submit" name="editarO" class="{{o.id}}" value="✎">
+                        <input type="submit" name="eliminarO" class="{{o.id}}" value="✖">
+                        <input value="{{o.id}}" name="id" style="display: none;">
+                    </form>
+                </td>
+                <td><b>{{o.nombre}}</b></td>
+                <td>{{o.empresa}}</td>
+                <td>{{o.descripcion}}</td>
+                <td>{{o.precio}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <h4>No hay ofertas para mostrar</h4>
+    {% endif %}
+</div>
+{% endblock %}

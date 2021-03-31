@@ -1,35 +1,34 @@
 {% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">Acciones</h1>
+    <h1 class="h2">Editor de ofertas</h1>
 </div>
 <div class="view">
     <div class="jumbotron">
-        <h2>Acción {{accion.id}}: {{accion.nombre}}</h2>
+        <h2>Oferta {{oferta.id}}: {{oferta.nombre}}</h2>
     </div>
-    <form id="editorcamp" action="{{ url_for('editorAccion' ,accion_id=accion.id) }}" method="POST">
+    <form id="editoroferta" action="{{ url_for('editorOferta',offer_id=oferta.id) }}" method="POST">
         <div class="form-group">
             <p>
                 <input type="text" class="form-control" placeholder="Nombre" name="nombre"
-                    value='{{accion.nombre}}' required></input>
+                    value='{{oferta.nombre}}' required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
                 <input type="text" class="form-control" placeholder="Descripción" name="descripcion"
-                    value="{{accion.descripcion}}" required></input>
+                    value="{{oferta.descripcion}}" required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
-                <input type="text" placeholder="Recompensa (en UDC)" class="form-control" name="recompensa"
-                    value="{{accion.recompensa}}" required></input>
+                <input type="text" class="form-control" placeholder="Precio" name="precio"
+                    value="{{oferta.precio}}" required></input>
             </p>
         </div>
         <p>
-            <input type="submit" formmethod="POST" value="Actualizar" name="actualizar" class="btn btn-primary btn-large">
+            <input type="submit" formmethod="POST" value="Actualizar" class="btn btn-primary btn-large">
             </input>
         </p>
     </form>
 </div>
-
 {% endblock %}

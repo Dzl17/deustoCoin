@@ -349,9 +349,12 @@ def editor(campanya_id):
     salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':
-        if 'editar' in request.form:
-            return redirect(url_for('editorAccion', accion_id=request.form['id']))
-        elif 'eliminar' in request.form:
+        if 'editarA' in request.form:
+            id = request.form['accion_id']
+            print("ID")
+            print(id)
+            return redirect(url_for('editorAccion', accion_id=request.form['accion_id']))
+        elif 'eliminarA' in request.form:
             query = s.query(Accion)
             pk = request.form['id']
             query = query.filter(Accion.id == pk).first()
@@ -391,6 +394,25 @@ def editorC():
     return render_template('admincampanyas.html', title='Campañas', wallet=salary, email=email, name=given_name,
                            w3=web3, user=user, campanyas=campanyas)
 
+@app.route('/editorO', methods=['GET', 'POST'])
+def editorO():
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+    ofertas = Oferta.getOffers(user.organizacion)
+    salary = get_balance(user.blockHash)
+    s = Session()
+    if request.method == 'POST':
+        if 'editarO' in request.form:
+            return redirect(url_for('editorOferta', offer_id=request.form['id']))
+        elif 'eliminarO' in request.form:
+            query = s.query(Oferta)
+            pk = request.form['id']
+            query = query.filter(Oferta.id == pk).first()
+            s.delete(query)
+            s.commit()
+    return render_template('adminofertas.html', title='Ofertas', wallet=salary, email=email, name=given_name,
+                           w3=web3, user=user, ofertas=ofertas)
 
 @app.route('/editarAcc/<int:accion_id>', methods=["GET", "POST"])
 def editorAccion(accion_id):
@@ -400,7 +422,7 @@ def editorAccion(accion_id):
     s = Session()
     query = s.query(Accion)
     accion = query.filter(Accion.id == accion_id).first()
-    if request.method == 'POST':
+    if request.method == 'POST' and 'actualizarA' in request.form:
         dictupdate = {Accion.nombre: request.form['nombre'], Accion.descripcion: request.form['descripcion'],
                       Accion.recompensa: float(request.form['recompensa'])}
         query.filter(Accion.id == accion_id).update(dictupdate, synchronize_session=False)
@@ -424,6 +446,21 @@ def editorCamp(campanya_id):
     return render_template("editorcamp.html", campanya=campanya, email=email, name=given_name,
                            user=user)
 
+@app.route('/editorOferta/<int:offer_id>', methods=["GET", "POST"])
+def editorOferta(offer_id):
+    email = dict(session).get('email', None)
+    given_name = dict(session).get('given_name', None)
+    user = User.get_by_email(email)
+
+    s = Session()
+    query = s.query(Oferta)
+    oferta = query.filter(Oferta.id == offer_id).first()
+    if request.method == 'POST':
+        dictupdate = {Oferta.nombre: request.form['nombre'], Oferta.descripcion: request.form['descripcion'], Oferta.precio: request.form['precio']}
+        query.filter(Oferta.id == offer_id).update(dictupdate, synchronize_session=False)
+        s.commit()
+    return render_template("editoroferta.html", oferta=oferta, email=email, name=given_name,
+                           user=user)
 
 @app.route('/qr/<int:accion_id>')
 def qr(accion_id):
