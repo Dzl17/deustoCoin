@@ -231,6 +231,12 @@ def wallet():
     return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, w3=web3,
                            form=form, user=user, transacciones=transacciones, acciones=acciones)
 
+@app.route('/redeemOffer/<int:offer_id>')
+def redeemOffer(offer_id):
+    offer = Oferta.getOfferById(offer_id)
+    user = User.get_by_email(session['email'])
+    return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
+                           session=session, user=user)
 
 @app.route('/accion', methods=['GET', 'POST'])
 def accion():
@@ -271,7 +277,7 @@ def accion():
         s.add(o)
         s.commit()
         intId = Oferta.getIdByName(nombre)
-        qr = qrcode.make(url_for("offer", offer_id=intId, _external=True))
+        qr = qrcode.make(url_for("pay", offer_id=intId, _external=True))
         qr.save('./static/qr/ofertas/' + str(intId) + ".png")
 
     if request.method == 'POST' and 'crearAccion' in request.form:
@@ -303,6 +309,15 @@ def accionalumnos():
     return render_template('accionalumnos.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, acciones=acciones)
 
+@app.route('/ofertas', methods=['GET', 'POST'])
+def ofertas():
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+    salary = get_balance(user.blockHash)
+    ofertas = Oferta.getAllOffers()
+    return render_template('ofertas.html', title='Oferta', wallet=salary, email=email, name=given_name, w3=web3,
+                           user=user, ofertas=ofertas)
 
 @app.route('/historialtrans', methods=['GET', 'POST'])
 def historialtrans():

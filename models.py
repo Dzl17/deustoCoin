@@ -244,7 +244,7 @@ class Oferta(Base):
     def getIdByName(nombre):
         s = Session()
         query = s.query(Oferta)
-        return query.filter(Oferta.nombre == nombre).first()
+        return query.filter(Oferta.nombre == nombre).first().id
 
     @staticmethod
     def getOfferById(id):

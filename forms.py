@@ -31,6 +31,10 @@ class CampanyasForm(FlaskForm):
     editar = SubmitField("✎")
     eliminar = SubmitField("✖")
 
+class OfertasForm(FlaskForm):
+    editar = SubmitField("✎")
+    eliminar = SubmitField("✖")
+
 class AccionesForm(FlaskForm):
     editar = SubmitField("✎")
     eliminar = SubmitField("✖")
