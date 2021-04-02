@@ -7,61 +7,135 @@
 
     <base href="/"/>
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.34/dist/web3.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <meta name="color-scheme" content="light dark"/>
     <meta name="viewport"
           content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="format-detection" content="telephone=no"/>
     <meta name="msapplication-tap-highlight" content="no"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
-
-    <style>
-        :root {
-            --ion-safe-area-top: 20px;
-            --ion-safe-area-bottom: 22px;
-        }
-
-        header {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            margin-bottom: 1.25em;
-            text-transform: uppercase;
-        }
-
-        section {
-            margin-top: 1em;
-            margin-bottom: 2.5em;
-        }
-
-        section:not(.full-width),
-        .full-width>header {
-            padding: 0 10px;
-        }
-
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
     <link rel="icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}"/>
     <meta name="google-signin-scope" content="profile email"/>
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+            crossorigin="anonymous"></script>
+
     <meta name="google-signin-client_id"
           content="543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com"/>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <style>
+        .wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+}
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+#sidebar {
+    /* don't forget to add all the previously mentioned styles here too */
+    background: #1177d1;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #6d7fcc;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+    </style>
+    <script>
+        $(document).ready(function () {
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+    });
+});
+
+    </script>
     <!-- add to homescreen for ios -->
     {% block head %} {% endblock %}
 </head>
 
 <body>
+<!--
 <nav class="navbar navbar-dark sticky-top bg-dark navbar-expand-md">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('home') }}">DeustoCoin</a>
     {% if user != None %}
     <div class="navbar justify-content-end navbar-collapse collapse">
         <ul class="navbar-nav">
-            <!-- <li</li> -->
+            &lt;!&ndash; <li</li> &ndash;&gt;
             <li class="nav-link">
                 <h6><img src="{{ session['picture'] }}" width="20" height="20"> {{ email }}</h6>
             </li>
@@ -72,73 +146,93 @@
         </ul>
 
     </div>
-    {% endif %}
 </nav>
+-->
+{% endif %}
+
 
 {% if user != None %}
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <ul class="nav flex-column">
-                    {% if user.role == "Promotor" or user.role == "Administrador" %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ url_for('accion')}}">
-                            <span class="iconify" data-icon="grommet-icons:domain" data-inline="false"></span> Menú
-                            principal
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('editorC')}}">
-                            <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span> Editor de
-                            campañas
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('editorO')}}">
-                            <span class="iconify" data-icon="carbon:tag-edit" data-inline="false"></span> Editor de
-                            ofertas
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if user.role == "Alumno" or user.role == "Administrador" %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ url_for('wallet')}}">
-                            <span class="iconify" data-icon="akar-icons:wallet" data-inline="false"></span> Cartera
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('accionalumnos')}}">
-                        <span class="iconify" data-icon="codicon:github-action" data-inline="false"></span> Acciones
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('historialtrans')}}">
-                                <span class="iconify" data-icon="ri:file-history-line" data-inline="false"></span> Historial de transacciones
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('campanyas')}}">
-                            <span class="iconify" data-icon="ic:baseline-campaign" data-inline="false"></span>
-                            Campañas
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('ofertas')}}">
-                            <span class="iconify" data-icon="ic:outline-local-offer" data-inline="false"></span>
-                            Ofertas
-                        </a>
-                    </li>
-                    {% endif %}
+<div class="wrapper">
 
-                </ul>
-            </div>
-        </nav>
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            {% block body %} {% endblock %}
-        </main>
+    <!--<nav class="col-md-2 d-none d-md-block bg-light sidebar">-->
+    <nav id="sidebar">
+        <!--<div class="sidebar-header">
+    <div class="user-pic">
+      <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
     </div>
+    <div class="user-info">
+      <span class="user-name">Jhon
+        <strong>Smith</strong>
+      </span>
+      <span class="user-role">Administrator</span>
+      <span class="user-status">
+        <i class="fa fa-circle"></i>
+        <span>Online</span>
+      </span>
+    </div>-->
+        <div class="sidebar-content">
+            <ul class="nav flex-column">
+                {% if user.role == "Promotor" or user.role == "Administrador" %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('accion')}}">
+                        <span class="iconify" data-icon="grommet-icons:domain" data-inline="false"></span> Menú
+                        principal
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('editorC')}}">
+                        <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span> Editor de
+                        campañas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('editorO')}}">
+                        <span class="iconify" data-icon="carbon:tag-edit" data-inline="false"></span> Editor de
+                        ofertas
+                    </a>
+                </li>
+                {% endif %}
+                {% if user.role == "Alumno" or user.role == "Administrador" %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('wallet')}}">
+                        <span class="iconify" data-icon="akar-icons:wallet" data-inline="false"></span> Cartera
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('accionalumnos')}}">
+                        <span class="iconify" data-icon="codicon:github-action" data-inline="false"></span> Acciones
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('historialtrans')}}">
+                        <span class="iconify" data-icon="ri:file-history-line" data-inline="false"></span> Historial
+                        de transacciones
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('campanyas')}}">
+                        <span class="iconify" data-icon="ic:baseline-campaign" data-inline="false"></span>
+                        Campañas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('ofertas')}}">
+                        <span class="iconify" data-icon="ic:outline-local-offer" data-inline="false"></span>
+                        Ofertas
+                    </a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <button id="sidebarCollapse" class="btn btn-sm btn-dark">
+            <span class="iconify" data-icon="ant-design:menu-outlined" data-inline="false"></span>
+        </button>
+        {% block body %} {% endblock %}
+    </main>
 </div>
 {% endif %}
 
@@ -146,6 +240,9 @@
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
         feather.replace();
+
+
+
 
 </script>
 
@@ -187,6 +284,9 @@
                 },
             },
         });
+
+
+
 
 </script>
 </body>

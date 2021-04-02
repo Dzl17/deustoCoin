@@ -426,6 +426,7 @@ def editorAccion(accion_id):
         dictupdate = {Accion.nombre: request.form['nombre'], Accion.descripcion: request.form['descripcion'],
                       Accion.recompensa: float(request.form['recompensa'])}
         query.filter(Accion.id == accion_id).update(dictupdate, synchronize_session=False)
+        print(request.form['descripcion'])
         s.commit()
     return render_template("editoraccion.html", accion=accion, email=email, name=given_name, user=user)
 
