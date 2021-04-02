@@ -377,7 +377,10 @@ def editorC():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    campanyas = Campanya.getCampaigns(user.organizacion)
+    if user.role == "Promotor":
+        campanyas = Campanya.getCampaigns(user.organizacion)
+    if user.role == "Administrador":
+        campanyas = Campanya.getAllCampaigns()
     salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':
@@ -399,7 +402,10 @@ def editorO():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    ofertas = Oferta.getOffers(user.organizacion)
+    if user.role == "Promotor":
+        ofertas = Oferta.getOffers(user.organizacion)
+    if user.role == "Administrador":
+        ofertas = Oferta.getAllOffers()
     salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':

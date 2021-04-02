@@ -1,6 +1,10 @@
 {% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    {% if user.role == "Administrador" %}
+    <h1 class="h2">Editor de campañas - Administrador</h1>
+    {% else %}
     <h1 class="h2">Editor de campañas de {{user.organizacion}}</h1>
+    {% endif %}
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
             <p>✎ Editar | Eliminar ✖</p>

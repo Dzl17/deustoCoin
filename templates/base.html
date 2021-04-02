@@ -82,7 +82,7 @@ a, a:hover, a:focus {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #6d7fcc;
+    background: #1177d1;
 }
 
 #sidebar ul.components {
@@ -101,18 +101,18 @@ a, a:hover, a:focus {
     display: block;
 }
 #sidebar ul li a:hover {
-    color: #7386D5;
+    color: #1177d1;
     background: #fff;
 }
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #fff;
-    background: #6d7fcc;
+    background: #1177d1;
 }
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: #1177d1;
 }
 
     </style>
@@ -156,20 +156,22 @@ ul ul a {
 
     <!--<nav class="col-md-2 d-none d-md-block bg-light sidebar">-->
     <nav id="sidebar">
-        <!--<div class="sidebar-header">
-    <div class="user-pic">
-      <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
-    </div>
-    <div class="user-info">
-      <span class="user-name">Jhon
-        <strong>Smith</strong>
-      </span>
-      <span class="user-role">Administrator</span>
-      <span class="user-status">
-        <i class="fa fa-circle"></i>
-        <span>Online</span>
-      </span>
-    </div>-->
+        <div class="sidebar-header">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('home') }}">DeustoCoin</a>
+    {% if user != None %}
+            <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+                    <div class="user-pic">
+                        <img class="img-responsive img-rounded" src="{{ session['picture'] }}" width="75" height="75" alt="Foto de perfil">
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">
+                            <strong> {{ user.name }}</strong>
+                        </span>
+                        <span class="user-role"> {{ user.role }}</span>
+                    </div>
+                </div>
+        </div>
+{% endif %}
         <div class="sidebar-content">
             <ul class="nav flex-column">
                 {% if user.role == "Promotor" or user.role == "Administrador" %}
@@ -222,13 +224,15 @@ ul ul a {
                     </a>
                 </li>
                 {% endif %}
-
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout')}}"><span class="iconify" data-icon="carbon:logout" data-inline="false"></span> Cerrar sesión</a>
+                </li>
             </ul>
         </div>
     </nav>
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-        <button id="sidebarCollapse" class="btn btn-sm btn-dark">
+        <button id="sidebarCollapse" class="btn btn-sm btn-dark" style="background-color: #1177d1;">
             <span class="iconify" data-icon="ant-design:menu-outlined" data-inline="false"></span>
         </button>
         {% block body %} {% endblock %}
