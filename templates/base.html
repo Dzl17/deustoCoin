@@ -129,39 +129,15 @@ ul ul a {
 </head>
 
 <body>
-<!--
-<nav class="navbar navbar-dark sticky-top bg-dark navbar-expand-md">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('home') }}">DeustoCoin</a>
-    {% if user != None %}
-    <div class="navbar justify-content-end navbar-collapse collapse">
-        <ul class="navbar-nav">
-            &lt;!&ndash; <li</li> &ndash;&gt;
-            <li class="nav-link">
-                <h6><img src="{{ session['picture'] }}" width="20" height="20"> {{ email }}</h6>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('logout')}}">Cerrar sesión</a>
-            </li>
-
-        </ul>
-
-    </div>
-</nav>
--->
-{% endif %}
-
-
 {% if user != None %}
-<div class="wrapper">
-
-    <!--<nav class="col-md-2 d-none d-md-block bg-light sidebar">-->
+<div class="wrapper" style="background-image:url('{{url_for('static', filename='icon/background.jpg')}}');background-size:cover;overflow:auto;">
     <nav id="sidebar">
         <div class="sidebar-header">
             <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('home') }}">DeustoCoin</a>
     {% if user != None %}
             <div class="sidebar-item sidebar-header d-flex flex-nowrap">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="{{ session['picture'] }}" width="75" height="75" alt="Foto de perfil">
+                        <img class="img-responsive img-rounded" src="{{ session['picture'] }}" width="75" height="75" style="border:6px solid #1177d1;" alt="Foto de perfil">
                     </div>
                     <div class="user-info">
                         <span class="user-name">
@@ -230,8 +206,7 @@ ul ul a {
             </ul>
         </div>
     </nav>
-
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
         <button id="sidebarCollapse" class="btn btn-sm btn-dark" style="background-color: #1177d1;">
             <span class="iconify" data-icon="ant-design:menu-outlined" data-inline="false"></span>
         </button>
