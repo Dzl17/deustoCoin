@@ -139,14 +139,21 @@ def authorize():
     session['picture'] = user_info['picture']
     session['token'] = token
     user = User.get_by_email(session['email'])
+
     if 'accionId' in session and user != None:
         cReward = Accion.getActionById(session['accionId'])
-        return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
+        if cReward != None:
+            return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
                                session=session, user=user, accionId=cReward)
+        else:
+            return redirect('/wallet')
     if 'offerId' in session and user != None:
         offer = Oferta.getOfferById(session['offerId'])
-        return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
-                               session=session, user=user)
+        if offer != None:
+            return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
+                                   session=session, user=user)
+        else:
+            return redirect('/wallet')
     else:
         if user != None:
             if user.role == 'Alumno':
