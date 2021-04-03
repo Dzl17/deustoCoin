@@ -124,6 +124,7 @@ def upload():
     client.close()
     cReward = Accion.getActionById(session['accionId'])
     sendCoins(session['email'], cReward.recompensa, res['Hash'], urlProof)
+    del session['accionId']
     return render_template("recompensa.html", name=session['name'], accion=cReward, email=session['email'], user=user)
 
 
@@ -228,6 +229,7 @@ def wallet():
 def redeemOffer(offer_id):
     offer = Oferta.getOfferById(offer_id)
     user = User.get_by_email(session['email'])
+    del session['offerId']
     return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
                            session=session, user=user)
 
