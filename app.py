@@ -35,7 +35,6 @@ google = oauth.register(
     authorize_url='https://accounts.google.com/o/oauth2/auth',
     authorize_params=None,
     api_base_url='https://www.googleapis.com/oauth2/v1/',
-    # This is only needed if using openId to fetch user info
     userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',
     client_kwargs={'scope': 'openid email profile'},
 )
@@ -46,7 +45,6 @@ def get_balance(test_address):
     balance = web3.eth.getBalance(test_address)
     valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
     balancefloat = float(web3.fromWei(balance, "ether")) * valorUDC
-    print("Tu balance es de %.2f UDC" % balancefloat)
     return balancefloat
 
 
@@ -66,11 +64,6 @@ def sendCoins(dest, amount, imgHash, urlProof):
         'gas': 21000,
         'gasPrice': web3.toWei(50, 'gwei')
     }
-    print("Account 1")
-    print(nonce)
-    print("private key")
-    print(private_key)
-    print(tx)
     signed_tx = web3.eth.account.signTransaction(tx, private_key)
     tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
     s = Session()
@@ -99,9 +92,7 @@ def create_figure(id):
     axis.set_ylabel(accion.indicadorKpi)
     results = data.get("results")[::-1]
     xs = [x.fecha for x in results]
-    print(xs)
     ys = [y.kpi for y in results]
-    print(ys)
     axis.plot(xs, ys)
     return fig
 
@@ -123,17 +114,17 @@ def login():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     client = ipfshttpclient.connect(app.config['IPFS_CONNECT_URL'])
+    user = User.get_by_email(session['email'])
     try:
         urlProof = request.form['proof']
     except:
         urlProof = ""
     file = request.files['filename']
     res = client.add(file)
-    print(res)
     client.close()
     cReward = Accion.getActionById(session['accionId'])
     sendCoins(session['email'], cReward.recompensa, res['Hash'], urlProof)
-    return render_template("recompensa.html", name=session['name'], accion=cReward, email=session['email'])
+    return render_template("recompensa.html", name=session['name'], accion=cReward, email=session['email'], user=user)
 
 
 @app.route('/authorize')
@@ -142,7 +133,6 @@ def authorize():
     token = google.authorize_access_token()
     resp = google.get('userinfo')
     user_info = resp.json()
-    print((dict(user_info)), file=sys.stderr)
     session['email'] = user_info['email']
     session['given_name'] = user_info['given_name']
     session['name'] = user_info['name']
@@ -153,7 +143,7 @@ def authorize():
         cReward = Accion.getActionById(session['accionId'])
         return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
                                session=session, user=user, accionId=cReward)
-    if 'offerId' in session and user != None: #RETOMAR AQUI
+    if 'offerId' in session and user != None:
         offer = Oferta.getOfferById(session['offerId'])
         return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
                                session=session, user=user)
@@ -170,7 +160,6 @@ def authorize():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    print(dict)
     email = dict(session).get('email', None)
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
@@ -204,7 +193,6 @@ def wallet():
         account_1 = user.blockHash
         destUser = User.get_by_email(request.form['destino'])
         account_2 = destUser.blockHash
-        print(account_2)
         nonce = web3.eth.getTransactionCount(account_1)
         float_amount = float(request.form['cantidad']) / valorUDC
         tx = {
@@ -213,12 +201,10 @@ def wallet():
             'to': account_2,
             'value': web3.toWei(float_amount, 'ether'),
             'gas': 50000,
-            'gasPrice': web3.toWei(100, 'gwei')  # gas: rapidez de transaccion
+            'gasPrice': web3.toWei(100, 'gwei')
         }
         signed_tx = web3.eth.account.signTransaction(tx, private_key)
         tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-        # signed_tx = web3.eth.account.signTransaction(tx, private_key)
-        # tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
         s = Session()
         dateTimeObj = datetime.now()
         timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
@@ -264,7 +250,6 @@ def accion():
             c = Campanya(request.form['nomCamp'], user.organizacion, request.form['desc'])
         elif user.role == "Administrador":
             c = Campanya(request.form['nomCamp'], request.form['empresa'], request.form['desc'])
-        # print("objeto creado")
         s.add(c)
         s.commit()
     elif form2.validate_on_submit() and form2.crearOf.data:
@@ -351,8 +336,6 @@ def editor(campanya_id):
     if request.method == 'POST':
         if 'editarA' in request.form:
             id = request.form['accion_id']
-            print("ID")
-            print(id)
             return redirect(url_for('editorAccion', accion_id=request.form['accion_id']))
         elif 'eliminarA' in request.form:
             query = s.query(Accion)
@@ -432,7 +415,6 @@ def editorAccion(accion_id):
         dictupdate = {Accion.nombre: request.form['nombre'], Accion.descripcion: request.form['descripcion'],
                       Accion.recompensa: float(request.form['recompensa'])}
         query.filter(Accion.id == accion_id).update(dictupdate, synchronize_session=False)
-        print(request.form['descripcion'])
         s.commit()
     return render_template("editoraccion.html", accion=accion, email=email, name=given_name, user=user)
 
@@ -471,7 +453,12 @@ def editorOferta(offer_id):
 
 @app.route('/qr/<int:accion_id>')
 def qr(accion_id):
-    path = 'static/qr/' + str(accion_id) + ".png"
+    path = 'static/qr/acciones/' + str(accion_id) + ".png"
+    return send_file(path, as_attachment=True)
+
+@app.route('/qrOfertas/<int:offerId>')
+def qrOfertas(offerId):
+    path = 'static/qr/ofertas/' + str(offerId) + ".png"
     return send_file(path, as_attachment=True)
 
 
@@ -486,7 +473,7 @@ def redeem(accion_id):
 def pay(offer_id):
     google = oauth.create_client('google')
     redirect_uri = url_for('authorize', _external=True)
-    session['offer_id'] = offer_id
+    session['offerId'] = offer_id
     return google.authorize_redirect(redirect_uri)
 
 @app.route('/logout')
@@ -509,7 +496,6 @@ def campanyas():
 
 @app.route('/campanyas/<emp>', methods=['GET', 'POST'])
 def empresa(emp):
-    print(emp)
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -523,6 +509,7 @@ def empresa(emp):
 @app.route('/registraraccion/<int:accion_id>', methods=['GET', 'POST'])
 def registrarAccion(accion_id):
     user = User.get_by_email(session['email'])
+    session['accionId'] = accion_id
     cReward = Accion.getActionById(accion_id)
     return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
                            session=session, user=user, accionId=accion_id)

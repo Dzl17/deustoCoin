@@ -11,7 +11,6 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
     email = Column(String(256), unique=True, nullable=False)
-    # password = db.Column(db.String(128), nullable=False)
     blockHash = Column(String(128), nullable=True)
     picture = Column(String(128), nullable=True)
     role = Column(String(128), nullable=False)
@@ -57,7 +56,7 @@ class Transaccion(Base):
     remitente = Column(String(50), nullable=False)
     destinatario = Column(String(50), nullable=False)
     campanya = Column(Integer, ForeignKey('campanya.id'),
-                      nullable=True)  # Es posible que las transacciones sean únicamente por envío de UDC
+                      nullable=True)
     cantidad = Column(Float, nullable=False)
     imgHash = Column(String(255), nullable=True)
     proof = Column(String(255), nullable=True)

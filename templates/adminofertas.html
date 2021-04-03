@@ -24,6 +24,7 @@
                 <th scope="col">Empresa</th>
                 <th scope="col">Descripción</th>
                 <th scope="col">Precio</th>
+                <th scope="col">Código QR</th>
             </tr>
         </thead>
         <tbody>
@@ -41,6 +42,7 @@
                 <td>{{o.empresa}}</td>
                 <td>{{o.descripcion}}</td>
                 <td>{{o.precio}}</td>
+                <td><a href="{{ url_for('qrOfertas' ,offerId=o.id) }}"><b>Descargar</b></a></td>
             </tr>
             {% endfor %}
         </tbody>
