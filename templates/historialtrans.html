@@ -1,4 +1,31 @@
-{% extends "base.html" %} {% block body %}
+{% extends "base.html" %}
+{% block head %}
+<style>
+  @media (orientation:portrait) and (max-width: 768px) {
+         .showDetails {
+             display:block;
+         }
+		.rem{
+			display:none;
+		}
+		.dest{
+			display:none;
+		}
+		.img{
+			display:none;
+		}
+		.proof{
+			display:none;
+		}
+	}
+    @media (orientation:landscape) {
+         .showDetails {
+             display:none;
+         }
+	}
+</style>
+{% endblock %}
+{% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
     <h1 class="h2">Historial de transacciones</h1>
 </div>
@@ -11,37 +38,42 @@
         {% endif %}
     </div>
 </div>
-<div id="transacciones">
+<div id="transacciones" style="width:100%;">
+    <p style="font-size:75%;" class="showDetails"><b>Rote la pantalla para más detalles.</b></p>
     {% if transacciones|length >= 1 %}
     <table class="table" style="table-layout:auto; font-size:75%;">
         <thead>
             <tr>
-                <th scope="col">Fecha</th>
-                <th scope="col">Remitente</th>
-                <th scope="col">Destinatario</th>
-                <th scope="col">Campaña</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Prueba</th>
-                <th scope="col">2ª prueba <i>(Opcional)</i></th>
+                <th scope="col" class="fecha">Fecha</th>
+                <th scope="col" class="rem">Remitente</th>
+                <th scope="col" class="dest">Destinatario</th>
+                <th scope="col" class="camp">Campaña</th>
+                <th scope="col" class="cantidad">Cantidad</th>
+                <th scope="col" class="img">Imagen</th>
+                <th scope="col" class="proof">Link de verificación <i>(Opcional)</i></th>
             </tr>
         </thead>
         <tbody>
             {% for t in transacciones %}
             <tr>
-                <th scope="row">{{t.fecha}}</th>
-                <td>{{t.remitente}}</td>
-                <td>{{t.destinatario}}</td>
-                <td>{{t.campanya}}</td>
-                <td>{{t.cantidad}} UDC</td>
-                {% if t.imgHash != "" %}
-                <td><a href="http://ipfs.io/ipfs/{{t.imgHash}}"><b>Ver imagen</b></a></td>
+                <th scope="row" class="fecha">{{t.fecha}}</th>
+                <td class="rem">{{t.remitente}}</td>
+                <td class="dest">{{t.destinatario}}</td>
+                {% if t.campanya != "Envío de UDC" %}
+                <td class="camp"><a href="{{ url_for('empresa', emp=t.remitente)}}"><b>{{t.campanya}}</b></a></td>
                 {% else %}
-                <td>No hay imagen</td>
+                    <td class="camp">{{t.campanya}}</td>
+                {% endif %}
+                <td class="cantidad">{{t.cantidad}} UDC</td>
+                {% if t.imgHash != "" %}
+                <td class="img"><a href="http://ipfs.io/ipfs/{{t.imgHash}}"><b>Ver imagen</b></a></td>
+                {% else %}
+                <td class="img">No hay imagen</td>
                 {% endif %}
                 {% if t.proof != "" %}
-                <td><a href="{{t.proof}}"><b>Ver prueba</b></a></td>
+                <td class="proof"><a href="{{t.proof}}"><b>Ver verificación</b></a></td>
                 {% else %}
-                <td>No hay URL adicional</td>
+                <td class="proof">No hay URL adicional</td>
                 {% endif %}
             </tr>
             {% endfor %}
