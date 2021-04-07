@@ -1,7 +1,5 @@
-from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy import create_engine, Column, String, Integer, ForeignKey, Boolean, Float, or_, desc
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, Integer, ForeignKey, Float, or_, desc
+from sqlalchemy.orm import relationship, backref
 from base import Base, Session
 import datetime
 
@@ -94,6 +92,57 @@ class Transaccion(Base):
         query = s.query(Transaccion)
         return query.all()
 
+class KPIporFechas(Base):
+    __tablename__ = 'kpi_fechas'
+    id = Column(Integer, primary_key=True)
+    accion = Column(Integer, ForeignKey('accion.id', ondelete='CASCADE'))
+    fecha = Column(String(80), nullable=False)
+    kpi = Column(Integer)
+
+    def __init__(self, fecha, accion, kpi):
+        self.fecha = fecha
+        self.accion = accion
+        self.kpi = kpi
+
+    @staticmethod
+    def getAllKPIs():
+        s = Session()
+        query = s.query(KPIporFechas)
+        return query.all()
+
+    @staticmethod
+    def getGraphData(id):
+        s = Session()
+        query = s.query(KPIporFechas)
+        results = query.filter(KPIporFechas.accion == id).order_by(desc(KPIporFechas.kpi)).all()
+        query2 = s.query(Accion)
+        name = query2.filter(Accion.id == id).first().nombre
+        data = {
+            "name": name,
+            "results": results
+        }
+        return data
+
+    @staticmethod
+    def saveTodaysKPI():
+        fechas = []
+        acciones = Accion.getAllActions()
+        kpis = KPIporFechas.getAllKPIs()
+        if len(kpis) > 0:
+            for k in kpis:
+                fechas.append(k.fecha)
+        dt = datetime.datetime.today()
+        today = dt.strftime("%d/%m/%Y")
+        if today not in fechas:
+            s = Session()
+            fechas.append(today)
+            for a in acciones:
+                kpi = KPIporFechas(today, a.id, a.kpi)
+                s.add(kpi)
+            s.commit()
+            s.close()
+        else:
+            pass
 
 class Accion(Base):
     __tablename__ = 'accion'
@@ -106,6 +155,7 @@ class Accion(Base):
     campanya_id = Column(Integer, ForeignKey('campanya.id'))
     kpi = Column(Integer, default=0)
     kpiObj = Column(Integer, default=0)
+    kpis = relationship(KPIporFechas, backref=backref("kpi_fechas", passive_deletes=True))
 
     def __init__(self, nombre, empresa, descripcion, recompensa, indicadorKpi, kpiObj, campanya_id):
         self.nombre = nombre
@@ -252,54 +302,4 @@ class Oferta(Base):
         return query.filter(Oferta.id == id).first()
 
 
-class KPIporFechas(Base):
-    __tablename__ = 'kpi_fechas'
-    id = Column(Integer, primary_key=True)
-    accion = Column(Integer, ForeignKey('accion.id'))
-    fecha = Column(String(80), nullable=False)
-    kpi = Column(Integer)
 
-    def __init__(self, fecha, accion, kpi):
-        self.fecha = fecha
-        self.accion = accion
-        self.kpi = kpi
-
-    @staticmethod
-    def getAllKPIs():
-        s = Session()
-        query = s.query(KPIporFechas)
-        return query.all()
-
-    @staticmethod
-    def getGraphData(id):
-        s = Session()
-        query = s.query(KPIporFechas)
-        results = query.filter(KPIporFechas.accion == id).order_by(desc(KPIporFechas.kpi)).all()
-        query2 = s.query(Accion)
-        name = query2.filter(Accion.id == id).first().nombre
-        data = {
-            "name": name,
-            "results": results
-        }
-        return data
-
-    @staticmethod
-    def saveTodaysKPI():
-        fechas = []
-        acciones = Accion.getAllActions()
-        kpis = KPIporFechas.getAllKPIs()
-        if len(kpis) > 0:
-            for k in kpis:
-                fechas.append(k.fecha)
-        dt = datetime.datetime.today()
-        today = dt.strftime("%d/%m/%Y")
-        if today not in fechas:
-            s = Session()
-            fechas.append(today)
-            for a in acciones:
-                kpi = KPIporFechas(today, a.id, a.kpi)
-                s.add(kpi)
-            s.commit()
-            s.close()
-        else:
-            pass

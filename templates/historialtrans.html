@@ -2,6 +2,11 @@
 {% block head %}
 <style>
   @media (orientation:portrait) and (max-width: 768px) {
+        #tabletrans{
+            table-layout:auto;
+            font-size:3vw;
+            width:100%;
+        }
          .showDetails {
              display:block;
          }
@@ -19,6 +24,11 @@
 		}
 	}
     @media (orientation:landscape) {
+        #tabletrans{
+            table-layout:auto;
+            font-size:1.2vw;
+            width:100%;
+        }
          .showDetails {
              display:none;
          }
@@ -41,7 +51,7 @@
 <div id="transacciones" style="width:100%;">
     <p style="font-size:75%;" class="showDetails"><b>Rote la pantalla para más detalles.</b></p>
     {% if transacciones|length >= 1 %}
-    <table class="table" style="table-layout:auto; font-size:75%;">
+    <table class="table" id="tabletrans">
         <thead>
             <tr>
                 <th scope="col" class="fecha">Fecha</th>

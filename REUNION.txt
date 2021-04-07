@@ -16,10 +16,9 @@ URL DE PRUEBA --> VERIFICACIÓN -- LISTO
 MEDIA QUERY -- SI ESTA EN PORTRAIT EN VEZ DE LANDSCAPE, QUE MUESTRE MENOS COLUMNAS --- HECHO
 HIPERVINCULAR CAMPAÑA -- HECHO
 JUSTIFICAR TEXTO -- HECHO
-http://localhost:5000/campanyas/Sodexo
 https://docs.python.org/3/library/gettext.html
-KEY OFFERID ARREGLAR
-eliminar acciones en form
+KEY OFFERID ARREGLAR 
+eliminar acciones en form -- HECHO
 https://elements.heroku.com/addons/interplanetary-fission
 
 DIAGRAMA DE ARQUITECTURA

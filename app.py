@@ -222,6 +222,11 @@ def wallet():
     given_name = dict(session).get('given_name', None)
     transacciones = Transaccion.getTransactions(email)
     acciones = Accion.getAllActions()
+    try:
+        del session['accionId']
+        del session['offerId']
+    except:
+        pass
     return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, w3=web3,
                            form=form, user=user, transacciones=transacciones, acciones=acciones)
 
@@ -289,6 +294,13 @@ def accion():
         qr = qrcode.make(url_for("redeem", accion_id=intId, _external=True))
         qr.save('./static/qr/acciones/' + str(intId) + ".png")
 
+    try:
+        del session['accionId']
+        del session['offerId']
+    except:
+        pass
+    #Borro las keys para evitar conflictos con cookies
+
     return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
                            form=form, form2=form2, user=user, acciones=acciones, campanyas=campanyas, ofertas=ofertas)
 
@@ -300,6 +312,11 @@ def accionalumnos():
     given_name = dict(session).get('given_name', None)
     salary = get_balance(user.blockHash)
     acciones = Accion.getAllActions()
+    try:
+        del session['accionId']
+        del session['offerId']
+    except:
+        pass
     return render_template('accionalumnos.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, acciones=acciones)
 
@@ -310,6 +327,11 @@ def ofertas():
     given_name = dict(session).get('given_name', None)
     salary = get_balance(user.blockHash)
     ofertas = Oferta.getAllOffers()
+    try:
+        del session['accionId']
+        del session['offerId']
+    except:
+        pass
     return render_template('ofertas.html', title='Oferta', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, ofertas=ofertas)
 
@@ -329,6 +351,12 @@ def historialtrans():
             t.campanya = Campanya.getCampaignById(campId).nombre
         except:
             t.campanya = "Envío de UDCoins"
+
+    try:
+        del session['accionId']
+        del session['offerId']
+    except:
+        pass
     return render_template('historialtrans.html', title='Acción', wallet=salary, email=email, name=name, w3=web3,
                            user=user, transacciones=transacciones)
 
@@ -343,15 +371,18 @@ def editor(campanya_id):
     salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':
-        if 'editarA' in request.form:
+        if 'editarAcc' in request.form:
+            print("hay editarAcc")
             id = request.form['accion_id']
+            # action="{{ url_for('editorAccion', accion_id=a.id) }}"
             return redirect(url_for('editorAccion', accion_id=request.form['accion_id']))
-        elif 'eliminarA' in request.form:
+        elif 'eliminarAcc' in request.form:
             query = s.query(Accion)
-            pk = request.form['id']
+            pk = request.form['accion_id']
             query = query.filter(Accion.id == pk).first()
             s.delete(query)
             s.commit()
+
     return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, acciones=acciones, campanya=campanya)
 
@@ -386,6 +417,11 @@ def editorC():
             s.commit()
         elif 'verAcc' in request.form:
             return redirect(url_for('editor', campanya_id=request.form['id']))
+    try:
+        del session['accionId']
+        del session['offerId']
+    except:
+        pass
     return render_template('admincampanyas.html', title='Campañas', wallet=salary, email=email, name=given_name,
                            w3=web3, user=user, campanyas=campanyas)
 
@@ -409,6 +445,11 @@ def editorO():
             query = query.filter(Oferta.id == pk).first()
             s.delete(query)
             s.commit()
+    try:
+        del session['accionId']
+        del session['offerId']
+    except:
+        pass
     return render_template('adminofertas.html', title='Ofertas', wallet=salary, email=email, name=given_name,
                            w3=web3, user=user, ofertas=ofertas)
 
@@ -499,6 +540,11 @@ def campanyas():
     salary = get_balance(user.blockHash)
     campanyas = Campanya.getOrderedCampaigns()
     empresas = Campanya.getDistinctCompanies()
+    try:
+        del session['accionId']
+        del session['offerId']
+    except:
+        pass
     return render_template('empresas.html', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, campanyas=campanyas, empresas=empresas)
 
