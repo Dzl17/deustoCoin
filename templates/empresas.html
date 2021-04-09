@@ -1,17 +1,17 @@
 {% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">Campañas</h1>
+  <h1 class="h2">{{gettext('Campañas')}}</h1>
 </div>
 <div id="empresas">
-  <p>La Universidad de Deusto colabora con varias empresas que buscan fomentar la sostenibilidad.
-    Dichas empresas organizan campañas, que puedes visualizar con más detalle aquí.
+  <p>{{gettext('La Universidad de Deusto colabora con varias compañías que buscan fomentar la sostenibilidad.
+    Dichas compañías organizan campañas, que puedes visualizar con más detalle aquí.')}}
   </p>
   {% if empresas|length >= 1 %}
   {% for e in empresas %}
   <a href="{{url_for('.empresa', emp = e) }}"><h4 class="empresa" value="{{e}}">{{e}}</h4></a>
   {% endfor %}
   {% else %}
-  <h4>No hay empresas para mostrar</h4>
+  <h4>{{gettext('No hay compañías para mostrar.')}}</h4>
   {% endif %}
 </div>
 {% endblock %}

@@ -1,32 +1,32 @@
 {% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">Editor de ofertas</h1>
+    <h1 class="h2">{{gettext('Editor de ofertas')}}</h1>
 </div>
 <div class="view">
     <div class="jumbotron">
-        <h2>Oferta {{oferta.id}}: {{oferta.nombre}}</h2>
+        <h2>{{gettext('Oferta')}} {{oferta.id}}: {{gettext(oferta.nombre)}}</h2>
     </div>
     <form id="editoroferta" action="{{ url_for('editorOferta',offer_id=oferta.id) }}" method="POST">
         <div class="form-group">
             <p>
-                <input type="text" class="form-control" placeholder="Nombre" name="nombre"
-                    value='{{oferta.nombre}}' required></input>
+                <input type="text" class="form-control" placeholder="{{gettext('Nombre')}}" name="nombre"
+                    value='{{gettext(oferta.nombre)}}' required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
-                <input type="text" class="form-control" placeholder="Descripción" name="descripcion"
-                    value="{{oferta.descripcion}}" required></input>
+                <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="descripcion"
+                    value="{{gettext(oferta.descripcion)}}" required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
-                <input type="text" class="form-control" placeholder="Precio" name="precio"
+                <input type="text" class="form-control" placeholder="{{gettext('Precio')}}" name="precio"
                     value="{{oferta.precio}}" required></input>
             </p>
         </div>
         <p>
-            <input type="submit" formmethod="POST" value="Actualizar" class="btn btn-primary btn-large">
+            <input type="submit" formmethod="POST" value="{{gettext('Actualizar')}}" class="btn btn-primary btn-large">
             </input>
         </p>
     </form>

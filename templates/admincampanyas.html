@@ -1,13 +1,13 @@
 {% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
     {% if user.role == "Administrador" %}
-    <h1 class="h2">Editor de campañas - Administrador</h1>
+    <h1 class="h2">{{gettext('Editor de campañas - Administrador')}}</h1>
     {% else %}
-    <h1 class="h2">Editor de campañas de {{user.organizacion}}</h1>
+    <h1 class="h2">{{gettext('Editor de campañas de')}} {{user.organizacion}}</h1>
     {% endif %}
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-            <p>✎ Editar | Eliminar ✖</p>
+            <p>✎ {{gettext('Editar')}} | {{gettext('Eliminar')}} ✖</p>
         </div>
     </div>
 </div>
@@ -19,10 +19,10 @@
     <table class="table" style="table-layout:fixed; font-size:75%;">
         <thead>
             <tr>
-                <th scope="col">Acciones</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Empresa</th>
-                <th scope="col">Descripción</th>
+                <th scope="col">{{gettext('Acciones')}}</th>
+                <th scope="col">{{gettext('Nombre')}}</th>
+                <th scope="col">{{gettext('Empresa')}}</th>
+                <th scope="col">{{gettext('Descripción')}}</th>
                 <th scope="col">&nbsp;</th>
             </tr>
         </thead>
@@ -37,9 +37,9 @@
                         <input value="{{c.id}}" name="id" style="display: none;">
                     </form>
                 </td>
-                <th scope="row">{{c.nombre}}</th>
+                <th scope="row">{{gettext(c.nombre)}}</th>
                 <td>{{c.empresa}}</td>
-                <td>{{c.descripcion}}</td>
+                <td>{{gettext(c.descripcion)}}</td>
                 <td>
                     <form action="{{ url_for('editor', campanya_id=c.id) }}" method="post">
                         <input type="submit" name="verAcc" class="{{c.id}}" value="Ver acciones">
@@ -51,7 +51,7 @@
         </tbody>
     </table>
     {% else %}
-    <h4>No hay campañas para mostrar</h4>
+    <h4>{{gettext('No hay campañas para mostrar.')}}</h4>
     {% endif %}
 </div>
 {% endblock %}

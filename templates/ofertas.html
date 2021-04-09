@@ -1,12 +1,12 @@
 {% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">Ofertas</h1>
+  <h1 class="h2">{{gettext('Ofertas')}}</h1>
 </div>
 <div class="view">
   <div class="jumbotron">
-    <h2>¡Hola, {{ name }}!</h2>
+    <h2>{{gettext('Hola')}}, {{ name }}.</h2>
     <h2>
-      <span style="font-size: 1rem">Estas son las ofertas disponibles para ti.</span>
+      <span style="font-size: 1rem">{{gettext('Estas son las ofertas disponibles para ti.')}}</span>
     </h2>
   </div>
 
@@ -16,10 +16,10 @@
   <table class="table" style="table-layout:fixed; font-size:75%;" style="table-layout:fixed; font-size:75%;">
     <thead>
       <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Empresa</th>
-        <th scope="col">Descripción</th>
-        <th scope="col">Precio</th>
+        <th scope="col">{{gettext('Nombre')}}</th>
+        <th scope="col">{{gettext('Empresa')}}</th>
+        <th scope="col">{{gettext('Descripción')}}</th>
+        <th scope="col">{{gettext('Precio')}}</th>
         <th scope="col"> </th>
       </tr>
     </thead>
@@ -36,7 +36,7 @@
     </tbody>
   </table>
   {% else %}
-  <h4>No hay ofertas para mostrar</h4>
+  <h4>{{gettext('No hay ofertas para mostrar.')}}</h4>
   {% endif %}
 </div>
 {% endblock %}

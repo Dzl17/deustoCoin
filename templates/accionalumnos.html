@@ -16,27 +16,27 @@
   <table class="table" style="table-layout:fixed; font-size:75%;">
     <thead>
       <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Empresa</th>
-        <th scope="col">Descripción</th>
-        <th scope="col">Recompensa</th>
+        <th scope="col">{{gettext('Nombre')}}</th>
+        <th scope="col">{{gettext('Empresa')}}</th>
+        <th scope="col">{{gettext('Descripción')}}</th>
+        <th scope="col">{{gettext('Recompensa')}}</th>
         <th scope="col"> </th>
       </tr>
     </thead>
     <tbody>
       {% for c in acciones %}
       <tr>
-        <th scope="row">{{c.nombre}}</th>
+        <th scope="row">{{gettext(c.nombre)}}</th>
         <td>{{c.empresa}}</td>
-        <td>{{c.descripcion}}</td>
+        <td>{{gettext(c.descripcion)}}</td>
         <td>{{c.recompensa}} UDC</td>
-        <td><a href="{{ url_for('registrarAccion', accion_id=c.id) }}"><b>Registrar acción</b></a></td>
+        <td><a href="{{ url_for('registrarAccion', accion_id=c.id) }}"><b>{{gettext('Registrar acción')}}</b></a></td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
   {% else %}
-  <h4>No hay acciones para mostrar</h4>
+  <h4>{{gettext('No hay acciones para mostrar.')}}</h4>
   {% endif %}
 </div>
 {% endblock %}

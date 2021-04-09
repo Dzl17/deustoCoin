@@ -28,7 +28,8 @@
       <img class="mb-4" src="{{ url_for('static', filename='icon/deustoCoin.ico') }}" alt="" width="72" height="72" />
       <h1 class="h3 mb-3 font-weight-normal">DeustoCoin</h1>
       <p>
-        DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain y llevarla al ámbito universitario.
+        {{gettext('DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain
+        y llevarla al ámbito universitario, promoviendo un estilo de vida sostenible y respetuoso con el medio ambiente.')}}
       </p>
       <form id="registerform" action="/register" method="POST">
         <div class="form-group">
@@ -66,7 +67,7 @@
         </div>
 
         <p>
-          <input type="submit" formmethod="POST" value="Regístrate" class="btn btn-primary btn-large">
+          <input type="submit" formmethod="POST" value="{{gettext('Regístrate')}}" class="btn btn-primary btn-large">
           </input>
         </p>
       </form>

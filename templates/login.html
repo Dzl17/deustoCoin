@@ -28,12 +28,12 @@
       <img class="mb-4" src="{{ url_for('static', filename='icon/deustoCoin.ico') }}" alt="" width="72" height="72" />
       <h1 class="h3 mb-3 font-weight-normal">DeustoCoin</h1>
       <p>
-        DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain
-        y llevarla al ámbito universitario.
+        {{gettext('DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain
+        y llevarla al ámbito universitario, promoviendo un estilo de vida sostenible y respetuoso con el medio ambiente.')}}
       </p>
 
       <a class="btn btn-primary btn-large" href="{{ url_for('login') }}">
-        Iniciar sesión con Google
+        {{gettext('Iniciar sesión con Google')}}
         <!-- <div align="center" class="g-signin2" data-longtitle="true" data-onsuccess="onSignIn" data-theme="dark"> -->
       </a>
     </div>

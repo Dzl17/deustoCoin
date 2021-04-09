@@ -1,26 +1,26 @@
 {% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">Editor de campañas</h1>
+    <h1 class="h2">{{gettext('Editor de campañas')}}</h1>
 </div>
 <div class="view">
     <div class="jumbotron">
-        <h2>Campaña {{campanya.id}}: {{campanya.nombre}}</h2>
+        <h2>{{gettext('Campaña')}} {{campanya.id}}: {{gettext(campanya.nombre)}}</h2>
     </div>
     <form id="editorcamp" action="{{ url_for('editorCamp',campanya_id=campanya.id) }}" method="POST">
         <div class="form-group">
             <p>
-                <input type="text" class="form-control" placeholder="Nombre" name="nombre"
-                    value='{{campanya.nombre}}' required></input>
+                <input type="text" class="form-control" placeholder="{{gettext('Nombre')}}" name="nombre"
+                    value='{{gettext(campanya.nombre)}}' required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
-                <input type="text" class="form-control" placeholder="Descripción" name="descripcion"
-                    value="{{campanya.descripcion}}" required></input>
+                <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="descripcion"
+                    value="{{gettext(campanya.descripcion)}}" required></input>
             </p>
         </div>
         <p>
-            <input type="submit" formmethod="POST" value="Actualizar" class="btn btn-primary btn-large">
+            <input type="submit" formmethod="POST" value="{{gettext('Actualizar')}}" class="btn btn-primary btn-large">
             </input>
         </p>
     </form>
@@ -30,23 +30,23 @@
     <table class="table" style="table-layout:fixed; font-size:75%;">
         <thead>
             <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Empresa</th>
-                <th scope="col">Descripción</th>
+                <th scope="col">{{gettext('Nombre')}}</th>
+                <th scope="col">{{gettext('Empresa')}}</th>
+                <th scope="col">{{gettext('Descripción')}}</th>
             </tr>
         </thead>
         <tbody>
             {% for c in campanyas %}
             <tr>
-                <th scope="row">{{c.nombre}}</th>
+                <th scope="row">{{gettext(c.nombre)}}</th>
                 <td>{{c.empresa}}</td>
-                <td>{{c.descripcion}}</td>
+                <td>{{gettext(c.descripcion)}}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% else %}
-    <h4>No hay campañas para mostrar</h4>
+    <h4>{{gettext('No hay campañas para mostrar.')}}</h4>
     {% endif %}
 </div>
 

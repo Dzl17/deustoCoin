@@ -1,9 +1,9 @@
 {% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">Editor de acciones de {{campanya.nombre}} ({{campanya.empresa}})</h1>
+    <h1 class="h2">{{gettext('Editor de acciones de')}} {{gettext(campanya.nombre)}} ({{campanya.empresa}})</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-            <p>✎ Editar | Eliminar ✖</p>
+            <p>✎ {{gettext('Editar')}} | {{gettext('Eliminar')}} ✖</p>
         </div>
     </div>
 </div>
@@ -15,11 +15,11 @@
     <table class="table" style="table-layout:fixed; font-size:75%;">
         <thead>
             <tr>
-                <th scope="col">Acciones</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Empresa</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Recompensa (en UDC)</th>
+                <th scope="col">{{gettext('Acciones')}}</th>
+                <th scope="col">{{gettext('Nombre')}}</th>
+                <th scope="col">{{gettext('Empresa')}}</th>
+                <th scope="col">{{gettext('Descripción')}}</th>
+                <th scope="col">{{gettext('Recompensa (en UDC)')}}</th>
             </tr>
         </thead>
         <tbody>
@@ -32,16 +32,16 @@
                         <input value="{{a.id}}" name="accion_id" style="display: none;">
                     </form>
                 </td>
-                <td><b>{{a.nombre}}</b></th>
+                <td><b>{{gettext(a.nombre)}}</b></th>
                 <td>{{a.empresa}}</td>
-                <td>{{a.descripcion}}</td>
+                <td>{{gettext(a.descripcion)}}</td>
                 <td>{{a.recompensa}}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% else %}
-    <h4>No hay acciones para mostrar</h4>
+    <h4>{{gettext('No hay acciones para mostrar')}}</h4>
     {% endif %}
 </div>
 {% endblock %}

@@ -4,25 +4,25 @@
 </div>
 <div class="view">
   <div class="jumbotron">
-    <h2>¡Hola, {{ name }}!</h2>
+    <h2>{{ gettext('Hola') }}, {{ name }}.</h2>
     <h2>
-      <span style="font-size: 1rem">Bienvenido al menú de campañas.</span>
+      <span style="font-size: 1rem">{{ gettext('Bienvenido al menú de campañas.' )}}</span>
     </h2>
     <h2>
-      <span style="font-size: 1rem">El saldo actual de la universidad es de <b>{{ wallet }}</b> UDC.</span><br />
+      <span style="font-size: 1rem">{{ gettext ('El saldo actual de la universidad es de') }} <b>{{ wallet }}</b> UDC.</span><br />
     </h2>
-    <p><button class="btn btn-primary btn-large" id="mostrarformacc">Crear acción</button>&nbsp;<button
-        class="btn btn-primary btn-large" id="mostraracc">Mostrar acciones</button>
-      &nbsp;<button class="btn btn-primary btn-large" id="mostrarformcamp">Crear campaña</button>
-      &nbsp;<button class="btn btn-primary btn-large" id="mostrarcamp">Mostrar campañas</button>
-          &nbsp;<button class="btn btn-primary btn-large" id="crearofertas">Crear oferta</button>
-    &nbsp;<button class="btn btn-primary btn-large" id="mostrarofertas">Mostrar ofertas</button></p>
+    <p><button class="btn btn-primary btn-large" id="mostrarformacc">{{ gettext('Crear acción') }}</button>&nbsp;<button
+        class="btn btn-primary btn-large" id="mostraracc">{{gettext('Mostrar acciones')}}</button>
+      &nbsp;<button class="btn btn-primary btn-large" id="mostrarformcamp">{{ gettext('Crear campaña') }}</button>
+      &nbsp;<button class="btn btn-primary btn-large" id="mostrarcamp">{{ gettext('Mostrar campañas') }}</button>
+          &nbsp;<button class="btn btn-primary btn-large" id="crearofertas">{{ gettext('Crear oferta')}}</button>
+    &nbsp;<button class="btn btn-primary btn-large" id="mostrarofertas">{{ gettext('Mostrar ofertas') }}</button></p>
   </div>
   <form style="display: none;" id="campanyasform" method="POST">
     {{ form.csrf_token }}
     <div class="form-group">
       <p>
-        <label for="exampleInputEmail1">{{form.nomCamp.label}}</label>
+        <label for="exampleInputEmail1">{{ gettext('Nombre de la campaña') }}</label>
 
         <br />
         {{form.nomCamp(class="form-control")}}
@@ -30,13 +30,13 @@
     </div>
     {% if user.role == "Administrador" %}
     <div class="form-group">
-      {{form.empresa.label}}
+      {{ gettext('Empresa') }}
       <br />
       {{form.empresa(class="form-control")}}
     </div>
     {% endif %}
     <div class="form-group">
-      {{form.desc.label}}
+      {{gettext('Descripción')}}
       <br />
       {{form.desc(class="form-control")}}
     </div>
@@ -47,17 +47,17 @@
   <form style="display: none;" id="accionesform" method="POST">
     <div class="form-group">
       <p>
-        <input type="text" class="form-control" placeholder="Nombre de la acción" name="nombre" required></input>
+        <input type="text" class="form-control" placeholder="{{gettext('Nombre de la acción')}}" name="nombre" required></input>
       </p>
     </div>
     <div class="form-group">
       <p>
-        <input type="text" class="form-control" placeholder="Descripción" name="desc" required></input>
+        <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="desc" required></input>
       </p>
     </div>
     <div class="form-group">
       <p>
-        <input type="number" step="0.01" placeholder="Recompensa (en UDC)" class="form-control"
+        <input type="number" step="0.01" placeholder="{{gettext('Recompensa (en UDC)')}}" class="form-control"
           name="recompensa" required></input>
       </p>
     </div>
@@ -66,23 +66,23 @@
         <select class="form-control" name="campanya">
             <option disabled selected>Campaña</option>
             {% for c in campanyas %}
-            <option value='{{c.id}}'>{{c.nombre}}</option>
+            <option value='{{c.id}}'>{{gettext(c.nombre)}}</option>
             {% endfor %}
         </select>
       </p>
     </div>
     <div class="form-group">
       <p>
-        <input type="text" class="form-control" placeholder="Indicador de KPI" name="kpi" required></input>
+        <input type="text" class="form-control" placeholder="{{gettext('Indicador de KPI')}}" name="kpi" required></input>
       </p>
     </div>
     <div class="form-group">
       <p>
-        <input type="number" step="0.01" placeholder="Objetivo" class="form-control"
+        <input type="number" step="0.01" placeholder="{{gettext('Objetivo')}}" class="form-control"
           name="obj" required></input>
       </p>
     </div>
-    <div class="form-group"><input type="submit" name="crearAccion" value="Crear acción"></div>
+    <div class="form-group"><input type="submit" name="crearAccion" value="{{gettext('Crear acción')}}"></div>
   </form>
   <form style="display: none;" id="ofertasform" method="POST">
     {{ form2.csrf_token }}
@@ -121,24 +121,24 @@
   <table class="table" style="table-layout:auto; font-size:75%;">
     <thead>
       <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Empresa</th>
-        <th scope="col">Descripción</th>
-        <th scope="col">Recompensa (en UDC)</th>
-        <th scope="col">Indicador</th>
-        <th scope="col">Estado actual</th>
-        <th scope="col">Objetivo</th>
-        <th scope="col">Código QR</th>
+        <th scope="col">{{gettext('Nombre')}}</th>
+        <th scope="col">{{gettext('Empresa')}}</th>
+        <th scope="col">{{gettext('Descripción')}}</th>
+        <th scope="col">{{gettext('Recompensa (en UDC)')}}</th>
+        <th scope="col">{{gettext('Indicador')}}</th>
+        <th scope="col">{{gettext('Estado actual')}}</th>
+        <th scope="col">{{gettext('Objetivo')}}</th>
+        <th scope="col">{{gettext('Código QR')}}</th>
       </tr>
     </thead>
     <tbody>
       {% for a in acciones %}
       <tr>
-        <th scope="row">{{a.nombre}}</th>
+        <th scope="row">{{gettext(a.nombre)}}</th>
         <td>{{a.empresa}}</td>
-        <td>{{a.descripcion}}</td>
+        <td>{{gettext(a.descripcion)}}</td>
         <td>{{a.recompensa}}</td>
-        <td>{{a.indicadorKpi}}</td>
+        <td>{{gettext(a.indicadorKpi)}}</td>
         <td>{{a.kpi}}</td>
         <td>{{a.kpiObj}}</td>
         <td><a href="{{ url_for('qr' ,accion_id=a.id) }}"><b>Descargar</b></a></td>
@@ -155,23 +155,23 @@
   <table class="table" style="table-layout:fixed; font-size:75%;">
     <thead>
       <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Empresa</th>
-        <th scope="col">Descripción</th>
+        <th scope="col">{{gettext('Nombre')}}</th>
+        <th scope="col">{{gettext('Empresa')}}</th>
+        <th scope="col">{{gettext('Descripción')}}</th>
       </tr>
     </thead>
     <tbody>
       {% for c in campanyas %}
       <tr>
-        <th scope="row">{{c.nombre}}</th>
+        <th scope="row">{{gettext(c.nombre)}}</th>
         <td>{{c.empresa}}</td>
-        <td>{{c.descripcion}}</td>
+        <td>{{gettext('c.descripcion')}}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
   {% else %}
-  <h4>No hay campañas para mostrar</h4>
+  <h4>{{gettext('No hay campañas para mostrar')}}</h4>
   {% endif %}
 </div>
 <div id="ofertas" style="display: none;">
@@ -179,27 +179,27 @@
   <table class="table" style="table-layout:fixed; font-size:75%;">
     <thead>
       <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Empresa</th>
-        <th scope="col">Descripción</th>
-        <th scope="col">Precio</th>
-        <th scope="col">Código QR</th>
+        <th scope="col">{{gettext('Nombre')}}</th>
+        <th scope="col">{{gettext('Empresa')}}</th>
+        <th scope="col">{{gettext('Descripción')}}</th>
+        <th scope="col">{{gettext('Precio')}}</th>
+        <th scope="col">{{gettext('Código QR')}}</th>
       </tr>
     </thead>
     <tbody>
       {% for o in ofertas %}
       <tr>
-        <th scope="row">{{o.nombre}}</th>
+        <th scope="row">{{gettext(o.nombre)}}</th>
         <td>{{o.empresa}}</td>
-        <td>{{o.descripcion}}</td>
+        <td>{{gettext(o.descripcion)}}</td>
         <td>{{o.precio}} UDC</td>
-        <td><a href="{{ url_for('qrOfertas' ,offerId=o.id) }}"><b>Descargar</b></a></td>
+        <td><a href="{{ url_for('qrOfertas' ,offerId=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
   {% else %}
-  <h4>No hay ofertas para mostrar</h4>
+  <h4>{{gettext('No hay ofertas para mostrar')}}</h4>
   {% endif %}
 </div>
 <script>

@@ -1,13 +1,13 @@
 {% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
     {% if user.role == "Administrador" %}
-    <h1 class="h2">Editor de ofertas - Administrador</h1>
+    <h1 class="h2">{{gettext('Editor de ofertas - Administrador')}}</h1>
     {% else %}
-    <h1 class="h2">Editor de ofertas de {{user.organizacion}}</h1>
+    <h1 class="h2">{{gettext('Editor de ofertas de')}} {{user.organizacion}}</h1>
     {% endif %}
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-            <p>✎ Editar | Eliminar ✖</p>
+            <p>✎ {{gettext('Editar')}} | {{gettext('Eliminar')}} ✖</p>
         </div>
     </div>
 </div>
@@ -19,12 +19,12 @@
     <table class="table" style="table-layout:fixed; font-size:75%;">
         <thead>
             <tr>
-                <th scope="col">Ofertas</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Empresa</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Código QR</th>
+                <th scope="col">{{gettext('Ofertas')}}</th>
+                <th scope="col">{{gettext('Nombre')}}</th>
+                <th scope="col">{{gettext('Empresa')}}</th>
+                <th scope="col">{{gettext('Descripción')}}</th>
+                <th scope="col">{{gettext('Precio')}}</th>
+                <th scope="col">{{gettext('Código QR')}}</th>
             </tr>
         </thead>
         <tbody>
@@ -38,17 +38,17 @@
                         <input value="{{o.id}}" name="id" style="display: none;">
                     </form>
                 </td>
-                <td><b>{{o.nombre}}</b></td>
+                <td><b>{{gettext(o.nombre)}}</b></td>
                 <td>{{o.empresa}}</td>
-                <td>{{o.descripcion}}</td>
+                <td>{{gettext(o.descripcion)}}</td>
                 <td>{{o.precio}}</td>
-                <td><a href="{{ url_for('qrOfertas' ,offerId=o.id) }}"><b>Descargar</b></a></td>
+                <td><a href="{{ url_for('qrOfertas' ,offerId=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% else %}
-    <h4>No hay ofertas para mostrar.</h4>
+    <h4>{{gettext('No hay ofertas para mostrar.')}}</h4>
     {% endif %}
 </div>
 {% endblock %}

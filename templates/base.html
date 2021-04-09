@@ -171,7 +171,7 @@ ul ul a {
                         <span class="user-name">
                             <strong> {{ user.name }}</strong>
                         </span>
-                    <span class="user-role"> {{ user.role }}</span>
+                    <span class="user-role"> {{ gettext(user.role) }}</span>
                 </div>
             </div>
         </div>
@@ -181,57 +181,57 @@ ul ul a {
                 {% if user.role == "Promotor" or user.role == "Administrador" %}
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ url_for('accion')}}">
-                        <span class="iconify" data-icon="grommet-icons:domain" data-inline="false"></span> Menú
-                        principal
+                        <span class="iconify" data-icon="grommet-icons:domain" data-inline="false"></span> {{gettext('Menú
+                        principal')}}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('editorC')}}">
-                        <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span> Editor de
-                        campañas
+                        <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span> {{gettext('Editor de
+                        campañas')}}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('editorO')}}">
-                        <span class="iconify" data-icon="carbon:tag-edit" data-inline="false"></span> Editor de
-                        ofertas
+                        <span class="iconify" data-icon="carbon:tag-edit" data-inline="false"></span> {{gettext('Editor de
+                        ofertas')}}
                     </a>
                 </li>
                 {% endif %}
                 {% if user.role == "Alumno" or user.role == "Administrador" %}
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ url_for('wallet')}}">
-                        <span class="iconify" data-icon="akar-icons:wallet" data-inline="false"></span> Cartera
+                        <span class="iconify" data-icon="akar-icons:wallet" data-inline="false"></span> {{gettext('Cartera')}}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('accionalumnos')}}">
-                        <span class="iconify" data-icon="codicon:github-action" data-inline="false"></span> Acciones
+                        <span class="iconify" data-icon="codicon:github-action" data-inline="false"></span> {{gettext('Acciones')}}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('historialtrans')}}">
-                        <span class="iconify" data-icon="ri:file-history-line" data-inline="false"></span> Historial
-                        de transacciones
+                        <span class="iconify" data-icon="ri:file-history-line" data-inline="false"></span> {{gettext('Historial
+                        de transacciones')}}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('campanyas')}}">
                         <span class="iconify" data-icon="ic:baseline-campaign" data-inline="false"></span>
-                        Campañas
+                        {{gettext('Campañas')}}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('ofertas')}}">
                         <span class="iconify" data-icon="ic:outline-local-offer" data-inline="false"></span>
-                        Ofertas
+                        {{gettext('Ofertas')}}
                     </a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout')}}"><span class="iconify" data-icon="carbon:logout"
-                                                                            data-inline="false"></span> Cerrar
-                        sesión</a>
+                                                                            data-inline="false"></span> {{gettext('Cerrar
+                        sesión')}}</a>
                 </li>
             </ul>
         </div>

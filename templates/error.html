@@ -65,10 +65,10 @@
             </div>
             <div class="view">
                 <div class="jumbotron">
-                    <h2>¡Lo sentimos!</h2>
+                    <h2>{{gettext('Lo sentimos.')}}</h2>
                     <h2>
                         <span style="font-size: 1rem">Ha habido un error en la página. <b>{{ code }} - {{ type }}</b>. <br>
-                          Prueba a volver a la <a href="{{ url_for('home') }}">página principal</a>.
+                          {{gettext('Prueba a volver a la')}} <a href="{{ url_for('home') }}">{{gettext('página principal')}}</a>.
                         </span>
                     </h2>
                 </div>

@@ -4,23 +4,23 @@
 </div>
 <div class="view">
   <div class="jumbotron">
-    <h2>¡Hola, {{ name }}!</h2>
+    <h2>{{gettext('Hola')}}, {{ name }}.</h2>
     <h2>
-      <span style="font-size: 1rem">Tu saldo actual es de <b>{{ wallet }}</b> UDCoins.</span><br />
+      <span style="font-size: 1rem">{{gettext('Tu saldo actual es de')}} <b>{{ wallet }}</b> UDCoins.</span><br />
     </h2>
-    <p><button class="btn btn-primary btn-large" id="mostrarformudc">Enviar UDC</button></p>
+    <p><button class="btn btn-primary btn-large" id="mostrarformudc">{{gettext('Enviar UDC')}}</button></p>
   </div>
   <form style="display: none;" id="udcform" method="POST">
     {{ form.csrf_token }}
     <div class="form-group">
       <p>
-        <label for="exampleInputEmail1">{{form.destino.label}}</label>
+        <label for="exampleInputEmail1">{{gettext('Dirección del destinatario')}}</label>
         <br />
         {{form.destino(class="form-control")}}
       </p>
     </div>
     <div class="form-group">
-      {{form.cantidad.label}}
+      {{gettext('Cantidad de UDCs a enviar')}}
       <br/>
       {{form.cantidad(class="form-control")}}
     </div>

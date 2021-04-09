@@ -1,4 +1,5 @@
 from flask import Flask, url_for, render_template, request, redirect, Response, session, send_file
+from flask_babel import Babel
 from authlib.integrations.flask_client import OAuth
 from base import Session, init_db
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -12,9 +13,9 @@ import io
 import ipfshttpclient
 import qrcode
 import os
-import sys
 
 app = Flask(__name__)
+babel = Babel(app)
 app.config.from_object("config.Config")
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 app.config["SECRET_KEY"] = app.secret_key
@@ -39,6 +40,10 @@ google = oauth.register(
     client_kwargs={'scope': 'openid email profile'},
 )
 
+@babel.localeselector
+def get_locale():
+    translations = [str(translation) for translation in babel.list_translations()]
+    return request.accept_languages.best_match(translations)
 
 def get_balance(test_address):
     web3 = Web3(Web3.HTTPProvider(app.config['ROPSTEN_URL']))

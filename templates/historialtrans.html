@@ -37,30 +37,30 @@
 {% endblock %}
 {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">Historial de transacciones</h1>
+    <h1 class="h2">{{gettext('Historial de transacciones')}}</h1>
 </div>
 <div class="view">
     <div class="jumbotron">
         {% if user.role == "Alumno" %}
-        <h2>Historial de transacciones de {{ name }}</h2>
+        <h2>{{gettext('Historial de transacciones de')}} {{ name }}</h2>
         {% else %}
-        <h2>Historial de transacciones de DeustoCoin</h2>
+        <h2>{{gettext('Historial de transacciones de DeustoCoin')}}</h2>
         {% endif %}
     </div>
 </div>
 <div id="transacciones" style="width:100%;">
-    <p style="font-size:75%;" class="showDetails"><b>Rote la pantalla para más detalles.</b></p>
+    <p style="font-size:75%;" class="showDetails"><b>{{gettext('Gire la pantalla para más detalles.')}}</b></p>
     {% if transacciones|length >= 1 %}
     <table class="table" id="tabletrans">
         <thead>
             <tr>
-                <th scope="col" class="fecha">Fecha</th>
-                <th scope="col" class="rem">Remitente</th>
-                <th scope="col" class="dest">Destinatario</th>
-                <th scope="col" class="camp">Campaña</th>
-                <th scope="col" class="cantidad">Cantidad</th>
-                <th scope="col" class="img">Imagen</th>
-                <th scope="col" class="proof">Link de verificación <i>(Opcional)</i></th>
+                <th scope="col" class="fecha">{{gettext('Fecha')}}</th>
+                <th scope="col" class="rem">{{gettext('Remitente')}}</th>
+                <th scope="col" class="dest">{{gettext('Destinatario')}}</th>
+                <th scope="col" class="camp">{{gettext('Campaña')}}</th>
+                <th scope="col" class="cantidad">{{gettext('Cantidad')}}</th>
+                <th scope="col" class="img">{{gettext('Imagen')}}</th>
+                <th scope="col" class="proof">{{gettext('Link de verificación')}} <i>{{gettext('Opcional')}}</i></th>
             </tr>
         </thead>
         <tbody>
@@ -70,28 +70,28 @@
                 <td class="rem">{{t.remitente}}</td>
                 <td class="dest">{{t.destinatario}}</td>
                 {% if t.campanya != "Envío de UDC" %}
-                <td class="camp"><a href="{{ url_for('empresa', emp=t.remitente)}}"><b>{{t.campanya}}</b></a></td>
+                <td class="camp"><a href="{{ url_for('empresa', emp=t.remitente)}}"><b>{{gettext(t.campanya)}}</b></a></td>
                 {% else %}
-                    <td class="camp">{{t.campanya}}</td>
+                    <td class="camp">{{gettext(t.campanya)}}</td>
                 {% endif %}
                 <td class="cantidad">{{t.cantidad}} UDC</td>
                 {% if t.imgHash != "" %}
-                <td class="img"><a href="http://ipfs.io/ipfs/{{t.imgHash}}"><b>Ver imagen</b></a></td>
+                <td class="img"><a href="http://ipfs.io/ipfs/{{t.imgHash}}"><b>{{gettext('Ver imagen')}}</b></a></td>
                 {% else %}
-                <td class="img">No hay imagen</td>
+                <td class="img">{{gettext('No hay imagen')}}</td>
                 {% endif %}
                 {% if t.proof != "" %}
-                <td class="proof"><a href="{{t.proof}}"><b>Ver verificación</b></a></td>
+                <td class="proof"><a href="{{t.proof}}"><b>{{gettext('Ver verificación')}}</b></a></td>
                 {% else %}
-                <td class="proof">No hay URL adicional</td>
+                <td class="proof">{{gettext('No hay URL adicional')}}</td>
                 {% endif %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% else %}
-    <h4>No hay transacciones para mostrar</h4>
-    <p>El usuario no ha estado involucrado en ninguna transacción.</p>
+    <h4>{{gettext('No hay transacciones para mostrar')}}</h4>
+    <p>{{gettext('El usuario no ha estado involucrado en ninguna transacción.')}}</p>
     {% endif %}
 </div>
 {% endblock %}
