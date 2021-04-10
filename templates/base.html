@@ -27,7 +27,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
             integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
             crossorigin="anonymous"></script>
-
     <meta name="google-signin-client_id"
           content="543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com"/>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -158,14 +157,14 @@ ul ul a {
 {% if user != None %}
 <div class="wrapper"
      style="background-image:url('{{url_for('static', filename='icon/background.jpg')}}');background-size:cover;overflow:auto;">
-    <nav id="sidebar">
+    <nav id="sidebar" style="flex-shrink:0;">
         <div class="sidebar-header">
             <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('home') }}">DeustoCoin</a>
             {% if user != None %}
             <div class="sidebar-item sidebar-header d-flex flex-nowrap">
                 <div class="user-pic">
                     <img class="img-responsive img-rounded" src="{{ session['picture'] }}" width="75" height="75"
-                         style="border:6px solid #1177d1;" alt="Foto de perfil">
+                         style="border:6px solid #1177d1;">
                 </div>
                 <div class="user-info">
                         <span class="user-name">
@@ -233,7 +232,15 @@ ul ul a {
                                                                             data-inline="false"></span> {{gettext('Cerrar
                         sesión')}}</a>
                 </li>
+                <li class="nav-item" style="align-content:center;">
+                    <div class="container-fluid">
+                                              <p class="mt-5 mb-3 text-center"><a href="{{url_for('language', lang='en')}}">EN</a> <a href="{{url_for('language', lang='es')}}">ES</a> <a href="{{url_for('language', lang='eu')}}">EU</a>
+                    </div>
+
+
+                </li>
             </ul>
+
         </div>
     </nav>
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="width:100%;">

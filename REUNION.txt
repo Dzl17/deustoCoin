@@ -20,7 +20,7 @@ https://docs.python.org/3/library/gettext.html
 KEY OFFERID ARREGLAR 
 eliminar acciones en form -- HECHO
 https://elements.heroku.com/addons/interplanetary-fission
-
+https://phrase.com/blog/posts/python-localization-flask-applications/
 DIAGRAMA DE ARQUITECTURA
 manual de usuarios
 manual de instalacion

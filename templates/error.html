@@ -61,13 +61,13 @@
     <div class="row">
         <main role="main" class="col-md-9 ml-sm-auto col-lg-12 pt-4 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                <h1 class="h2">Error</h1>
+                <h1 class="h2">{{gettext('Error')}}</h1>
             </div>
             <div class="view">
                 <div class="jumbotron">
                     <h2>{{gettext('Lo sentimos.')}}</h2>
                     <h2>
-                        <span style="font-size: 1rem">Ha habido un error en la página. <b>{{ code }} - {{ type }}</b>. <br>
+                        <span style="font-size: 1rem">{{gettext('Ha habido un error en la página')}}. <b>{{ code }} - {{ type }}</b>. <br>
                           {{gettext('Prueba a volver a la')}} <a href="{{ url_for('home') }}">{{gettext('página principal')}}</a>.
                         </span>
                     </h2>

@@ -18,3 +18,6 @@ class Config(object):
         'es': 'Spanish',
         'en': 'English'
     }
+    PHRASEAPP_ENABLED = True
+    PHRASEAPP_PREFIX = '{{__'
+    PHRASEAPP_SUFFIX = '__}}'

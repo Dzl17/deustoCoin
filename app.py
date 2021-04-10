@@ -1,5 +1,5 @@
 from flask import Flask, url_for, render_template, request, redirect, Response, session, send_file
-from flask_babel import Babel
+from flask_babel import Babel, gettext
 from authlib.integrations.flask_client import OAuth
 from base import Session, init_db
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -15,6 +15,7 @@ import qrcode
 import os
 
 app = Flask(__name__)
+app.config['BABEL_DEFAULT_LOCALE'] = 'es'
 babel = Babel(app)
 app.config.from_object("config.Config")
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
@@ -42,8 +43,11 @@ google = oauth.register(
 
 @babel.localeselector
 def get_locale():
-    translations = [str(translation) for translation in babel.list_translations()]
-    return request.accept_languages.best_match(translations)
+    if request.args.get('lang'):
+        session['lang'] = request.args.get('lang')
+    return session.get('lang', 'es')
+
+
 
 def get_balance(test_address):
     web3 = Web3(Web3.HTTPProvider(app.config['ROPSTEN_URL']))
@@ -107,6 +111,11 @@ def home():
     KPIporFechas.saveTodaysKPI()
     create_figure(1)
     return render_template("login.html")
+
+@app.route('/language/<lang>')
+def language(lang):
+    session['lang'] = lang
+    return redirect(request.referrer)
 
 
 @app.route('/login')
