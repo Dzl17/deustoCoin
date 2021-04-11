@@ -542,7 +542,9 @@ def pay(offer_id):
 
 @app.route('/logout')
 def logout():
+    tempLang = session['lang']
     session.clear()
+    session['lang'] = tempLang
     return redirect('/')
 
 
