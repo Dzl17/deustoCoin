@@ -64,7 +64,7 @@
     <div class="form-group">
       <p>
         <select class="form-control" name="campanya">
-            <option disabled selected>Campaña</option>
+            <option disabled selected>{{gettext('Campaña')}}</option>
             {% for c in campanyas %}
             <option value='{{c.id}}'>{{gettext(c.nombre)}}</option>
             {% endfor %}
@@ -88,7 +88,7 @@
     {{ form2.csrf_token }}
     <div class="form-group">
       <p>
-        <label for="exampleInputEmail1">{{form2.nomOferta.label}}</label>
+        <label for="exampleInputEmail1">{{gettext('Nombre de la oferta')}}</label>
 
         <br />
         {{form2.nomOferta(class="form-control")}}
@@ -96,18 +96,18 @@
     </div>
     {% if user.role == "Administrador" %}
     <div class="form-group">
-      {{form2.empresa.label}}
+      {{gettext('Organización')}}
       <br />
       {{form2.empresa(class="form-control")}}
     </div>
     {% endif %}
     <div class="form-group">
-      {{form2.desc.label}}
+      {{gettext('Descripción')}}
       <br />
       {{form2.desc(class="form-control")}}
     </div>
     <div class="form-group">
-      {{form2.precio.label}}
+      {{gettext('Precio')}}
       <br />
       {{form2.precio(class="form-control")}}
     </div>
@@ -141,13 +141,13 @@
         <td>{{gettext(a.indicadorKpi)}}</td>
         <td>{{a.kpi}}</td>
         <td>{{a.kpiObj}}</td>
-        <td><a href="{{ url_for('qr' ,accion_id=a.id) }}"><b>Descargar</b></a></td>
+        <td><a href="{{ url_for('qr' ,accion_id=a.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
   {% else %}
-  <h4>No hay acciones para mostrar</h4>
+  <h4>{{gettext('No hay acciones para mostrar')}}</h4>
   {% endif %}
 </div>
 <div id="campanyas" style="display: none;">
@@ -165,7 +165,7 @@
       <tr>
         <th scope="row">{{gettext(c.nombre)}}</th>
         <td>{{c.empresa}}</td>
-        <td>{{gettext('c.descripcion')}}</td>
+        <td>{{gettext(c.descripcion)}}</td>
       </tr>
       {% endfor %}
     </tbody>
