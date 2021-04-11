@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-10 14:46+0200\n"
-"PO-Revision-Date: 2021-04-10 14:51+0200\n"
+"POT-Creation-Date: 2021-04-10 17:46+0200\n"
+"PO-Revision-Date: 2021-04-11 11:28+0200\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -18,6 +18,11 @@ msgstr ""
 "Generated-By: Babel 2.9.0\n"
 "Last-Translator: \n"
 "X-Generator: Poedit 2.4.2\n"
+
+#: templates/accion.html:3 templates/base.html:225 templates/campanyas.html:20
+#: templates/empresas.html:3
+msgid "Campañas"
+msgstr "Campaigns"
 
 #: templates/accion.html:7 templates/accionalumnos.html:7
 #: templates/ofertas.html:7 templates/pago.html:7 templates/recompensa.html:7
@@ -118,7 +123,7 @@ msgstr "Current status"
 msgid "Código QR"
 msgstr "QR Code"
 
-#: templates/accion.html:168 templates/campanyas.html:30
+#: templates/accion.html:168
 msgid "c.descripcion"
 msgstr ""
 
@@ -139,9 +144,15 @@ msgstr "Download"
 msgid "No hay ofertas para mostrar"
 msgstr "There are no offers"
 
+#: templates/accionalumnos.html:3 templates/adminacciones.html:18
+#: templates/admincampanyas.html:22 templates/base.html:213
+#: templates/editoraccion.html:3
+msgid "Acciones"
+msgstr "Good deeds"
+
 #: templates/accionalumnos.html:9
 msgid "Estas son las acciones disponibles para ti."
-msgstr "These are the actions available for you."
+msgstr "These are the available good deeds."
 
 #: templates/accionalumnos.html:22
 msgid "Recompensa"
@@ -169,11 +180,6 @@ msgstr "Edit"
 msgid "Eliminar"
 msgstr "Delete"
 
-#: templates/adminacciones.html:18 templates/admincampanyas.html:22
-#: templates/base.html:208
-msgid "Acciones"
-msgstr "Good deeds"
-
 #: templates/adminacciones.html:44
 msgid "No hay acciones para mostrar"
 msgstr "There are no good deeds"
@@ -199,7 +205,7 @@ msgstr "Offer editor - Administrator"
 msgid "Editor de ofertas de"
 msgstr "Offer editor -"
 
-#: templates/adminofertas.html:22 templates/base.html:226
+#: templates/adminofertas.html:22 templates/base.html:231
 #: templates/ofertas.html:3
 msgid "Ofertas"
 msgstr "Offers"
@@ -208,69 +214,54 @@ msgstr "Offers"
 msgid "No hay ofertas para mostrar."
 msgstr "There are no offers."
 
-#: templates/base.html:183
-msgid ""
-"Menú\n"
-"                        principal"
+#: templates/base.html:176
+msgid "Alumno"
+msgstr "Student"
+
+#: templates/base.html:176
+msgid "Promotor"
+msgstr "Promoter"
+
+#: templates/base.html:176
+msgid "Administrador"
+msgstr "Administrator"
+
+#: templates/base.html:187
+msgid "Menú principal"
 msgstr "Main menu"
 
-#: templates/base.html:189
-msgid ""
-"Editor de\n"
-"                        campañas"
+#: templates/base.html:193 templates/editorcamp.html:3
+msgid "Editor de campañas"
 msgstr "Campaign editor"
 
-#: templates/base.html:195
-msgid ""
-"Editor de\n"
-"                        ofertas"
+#: templates/base.html:199 templates/editoroferta.html:3
+msgid "Editor de ofertas"
 msgstr "Offer editor"
 
-#: templates/base.html:203
+#: templates/base.html:207 templates/tab1cartera.html:3
 msgid "Cartera"
 msgstr "Wallet"
 
-#: templates/base.html:213
-msgid ""
-"Historial\n"
-"                        de transacciones"
+#: templates/base.html:219 templates/historialtrans.html:40
+msgid "Historial de transacciones"
 msgstr "Transaction history"
 
-#: templates/base.html:220 templates/campanyas.html:20
-#: templates/empresas.html:3
-msgid "Campañas"
-msgstr "Campaigns"
-
-#: templates/base.html:232
-msgid ""
-"Cerrar\n"
-"                        sesión"
+#: templates/base.html:239
+msgid "Cerrar sesión"
 msgstr "Logout"
 
 #: templates/campanyas.html:23
 msgid "Estas son las campañas que promueve"
 msgstr "These are the campaigns promoted by"
 
-#: templates/campanyas.html:29
-msgid "c.nombre"
-msgstr ""
-
 #: templates/editoraccion.html:29 templates/editorcamp.html:23
 #: templates/editoroferta.html:29
 msgid "Actualizar"
 msgstr "Update"
 
-#: templates/editorcamp.html:3
-msgid "Editor de campañas"
-msgstr "Campaign editor"
-
 #: templates/editorcamp.html:7 templates/historialtrans.html:60
 msgid "Campaña"
 msgstr "Campaign"
-
-#: templates/editoroferta.html:3
-msgid "Editor de ofertas"
-msgstr "Offer editor"
 
 #: templates/editoroferta.html:7
 msgid "Oferta"
@@ -291,9 +282,17 @@ msgstr ""
 msgid "No hay compañías para mostrar."
 msgstr "There are no companies shown."
 
+#: templates/error.html:6 templates/error.html:64
+msgid "Error"
+msgstr "Error"
+
 #: templates/error.html:68
 msgid "Lo sentimos."
 msgstr "We're sorry."
+
+#: templates/error.html:70
+msgid "Ha habido un error en la página"
+msgstr "There has been a critical error on this website"
 
 #: templates/error.html:71
 msgid "Prueba a volver a la"
@@ -302,10 +301,6 @@ msgstr "Try going back to the"
 #: templates/error.html:71
 msgid "página principal"
 msgstr "login page"
-
-#: templates/historialtrans.html:40
-msgid "Historial de transacciones"
-msgstr "Transaction history"
 
 #: templates/historialtrans.html:45
 msgid "Historial de transacciones de"
@@ -373,21 +368,25 @@ msgstr "The user hasn't been involved in any transaction yet."
 
 #: templates/login.html:31 templates/register.html:31
 msgid ""
-"DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain\n"
-"        y llevarla al ámbito universitario, promoviendo un estilo de vida "
-"sostenible y respetuoso con el medio ambiente."
+"DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain y "
+"llevarla al ámbito universitario, promoviendo un estilo de vida sostenible y "
+"respetuoso con el medio ambiente."
 msgstr ""
 "DeustoCoin is willing to make the most of Blockchain technology, bringing it "
 "to the University of Deusto in order to promote a sustainable, "
 "environmentally friendly lifestyle."
 
-#: templates/login.html:36
+#: templates/login.html:35
 msgid "Iniciar sesión con Google"
 msgstr "Log in with Google"
 
 #: templates/ofertas.html:9
 msgid "Estas son las ofertas disponibles para ti."
 msgstr "These are the offers available for you."
+
+#: templates/pago.html:3
+msgid "Pago por oferta"
+msgstr "Offer"
 
 #: templates/pago.html:9
 msgid "Has pagado"
@@ -407,13 +406,33 @@ msgstr "Congratulations!"
 
 #: templates/recompensa.html:9
 msgid "Has obtenido"
-msgstr "You have obtained"
+msgstr "You have earned"
 
 #: templates/recompensa.html:9
 msgid "de"
-msgstr "for"
+msgstr "from"
 
-#: templates/register.html:70
+#: templates/register.html:11
+msgid "Registro"
+msgstr "Register"
+
+#: templates/register.html:36
+msgid "Nombre y apellidos"
+msgstr "Name"
+
+#: templates/register.html:42
+msgid "Correo electrónico"
+msgstr "Email"
+
+#: templates/register.html:48
+msgid "Dirección blockchain"
+msgstr "Destination email"
+
+#: templates/register.html:53
+msgid "Organización"
+msgstr "Company"
+
+#: templates/register.html:69
 msgid "Regístrate"
 msgstr "Sign up"
 

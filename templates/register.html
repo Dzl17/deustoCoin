@@ -8,7 +8,7 @@
   <meta name="author" content="" />
   <link rel="icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}" />
   <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-  <title>DeustoCoin - Registro</title>
+  <title>DeustoCoin - {{gettext('Registro')}}</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
@@ -28,30 +28,29 @@
       <img class="mb-4" src="{{ url_for('static', filename='icon/deustoCoin.ico') }}" alt="" width="72" height="72" />
       <h1 class="h3 mb-3 font-weight-normal">DeustoCoin</h1>
       <p>
-        {{gettext('DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain
-        y llevarla al ámbito universitario, promoviendo un estilo de vida sostenible y respetuoso con el medio ambiente.')}}
+        {{gettext('DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain y llevarla al ámbito universitario, promoviendo un estilo de vida sostenible y respetuoso con el medio ambiente.')}}
       </p>
       <form id="registerform" action="/register" method="POST">
         <div class="form-group">
           <p>
-            <input type="text" class="form-control" placeholder="Nombre y apellidos" name="nombre"
+            <input type="text" class="form-control" placeholder="{{gettext('Nombre y apellidos')}}" name="nombre"
               value='{{nombre}}'></input>
           </p>
         </div>
         <div class="form-group">
           <p>
-            <input type="email" class="form-control" placeholder="Correo electrónico" name="email"
+            <input type="email" class="form-control" placeholder="{{gettext('Correo electrónico')}}" name="email"
               value="{{email}}"></input>
           </p>
         </div>
         <div class="form-group">
           <p>
-            <input type="text" placeholder="Dirección blockchain" class="form-control" name="blockAddr"></input>
+            <input type="text" placeholder="{{gettext('Dirección blockchain')}}" class="form-control" name="blockAddr"></input>
           </p>
         </div>
         <div class="form-group">
           <p>
-            <input type="text" class="form-control" placeholder="Organización" name="organizacion" id="organizacion"
+            <input type="text" class="form-control" placeholder="{{gettext('Organización')}}" name="organizacion" id="organizacion"
               value="Universidad de Deusto">
           </p>
         </div>

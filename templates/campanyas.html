@@ -26,8 +26,8 @@
   {% if campanyas|length >= 1 %}
   {% for c in campanyas %}
   <div class="{{c.empresa}}">
-    <h5>{{gettext('c.nombre')}}</h5>
-    <p>{{gettext('c.descripcion')}}</p>
+    <h5>{{gettext(c.nombre)}}</h5>
+    <p>{{gettext(c.descripcion)}}</p>
     {% for a in acciones %}
     {% if a.campanya_id == c.id %}
         <img src="/plot{{a.id}}.png" class="plot">

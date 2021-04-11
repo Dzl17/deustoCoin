@@ -35,6 +35,7 @@
         $(window).resize(function() {
           if (window.innerWidth >= 768) $homeIcon.removeClass('active');
         });
+
     </script>
     <style>
     p {
@@ -140,6 +141,7 @@ ul ul a {
 }
 
 
+
     </style>
     <script>
         $(document).ready(function () {
@@ -147,6 +149,7 @@ ul ul a {
         $('#sidebar').toggleClass('active');
     });
 });
+
 
 
     </script>
@@ -157,92 +160,94 @@ ul ul a {
 {% if user != None %}
 <div class="wrapper"
      style="background-image:url('{{url_for('static', filename='icon/background.jpg')}}');background-size:cover;overflow:auto;">
-    <nav id="sidebar" style="flex-shrink:0;">
-        <div class="sidebar-header">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('home') }}">DeustoCoin</a>
-            {% if user != None %}
-            <div class="sidebar-item sidebar-header d-flex flex-nowrap">
-                <div class="user-pic">
-                    <img class="img-responsive img-rounded" src="{{ session['picture'] }}" width="75" height="75"
-                         style="border:6px solid #1177d1;">
-                </div>
-                <div class="user-info">
+        <nav id="sidebar" style="flex-shrink:0;">
+            <div class="sidebar-header">
+                <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('home') }}">DeustoCoin</a>
+                {% if user != None %}
+                <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+                    <div class="user-pic">
+                        <img class="img-responsive img-rounded" src="{{ session['picture'] }}" width="75" height="75"
+                             style="border:6px solid #1177d1;">
+                    </div>
+                    <div class="user-info">
                         <span class="user-name">
                             <strong> {{ user.name }}</strong>
                         </span>
-                    <span class="user-role"> {{ gettext(user.role) }}</span>
+                        <span class="user-role"> {{ gettext(user.role) }}</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endif %}
-        <div class="sidebar-content">
-            <ul class="nav flex-column">
-                {% if user.role == "Promotor" or user.role == "Administrador" %}
-                <li class="nav-item">
-                    <a class="nav-link active" href="{{ url_for('accion')}}">
-                        <span class="iconify" data-icon="grommet-icons:domain" data-inline="false"></span> {{gettext('Menú
-                        principal')}}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('editorC')}}">
-                        <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span> {{gettext('Editor de
-                        campañas')}}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('editorO')}}">
-                        <span class="iconify" data-icon="carbon:tag-edit" data-inline="false"></span> {{gettext('Editor de
-                        ofertas')}}
-                    </a>
-                </li>
-                {% endif %}
-                {% if user.role == "Alumno" or user.role == "Administrador" %}
-                <li class="nav-item">
-                    <a class="nav-link active" href="{{ url_for('wallet')}}">
-                        <span class="iconify" data-icon="akar-icons:wallet" data-inline="false"></span> {{gettext('Cartera')}}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('accionalumnos')}}">
-                        <span class="iconify" data-icon="codicon:github-action" data-inline="false"></span> {{gettext('Acciones')}}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('historialtrans')}}">
-                        <span class="iconify" data-icon="ri:file-history-line" data-inline="false"></span> {{gettext('Historial
-                        de transacciones')}}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('campanyas')}}">
-                        <span class="iconify" data-icon="ic:baseline-campaign" data-inline="false"></span>
-                        {{gettext('Campañas')}}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('ofertas')}}">
-                        <span class="iconify" data-icon="ic:outline-local-offer" data-inline="false"></span>
-                        {{gettext('Ofertas')}}
-                    </a>
-                </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('logout')}}"><span class="iconify" data-icon="carbon:logout"
-                                                                            data-inline="false"></span> {{gettext('Cerrar
-                        sesión')}}</a>
-                </li>
-                <li class="nav-item" style="align-content:center;">
-                    <div class="container-fluid">
-                                              <p class="mt-5 mb-3 text-center"><a href="{{url_for('language', lang='en')}}">EN</a> <a href="{{url_for('language', lang='es')}}">ES</a> <a href="{{url_for('language', lang='eu')}}">EU</a>
-                    </div>
+            {% endif %}
+            <div class="sidebar-content">
+                <ul class="nav flex-column">
+                    {% if user.role == "Promotor" or user.role == "Administrador" %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('accion')}}">
+                            <span class="iconify" data-icon="grommet-icons:domain" data-inline="false"></span>
+                            {{gettext('Menú principal')}}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('editorC')}}">
+                            <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span>
+                            {{gettext('Editor de campañas')}}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('editorO')}}">
+                            <span class="iconify" data-icon="carbon:tag-edit" data-inline="false"></span>
+                            {{gettext('Editor de ofertas')}}
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if user.role == "Alumno" or user.role == "Administrador" %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('wallet')}}">
+                            <span class="iconify" data-icon="akar-icons:wallet" data-inline="false"></span>
+                            {{gettext('Cartera')}}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('accionalumnos')}}">
+                            <span class="iconify" data-icon="codicon:github-action" data-inline="false"></span>
+                            {{gettext('Acciones')}}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('historialtrans')}}">
+                            <span class="iconify" data-icon="ri:file-history-line" data-inline="false"></span>
+                            {{gettext('Historial de transacciones')}}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('campanyas')}}">
+                            <span class="iconify" data-icon="ic:baseline-campaign" data-inline="false"></span>
+                            {{gettext('Campañas')}}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('ofertas')}}">
+                            <span class="iconify" data-icon="ic:outline-local-offer" data-inline="false"></span>
+                            {{gettext('Ofertas')}}
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout')}}"><span class="iconify"
+                                                                                data-icon="carbon:logout"
+                                                                                data-inline="false"></span>
+                            {{gettext('Cerrar sesión')}}</a>
+                    </li>
+                </ul>
+                <div class="sidebar-footer">
+                            <p class="mt-5 mb-3 text-center"><a href="{{url_for('language', lang='en')}}">EN</a>&nbsp;&nbsp;<a
+                                    href="{{url_for('language', lang='es')}}">ES</a>&nbsp;&nbsp;<a
+                                    href="{{url_for('language', lang='eu')}}">EU</a>
+                            </p>
+                </div>
+            </div>
+        </nav>
 
-
-                </li>
-            </ul>
-
-        </div>
-    </nav>
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="width:100%;">
         <button id="sidebarCollapse" class="btn btn-sm btn-dark" style="background-color: #1177d1;">
             <span class="iconify" data-icon="ant-design:menu-outlined" data-inline="false"></span>
@@ -256,6 +261,7 @@ ul ul a {
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
         feather.replace();
+
 
 
 
@@ -306,7 +312,9 @@ ul ul a {
 
 
 
+
 </script>
+</div>
 </body>
 
 </html>
