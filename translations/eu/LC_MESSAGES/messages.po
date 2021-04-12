@@ -1,69 +1,70 @@
-# Basque translations for PROJECT.
+# Basque translations for DeustoCoin.
 # Copyright (C) 2021 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+# This file is distributed under the same license as the DeustoCoin project.
+# Jorge El Busto <jorge.elbusto@opendeusto.es>, 2021.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Project-Id-Version: DeustoCoin VERSION\n"
+"Report-Msgid-Bugs-To: jorge.elbusto@opendeusto.es\n"
 "POT-Creation-Date: 2021-04-11 12:38+0200\n"
-"PO-Revision-Date: 2021-04-11 12:38+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2021-04-12 15:40+0200\n"
 "Language: eu\n"
 "Language-Team: eu <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
+"Last-Translator: \n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: templates/accion.html:3 templates/base.html:225 templates/campanyas.html:20
 #: templates/empresas.html:3
 msgid "Campañas"
-msgstr ""
+msgstr "Kanpainak"
 
 #: templates/accion.html:7 templates/accionalumnos.html:7
 #: templates/ofertas.html:7 templates/pago.html:7 templates/recompensa.html:7
 #: templates/tab1cartera.html:7
 msgid "Hola"
-msgstr ""
+msgstr "Kaixo"
 
 #: templates/accion.html:9
 msgid "Bienvenido al menú de campañas."
-msgstr ""
+msgstr "Ongi etorri kanpainaren menura."
 
 #: templates/accion.html:12
 msgid "El saldo actual de la universidad es de"
-msgstr ""
+msgstr "Unibertsitatearen egungo saldos:"
 
 #: templates/accion.html:14 templates/accion.html:85
 msgid "Crear acción"
-msgstr ""
+msgstr "Ekintza sortu"
 
 #: templates/accion.html:15
 msgid "Mostrar acciones"
-msgstr ""
+msgstr "Ekintzak erakutsi"
 
 #: templates/accion.html:16
 msgid "Crear campaña"
-msgstr ""
+msgstr "Kanpaina sortu"
 
 #: templates/accion.html:17
 msgid "Mostrar campañas"
-msgstr ""
+msgstr "Kanpainak erakutsi"
 
 #: templates/accion.html:18
 msgid "Crear oferta"
-msgstr ""
+msgstr "Eskaintza sortu"
 
 #: templates/accion.html:19
 msgid "Mostrar ofertas"
-msgstr ""
+msgstr "Eskaintzak erakutsi"
 
 #: templates/accion.html:25
 msgid "Nombre de la campaña"
-msgstr ""
+msgstr "Kanpainaren izena"
 
 #: templates/accion.html:33 templates/accion.html:125 templates/accion.html:159
 #: templates/accion.html:183 templates/accionalumnos.html:20
@@ -71,7 +72,7 @@ msgstr ""
 #: templates/adminofertas.html:24 templates/editorcamp.html:34
 #: templates/ofertas.html:20
 msgid "Empresa"
-msgstr ""
+msgstr "Enpresa"
 
 #: templates/accion.html:39 templates/accion.html:55 templates/accion.html:105
 #: templates/accion.html:126 templates/accion.html:160
@@ -81,43 +82,43 @@ msgstr ""
 #: templates/editorcamp.html:18 templates/editorcamp.html:35
 #: templates/editoroferta.html:18 templates/ofertas.html:21
 msgid "Descripción"
-msgstr ""
+msgstr "Deskribapena"
 
 #: templates/accion.html:50
 msgid "Nombre de la acción"
-msgstr ""
+msgstr "Ekintzaren izena"
 
 #: templates/accion.html:60 templates/accion.html:127
 #: templates/adminacciones.html:22 templates/editoraccion.html:24
 msgid "Recompensa (en UDC)"
-msgstr ""
+msgstr "Saria (UDC-tan)"
 
 #: templates/accion.html:67 templates/editorcamp.html:7
 #: templates/historialtrans.html:60
 msgid "Campaña"
-msgstr ""
+msgstr "Kanpaina"
 
 #: templates/accion.html:76
 msgid "Indicador de KPI"
-msgstr ""
+msgstr "KPI adierazlea"
 
 #: templates/accion.html:81 templates/accion.html:130
 msgid "Objetivo"
-msgstr ""
+msgstr "Helburua"
 
 #: templates/accion.html:91
 msgid "Nombre de la oferta"
-msgstr ""
+msgstr "Eskaintzaren izena"
 
 #: templates/accion.html:99 templates/register.html:53
 msgid "Organización"
-msgstr ""
+msgstr "Erakundea"
 
 #: templates/accion.html:110 templates/accion.html:185
 #: templates/adminofertas.html:26 templates/editoroferta.html:24
 #: templates/ofertas.html:22
 msgid "Precio"
-msgstr ""
+msgstr "Prezioa"
 
 #: templates/accion.html:124 templates/accion.html:158
 #: templates/accion.html:182 templates/accionalumnos.html:19
@@ -126,283 +127,289 @@ msgstr ""
 #: templates/editorcamp.html:12 templates/editorcamp.html:33
 #: templates/editoroferta.html:12 templates/ofertas.html:19
 msgid "Nombre"
-msgstr ""
+msgstr "Izena"
 
 #: templates/accion.html:128
 msgid "Indicador"
-msgstr ""
+msgstr "Adierazlea"
 
 #: templates/accion.html:129
 msgid "Estado actual"
-msgstr ""
+msgstr "Egungo egoera"
 
 #: templates/accion.html:131 templates/accion.html:186
 #: templates/adminofertas.html:27
 msgid "Código QR"
-msgstr ""
+msgstr "QR kodea"
 
 #: templates/accion.html:144 templates/accion.html:196
 #: templates/adminofertas.html:45
 msgid "Descargar"
-msgstr ""
+msgstr "Deskargatu"
 
 #: templates/accion.html:150 templates/adminacciones.html:44
 msgid "No hay acciones para mostrar"
-msgstr ""
+msgstr "Ez dago ekintzarik erakusteko"
 
 #: templates/accion.html:174
 msgid "No hay campañas para mostrar"
-msgstr ""
+msgstr "Ez dago kanpainarik erakusteko"
 
 #: templates/accion.html:202
 msgid "No hay ofertas para mostrar"
-msgstr ""
+msgstr "Ez dago eskaintzarik erakusteko"
 
 #: templates/accionalumnos.html:3 templates/adminacciones.html:18
 #: templates/admincampanyas.html:22 templates/base.html:213
 #: templates/editoraccion.html:3
 msgid "Acciones"
-msgstr ""
+msgstr "Ekintzak"
 
 #: templates/accionalumnos.html:9
 msgid "Estas son las acciones disponibles para ti."
-msgstr ""
+msgstr "Hauek dira zuretzako ekintza erabilgarriak."
 
 #: templates/accionalumnos.html:22
 msgid "Recompensa"
-msgstr ""
+msgstr "Saria"
 
 #: templates/accionalumnos.html:33
 msgid "Registrar acción"
-msgstr ""
+msgstr "Ekintza erregistratu"
 
 #: templates/accionalumnos.html:39
 msgid "No hay acciones para mostrar."
-msgstr ""
+msgstr "Ez dago ekintzarik erakusteko."
 
 #: templates/adminacciones.html:3
 msgid "Editor de acciones de"
-msgstr ""
+msgstr "Ekintza editorea -"
 
 #: templates/adminacciones.html:6 templates/admincampanyas.html:10
 #: templates/adminofertas.html:10
 msgid "Editar"
-msgstr ""
+msgstr "Editatu"
 
 #: templates/adminacciones.html:6 templates/admincampanyas.html:10
 #: templates/adminofertas.html:10
 msgid "Eliminar"
-msgstr ""
+msgstr "Ezabatu"
 
 #: templates/admincampanyas.html:4
 msgid "Editor de campañas - Administrador"
-msgstr ""
+msgstr "Kanpaina editorea - Administratzailea"
 
 #: templates/admincampanyas.html:6
 msgid "Editor de campañas de"
-msgstr ""
+msgstr "Kanpaina editorea"
 
 #: templates/admincampanyas.html:45
 msgid "Ver acciones"
-msgstr ""
+msgstr "Ekintzak ikusi"
 
 #: templates/admincampanyas.html:54 templates/campanyas.html:41
 #: templates/editorcamp.html:49
 msgid "No hay campañas para mostrar."
-msgstr ""
+msgstr "Ez dago kanpainarik erakusteko."
 
 #: templates/adminofertas.html:4
 msgid "Editor de ofertas - Administrador"
-msgstr ""
+msgstr "Eskaintza editorea - Administratzailea"
 
 #: templates/adminofertas.html:6
 msgid "Editor de ofertas de"
-msgstr ""
+msgstr "Eskaintza editorea - "
 
 #: templates/adminofertas.html:22 templates/base.html:231
 #: templates/ofertas.html:3
 msgid "Ofertas"
-msgstr ""
+msgstr "Eskaintzak"
 
 #: templates/adminofertas.html:51 templates/ofertas.html:39
 msgid "No hay ofertas para mostrar."
-msgstr ""
+msgstr "Ez dago eskaintzarik erakusteko."
 
 #: templates/base.html:187
 msgid "Menú principal"
-msgstr ""
+msgstr "Menu nagusia"
 
 #: templates/base.html:193 templates/editorcamp.html:3
 msgid "Editor de campañas"
-msgstr ""
+msgstr "Kanpaina editorea"
 
 #: templates/base.html:199 templates/editoroferta.html:3
 msgid "Editor de ofertas"
-msgstr ""
+msgstr "Eskaintza editorea"
 
 #: templates/base.html:207 templates/tab1cartera.html:3
 msgid "Cartera"
-msgstr ""
+msgstr "Diru-zorroa"
 
 #: templates/base.html:219 templates/historialtrans.html:40
 msgid "Historial de transacciones"
-msgstr ""
+msgstr "Transakzio historia"
 
 #: templates/base.html:239
 msgid "Cerrar sesión"
-msgstr ""
+msgstr "Sesioa itxi"
 
 #: templates/campanyas.html:23
 msgid "Estas son las campañas que promueve"
-msgstr ""
+msgstr "Kanpaina hauek bultzatutako erakundea: "
 
 #: templates/editoraccion.html:29 templates/editorcamp.html:23
 #: templates/editoroferta.html:29
 msgid "Actualizar"
-msgstr ""
+msgstr "Eguneratu"
 
 #: templates/editoroferta.html:7
 msgid "Oferta"
-msgstr ""
+msgstr "Eskaintza"
 
 #: templates/empresas.html:6
 msgid ""
-"La Universidad de Deusto colabora con varias compañías que buscan "
-"fomentar la sostenibilidad.\n"
+"La Universidad de Deusto colabora con varias compañías que buscan fomentar "
+"la sostenibilidad.\n"
 "    Dichas compañías organizan campañas, que puedes visualizar con más "
 "detalle aquí."
 msgstr ""
+"Deustoko unibertsitateak iraunkortasuna sustatzea bilatzen duten elkarteekin "
+"lan egiten du. Elkarte hauek kanpainak sortzen dituzte, hemen ikus ditzakezu "
+"xehetasun gehiagorekin."
 
 #: templates/empresas.html:14
 msgid "No hay compañías para mostrar."
-msgstr ""
+msgstr "Ez dago elkarterik erakusteko"
 
 #: templates/error.html:6 templates/error.html:64
 msgid "Error"
-msgstr ""
+msgstr "Errorea"
 
 #: templates/error.html:68
 msgid "Lo sentimos."
-msgstr ""
+msgstr "Sentitzen dugu"
 
 #: templates/error.html:70
 msgid "Ha habido un error en la página"
-msgstr ""
+msgstr "Errore bat gertatu da orrian"
 
 #: templates/error.html:71
 msgid "Prueba a volver a la"
-msgstr ""
+msgstr "Saiatu orri nagusira itzultzen  "
 
 #: templates/error.html:71
 msgid "página principal"
-msgstr ""
+msgstr "hemen klikatzen"
 
 #: templates/historialtrans.html:45
 msgid "Historial de transacciones de"
-msgstr ""
+msgstr "Transakzio historia"
 
 #: templates/historialtrans.html:47
 msgid "Historial de transacciones de DeustoCoin"
-msgstr ""
+msgstr "DeustoCoin-en transakzio historia"
 
 #: templates/historialtrans.html:52
 msgid "Gire la pantalla para más detalles."
-msgstr ""
+msgstr "Xehetasun gehiagorako itzuli pantaila."
 
 #: templates/historialtrans.html:57
 msgid "Fecha"
-msgstr ""
+msgstr "Data"
 
 #: templates/historialtrans.html:58
 msgid "Remitente"
-msgstr ""
+msgstr "Igorlea"
 
 #: templates/historialtrans.html:59
 msgid "Destinatario"
-msgstr ""
+msgstr "Hartzailea"
 
 #: templates/historialtrans.html:61
 msgid "Cantidad"
-msgstr ""
+msgstr "Kopurua"
 
 #: templates/historialtrans.html:62
 msgid "Imagen"
-msgstr ""
+msgstr "Irudia"
 
 #: templates/historialtrans.html:63
 msgid "Link de verificación"
-msgstr ""
+msgstr "Egiaztatzeko linka"
 
 #: templates/historialtrans.html:63 templates/subirimagen.html:20
 msgid "Opcional"
-msgstr ""
+msgstr "Hautazkoa"
 
 #: templates/historialtrans.html:79
 msgid "Ver imagen"
-msgstr ""
+msgstr "Irudia ikusi"
 
 #: templates/historialtrans.html:81
 msgid "No hay imagen"
-msgstr ""
+msgstr "Ez dago irudirik"
 
 #: templates/historialtrans.html:84
 msgid "Ver verificación"
-msgstr ""
+msgstr "Ikusi egiaztapena"
 
 #: templates/historialtrans.html:86
 msgid "No hay URL adicional"
-msgstr ""
+msgstr "Ez dago URL gehigarririk"
 
 #: templates/historialtrans.html:93
 msgid "No hay transacciones para mostrar"
-msgstr ""
+msgstr "Ez dago transakziorik erakusteko"
 
 #: templates/historialtrans.html:94
 msgid "El usuario no ha estado involucrado en ninguna transacción."
-msgstr ""
+msgstr "Erabiltzailea ez da inongo transakziotan nahasaia egon."
 
 #: templates/login.html:31 templates/register.html:31
 msgid ""
-"DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain y"
-" llevarla al ámbito universitario, promoviendo un estilo de vida "
-"sostenible y respetuoso con el medio ambiente."
+"DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain y "
+"llevarla al ámbito universitario, promoviendo un estilo de vida sostenible y "
+"respetuoso con el medio ambiente."
 msgstr ""
+"DeustoCoin-ek Blockchain teknologíari ahalik eta probetxu gehiena atera nahi "
+"dio unibertsitate eremura eraman, bizimodu berri bat sustatzeko "
+"ingurugiroarekin begirunetsua den eta jasangarria den bizimodu bat."
 
 #: templates/login.html:35
 msgid "Iniciar sesión con Google"
-msgstr ""
+msgstr "Google bidez sesioa hasi"
 
 #: templates/ofertas.html:9
 msgid "Estas son las ofertas disponibles para ti."
-msgstr ""
+msgstr "Hauek dira zuretzat eskaintza erabilgarriak."
 
 #: templates/ofertas.html:33
 msgid "Canjear oferta"
-msgstr ""
+msgstr "Eskaintza trukatu"
 
 #: templates/pago.html:3
 msgid "Pago por oferta"
-msgstr ""
+msgstr "Eskaintzarengatik ordainketa"
 
 #: templates/pago.html:9
 msgid "Has pagado"
-msgstr ""
+msgstr "Ordaindutako eskaintza: "
 
 #: templates/pago.html:9
 msgid "a"
-msgstr ""
+msgstr " - "
 
 #: templates/pago.html:9 templates/recompensa.html:9
 msgid "por"
-msgstr ""
+msgstr "-"
 
 #: templates/recompensa.html:3
 msgid "¡Enhorabuena!"
-msgstr ""
+msgstr "Zorionak!"
 
 #: templates/recompensa.html:9
 msgid "Has obtenido"
-msgstr ""
+msgstr "Lortutako saria - "
 
 #: templates/recompensa.html:9
 msgid "de"
@@ -410,68 +417,69 @@ msgstr ""
 
 #: templates/register.html:11
 msgid "Registro"
-msgstr ""
+msgstr "Erregistroa"
 
 #: templates/register.html:36
 msgid "Nombre y apellidos"
-msgstr ""
+msgstr "Izen-abizenak"
 
 #: templates/register.html:42
 msgid "Correo electrónico"
-msgstr ""
+msgstr "Posta elektronikoa"
 
 #: templates/register.html:48
 msgid "Dirección blockchain"
-msgstr ""
+msgstr "Blockchain helbidea"
 
 #: templates/register.html:61
 msgid "Alumno"
-msgstr ""
+msgstr "Ikaslea"
 
 #: templates/register.html:62
 msgid "Promotor"
-msgstr ""
+msgstr "Sustatzailea"
 
 #: templates/register.html:63
 msgid "Administrador"
-msgstr ""
+msgstr "Administrazailea"
 
 #: templates/register.html:69
 msgid "Regístrate"
-msgstr ""
+msgstr "Erregistratu"
 
 #: templates/subirimagen.html:4
 msgid "Subir imagen"
-msgstr ""
+msgstr "Irudia igo"
 
 #: templates/subirimagen.html:8
 msgid "Verificando acción"
-msgstr ""
+msgstr "Ekintza egiaztatzen"
 
 #: templates/subirimagen.html:9
 msgid ""
-"Tienes que subir una imagen que corrobore que la acción gracias a la cual"
-" pretendes ser recompensado es\n"
+"Tienes que subir una imagen que corrobore que la acción gracias a la cual "
+"pretendes ser recompensado es\n"
 "      verídica."
 msgstr ""
+"Ekintza hau egin duzula erakusten duen irudia igo behar duzu, saria lortzeko "
+"egin duzun ekintza egia dela ziurtatzeko."
 
 #: templates/subirimagen.html:20
 msgid "URL de verificación"
-msgstr ""
+msgstr "Egiaztapena URL-a"
 
 #: templates/tab1cartera.html:9
 msgid "Tu saldo actual es de"
-msgstr ""
+msgstr "Zure egungo saldoa hau da."
 
 #: templates/tab1cartera.html:11
 msgid "Enviar UDC"
-msgstr ""
+msgstr "UDC bidali"
 
 #: templates/tab1cartera.html:17
 msgid "Dirección del destinatario"
-msgstr ""
+msgstr "Hartzailearen helbidea"
 
 #: templates/tab1cartera.html:23
 msgid "Cantidad de UDCs a enviar"
-msgstr ""
-
+msgstr "Bidali beharreko UDC kopurua"

@@ -1,12 +1,12 @@
-# English translations for PROJECT.
+# English translations for DeustoCoin.
 # Copyright (C) 2021 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+# This file is distributed under the same license as the DeustoCoin project.
+# Jorge El Busto <jorge.elbusto@opendeusto.es>, 2021.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Project-Id-Version: DeustoCoin VERSION\n"
+"Report-Msgid-Bugs-To: jorge.elbusto@opendeusto.es\n"
 "POT-Creation-Date: 2021-04-11 12:38+0200\n"
 "PO-Revision-Date: 2021-04-11 12:41+0200\n"
 "Language: en\n"
@@ -429,7 +429,7 @@ msgstr "Email"
 
 #: templates/register.html:48
 msgid "Dirección blockchain"
-msgstr "Destination email"
+msgstr "Blockchain address"
 
 #: templates/register.html:61
 msgid "Alumno"
