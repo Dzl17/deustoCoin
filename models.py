@@ -120,7 +120,7 @@ class KPIporFechas(Base):
     def getGraphData(id):
         s = Session()
         query = s.query(KPIporFechas)
-        results = query.filter(KPIporFechas.accion == id).order_by(desc(KPIporFechas.kpi)).all()
+        results = query.filter(KPIporFechas.accion == id).order_by(desc(KPIporFechas.id)).all()
         query2 = s.query(Accion)
         name = query2.filter(Accion.id == id).first().nombre
         data = {
