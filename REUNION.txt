@@ -21,6 +21,8 @@ KEY OFFERID ARREGLAR
 eliminar acciones en form -- HECHO
 https://elements.heroku.com/addons/interplanetary-fission
 https://phrase.com/blog/posts/python-localization-flask-applications/
+SUSTITUIR CAMPAÑA POR ASUNTO EN HISTORIALTRANS
+MOSTRAR PRIMER VALOR, Y EL ULTIMO EN GRAFO
 DIAGRAMA DE ARQUITECTURA
 manual de usuarios
 manual de instalacion

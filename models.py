@@ -34,6 +34,12 @@ class User(Base):
         s.close()
 
     @staticmethod
+    def getCompanyBlockAddr(compName):
+        s = Session()
+        query = s.query(User)
+        return query.filter(User.organizacion == compName).first()
+
+    @staticmethod
     def get_by_email(email):
         s = Session()
         query = s.query(User)

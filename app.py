@@ -88,6 +88,28 @@ def sendCoins(dest, amount, imgHash, urlProof):
     s.commit()
     s.close()
 
+def offerTransaction(rem, dest, amount):
+    destUser = User.get_by_email(dest)
+    account_2 = destUser.blockHash
+    nonce = web3.eth.getTransactionCount(test_address)
+    float_amount = float(amount) / valorUDC
+    tx = {
+        'chainId': 3,  # es 3 para Ropsten
+        'nonce': nonce,
+        'to': account_2,
+        'value': web3.toWei(float_amount, 'ether'),
+        'gas': 21000,
+        'gasPrice': web3.toWei(50, 'gwei')
+    }
+    signed_tx = web3.eth.account.signTransaction(tx, private_key)
+    tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    s = Session()
+    dateTimeObj = datetime.now()
+    timestampStr = dateTimeObj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
+    t = Transaccion(timestampStr, tx_hash, rem, destUser.organizacion, None, amount, "", "")
+    s.add(t)
+    s.commit()
+    s.close()
 
 def create_figure(id):
     fig = Figure()
@@ -104,7 +126,6 @@ def create_figure(id):
     ys = [y.kpi for y in results]
     axis.plot(xs, ys)
     return fig
-
 
 @app.route('/')
 def home():
@@ -165,6 +186,8 @@ def authorize():
     if 'offerId' in session and user != None:
         offer = Oferta.getOfferById(session['offerId'])
         if offer != None:
+            dest = User.getCompanyBlockAddr(offer.empresa).email
+            offerTransaction(session['email'], dest, offer.precio)
             return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
                                    session=session, user=user)
         else:
@@ -248,7 +271,8 @@ def wallet():
 def redeemOffer(offer_id):
     offer = Oferta.getOfferById(offer_id)
     user = User.get_by_email(session['email'])
-    del session['offerId']
+    dest = User.getCompanyBlockAddr(offer.empresa).email
+    offerTransaction(session['email'], dest, offer.precio)
     return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
                            session=session, user=user)
 
@@ -364,7 +388,10 @@ def historialtrans():
         try:
             t.campanya = Campanya.getCampaignById(campId).nombre
         except:
-            t.campanya = "Envío de UDCoins"
+            if "@" not in str(t.destinatario):
+                t.campanya = "Pago por oferta"
+            else:
+                t.campanya = "Envío de UDCoins"
 
     try:
         del session['accionId']
@@ -542,9 +569,12 @@ def pay(offer_id):
 
 @app.route('/logout')
 def logout():
-    tempLang = session['lang']
-    session.clear()
-    session['lang'] = tempLang
+    try:
+        tempLang = session['lang']
+        session.clear()
+        session['lang'] = tempLang
+    except:
+        pass
     return redirect('/')
 
 
