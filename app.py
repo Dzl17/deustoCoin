@@ -117,27 +117,30 @@ def offerTransaction(rem, dest, amount):
     s.close()
 
 def create_figure(id):
-    fig = Figure()
-    axis = fig.add_subplot(1, 1, 1)
-    accion = Accion.getActionById(id)
-    data = KPIporFechas.getGraphData(id)
-    titulo = data.get("name")
-    axis.set_title(titulo + " - " + accion.indicadorKpi)
-    axis.set_ylim(0, accion.kpiObj)
-    stringFecha = "Fecha"
     try:
-        stringFecha = translator.translate(stringFecha, dest=session['lang']).text
-        accion.indicadorKpi = translator.translate(accion.indicadorKpi, dest=session['lang']).text
+        fig = Figure()
+        axis = fig.add_subplot(1, 1, 1)
+        accion = Accion.getActionById(id)
+        data = KPIporFechas.getGraphData(id)
+        titulo = data.get("name")
+        axis.set_title(titulo + " - " + accion.indicadorKpi)
+        axis.set_ylim(0, accion.kpiObj)
+        stringFecha = "Fecha"
+        try:
+            stringFecha = translator.translate(stringFecha, dest=session['lang']).text
+            accion.indicadorKpi = translator.translate(accion.indicadorKpi, dest=session['lang']).text
+        except:
+            pass
+        axis.set_xlabel(stringFecha)
+        axis.set_ylabel(accion.indicadorKpi)
+        results = data.get("results")[::-1]
+        xs = [x.fecha for x in results]
+        ys = [y.kpi for y in results]
+        print(xs)
+        axis.plot(xs, ys)
+        return fig
     except:
-        pass
-    axis.set_xlabel(stringFecha)
-    axis.set_ylabel(accion.indicadorKpi)
-    results = data.get("results")[::-1]
-    xs = [x.fecha for x in results]
-    ys = [y.kpi for y in results]
-    print(xs)
-    axis.plot(xs, ys)
-    return fig
+        return None
 
 @app.route('/')
 def home():
