@@ -392,9 +392,9 @@ def historialtrans():
             t.campanya = Campanya.getCampaignById(campId).nombre
         except:
             if "@" not in str(t.destinatario):
-                t.campanya = "Pago por oferta"
+                t.campanya = gettext("Pago por oferta")
             else:
-                t.campanya = "Envío de UDCoins"
+                t.campanya = gettext("Envío de UDCoins")
 
     try:
         del session['accionId']

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-11 12:38+0200\n"
+"POT-Creation-Date: 2021-04-13 14:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: templates/accion.html:3 templates/base.html:225 templates/campanyas.html:20
+#: app.py:395 templates/pago.html:3
+msgid "Pago por oferta"
+msgstr ""
+
+#: app.py:397
+msgid "Envío de UDCoins"
+msgstr ""
+
+#: templates/accion.html:3 templates/base.html:226 templates/campanyas.html:20
 #: templates/empresas.html:3
 msgid "Campañas"
 msgstr ""
@@ -86,13 +94,12 @@ msgstr ""
 msgid "Nombre de la acción"
 msgstr ""
 
-#: templates/accion.html:60 templates/accion.html:127
-#: templates/adminacciones.html:22 templates/editoraccion.html:24
-msgid "Recompensa (en UDC)"
+#: templates/accion.html:60 templates/adminacciones.html:22
+#: templates/editoraccion.html:24
+msgid "Recompensa por KPI (en UDC)"
 msgstr ""
 
 #: templates/accion.html:67 templates/editorcamp.html:7
-#: templates/historialtrans.html:60
 msgid "Campaña"
 msgstr ""
 
@@ -127,6 +134,10 @@ msgstr ""
 msgid "Nombre"
 msgstr ""
 
+#: templates/accion.html:127 templates/accionalumnos.html:22
+msgid "Recompensa por KPI"
+msgstr ""
+
 #: templates/accion.html:128
 msgid "Indicador"
 msgstr ""
@@ -158,17 +169,13 @@ msgid "No hay ofertas para mostrar"
 msgstr ""
 
 #: templates/accionalumnos.html:3 templates/adminacciones.html:18
-#: templates/admincampanyas.html:22 templates/base.html:213
+#: templates/admincampanyas.html:22 templates/base.html:214
 #: templates/editoraccion.html:3
 msgid "Acciones"
 msgstr ""
 
 #: templates/accionalumnos.html:9
 msgid "Estas son las acciones disponibles para ti."
-msgstr ""
-
-#: templates/accionalumnos.html:22
-msgid "Recompensa"
 msgstr ""
 
 #: templates/accionalumnos.html:33
@@ -218,7 +225,7 @@ msgstr ""
 msgid "Editor de ofertas de"
 msgstr ""
 
-#: templates/adminofertas.html:22 templates/base.html:231
+#: templates/adminofertas.html:22 templates/base.html:232
 #: templates/ofertas.html:3
 msgid "Ofertas"
 msgstr ""
@@ -227,27 +234,31 @@ msgstr ""
 msgid "No hay ofertas para mostrar."
 msgstr ""
 
-#: templates/base.html:187
+#: templates/base.html:188
 msgid "Menú principal"
 msgstr ""
 
-#: templates/base.html:193 templates/editorcamp.html:3
+#: templates/base.html:194 templates/editorcamp.html:3
 msgid "Editor de campañas"
 msgstr ""
 
-#: templates/base.html:199 templates/editoroferta.html:3
+#: templates/base.html:200 templates/editoroferta.html:3
 msgid "Editor de ofertas"
 msgstr ""
 
-#: templates/base.html:207 templates/tab1cartera.html:3
+#: templates/base.html:208 templates/tab1cartera.html:3
 msgid "Cartera"
 msgstr ""
 
-#: templates/base.html:219 templates/historialtrans.html:40
+#: templates/base.html:220 templates/historialtrans.html:40
 msgid "Historial de transacciones"
 msgstr ""
 
-#: templates/base.html:239
+#: templates/base.html:239 templates/sobre.html:3
+msgid "Sobre DeustoCoin"
+msgstr ""
+
+#: templates/base.html:245
 msgid "Cerrar sesión"
 msgstr ""
 
@@ -320,6 +331,10 @@ msgstr ""
 msgid "Destinatario"
 msgstr ""
 
+#: templates/historialtrans.html:60
+msgid "Asunto"
+msgstr ""
+
 #: templates/historialtrans.html:61
 msgid "Cantidad"
 msgstr ""
@@ -379,10 +394,6 @@ msgstr ""
 msgid "Canjear oferta"
 msgstr ""
 
-#: templates/pago.html:3
-msgid "Pago por oferta"
-msgstr ""
-
 #: templates/pago.html:9
 msgid "Has pagado"
 msgstr ""
@@ -437,6 +448,42 @@ msgstr ""
 
 #: templates/register.html:69
 msgid "Regístrate"
+msgstr ""
+
+#: templates/sobre.html:6
+msgid ""
+"DeustoCoin es un proyecto que pretende fomentar el lema <b>“Blockchain "
+"for Good”</b> y contribuir a un mundo mejor a través de una tecnología "
+"emergente como es el Blockchain. <br><br>\n"
+"\n"
+"Dicho proyecto consta de una aplicación web en la que pueden operar tanto"
+" miembros de la universidad de Deusto como promotores de campañas "
+"pertenecientes a empresas externas a la universidad (cafeterías, museos, "
+"transporte...). <br><br>\n"
+"\n"
+"    Mediante este proyecto, se pretende mejorar la imagen corporativa de "
+"la Universidad, cumpliendo con varios de los 17 ODS <b>(Objetivos de "
+"Desarrollo Sostenible)</b> establecidos por las Naciones Unidas. <br><br>"
+"\n"
+"\n"
+"    Hay varios roles que conforman la plataforma de DeustoCoin, además de"
+" una criptomoneda basada en Ethereum <b>(UDCoin)</b> que será la moneda a"
+" canjear para las diferentes ofertas. Los roles en cuestión varían en "
+"función del usuario, y hay tres: <b>Alumno</b>, <b>promotor</b>, y un "
+"<b>administrador</b> que podrá realizar las tareas de los dos tipos de "
+"usuario anteriores. <br><br>\n"
+"\n"
+"    El <b>alumno</b> podrá realizar una serie de tareas como el envío de "
+"monedas a compañeros, consulta de campañas, canjeo de UDCoins en ofertas "
+"y registro y confirmación de una buena acción para así obtener su "
+"respectiva recompensa. <br><br>\n"
+"\n"
+"    Los <b>promotores</b> podrán lanzar campañas y acciones, monitorizar "
+"los KPIs de las mismas, y observar en gráficas el progreso de las "
+"acciones correspondientes a las campañas. <br><br>\n"
+"\n"
+"Las tecnologías utilizadas en el proyecto son <b>Python, Ethereum "
+"(Infura), IPFS, HTML y Google App Engine</b>."
 msgstr ""
 
 #: templates/subirimagen.html:4

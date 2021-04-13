@@ -1,5 +1,5 @@
 # Basque translations for DeustoCoin.
-# Copyright (C) 2021 ORGANIZATION
+# Copyright (C) 2021 MORELAB
 # This file is distributed under the same license as the DeustoCoin project.
 # Jorge El Busto <jorge.elbusto@opendeusto.es>, 2021.
 #
@@ -19,7 +19,15 @@ msgstr ""
 "Last-Translator: \n"
 "X-Generator: Poedit 2.4.2\n"
 
-#: templates/accion.html:3 templates/base.html:225 templates/campanyas.html:20
+#: app.py:395 templates/pago.html:3
+msgid "Pago por oferta"
+msgstr "Ordainketa"
+
+#: app.py:397
+msgid "Envío de UDCoins"
+msgstr "UDCoin-en bidalketa"
+
+#: templates/accion.html:3 templates/base.html:226 templates/campanyas.html:20
 #: templates/empresas.html:3
 msgid "Campañas"
 msgstr "Kanpainak"
@@ -88,13 +96,12 @@ msgstr "Deskribapena"
 msgid "Nombre de la acción"
 msgstr "Ekintzaren izena"
 
-#: templates/accion.html:60 templates/accion.html:127
-#: templates/adminacciones.html:22 templates/editoraccion.html:24
-msgid "Recompensa (en UDC)"
-msgstr "Saria (UDC-tan)"
+#: templates/accion.html:60 templates/adminacciones.html:22
+#: templates/editoraccion.html:24
+msgid "Recompensa por KPI (en UDC)"
+msgstr "Saria (UDC/KPI)"
 
 #: templates/accion.html:67 templates/editorcamp.html:7
-#: templates/historialtrans.html:60
 msgid "Campaña"
 msgstr "Kanpaina"
 
@@ -129,6 +136,10 @@ msgstr "Prezioa"
 msgid "Nombre"
 msgstr "Izena"
 
+#: templates/accion.html:127 templates/accionalumnos.html:22
+msgid "Recompensa por KPI"
+msgstr "Saria (UDC/KPI)"
+
 #: templates/accion.html:128
 msgid "Indicador"
 msgstr "Adierazlea"
@@ -160,7 +171,7 @@ msgid "No hay ofertas para mostrar"
 msgstr "Ez dago eskaintzarik erakusteko"
 
 #: templates/accionalumnos.html:3 templates/adminacciones.html:18
-#: templates/admincampanyas.html:22 templates/base.html:213
+#: templates/admincampanyas.html:22 templates/base.html:214
 #: templates/editoraccion.html:3
 msgid "Acciones"
 msgstr "Ekintzak"
@@ -168,10 +179,6 @@ msgstr "Ekintzak"
 #: templates/accionalumnos.html:9
 msgid "Estas son las acciones disponibles para ti."
 msgstr "Hauek dira zuretzako ekintza erabilgarriak."
-
-#: templates/accionalumnos.html:22
-msgid "Recompensa"
-msgstr "Saria"
 
 #: templates/accionalumnos.html:33
 msgid "Registrar acción"
@@ -220,7 +227,7 @@ msgstr "Eskaintza editorea - Administratzailea"
 msgid "Editor de ofertas de"
 msgstr "Eskaintza editorea - "
 
-#: templates/adminofertas.html:22 templates/base.html:231
+#: templates/adminofertas.html:22 templates/base.html:232
 #: templates/ofertas.html:3
 msgid "Ofertas"
 msgstr "Eskaintzak"
@@ -229,27 +236,31 @@ msgstr "Eskaintzak"
 msgid "No hay ofertas para mostrar."
 msgstr "Ez dago eskaintzarik erakusteko."
 
-#: templates/base.html:187
+#: templates/base.html:188
 msgid "Menú principal"
 msgstr "Menu nagusia"
 
-#: templates/base.html:193 templates/editorcamp.html:3
+#: templates/base.html:194 templates/editorcamp.html:3
 msgid "Editor de campañas"
 msgstr "Kanpaina editorea"
 
-#: templates/base.html:199 templates/editoroferta.html:3
+#: templates/base.html:200 templates/editoroferta.html:3
 msgid "Editor de ofertas"
 msgstr "Eskaintza editorea"
 
-#: templates/base.html:207 templates/tab1cartera.html:3
+#: templates/base.html:208 templates/tab1cartera.html:3
 msgid "Cartera"
 msgstr "Diru-zorroa"
 
-#: templates/base.html:219 templates/historialtrans.html:40
+#: templates/base.html:220 templates/historialtrans.html:40
 msgid "Historial de transacciones"
 msgstr "Transakzio historia"
 
-#: templates/base.html:239
+#: templates/base.html:239 templates/sobre.html:3
+msgid "Sobre DeustoCoin"
+msgstr "DeustoCoin-i buruz"
+
+#: templates/base.html:245
 msgid "Cerrar sesión"
 msgstr "Sesioa itxi"
 
@@ -325,6 +336,10 @@ msgstr "Igorlea"
 msgid "Destinatario"
 msgstr "Hartzailea"
 
+#: templates/historialtrans.html:60
+msgid "Asunto"
+msgstr "Gaia"
+
 #: templates/historialtrans.html:61
 msgid "Cantidad"
 msgstr "Kopurua"
@@ -387,17 +402,13 @@ msgstr "Hauek dira zuretzat eskaintza erabilgarriak."
 msgid "Canjear oferta"
 msgstr "Eskaintza trukatu"
 
-#: templates/pago.html:3
-msgid "Pago por oferta"
-msgstr "Eskaintzarengatik ordainketa"
-
 #: templates/pago.html:9
 msgid "Has pagado"
 msgstr "Ordaindutako eskaintza: "
 
 #: templates/pago.html:9
 msgid "a"
-msgstr " - "
+msgstr ""
 
 #: templates/pago.html:9 templates/recompensa.html:9
 msgid "por"
@@ -413,7 +424,7 @@ msgstr "Lortutako saria - "
 
 #: templates/recompensa.html:9
 msgid "de"
-msgstr ""
+msgstr "DeustoCoin-en transakzio historia"
 
 #: templates/register.html:11
 msgid "Registro"
@@ -447,6 +458,71 @@ msgstr "Administrazailea"
 msgid "Regístrate"
 msgstr "Erregistratu"
 
+#: templates/sobre.html:6
+msgid ""
+"DeustoCoin es un proyecto que pretende fomentar el lema <b>“Blockchain for "
+"Good”</b> y contribuir a un mundo mejor a través de una tecnología emergente "
+"como es el Blockchain. <br><br>\n"
+"\n"
+"Dicho proyecto consta de una aplicación web en la que pueden operar tanto "
+"miembros de la universidad de Deusto como promotores de campañas "
+"pertenecientes a empresas externas a la universidad (cafeterías, museos, "
+"transporte...). <br><br>\n"
+"\n"
+"    Mediante este proyecto, se pretende mejorar la imagen corporativa de la "
+"Universidad, cumpliendo con varios de los 17 ODS <b>(Objetivos de Desarrollo "
+"Sostenible)</b> establecidos por las Naciones Unidas. <br><br>\n"
+"\n"
+"    Hay varios roles que conforman la plataforma de DeustoCoin, además de "
+"una criptomoneda basada en Ethereum <b>(UDCoin)</b> que será la moneda a "
+"canjear para las diferentes ofertas. Los roles en cuestión varían en función "
+"del usuario, y hay tres: <b>Alumno</b>, <b>promotor</b>, y un "
+"<b>administrador</b> que podrá realizar las tareas de los dos tipos de "
+"usuario anteriores. <br><br>\n"
+"\n"
+"    El <b>alumno</b> podrá realizar una serie de tareas como el envío de "
+"monedas a compañeros, consulta de campañas, canjeo de UDCoins en ofertas y "
+"registro y confirmación de una buena acción para así obtener su respectiva "
+"recompensa. <br><br>\n"
+"\n"
+"    Los <b>promotores</b> podrán lanzar campañas y acciones, monitorizar los "
+"KPIs de las mismas, y observar en gráficas el progreso de las acciones "
+"correspondientes a las campañas. <br><br>\n"
+"\n"
+"Las tecnologías utilizadas en el proyecto son <b>Python, Ethereum (Infura), "
+"IPFS, HTML y Google App Engine</b>."
+msgstr ""
+"DeustoCoin <b>\"blockchain for Good\"</b> lema sustatu eta mundu hobea "
+"lortzen lagundu nahi duen proiektua da, Blockchain teknologiaren bitartez."
+"<br><br>\n"
+"\n"
+"Proiektu honek web-aplikazio bat du, eta bertan Deustuko Unibertsitateko "
+"kideek zein unibertsitatetik kanpoko enpresetako (kafetegiak, museoak, "
+"garraioa...) kanpainen sustatzaileek jardun dezakete.<br><br>\n"
+"\n"
+"Proiektu honen bidez, unibertsitatearen irudi korporatiboa hobetu nahi da, "
+"Nazio Batuek ezarritako 17 <b>Garapen Jasangarriko Helburuak</b> betez."
+"<br><br>\n"
+"\n"
+"DeustoCoinen plataforma osatzen duten hainbat rol daude, baita Ethereumen "
+"oinarritutako kriptomoneta bat ere <b>(UDCoin)</b>, eskaintza "
+"ezberdinetarako trukatu beharreko txanpona izango dena. Rol horiek aldatu "
+"egiten dira erabiltzailearen arabera, eta hiru daude: <b>ikaslea, "
+"sustatzailea eta administratzaile bat</b>, aurreko bi erabiltzaile moten "
+"zereginak egin ahal izango dituena.<br><br>\n"
+"\n"
+"<b>Ikasleak</b> zenbait zeregin egin ahal izango ditu, hala nola ikaskideei "
+"txanponak bidaltzea, kanpainak kontsultatzea, UDCoinak trukatzea "
+"eskaintzetan eta erregistratzea eta ekintza on bat berrestea, horrela "
+"dagokion saria lortzeko.<br><br>\n"
+"\n"
+"<b>Sustatzaileek</b> kanpainak eta ekintzak egin ahal izango dituzte, horien "
+"KPIak monitorizatu, eta grafikoetan kanpainei dagozkien ekintzen aurrerapena "
+"ikusi.<br><br>\n"
+"\n"
+"Proiektuan erabiltzen diren teknologiak <b>Python, Ethereum (Infura), IPFS, "
+"HTML eta Google App Engine</b> dira."
+
 #: templates/subirimagen.html:4
 msgid "Subir imagen"
 msgstr "Irudia igo"
@@ -478,7 +554,7 @@ msgstr "UDC bidali"
 
 #: templates/tab1cartera.html:17
 msgid "Correo electrónico del destinatario"
-msgstr "Hartzailearen helbidea"
+msgstr "Posta elektronikoa"
 
 #: templates/tab1cartera.html:23
 msgid "Cantidad de UDCs a enviar"
