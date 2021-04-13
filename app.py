@@ -8,6 +8,7 @@ from models import User, Transaccion, Accion, Campanya, KPIporFechas, Oferta
 from datetime import datetime
 from web3 import Web3
 from forms import EnviarUDCForm, CrearCampForm, CrearOfertaForm
+from googletrans import Translator
 import cryptocompare
 import io
 import ipfshttpclient
@@ -17,6 +18,7 @@ import os
 app = Flask(__name__)
 app.config['BABEL_DEFAULT_LOCALE'] = 'es'
 babel = Babel(app)
+translator = Translator()
 app.config.from_object("config.Config")
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 app.config["SECRET_KEY"] = app.secret_key
@@ -119,7 +121,13 @@ def create_figure(id):
     titulo = data.get("name")
     axis.set_title(titulo + " - " + accion.indicadorKpi)
     axis.set_ylim(0, accion.kpiObj)
-    axis.set_xlabel("Fecha")
+    stringFecha = "Fecha"
+    try:
+        stringFecha = translator.translate(stringFecha, dest=session['lang']).text
+        accion.indicadorKpi = translator.translate(accion.indicadorKpi, dest=session['lang']).text
+    except:
+        pass
+    axis.set_xlabel(stringFecha)
     axis.set_ylabel(accion.indicadorKpi)
     results = data.get("results")[::-1]
     xs = [x.fecha for x in results]
@@ -162,6 +170,10 @@ def upload():
     kpi = request.form['kpi']
     cReward.recompensa = cReward.recompensa * float(kpi)
     sendCoins(session['email'], cReward.recompensa, res['Hash'], urlProof)
+    try:
+        cReward.nombre = translator.translate(cReward.nombre, dest=session['lang']).text
+    except:
+        pass
     del session['accionId']
     return render_template("recompensa.html", name=session['name'], accion=cReward, email=session['email'], user=user)
 
@@ -181,6 +193,12 @@ def authorize():
 
     if 'accionId' in session and user != None:
         cReward = Accion.getActionById(session['accionId'])
+        try:
+            cReward.nombre = translator.translate(cReward.nombre, dest=session['lang']).text
+            cReward.descripcion = translator.translate(cReward.descripcion, dest=session['lang']).text
+            cReward.indicadorKpi = translator.translate(cReward.indicadorKpi, dest=session['lang']).text
+        except:
+            pass
         if cReward != None:
             return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
                                session=session, user=user, accionId=cReward)
@@ -191,6 +209,10 @@ def authorize():
         if offer != None:
             dest = User.getCompanyBlockAddr(offer.empresa).email
             offerTransaction(session['email'], dest, offer.precio)
+            try:
+                offer.nombre = translator.translate(offer.nombre, dest=session['lang']).text
+            except:
+                pass
             return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
                                    session=session, user=user)
         else:
@@ -260,15 +282,13 @@ def wallet():
         s.add(t)
         s.commit()
     given_name = dict(session).get('given_name', None)
-    transacciones = Transaccion.getTransactions(email)
-    acciones = Accion.getAllActions()
     try:
         del session['accionId']
         del session['offerId']
     except:
         pass
     return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, w3=web3,
-                           form=form, user=user, transacciones=transacciones, acciones=acciones)
+                           form=form, user=user)
 
 @app.route('/redeemOffer/<int:offer_id>')
 def redeemOffer(offer_id):
@@ -276,6 +296,10 @@ def redeemOffer(offer_id):
     user = User.get_by_email(session['email'])
     dest = User.getCompanyBlockAddr(offer.empresa).email
     offerTransaction(session['email'], dest, offer.precio)
+    try:
+        offer.nombre = translator.translate(offer.nombre, dest=session['lang']).text
+    except:
+        pass
     return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
                            session=session, user=user)
 
@@ -297,7 +321,18 @@ def accion():
         ofertas = Oferta.getAllOffers()
     else:
         return redirect("/login")
-
+    try:
+        for c in campanyas:
+            c.nombre = translator.translate(c.nombre, dest=session['lang']).text
+            c.descripcion = translator.translate(c.descripcion, dest=session['lang']).text
+        for a in acciones:
+            a.nombre = translator.translate(a.nombre, dest=session['lang']).text
+            a.descripcion = translator.translate(a.descripcion, dest=session['lang']).text
+        for o in ofertas:
+            o.nombre = translator.translate(o.nombre, dest=session['lang']).text
+            o.descripcion = translator.translate(o.descripcion, dest=session['lang']).text
+    except:
+        pass
     salary = get_balance(user.blockHash)
     if form.validate_on_submit() and form.crearCamp.data:
         s = Session()
@@ -354,6 +389,12 @@ def accionalumnos():
     salary = get_balance(user.blockHash)
     acciones = Accion.getAllActions()
     try:
+        for a in acciones:
+            a.nombre = translator.translate(a.nombre, dest=session['lang']).text
+            a.descripcion = translator.translate(a.descripcion, dest=session['lang']).text
+    except:
+        pass
+    try:
         del session['accionId']
         del session['offerId']
     except:
@@ -369,6 +410,12 @@ def ofertas():
     salary = get_balance(user.blockHash)
     ofertas = Oferta.getAllOffers()
     try:
+        for o in ofertas:
+            o.nombre = translator.translate(o.nombre, dest=session['lang']).text
+            o.descripcion = translator.translate(o.descripcion, dest=session['lang']).text
+    except:
+        pass
+    try:
         del session['accionId']
         del session['offerId']
     except:
@@ -382,6 +429,7 @@ def historialtrans():
     user = User.get_by_email(email)
     salary = get_balance(user.blockHash)
     name = dict(session).get('name', None)
+
     if user.role == "Alumno":
         transacciones = Transaccion.getTransactions(user.email)
     else:
@@ -390,6 +438,10 @@ def historialtrans():
         campId = t.campanya
         try:
             t.campanya = Campanya.getCampaignById(campId).nombre
+            try:
+                t.campanya = translator.translate(t.campanya, dest=session['lang']).text
+            except:
+                pass
         except:
             if "@" not in str(t.destinatario):
                 t.campanya = gettext("Pago por oferta")
@@ -601,6 +653,13 @@ def campanyas():
     campanyas = Campanya.getOrderedCampaigns()
     empresas = Campanya.getDistinctCompanies()
     try:
+        for c in campanyas:
+            c.nombre = translator.translate(c.nombre, dest=session['lang']).text
+            c.descripcion = translator.translate(c.descripcion, dest=session['lang']).text
+
+    except:
+        pass
+    try:
         del session['accionId']
         del session['offerId']
     except:
@@ -617,6 +676,15 @@ def empresa(emp):
     salary = get_balance(user.blockHash)
     campanyas = Campanya.getCampaigns(emp)
     acciones = Accion.getActions(emp)
+    try:
+        for c in campanyas:
+            c.nombre = translator.translate(c.nombre, dest=session['lang']).text
+            c.descripcion = translator.translate(c.descripcion, dest=session['lang']).text
+        for a in acciones:
+            a.nombre = translator.translate(a.nombre, dest=session['lang']).text
+            a.descripcion = translator.translate(a.descripcion, dest=session['lang']).text
+    except:
+        pass
     return render_template('campanyas.html', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, campanyas=campanyas, empresa=emp, acciones=acciones)
 
@@ -626,6 +694,12 @@ def registrarAccion(accion_id):
     user = User.get_by_email(session['email'])
     session['accionId'] = accion_id
     cReward = Accion.getActionById(accion_id)
+    try:
+        cReward.nombre = translator.translate(cReward.nombre, dest=session['lang']).text
+        cReward.descripcion = translator.translate(cReward.descripcion, dest=session['lang']).text
+        cReward.indicadorKpi = translator.translate(cReward.indicadorKpi, dest=session['lang']).text
+    except:
+        pass
     return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
                            session=session, user=user, accionId=accion_id)
 
