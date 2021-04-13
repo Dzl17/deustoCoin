@@ -9,6 +9,7 @@ from datetime import datetime
 from web3 import Web3
 from forms import EnviarUDCForm, CrearCampForm, CrearOfertaForm
 from googletrans import Translator
+from flask.cli import with_appcontext
 import cryptocompare
 import io
 import ipfshttpclient
@@ -48,7 +49,10 @@ def get_locale():
         session['lang'] = request.args.get('lang')
     return session.get('lang', 'es')
 
-
+@app.cli.command()
+@with_appcontext
+def init():
+    init_db()
 
 def get_balance(test_address):
     web3 = Web3(Web3.HTTPProvider(os.environ.get('ROPSTEN_URL')))
