@@ -19,21 +19,20 @@ app = Flask(__name__)
 app.config['BABEL_DEFAULT_LOCALE'] = 'es'
 babel = Babel(app)
 translator = Translator()
-app.config.from_object("config.Config")
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 app.config["SECRET_KEY"] = app.secret_key
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-test_address = app.config['TEST_ADDRESS']
-private_key = app.config['PRIVATE_KEY']
-web3 = Web3(Web3.HTTPProvider(app.config['ROPSTEN_URL']))
+test_address = os.environ.get('TEST_ADDRESS')
+private_key = os.environ.get('PRIVATE_KEY')
+web3 = Web3(Web3.HTTPProvider(os.environ.get('ROPSTEN_URL')))
 valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
 init_db()
 
 oauth = OAuth(app)
 google = oauth.register(
     name='google',
-    client_id=app.config['GOOGLE_CLIENT_ID'],
-    client_secret=app.config['GOOGLE_CLIENT_SECRET'],
+    client_id=os.environ.get('GOOGLE_CLIENT_ID'),
+    client_secret=os.environ.get('GOOGLE_CLIENT_SECRET'),
     access_token_url='https://accounts.google.com/o/oauth2/token',
     access_token_params=None,
     authorize_url='https://accounts.google.com/o/oauth2/auth',
@@ -52,7 +51,7 @@ def get_locale():
 
 
 def get_balance(test_address):
-    web3 = Web3(Web3.HTTPProvider(app.config['ROPSTEN_URL']))
+    web3 = Web3(Web3.HTTPProvider(os.environ.get('ROPSTEN_URL')))
     balance = web3.eth.getBalance(test_address)
     valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
     balancefloat = float(web3.fromWei(balance, "ether")) * valorUDC
@@ -157,7 +156,7 @@ def login():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    client = ipfshttpclient.connect(app.config['IPFS_CONNECT_URL'])
+    client = ipfshttpclient.connect(os.environ.get('IPFS_CONNECT_URL'))
     user = User.get_by_email(session['email'])
     try:
         urlProof = request.form['proof']
