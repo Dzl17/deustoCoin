@@ -234,6 +234,11 @@ ul ul a {
                     </li>
                     {% endif %}
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('sobre')}}">
+                            <span class="iconify" data-icon="ant-design:info-circle-outlined" data-inline="false"></span>
+                            {{gettext('Sobre DeustoCoin')}}</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('logout')}}"><span class="iconify"
                                                                                 data-icon="carbon:logout"
                                                                                 data-inline="false"></span>

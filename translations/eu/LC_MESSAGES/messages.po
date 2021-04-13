@@ -477,7 +477,7 @@ msgid "Enviar UDC"
 msgstr "UDC bidali"
 
 #: templates/tab1cartera.html:17
-msgid "Dirección del destinatario"
+msgid "Correo electrónico del destinatario"
 msgstr "Hartzailearen helbidea"
 
 #: templates/tab1cartera.html:23

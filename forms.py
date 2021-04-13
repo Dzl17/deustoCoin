@@ -9,7 +9,7 @@ iconRm = Markup('<span class="iconify" data-icon="clarity:remove-solid" data-inl
 
 
 class EnviarUDCForm(FlaskForm):
-    destino = StringField('Dirección del destinatario')
+    destino = StringField('Correo electrónico del destinatario')
     cantidad = FloatField('Cantidad de UDCs a enviar')
     submit = SubmitField('Enviar')
 

@@ -467,7 +467,7 @@ msgid "Enviar UDC"
 msgstr ""
 
 #: templates/tab1cartera.html:17
-msgid "Dirección del destinatario"
+msgid "Correo electrónico del destinatario"
 msgstr ""
 
 #: templates/tab1cartera.html:23

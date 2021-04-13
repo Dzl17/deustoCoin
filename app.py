@@ -159,6 +159,8 @@ def upload():
     res = client.add(file)
     client.close()
     cReward = Accion.getActionById(session['accionId'])
+    kpi = request.form['kpi']
+    cReward.recompensa = cReward.recompensa * float(kpi)
     sendCoins(session['email'], cReward.recompensa, res['Hash'], urlProof)
     del session['accionId']
     return render_template("recompensa.html", name=session['name'], accion=cReward, email=session['email'], user=user)
@@ -578,13 +580,24 @@ def logout():
         pass
     return redirect('/')
 
+@app.route('/sobre')
+def sobre():
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+    try:
+        del session['accionId']
+        del session['offerId']
+    except:
+        pass
+    return render_template('sobre.html', email=email, name=given_name,
+                           user=user)
 
 @app.route('/campanyas')
 def campanyas():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    salary = get_balance(user.blockHash)
     campanyas = Campanya.getOrderedCampaigns()
     empresas = Campanya.getDistinctCompanies()
     try:
@@ -592,7 +605,7 @@ def campanyas():
         del session['offerId']
     except:
         pass
-    return render_template('empresas.html', wallet=salary, email=email, name=given_name, w3=web3,
+    return render_template('empresas.html', email=email, name=given_name,
                            user=user, campanyas=campanyas, empresas=empresas)
 
 
