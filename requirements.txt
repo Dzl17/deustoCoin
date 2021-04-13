@@ -8,6 +8,7 @@ flask-sqlalchemy==2.4.4
 flask-uploads==0.2.1
 flask-wtf==0.14.3
 googletrans==4.0.0rc1
+gunicorn==20.0.4
 Image==1.5.33
 ipfshttpclient==0.7.0a1
 matplotlib==3.3.4
