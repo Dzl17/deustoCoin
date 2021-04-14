@@ -12,12 +12,14 @@
     <h2>
       <span style="font-size: 1rem">{{ gettext ('El saldo actual de la universidad es de') }} <b>{{ wallet }}</b> UDC.</span><br />
     </h2>
-    <p><button class="btn btn-primary btn-large" id="mostrarformacc" style="width:40vw">{{ gettext('Crear acción') }}</button>&nbsp;<button
-        class="btn btn-primary btn-large" id="mostraracc" style="width:40vw">{{gettext('Mostrar acciones')}}</button>
-      &nbsp;<button class="btn btn-primary btn-large" id="mostrarformcamp" style="width:40vw">{{ gettext('Crear campaña') }}</button>
-      &nbsp;<button class="btn btn-primary btn-large" id="mostrarcamp" style="width:40vw">{{ gettext('Mostrar campañas') }}</button>
-          &nbsp;<button class="btn btn-primary btn-large" id="crearofertas" style="width:40vw">{{ gettext('Crear oferta')}}</button>
-    &nbsp;<button class="btn btn-primary btn-large" id="mostrarofertas" style="width:40vw">{{ gettext('Mostrar ofertas') }}</button></p>
+    <p><button class="btn btn-primary btn-large" id="mostrarformacc" style="width:38vw; text-align: center;">{{ gettext('Crear acción') }}</button>&nbsp;<button
+        class="btn btn-primary btn-large" id="mostraracc" style="width:38vw; text-align: center;">{{gettext('Mostrar acciones')}}</button>
+      <br>
+      &nbsp;<button class="btn btn-primary btn-large" id="mostrarformcamp" style="width:38vw; text-align: center;">{{ gettext('Crear campaña') }}</button>
+      &nbsp;<button class="btn btn-primary btn-large" id="mostrarcamp" style="width:38vw; text-align: center;">{{ gettext('Mostrar campañas') }}</button>
+      <br>
+          &nbsp;<button class="btn btn-primary btn-large" id="crearofertas" style="width:38vw; text-align: center;">{{ gettext('Crear oferta')}}</button>
+    &nbsp;<button class="btn btn-primary btn-large" id="mostrarofertas" style="width:38vw; text-align: center;">{{ gettext('Mostrar ofertas') }}</button></p>
   </div>
   <form style="display: none;" id="campanyasform" method="POST">
     {{ form.csrf_token }}
