@@ -26,6 +26,8 @@ private_key = os.environ.get('PRIVATE_KEY')
 web3 = Web3(Web3.HTTPProvider(os.environ.get('ROPSTEN_URL')))
 valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
 init_db()
+app.secret_key = os.environ.get("PRIVATE_KEY")
+app.config["PRIVATE_KEY"] = app.secret_key
 
 oauth = OAuth(app)
 google = oauth.register(
@@ -734,6 +736,4 @@ def unauthorized(e):
 
 
 if __name__ == "__main__":
-    app.secret_key = os.environ.get("PRIVATE_KEY")
-    app.config["PRIVATE_KEY"] = app.secret_key
     app.run()
