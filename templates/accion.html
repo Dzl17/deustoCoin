@@ -1,15 +1,4 @@
 {% extends "base.html" %}
-{% block head %}
-<style>
-
-  .btn btn-primary btn-large {
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-    flex-wrap: wrap;
-  }
-</style>
-{% endblock %}
 {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h1 class="h2">{{gettext('Campañas')}}</h1>
@@ -23,12 +12,12 @@
     <h2>
       <span style="font-size: 1rem">{{ gettext ('El saldo actual de la universidad es de') }} <b>{{ wallet }}</b> UDC.</span><br />
     </h2>
-    <p><button class="btn btn-primary btn-large" id="mostrarformacc">{{ gettext('Crear acción') }}</button>&nbsp;<button
-        class="btn btn-primary btn-large" id="mostraracc">{{gettext('Mostrar acciones')}}</button>
-      &nbsp;<button class="btn btn-primary btn-large" id="mostrarformcamp">{{ gettext('Crear campaña') }}</button>
-      &nbsp;<button class="btn btn-primary btn-large" id="mostrarcamp">{{ gettext('Mostrar campañas') }}</button>
-          &nbsp;<button class="btn btn-primary btn-large" id="crearofertas">{{ gettext('Crear oferta')}}</button>
-    &nbsp;<button class="btn btn-primary btn-large" id="mostrarofertas">{{ gettext('Mostrar ofertas') }}</button></p>
+    <p><button class="btn btn-primary btn-large" id="mostrarformacc" style="width:40vw">{{ gettext('Crear acción') }}</button>&nbsp;<button
+        class="btn btn-primary btn-large" id="mostraracc" style="width:40vw">{{gettext('Mostrar acciones')}}</button>
+      &nbsp;<button class="btn btn-primary btn-large" id="mostrarformcamp" style="width:40vw">{{ gettext('Crear campaña') }}</button>
+      &nbsp;<button class="btn btn-primary btn-large" id="mostrarcamp" style="width:40vw">{{ gettext('Mostrar campañas') }}</button>
+          &nbsp;<button class="btn btn-primary btn-large" id="crearofertas" style="width:40vw">{{ gettext('Crear oferta')}}</button>
+    &nbsp;<button class="btn btn-primary btn-large" id="mostrarofertas" style="width:40vw">{{ gettext('Mostrar ofertas') }}</button></p>
   </div>
   <form style="display: none;" id="campanyasform" method="POST">
     {{ form.csrf_token }}
