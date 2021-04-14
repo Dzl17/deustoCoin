@@ -5,6 +5,9 @@
 <div class="view">
   <div class="jumbotron">
     <h2>{{gettext('Hola')}}, {{ name }}.</h2>
+    {% if user.blockAddr is not none %}
+      <p>{{gettext('Tu dirección de Blockchain es'}} {{user.blockAddr}}</p>
+    {% endif %}
     <h2>
       <span style="font-size: 1rem">{{gettext('Tu saldo actual es de')}} <b>{{ wallet }}</b> UDCoins.</span><br />
     </h2>

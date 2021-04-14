@@ -256,6 +256,10 @@ msgstr "Diru-zorroa"
 msgid "Historial de transacciones"
 msgstr "Transakzio historia"
 
+#: templates/tab1cartera.html:9 templates/accion.html:15
+msgid "Tu dirección blockchain es"
+msgstr "Zure blockchain helbidea:"
+
 #: templates/base.html:239 templates/sobre.html:3
 msgid "Sobre DeustoCoin"
 msgstr "DeustoCoin-i buruz"

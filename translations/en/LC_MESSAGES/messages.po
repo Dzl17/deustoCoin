@@ -356,6 +356,10 @@ msgstr "Verification link"
 msgid "Opcional"
 msgstr "Not compulsory"
 
+#: templates/tab1cartera.html:9 templates/accion.html:15
+msgid "Tu dirección blockchain es"
+msgstr "Your blockchain address is"
+
 #: templates/historialtrans.html:79
 msgid "Ver imagen"
 msgstr "Show image"
