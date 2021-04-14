@@ -734,6 +734,6 @@ def unauthorized(e):
 
 
 if __name__ == "__main__":
-    app.secret_key = os.environ.get("SECRET_KEY")
-    app.config["SECRET_KEY"] = app.secret_key
+    app.secret_key = os.environ.get("PRIVATE_KEY")
+    app.config["PRIVATE_KEY"] = app.secret_key
     app.run()
