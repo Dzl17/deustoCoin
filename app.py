@@ -339,7 +339,7 @@ def accion():
             o.descripcion = translator.translate(o.descripcion, dest=session['lang']).text
     except:
         pass
-    salary = get_balance(user.blockHash)
+    salary = get_balance(test_address)
     if form.validate_on_submit() and form.crearCamp.data:
         s = Session()
         if user.role == "Promotor":
