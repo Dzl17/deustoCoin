@@ -357,7 +357,7 @@ msgid "Opcional"
 msgstr "Not compulsory"
 
 #: templates/tab1cartera.html:9 templates/accion.html:15
-msgid "Tu dirección blockchain es"
+msgid "Tu dirección de blockchain es"
 msgstr "Your blockchain address is"
 
 #: templates/historialtrans.html:79
