@@ -12,7 +12,7 @@
     <h2>
       <span style="font-size: 1rem">{{ gettext ('El saldo actual de la universidad es de') }} <b>{{ wallet }}</b> UDC.</span><br />
       {% if user.blockAddr is not none %}
-      <p>{{gettext('Tu dirección de Blockchain es')}} {{user.blockHash}}</p>
+      <p style="font-size:3vw;text-align:left;">{{gettext('Tu dirección de Blockchain es')}} {{user.blockHash}}.</p>
       {% endif %}
     </h2>
     <p>&nbsp;<button class="btn btn-primary btn-large" id="mostrarformacc" style="width:38vw; text-align: center;">{{ gettext('Crear acción') }}</button>&nbsp;<button
