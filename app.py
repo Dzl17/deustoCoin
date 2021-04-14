@@ -20,8 +20,6 @@ app = Flask(__name__)
 app.config['BABEL_DEFAULT_LOCALE'] = 'es'
 babel = Babel(app)
 translator = Translator()
-app.secret_key = os.environ.get("SECRET_KEY")
-app.config["SECRET_KEY"] = app.secret_key
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 test_address = os.environ.get('TEST_ADDRESS')
 private_key = os.environ.get('PRIVATE_KEY')
@@ -736,4 +734,6 @@ def unauthorized(e):
 
 
 if __name__ == "__main__":
+    app.secret_key = os.environ.get("SECRET_KEY")
+    app.config["SECRET_KEY"] = app.secret_key
     app.run()
