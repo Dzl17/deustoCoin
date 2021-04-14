@@ -19,6 +19,14 @@ msgstr ""
 "Last-Translator: \n"
 "X-Generator: Poedit 2.4.2\n"
 
+#: app.py:395 templates/pago.html:3
+msgid "Pago por oferta"
+msgstr "Ordainketa"
+
+#: app.py:397
+msgid "Envío de UDCoins"
+msgstr "UDCoin-en bidalketa"
+
 #: templates/accion.html:3 templates/base.html:226 templates/campanyas.html:20
 #: templates/empresas.html:3
 msgid "Campañas"
@@ -248,6 +256,10 @@ msgstr "Diru-zorroa"
 msgid "Historial de transacciones"
 msgstr "Transakzio historia"
 
+#: templates/tab1cartera.html:9 templates/accion.html:15
+msgid "Tu dirección de blockchain es"
+msgstr "Zure blockchain helbidea:"
+
 #: templates/base.html:239 templates/sobre.html:3
 msgid "Sobre DeustoCoin"
 msgstr "DeustoCoin-i buruz"
@@ -393,10 +405,6 @@ msgstr "Hauek dira zuretzat eskaintza erabilgarriak."
 #: templates/ofertas.html:33
 msgid "Canjear oferta"
 msgstr "Eskaintza trukatu"
-
-#: templates/pago.html:3
-msgid "Pago por oferta"
-msgstr "Eskaintzarengatik ordainketa"
 
 #: templates/pago.html:9
 msgid "Has pagado"
