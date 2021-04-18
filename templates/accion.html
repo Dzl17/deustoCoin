@@ -72,7 +72,7 @@
         <select class="form-control" name="campanya">
             <option disabled selected>{{gettext('Campaña')}}</option>
             {% for c in campanyas %}
-            <option value='{{c.id}}'>{{gettext(c.nombre)}}</option>
+            <option value='{{c.id}}'>{{c.nombre}}</option>
             {% endfor %}
         </select>
       </p>
@@ -142,9 +142,9 @@
       <tr>
         <th scope="row">{{gettext(a.nombre)}}</th>
         <td>{{a.empresa}}</td>
-        <td>{{gettext(a.descripcion)}}</td>
+        <td>{{a.descripcion}}</td>
         <td>{{a.recompensa}} UDC</td>
-        <td>{{gettext(a.indicadorKpi)}}</td>
+        <td>{{a.indicadorKpi}}</td>
         <td>{{a.kpi}}</td>
         <td>{{a.kpiObj}}</td>
         <td><a href="{{ url_for('qr' ,accion_id=a.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
@@ -169,9 +169,9 @@
     <tbody>
       {% for c in campanyas %}
       <tr>
-        <th scope="row">{{gettext(c.nombre)}}</th>
+        <th scope="row">{{c.nombre}}</th>
         <td>{{c.empresa}}</td>
-        <td>{{gettext(c.descripcion)}}</td>
+        <td>{{c.descripcion}}</td>
       </tr>
       {% endfor %}
     </tbody>
@@ -195,9 +195,9 @@
     <tbody>
       {% for o in ofertas %}
       <tr>
-        <th scope="row">{{gettext(o.nombre)}}</th>
+        <th scope="row">{{o.nombre}}</th>
         <td>{{o.empresa}}</td>
-        <td>{{gettext(o.descripcion)}}</td>
+        <td>{{o.descripcion}}</td>
         <td>{{o.precio}} UDC</td>
         <td><a href="{{ url_for('qrOfertas' ,offerId=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
       </tr>

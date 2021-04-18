@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">{{gettext('Editor de acciones de')}} {{gettext(campanya.nombre)}} ({{campanya.empresa}})</h1>
+    <h1 class="h2">{{gettext('Editor de acciones de')}} {{campanya.nombre}} ({{campanya.empresa}})</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
             <p>✎ {{gettext('Editar')}} | {{gettext('Eliminar')}} ✖</p>
@@ -32,9 +32,9 @@
                         <input value="{{a.id}}" name="accion_id" style="display: none;">
                     </form>
                 </td>
-                <td><b>{{gettext(a.nombre)}}</b></th>
+                <td><b>{{a.nombre}}</b></th>
                 <td>{{a.empresa}}</td>
-                <td>{{gettext(a.descripcion)}}</td>
+                <td>{{a.descripcion}}</td>
                 <td>{{a.recompensa}}</td>
             </tr>
             {% endfor %}

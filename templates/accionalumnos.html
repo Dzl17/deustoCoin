@@ -26,9 +26,9 @@
     <tbody>
       {% for c in acciones %}
       <tr>
-        <th scope="row">{{gettext(c.nombre)}}</th>
+        <th scope="row">{{c.nombre}}</th>
         <td>{{c.empresa}}</td>
-        <td>{{gettext(c.descripcion)}}</td>
+        <td>{{c.descripcion}}</td>
         <td>{{c.recompensa}} UDC</td>
         <td><a href="{{ url_for('registrarAccion', accion_id=c.id) }}"><b>{{gettext('Registrar acción')}}</b></a></td>
       </tr>
