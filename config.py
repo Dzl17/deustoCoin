@@ -11,8 +11,8 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PRIVATE_KEY = "e49aed1a79c5f2c703b5651dd09c840d3193175fd748fbea37e00ce8d83a3c7d"
     DEBUG = True
-    IPFS_CONNECT_URL = "/ip4/127.0.0.1/tcp/5001/http"
-    IPFS_FILE_URL = "http://127.0.0.1:8080/ipfs/"
+    IPFS_CONNECT_URL = "/dns/ipfs.infura.io/tcp/5001/https"
+    IPFS_FILE_URL = "http://ipfs.infura.io:5001/ipfs/"
     DOMAIN = "http://localhost:5000"
     LANGUAGES = {
         'es': 'Spanish',
