@@ -38,9 +38,9 @@
                         <input value="{{o.id}}" name="id" style="display: none;">
                     </form>
                 </td>
-                <td><b>{{gettext(o.nombre)}}</b></td>
+                <td><b>{{o.nombre}}</b></td>
                 <td>{{o.empresa}}</td>
-                <td>{{gettext(o.descripcion)}}</td>
+                <td>{{o.descripcion}}</td>
                 <td>{{o.precio}}</td>
                 <td><a href="{{ url_for('qrOfertas' ,offerId=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
             </tr>

@@ -4,19 +4,19 @@
 </div>
 <div class="view">
     <div class="jumbotron">
-        <h2>{{gettext('Campaña')}} {{campanya.id}}: {{gettext(campanya.nombre)}}</h2>
+        <h2>{{gettext('Campaña')}} {{campanya.id}}: {{campanya.nombre}}</h2>
     </div>
     <form id="editorcamp" action="{{ url_for('editorCamp',campanya_id=campanya.id) }}" method="POST">
         <div class="form-group">
             <p>
                 <input type="text" class="form-control" placeholder="{{gettext('Nombre')}}" name="nombre"
-                    value='{{gettext(campanya.nombre)}}' required></input>
+                    value='{{campanya.nombre}}' required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
                 <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="descripcion"
-                    value="{{gettext(campanya.descripcion)}}" required></input>
+                    value="{{campanya.descripcion}}" required></input>
             </p>
         </div>
         <p>
@@ -38,9 +38,9 @@
         <tbody>
             {% for c in campanyas %}
             <tr>
-                <th scope="row">{{gettext(c.nombre)}}</th>
+                <th scope="row">{{c.nombre}}</th>
                 <td>{{c.empresa}}</td>
-                <td>{{gettext(c.descripcion)}}</td>
+                <td>{{c.descripcion}}</td>
             </tr>
             {% endfor %}
         </tbody>

@@ -4,19 +4,19 @@
 </div>
 <div class="view">
     <div class="jumbotron">
-        <h2>{{gettext('Oferta')}} {{oferta.id}}: {{gettext(oferta.nombre)}}</h2>
+        <h2>{{gettext('Oferta')}} {{oferta.id}}: {{oferta.nombre}}</h2>
     </div>
     <form id="editoroferta" action="{{ url_for('editorOferta',offer_id=oferta.id) }}" method="POST">
         <div class="form-group">
             <p>
                 <input type="text" class="form-control" placeholder="{{gettext('Nombre')}}" name="nombre"
-                    value='{{gettext(oferta.nombre)}}' required></input>
+                    value='{{oferta.nombre}}' required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
                 <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="descripcion"
-                    value="{{gettext(oferta.descripcion)}}" required></input>
+                    value="{{oferta.descripcion}}" required></input>
             </p>
         </div>
         <div class="form-group">

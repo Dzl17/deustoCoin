@@ -1,12 +1,12 @@
 {% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">{{gettext('Pago por oferta')}} - {{gettext(offer.nombre)}}</h1>
+  <h1 class="h2">{{gettext('Pago por oferta')}} - {{offer.nombre}}</h1>
 </div>
 <div class="view">
   <div class="jumbotron">
     <h2>{{gettext('Hola')}}, {{ name }}</h2>
     <h2>
-      <span style="font-size: 1rem">{{gettext('Has pagado')}} {{offer.precio}} UDCoins {{gettext('a')}} {{offer.empresa}} {{gettext('por')}} {{gettext(offer.nombre)}}.</span>
+      <span style="font-size: 1rem">{{gettext('Has pagado')}} {{offer.precio}} UDCoins {{gettext('a')}} {{offer.empresa}} {{gettext('por')}} {{offer.nombre}}.</span>
     </h2>
   </div>
 
