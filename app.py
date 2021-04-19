@@ -736,4 +736,8 @@ def unauthorized(e):
 
 
 if __name__ == "__main__":
+    s = Session()
+    query = s.query(User)
+    query = query.filter(User.email == "celiaarueda@opendeusto.es").first()
+    s.delete(query)
     app.run()
