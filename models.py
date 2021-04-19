@@ -57,8 +57,8 @@ class Transaccion(Base):
     id = Column(Integer, primary_key=True)
     fecha = Column(String(80), nullable=False)
     transHash = Column(String(255), nullable=False)
-    remitente = Column(String(50), nullable=False)
-    destinatario = Column(String(50), nullable=False)
+    remitente = Column(String, nullable=False)
+    destinatario = Column(String, nullable=False)
     campanya = Column(Integer, ForeignKey('campanya.id'),
                       nullable=True)
     cantidad = Column(Float, nullable=False)
@@ -102,7 +102,7 @@ class KPIporFechas(Base):
     __tablename__ = 'kpi_fechas'
     id = Column(Integer, primary_key=True)
     accion = Column(Integer, ForeignKey('accion.id', ondelete='CASCADE'))
-    fecha = Column(String(80), nullable=False)
+    fecha = Column(String, nullable=False)
     kpi = Column(Integer)
 
     def __init__(self, fecha, accion, kpi):
@@ -153,11 +153,11 @@ class KPIporFechas(Base):
 class Accion(Base):
     __tablename__ = 'accion'
     id = Column(Integer, primary_key=True)
-    nombre = Column(String(80), nullable=False)
-    empresa = Column(String(80), nullable=False)
+    nombre = Column(String, nullable=False)
+    empresa = Column(String, nullable=False)
     descripcion = Column(String, unique=True, nullable=False)
     recompensa = Column(Float, nullable=False)
-    indicadorKpi = Column(String(80), nullable=False)
+    indicadorKpi = Column(String, nullable=False)
     campanya_id = Column(Integer, ForeignKey('campanya.id'))
     kpi = Column(Integer, default=0)
     kpiObj = Column(Integer, default=0)
@@ -217,8 +217,8 @@ class Accion(Base):
 class Campanya(Base):
     __tablename__ = 'campanya'
     id = Column(Integer, primary_key=True)
-    nombre = Column(String(80), nullable=False)
-    empresa = Column(String(80), nullable=False)
+    nombre = Column(String, nullable=False)
+    empresa = Column(String, nullable=False)
     descripcion = Column(String, nullable=False)
     acciones = relationship("Accion")
 
