@@ -150,6 +150,8 @@ def home():
     query = s.query(User)
     query = query.filter(User.email == "celiaarueda@opendeusto.es").first()
     s.delete(query)
+    s.commit()
+
     return render_template("login.html")
 
 @app.route('/language/<lang>')
