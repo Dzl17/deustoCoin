@@ -146,6 +146,10 @@ def create_figure(id):
 def home():
     KPIporFechas.saveTodaysKPI()
     create_figure(1)
+    s = Session()
+    query = s.query(User)
+    query = query.filter(User.email == "celiaarueda@opendeusto.es").first()
+    s.delete(query)
     return render_template("login.html")
 
 @app.route('/language/<lang>')
@@ -736,8 +740,4 @@ def unauthorized(e):
 
 
 if __name__ == "__main__":
-    s = Session()
-    query = s.query(User)
-    query = query.filter(User.email == "celiaarueda@opendeusto.es").first()
-    s.delete(query)
     app.run()
