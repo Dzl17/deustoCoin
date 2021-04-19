@@ -47,7 +47,7 @@ google = oauth.register(
 def get_locale():
     if request.args.get('lang'):
         session['lang'] = request.args.get('lang')
-    return session.get('lang', 'es')
+    return session.get('lang', request.accept_languages.best_match(['en', 'es', 'eu']))
 
 @app.cli.command()
 @with_appcontext
