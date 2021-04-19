@@ -334,6 +334,7 @@ def accion():
         for a in acciones:
             a.nombre = translator.translate(a.nombre, dest=session['lang']).text
             a.descripcion = translator.translate(a.descripcion, dest=session['lang']).text
+            a.indicadorKpi = translator.translate(a.indicadorKpi, dest=session['lang']).text
         for o in ofertas:
             o.nombre = translator.translate(o.nombre, dest=session['lang']).text
             o.descripcion = translator.translate(o.descripcion, dest=session['lang']).text

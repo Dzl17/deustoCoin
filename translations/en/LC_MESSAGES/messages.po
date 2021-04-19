@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DeustoCoin VERSION\n"
 "Report-Msgid-Bugs-To: jorge.elbusto@opendeusto.es\n"
 "POT-Creation-Date: 2021-04-14 13:18+0200\n"
-"PO-Revision-Date: 2021-04-14 13:20+0200\n"
+"PO-Revision-Date: 2021-04-19 16:56+0200\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -76,7 +76,7 @@ msgstr "Show offers"
 
 #: templates/accion.html:31
 msgid "Nombre de la campaña"
-msgstr "Offer name"
+msgstr "Campaign name"
 
 #: templates/accion.html:39 templates/accion.html:131 templates/accion.html:165
 #: templates/accion.html:189 templates/accionalumnos.html:20
@@ -119,7 +119,7 @@ msgstr "Target"
 
 #: templates/accion.html:97
 msgid "Nombre de la oferta"
-msgstr "Deed name"
+msgstr "Offer name"
 
 #: templates/accion.html:105 templates/register.html:53
 msgid "Organización"
