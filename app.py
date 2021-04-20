@@ -1,4 +1,4 @@
-from flask import Flask, url_for, render_template, request, redirect, Response, session, send_file
+from flask import Flask, url_for, render_template, request, redirect, Response, session, send_file, send_from_directory, make_response
 from flask_babel import Babel, gettext
 from authlib.integrations.flask_client import OAuth
 from base import Session, init_db
@@ -710,6 +710,12 @@ def registrarAccion(accion_id):
     return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
                            session=session, user=user, accionId=accion_id)
 
+
+@app.route('/sw.js')
+def sw():
+    response=make_response(send_from_directory('static',filename='sw.js'))
+    response.headers['Content-Type'] = 'application/javascript'
+    return response
 
 @app.errorhandler(500)
 def internal_error(e):
