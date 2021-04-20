@@ -2,43 +2,43 @@
   "name": "DeustoCoin",
   "short_name": "DeustoCoin",
   "icons": [{
-    "src": "https://deustocoin.herokuapp.com//icon/deustocoin-64.png",
+    "src": "/icon/deustocoin-64.png",
       "sizes": "64x64",
       "type": "image/png"
     }, {
-      "src": "https://deustocoin.herokuapp.com/static/icon/deustocoin-120.png",
+      "src": "/icon/deustocoin-120.png",
       "sizes": "120x120",
       "type": "image/png"
     },{
-      "src": "https://deustocoin.herokuapp.com/static/icon/deustocoin-128.png",
+      "src": "/icon/deustocoin-128.png",
       "sizes": "128x128",
       "type": "image/png"
     },{
-      "src": "https://deustocoin.herokuapp.com/static/icon/deustocoin-144.png",
+      "src": "/icon/deustocoin-144.png",
       "sizes": "144x144",
       "type": "image/png"
     },{
-      "src": "https://deustocoin.herokuapp.com/static/icon/deustocoin-152.png",
+      "src": "/icon/deustocoin-152.png",
       "sizes": "152x152",
       "type": "image/png"
     },{
-      "src": "https://deustocoin.herokuapp.com/static/icon/deustocoin-180.png",
+      "src": "/icon/deustocoin-180.png",
       "sizes": "180x180",
       "type": "image/png"
     },{
-      "src": "https://deustocoin.herokuapp.com/static/icon/deustocoin-192.png",
+      "src": "/icon/deustocoin-192.png",
       "sizes": "192x192",
       "type": "image/png"
     }, {
-      "src": "https://deustocoin.herokuapp.com/static/icon/deustocoin-256.png",
+      "src": "/icon/deustocoin-256.png",
       "sizes": "256x256",
       "type": "image/png"
     },{
-      "src": "https://deustocoin.herokuapp.com/static/icon/deustocoin-384.png",
+      "src": "/icon/deustocoin-384.png",
       "sizes": "384x384",
       "type": "image/png"
     }, {
-      "src": "https://deustocoin.herokuapp.com/static/icon/deustocoin-512.png",
+      "src": "/icon/deustocoin-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
