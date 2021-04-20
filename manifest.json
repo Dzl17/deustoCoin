@@ -1,0 +1,47 @@
+{
+  "name": "DeustoCoin",
+  "short_name": "DeustoCoin",
+  "icons": [{
+    "src": "static/icon/deustocoin-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    }, {
+      "src": "static/icon/deustocoin-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },{
+      "src": "static/icon/deustocoin-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },{
+      "src": "static/icon/deustocoin-152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },{
+      "src": "static/icon/deustocoin-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },{
+      "src": "static/icon/deustocoin-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }, {
+      "src": "static/icon/deustocoin-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },{
+      "src": "static/icon/deustocoin-384.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }, {
+      "src": "static/icon/deustocoin-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+	],
+  "lang": "es",
+  "start_url": "/static/templates/index.html",
+  "display": "standalone",
+  "background_color": "white",
+  "theme_color": "white"
+}
