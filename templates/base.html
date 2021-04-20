@@ -14,7 +14,7 @@
     <meta name="msapplication-tap-highlight" content="no"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
           integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-	<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+	<link rel="manifest" href="/manifest.json">
     <link rel="icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}"/>
 	<link rel="apple-touch-icon" href="{{ url_for('static', filename='icon/deustoCoin-152.png') }}">   
 	<meta name="theme-color" content="white"/>  
@@ -26,11 +26,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename=js/popper.min.js') }}"
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
             integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
             crossorigin="anonymous"></script>
     <meta name="google-signin-scope" content="profile email"/>
-    <script src="{{ url_for('static', filename=js/iconify.min.js') }}"></script>
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
             integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
             crossorigin="anonymous"></script>
@@ -328,7 +328,6 @@ ul ul a {
 
 </script>
 </div>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 
 </html>
