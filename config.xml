@@ -12,5 +12,5 @@
    <author href="https://morelab.deusto.es/people/members/jorge-el-busto/" email= "jorge.elbusto@opendeusto.es">
        Jorge El Busto Suárez
    </author>
-    <DefaultLanguage>es</DefaultLanguage>
+    <qualifier name="Language" value="es"/>
 </widget>
