@@ -379,14 +379,14 @@ msgstr ""
 msgid "El usuario no ha estado involucrado en ninguna transacción."
 msgstr ""
 
-#: templates/login.html:31 templates/register.html:31
+#: templates/index.html:31 templates/register.html:31
 msgid ""
 "DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain y"
 " llevarla al ámbito universitario, promoviendo un estilo de vida "
 "sostenible y respetuoso con el medio ambiente."
 msgstr ""
 
-#: templates/login.html:35
+#: templates/index.html:35
 msgid "Iniciar sesión con Google"
 msgstr ""
 

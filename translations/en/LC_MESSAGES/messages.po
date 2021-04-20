@@ -384,7 +384,7 @@ msgstr "There are no transactions shown"
 msgid "El usuario no ha estado involucrado en ninguna transacción."
 msgstr "The user hasn't been involved in any transaction yet."
 
-#: templates/login.html:31 templates/register.html:31
+#: templates/index.html:31 templates/register.html:31
 msgid ""
 "DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain y "
 "llevarla al ámbito universitario, promoviendo un estilo de vida sostenible y "
@@ -394,7 +394,7 @@ msgstr ""
 "to the University of Deusto in order to promote a sustainable, "
 "environmentally friendly lifestyle."
 
-#: templates/login.html:35
+#: templates/index.html:35
 msgid "Iniciar sesión con Google"
 msgstr "Log in with Google"
 

@@ -384,7 +384,7 @@ msgstr "Ez dago transakziorik erakusteko"
 msgid "El usuario no ha estado involucrado en ninguna transacción."
 msgstr "Erabiltzailea ez da inongo transakziotan nahasaia egon."
 
-#: templates/login.html:31 templates/register.html:31
+#: templates/index.html:31 templates/register.html:31
 msgid ""
 "DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain y "
 "llevarla al ámbito universitario, promoviendo un estilo de vida sostenible y "
@@ -394,7 +394,7 @@ msgstr ""
 "dio unibertsitate eremura eraman, bizimodu berri bat sustatzeko "
 "ingurugiroarekin begirunetsua den eta jasangarria den bizimodu bat."
 
-#: templates/login.html:35
+#: templates/index.html:35
 msgid "Iniciar sesión con Google"
 msgstr "Google bidez sesioa hasi"
 
