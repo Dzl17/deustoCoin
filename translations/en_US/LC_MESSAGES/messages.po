@@ -1,0 +1,564 @@
+# English translations for DeustoCoin.
+# Copyright (C) 2021 MORELAB
+# This file is distributed under the same license as the DeustoCoin project.
+# Jorge El Busto <jorge.elbusto@opendeusto.es>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: DeustoCoin VERSION\n"
+"Report-Msgid-Bugs-To: jorge.elbusto@opendeusto.es\n"
+"POT-Creation-Date: 2021-04-20 10:12+0200\n"
+"PO-Revision-Date: 2021-04-20 10:15+0200\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+"Last-Translator: \n"
+"X-Generator: Poedit 2.4.2\n"
+
+#: app.py:454 templates/pago.html:3
+msgid "Pago por oferta"
+msgstr "Offer payment"
+
+#: app.py:456
+msgid "Envío de UDCoins"
+msgstr "Transfer of UDCoins"
+
+#: templates/accion.html:4 templates/base.html:188
+msgid "Menú principal"
+msgstr "Main menu"
+
+#: templates/accion.html:8 templates/accionalumnos.html:7
+#: templates/ofertas.html:7 templates/pago.html:7 templates/recompensa.html:7
+#: templates/tab1cartera.html:7
+msgid "Hola"
+msgstr "Hello"
+
+#: templates/accion.html:10
+msgid "Bienvenido al menú principal."
+msgstr "Welcome to the main menu."
+
+#: templates/accion.html:13
+msgid "El saldo actual de la universidad es de"
+msgstr "The university's current salary is"
+
+#: templates/accion.html:15 templates/tab1cartera.html:9
+msgid "Tu dirección de Blockchain es"
+msgstr "Your Blockchain address is"
+
+#: templates/accion.html:18 templates/accion.html:91
+msgid "Crear acción"
+msgstr "Create a good deed"
+
+#: templates/accion.html:19
+msgid "Mostrar acciones"
+msgstr "Show good deeds"
+
+#: templates/accion.html:21
+msgid "Crear campaña"
+msgstr "Create campaign"
+
+#: templates/accion.html:22
+msgid "Mostrar campañas"
+msgstr "Show campaigns"
+
+#: templates/accion.html:24
+msgid "Crear oferta"
+msgstr "Create offer"
+
+#: templates/accion.html:25
+msgid "Mostrar ofertas"
+msgstr "Show offers"
+
+#: templates/accion.html:31
+msgid "Nombre de la campaña"
+msgstr "Campaign name"
+
+#: templates/accion.html:39 templates/accion.html:131 templates/accion.html:165
+#: templates/accion.html:189 templates/accionalumnos.html:20
+#: templates/adminacciones.html:20 templates/admincampanyas.html:24
+#: templates/adminofertas.html:24 templates/editorcamp.html:34
+#: templates/ofertas.html:20
+msgid "Empresa"
+msgstr "Company"
+
+#: templates/accion.html:45 templates/accion.html:61 templates/accion.html:111
+#: templates/accion.html:132 templates/accion.html:166
+#: templates/accion.html:190 templates/accionalumnos.html:21
+#: templates/adminacciones.html:21 templates/admincampanyas.html:25
+#: templates/adminofertas.html:25 templates/editoraccion.html:18
+#: templates/editorcamp.html:18 templates/editorcamp.html:35
+#: templates/editoroferta.html:18 templates/ofertas.html:21
+msgid "Descripción"
+msgstr "Description"
+
+#: templates/accion.html:56
+msgid "Nombre de la acción"
+msgstr "Deed name"
+
+#: templates/accion.html:66 templates/adminacciones.html:22
+#: templates/editoraccion.html:24
+msgid "Recompensa por KPI (en UDC)"
+msgstr "Reward for each KPI (in UDC)"
+
+#: templates/accion.html:73 templates/editorcamp.html:7
+msgid "Campaña"
+msgstr "Campaign"
+
+#: templates/accion.html:82
+msgid "Indicador de KPI"
+msgstr "Key Performance Indicator"
+
+#: templates/accion.html:87 templates/accion.html:136
+msgid "Objetivo"
+msgstr "Target"
+
+#: templates/accion.html:97
+msgid "Nombre de la oferta"
+msgstr "Offer name"
+
+#: templates/accion.html:105 templates/register.html:53
+msgid "Organización"
+msgstr "Company"
+
+#: templates/accion.html:116 templates/accion.html:191
+#: templates/adminofertas.html:26 templates/editoroferta.html:24
+#: templates/ofertas.html:22
+msgid "Precio"
+msgstr "Price"
+
+#: templates/accion.html:130 templates/accion.html:164
+#: templates/accion.html:188 templates/accionalumnos.html:19
+#: templates/adminacciones.html:19 templates/admincampanyas.html:23
+#: templates/adminofertas.html:23 templates/editoraccion.html:12
+#: templates/editorcamp.html:12 templates/editorcamp.html:33
+#: templates/editoroferta.html:12 templates/ofertas.html:19
+msgid "Nombre"
+msgstr "Name"
+
+#: templates/accion.html:133 templates/accionalumnos.html:22
+msgid "Recompensa por KPI"
+msgstr "Reward for each KPI"
+
+#: templates/accion.html:134
+msgid "Indicador"
+msgstr "Indicator"
+
+#: templates/accion.html:135
+msgid "Estado actual"
+msgstr "Current status"
+
+#: templates/accion.html:137 templates/accion.html:192
+#: templates/adminofertas.html:27
+msgid "Código QR"
+msgstr "QR Code"
+
+#: templates/accion.html:150 templates/accion.html:202
+#: templates/adminofertas.html:45
+msgid "Descargar"
+msgstr "Download"
+
+#: templates/accion.html:156 templates/adminacciones.html:44
+msgid "No hay acciones para mostrar"
+msgstr "There are no good deeds"
+
+#: templates/accion.html:180
+msgid "No hay campañas para mostrar"
+msgstr "There are no campaigns"
+
+#: templates/accion.html:208
+msgid "No hay ofertas para mostrar"
+msgstr "There are no offers"
+
+#: templates/accionalumnos.html:3 templates/adminacciones.html:18
+#: templates/admincampanyas.html:22 templates/base.html:214
+#: templates/editoraccion.html:3
+msgid "Acciones"
+msgstr "Good deeds"
+
+#: templates/accionalumnos.html:9
+msgid "Estas son las acciones disponibles para ti."
+msgstr "These are the available good deeds."
+
+#: templates/accionalumnos.html:33
+msgid "Registrar acción"
+msgstr "Register a good deed"
+
+#: templates/accionalumnos.html:39
+msgid "No hay acciones para mostrar."
+msgstr "There are no good deeds."
+
+#: templates/adminacciones.html:3
+msgid "Editor de acciones de"
+msgstr "Good deed editor -"
+
+#: templates/adminacciones.html:6 templates/admincampanyas.html:10
+#: templates/adminofertas.html:10
+msgid "Editar"
+msgstr "Edit"
+
+#: templates/adminacciones.html:6 templates/admincampanyas.html:10
+#: templates/adminofertas.html:10
+msgid "Eliminar"
+msgstr "Delete"
+
+#: templates/admincampanyas.html:4
+msgid "Editor de campañas - Administrador"
+msgstr "Campaign editor - Administrator"
+
+#: templates/admincampanyas.html:6
+msgid "Editor de campañas de"
+msgstr "Campaign editor -"
+
+#: templates/admincampanyas.html:45
+msgid "Ver acciones"
+msgstr "Show good deeds"
+
+#: templates/admincampanyas.html:54 templates/campanyas.html:41
+#: templates/editorcamp.html:49
+msgid "No hay campañas para mostrar."
+msgstr "There are no campaigns."
+
+#: templates/adminofertas.html:4
+msgid "Editor de ofertas - Administrador"
+msgstr "Offer editor - Administrator"
+
+#: templates/adminofertas.html:6
+msgid "Editor de ofertas de"
+msgstr "Offer editor -"
+
+#: templates/adminofertas.html:22 templates/base.html:232
+#: templates/ofertas.html:3
+msgid "Ofertas"
+msgstr "Offers"
+
+#: templates/adminofertas.html:51 templates/ofertas.html:39
+msgid "No hay ofertas para mostrar."
+msgstr "There are no offers."
+
+#: templates/base.html:194 templates/editorcamp.html:3
+msgid "Editor de campañas"
+msgstr "Campaign editor"
+
+#: templates/base.html:200 templates/editoroferta.html:3
+msgid "Editor de ofertas"
+msgstr "Offer editor"
+
+#: templates/base.html:208 templates/tab1cartera.html:3
+msgid "Cartera"
+msgstr "Wallet"
+
+#: templates/base.html:220 templates/historialtrans.html:50
+msgid "Historial de transacciones"
+msgstr "Transaction history"
+
+#: templates/base.html:226 templates/campanyas.html:20
+#: templates/empresas.html:3
+msgid "Campañas"
+msgstr "Campaigns"
+
+#: templates/base.html:239 templates/sobre.html:3
+msgid "Sobre DeustoCoin"
+msgstr "About DeustoCoin"
+
+#: templates/base.html:245
+msgid "Cerrar sesión"
+msgstr "Log out"
+
+#: templates/campanyas.html:23
+msgid "Estas son las campañas que promueve"
+msgstr "These are the campaigns promoted by"
+
+#: templates/editoraccion.html:29 templates/editorcamp.html:23
+#: templates/editoroferta.html:29
+msgid "Actualizar"
+msgstr "Update"
+
+#: templates/editoroferta.html:7
+msgid "Oferta"
+msgstr "Offer"
+
+#: templates/empresas.html:6
+msgid ""
+"La Universidad de Deusto colabora con varias compañías que buscan fomentar "
+"la sostenibilidad.\n"
+"    Dichas compañías organizan campañas, que puedes visualizar con más "
+"detalle aquí."
+msgstr ""
+"The university of Deusto collaborates along with several companies in the "
+"pursue of sustainability. These companies host different campaigns, which "
+"are shown below in detail."
+
+#: templates/empresas.html:14
+msgid "No hay compañías para mostrar."
+msgstr "There are no companies shown."
+
+#: templates/error.html:6 templates/error.html:64
+msgid "Error"
+msgstr "Error"
+
+#: templates/error.html:68
+msgid "Lo sentimos."
+msgstr "We're sorry."
+
+#: templates/error.html:70
+msgid "Ha habido un error en la página"
+msgstr "There has been a critical error on this website"
+
+#: templates/error.html:71
+msgid "Prueba a volver a la"
+msgstr "Try going back to the"
+
+#: templates/error.html:71
+msgid "página principal"
+msgstr "login page"
+
+#: templates/historialtrans.html:55
+msgid "Historial de transacciones de"
+msgstr "Transaction history of"
+
+#: templates/historialtrans.html:57
+msgid "Historial de transacciones de DeustoCoin"
+msgstr "Transaction history of DeustoCoin"
+
+#: templates/historialtrans.html:62
+msgid "Gire la pantalla para más detalles."
+msgstr "Rotate the screen for more details."
+
+#: templates/historialtrans.html:67
+msgid "Fecha"
+msgstr "Date"
+
+#: templates/historialtrans.html:68
+msgid "Remitente"
+msgstr "From"
+
+#: templates/historialtrans.html:69
+msgid "Destinatario"
+msgstr "To"
+
+#: templates/historialtrans.html:70
+msgid "Asunto"
+msgstr "Subject"
+
+#: templates/historialtrans.html:71
+msgid "Cantidad"
+msgstr "Amount"
+
+#: templates/historialtrans.html:72
+msgid "Imagen"
+msgstr "Image"
+
+#: templates/historialtrans.html:73
+msgid "Link de verificación"
+msgstr "Verification link"
+
+#: templates/historialtrans.html:73 templates/subirimagen.html:20
+msgid "Opcional"
+msgstr "Not compulsory"
+
+#: templates/historialtrans.html:89
+msgid "Ver imagen"
+msgstr "Show image"
+
+#: templates/historialtrans.html:91
+msgid "No hay imagen"
+msgstr "No image"
+
+#: templates/historialtrans.html:94
+msgid "Ver verificación"
+msgstr "Show verification"
+
+#: templates/historialtrans.html:96
+msgid "No hay URL adicional"
+msgstr "No additional URL"
+
+#: templates/historialtrans.html:103
+msgid "No hay transacciones para mostrar"
+msgstr "There are no transactions shown"
+
+#: templates/historialtrans.html:104
+msgid "El usuario no ha estado involucrado en ninguna transacción."
+msgstr "The user hasn't been involved in any transaction yet."
+
+#: templates/index.html:31 templates/register.html:31
+msgid ""
+"DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain y "
+"llevarla al ámbito universitario, promoviendo un estilo de vida sostenible y "
+"respetuoso con el medio ambiente."
+msgstr ""
+"DeustoCoin is willing to make the most of Blockchain technology, bringing it "
+"to the University of Deusto in order to promote a sustainable, "
+"environmentally friendly lifestyle."
+
+#: templates/index.html:35
+msgid "Iniciar sesión con Google"
+msgstr "Log in with Google"
+
+#: templates/ofertas.html:9
+msgid "Estas son las ofertas disponibles para ti."
+msgstr "These are the offers available for you."
+
+#: templates/ofertas.html:33
+msgid "Canjear oferta"
+msgstr "Redeem offer"
+
+#: templates/pago.html:9
+msgid "Has pagado"
+msgstr "You have paid"
+
+#: templates/pago.html:9
+msgid "a"
+msgstr ""
+
+#: templates/pago.html:9 templates/recompensa.html:9
+msgid "por"
+msgstr "because of"
+
+#: templates/recompensa.html:3
+msgid "¡Enhorabuena!"
+msgstr "Congratulations!"
+
+#: templates/recompensa.html:9
+msgid "Has obtenido"
+msgstr "You have earned"
+
+#: templates/recompensa.html:9
+msgid "de"
+msgstr "from"
+
+#: templates/register.html:11
+msgid "Registro"
+msgstr "Register"
+
+#: templates/register.html:36
+msgid "Nombre y apellidos"
+msgstr "Name"
+
+#: templates/register.html:42
+msgid "Correo electrónico"
+msgstr "Email"
+
+#: templates/register.html:48
+msgid "Dirección blockchain"
+msgstr "Destination email"
+
+#: templates/register.html:61
+msgid "Alumno"
+msgstr "Student"
+
+#: templates/register.html:62
+msgid "Promotor"
+msgstr "Promoter"
+
+#: templates/register.html:63
+msgid "Administrador"
+msgstr "Administrator"
+
+#: templates/register.html:69
+msgid "Regístrate"
+msgstr "Sign up"
+
+#: templates/sobre.html:6
+msgid ""
+"DeustoCoin es un proyecto que pretende fomentar el lema <b>“Blockchain for "
+"Good”</b> y contribuir a un mundo mejor a través de una tecnología emergente "
+"como es el Blockchain. <br><br>\n"
+"\n"
+"Dicho proyecto consta de una aplicación web en la que pueden operar tanto "
+"miembros de la universidad de Deusto como promotores de campañas "
+"pertenecientes a empresas externas a la universidad (cafeterías, museos, "
+"transporte...). <br><br>\n"
+"\n"
+"    Mediante este proyecto, se pretende mejorar la imagen corporativa de la "
+"Universidad, cumpliendo con varios de los 17 ODS <b>(Objetivos de Desarrollo "
+"Sostenible)</b> establecidos por las Naciones Unidas. <br><br>\n"
+"\n"
+"    Hay varios roles que conforman la plataforma de DeustoCoin, además de "
+"una criptomoneda basada en Ethereum <b>(UDCoin)</b> que será la moneda a "
+"canjear para las diferentes ofertas. Los roles en cuestión varían en función "
+"del usuario, y hay tres: <b>Alumno</b>, <b>promotor</b>, y un "
+"<b>administrador</b> que podrá realizar las tareas de los dos tipos de "
+"usuario anteriores. <br><br>\n"
+"\n"
+"    El <b>alumno</b> podrá realizar una serie de tareas como el envío de "
+"monedas a compañeros, consulta de campañas, canjeo de UDCoins en ofertas y "
+"registro y confirmación de una buena acción para así obtener su respectiva "
+"recompensa. <br><br>\n"
+"\n"
+"    Los <b>promotores</b> podrán lanzar campañas y acciones, monitorizar los "
+"KPIs de las mismas, y observar en gráficas el progreso de las acciones "
+"correspondientes a las campañas. <br><br>\n"
+"\n"
+"Las tecnologías utilizadas en el proyecto son <b>Python, Ethereum (Infura), "
+"IPFS, HTML y Google App Engine</b>."
+msgstr ""
+"DeustoCoin is a project whose goal is to promote the <b>“Blockchain for "
+"Good”</b> slogan and to contribute to a better world through an emerging "
+"technology such as Blockchain. <br><br>\n"
+"\n"
+"This project consists of a web application in which both members of the "
+"University of Deusto and campaign promoters belonging to companies outside "
+"the university (museums, transport, cafeterias… and so on) can operate.\n"
+"\n"
+"Through this project, the aim is to improve the corporate image of the "
+"University, complying with several of the 17 SDGs <b>(Sustainable "
+"Development Goals)</b> established by the United Nations.<br><br>\n"
+"\n"
+"There are several roles that make up the DeustoCoin platform, in addition to "
+"an Ethereum-based cryptocurrency <b>(UDCoin)</b> which will be exchanged for "
+"the different offers. There are three types of user: <b>student</b>, "
+"<b>promoter</b>, and an <b>administrator</b> who will be able to perform the "
+"tasks of the two previous user types. <br><br>\n"
+"\n"
+"The <b>student</b> will be able to perform a series of tasks such as sending "
+"coins to colleagues, consulting campaigns, redeeming UDCoins in exchange of "
+"articles and discounts and registering and confirming good deeds in order to "
+"obtain a certain reward. <br><br>\n"
+"\n"
+"The <b>promoters</b> will be able to launch campaigns and actions, monitor "
+"their KPIs, and track the progress of the actions by checking the campaign "
+"graphs. <br><br>\n"
+"\n"
+"The technologies used in the project are <b>Python, Ethereum (Infura), IPFS, "
+"HTML and Google App Engine</b>."
+
+#: templates/subirimagen.html:4
+msgid "Subir imagen"
+msgstr "Upload image"
+
+#: templates/subirimagen.html:8
+msgid "Verificando acción"
+msgstr "Checkpoint"
+
+#: templates/subirimagen.html:9
+msgid ""
+"Tienes que subir una imagen que corrobore que la acción gracias a la cual "
+"pretendes ser recompensado es\n"
+"      verídica."
+msgstr ""
+"You need to upload an image just to prove that the good deed you're willing "
+"to submit is true."
+
+#: templates/subirimagen.html:20
+msgid "URL de verificación"
+msgstr "Verification URL"
+
+#: templates/tab1cartera.html:12
+msgid "Tu saldo actual es de"
+msgstr "Your current salary is"
+
+#: templates/tab1cartera.html:14
+msgid "Enviar UDC"
+msgstr "Send UDC"
+
+#: templates/tab1cartera.html:20
+msgid "Correo electrónico del destinatario"
+msgstr "Destination email"
+
+#: templates/tab1cartera.html:26
+msgid "Cantidad de UDCs a enviar"
+msgstr "Amount of UDCs willing to be sent"
