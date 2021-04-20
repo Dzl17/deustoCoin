@@ -4,7 +4,6 @@ var filesToCache = [
   './templates/index.html',
   '/css/main.css',
   '/css/sidebar.css',
-  '/css/bootstrap-min.css',
   '/js/iconify.min.js',
   '/js/jquery-3.5.1.slim.min.js',
   '/js/popper.min.js',
