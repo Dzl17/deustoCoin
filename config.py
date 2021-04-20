@@ -14,11 +14,6 @@ class Config(object):
     IPFS_CONNECT_URL = "/dns/ipfs.infura.io/tcp/5001/https"
     IPFS_FILE_URL = "http://ipfs.infura.io:5001/ipfs/"
     DOMAIN = "http://deustocoin.herokuapp.com"
-    LANGUAGES = {
-        'es': 'Spanish',
-        'en': 'English',
-        'eu': 'Basque'
-    }
     PHRASEAPP_ENABLED = True
     PHRASEAPP_PREFIX = '{{__'
     PHRASEAPP_SUFFIX = '__}}'
