@@ -1,9 +1,9 @@
 var cacheName = 'DeustoCoin';
 var filesToCache = [
-  '/css/main.css',
-  '/css/floating-labels.css',
-  '/css/sidebar.css',
-  '/js/sidebar.js'
+  './static/css/main.css',
+  './static/css/floating-labels.css',
+  './static/css/sidebar.css',
+  './static/js/sidebar.js'
 ];
 
 /* Start the service worker and cache all of the app's content */

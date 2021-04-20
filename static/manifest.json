@@ -45,7 +45,7 @@
 	],
   "lang": "es",
   "scope": "/",
-  "start_url": "https://deustocoin.herokuapp.com/",
+  "start_url": "https://deustocoin.herokuapp.com",
   "display": "standalone",
   "background_color": "white",
   "theme_color": "white"
