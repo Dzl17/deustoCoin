@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
     <link rel="icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}"/>
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon/deustoCoin-152.png') }}">   
     <meta name="theme-color" content="white"/>  
@@ -64,6 +64,7 @@
     }
 
 </script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 
 </html>
