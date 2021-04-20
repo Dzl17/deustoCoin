@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DeustoCoin VERSION\n"
 "Report-Msgid-Bugs-To: jorge.elbusto@opendeusto.es\n"
-"POT-Creation-Date: 2021-04-11 12:38+0200\n"
-"PO-Revision-Date: 2021-04-13 14:24+0200\n"
+"POT-Creation-Date: 2021-04-14 13:18+0200\n"
+"PO-Revision-Date: 2021-04-19 16:56+0200\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -19,72 +19,76 @@ msgstr ""
 "Last-Translator: \n"
 "X-Generator: Poedit 2.4.2\n"
 
-#: app.py:395 templates/pago.html:3
+#: app.py:453 templates/pago.html:3
 msgid "Pago por oferta"
 msgstr "Offer payment"
 
-#: app.py:397
+#: app.py:455
 msgid "Envío de UDCoins"
 msgstr "Transfer of UDCoins"
 
-#: templates/accion.html:3 templates/base.html:226 templates/campanyas.html:20
+#: templates/accion.html:4 templates/base.html:226 templates/campanyas.html:20
 #: templates/empresas.html:3
 msgid "Campañas"
 msgstr "Campaigns"
 
-#: templates/accion.html:7 templates/accionalumnos.html:7
+#: templates/accion.html:8 templates/accionalumnos.html:7
 #: templates/ofertas.html:7 templates/pago.html:7 templates/recompensa.html:7
 #: templates/tab1cartera.html:7
 msgid "Hola"
 msgstr "Hello"
 
-#: templates/accion.html:9
+#: templates/accion.html:10
 msgid "Bienvenido al menú de campañas."
 msgstr "Welcome to the campaigns menu."
 
-#: templates/accion.html:12
+#: templates/accion.html:13
 msgid "El saldo actual de la universidad es de"
 msgstr "The university's current salary is"
 
-#: templates/accion.html:14 templates/accion.html:85
+#: templates/accion.html:15 templates/tab1cartera.html:9
+msgid "Tu dirección de Blockchain es"
+msgstr "Your Blockchain address is"
+
+#: templates/accion.html:18 templates/accion.html:91
 msgid "Crear acción"
 msgstr "Create a good deed"
 
-#: templates/accion.html:15
+#: templates/accion.html:19
 msgid "Mostrar acciones"
 msgstr "Show good deeds"
 
-#: templates/accion.html:16
+#: templates/accion.html:21
 msgid "Crear campaña"
 msgstr "Create campaign"
 
-#: templates/accion.html:17
+#: templates/accion.html:22
 msgid "Mostrar campañas"
 msgstr "Show campaigns"
 
-#: templates/accion.html:18
+#: templates/accion.html:24
 msgid "Crear oferta"
 msgstr "Create offer"
 
-#: templates/accion.html:19
+#: templates/accion.html:25
 msgid "Mostrar ofertas"
 msgstr "Show offers"
 
-#: templates/accion.html:25
+#: templates/accion.html:31
 msgid "Nombre de la campaña"
-msgstr "Offer name"
+msgstr "Campaign name"
 
-#: templates/accion.html:33 templates/accion.html:125 templates/accion.html:159
-#: templates/accion.html:183 templates/accionalumnos.html:20
+#: templates/accion.html:39 templates/accion.html:131 templates/accion.html:165
+#: templates/accion.html:189 templates/accionalumnos.html:20
 #: templates/adminacciones.html:20 templates/admincampanyas.html:24
 #: templates/adminofertas.html:24 templates/editorcamp.html:34
 #: templates/ofertas.html:20
 msgid "Empresa"
 msgstr "Company"
 
-#: templates/accion.html:39 templates/accion.html:55 templates/accion.html:105
-#: templates/accion.html:126 templates/accion.html:160
-#: templates/accion.html:184 templates/accionalumnos.html:21
+#: templates/accion.html:45 templates/accion.html:61 templates/accion.html:111
+#: templates/accion.html:132 templates/accion.html:166
+#: templates/accion.html:190 templates/accionalumnos.html:21
 #: templates/adminacciones.html:21 templates/admincampanyas.html:25
 #: templates/adminofertas.html:25 templates/editoraccion.html:18
 #: templates/editorcamp.html:18 templates/editorcamp.html:35
@@ -92,43 +96,43 @@ msgstr "Company"
 msgid "Descripción"
 msgstr "Description"
 
-#: templates/accion.html:50
+#: templates/accion.html:56
 msgid "Nombre de la acción"
 msgstr "Deed name"
 
-#: templates/accion.html:60 templates/adminacciones.html:22
+#: templates/accion.html:66 templates/adminacciones.html:22
 #: templates/editoraccion.html:24
 msgid "Recompensa por KPI (en UDC)"
 msgstr "Reward for each KPI (in UDC)"
 
-#: templates/accion.html:67 templates/editorcamp.html:7
+#: templates/accion.html:73 templates/editorcamp.html:7
 msgid "Campaña"
 msgstr "Campaign"
 
-#: templates/accion.html:76
+#: templates/accion.html:82
 msgid "Indicador de KPI"
 msgstr "Key Performance Indicator"
 
-#: templates/accion.html:81 templates/accion.html:130
+#: templates/accion.html:87 templates/accion.html:136
 msgid "Objetivo"
 msgstr "Target"
 
-#: templates/accion.html:91
+#: templates/accion.html:97
 msgid "Nombre de la oferta"
-msgstr "Deed name"
+msgstr "Offer name"
 
-#: templates/accion.html:99 templates/register.html:53
+#: templates/accion.html:105 templates/register.html:53
 msgid "Organización"
 msgstr "Company"
 
-#: templates/accion.html:110 templates/accion.html:185
+#: templates/accion.html:116 templates/accion.html:191
 #: templates/adminofertas.html:26 templates/editoroferta.html:24
 #: templates/ofertas.html:22
 msgid "Precio"
 msgstr "Price"
 
-#: templates/accion.html:124 templates/accion.html:158
-#: templates/accion.html:182 templates/accionalumnos.html:19
+#: templates/accion.html:130 templates/accion.html:164
+#: templates/accion.html:188 templates/accionalumnos.html:19
 #: templates/adminacciones.html:19 templates/admincampanyas.html:23
 #: templates/adminofertas.html:23 templates/editoraccion.html:12
 #: templates/editorcamp.html:12 templates/editorcamp.html:33
@@ -136,37 +140,37 @@ msgstr "Price"
 msgid "Nombre"
 msgstr "Name"
 
-#: templates/accion.html:127 templates/accionalumnos.html:22
+#: templates/accion.html:133 templates/accionalumnos.html:22
 msgid "Recompensa por KPI"
 msgstr "Reward for each KPI"
 
-#: templates/accion.html:128
+#: templates/accion.html:134
 msgid "Indicador"
 msgstr "Indicator"
 
-#: templates/accion.html:129
+#: templates/accion.html:135
 msgid "Estado actual"
 msgstr "Current status"
 
-#: templates/accion.html:131 templates/accion.html:186
+#: templates/accion.html:137 templates/accion.html:192
 #: templates/adminofertas.html:27
 msgid "Código QR"
 msgstr "QR Code"
 
-#: templates/accion.html:144 templates/accion.html:196
+#: templates/accion.html:150 templates/accion.html:202
 #: templates/adminofertas.html:45
 msgid "Descargar"
 msgstr "Download"
 
-#: templates/accion.html:150 templates/adminacciones.html:44
+#: templates/accion.html:156 templates/adminacciones.html:44
 msgid "No hay acciones para mostrar"
 msgstr "There are no good deeds"
 
-#: templates/accion.html:174
+#: templates/accion.html:180
 msgid "No hay campañas para mostrar"
 msgstr "There are no campaigns"
 
-#: templates/accion.html:202
+#: templates/accion.html:208
 msgid "No hay ofertas para mostrar"
 msgstr "There are no offers"
 
@@ -252,7 +256,7 @@ msgstr "Offer editor"
 msgid "Cartera"
 msgstr "Wallet"
 
-#: templates/base.html:220 templates/historialtrans.html:40
+#: templates/base.html:220 templates/historialtrans.html:50
 msgid "Historial de transacciones"
 msgstr "Transaction history"
 
@@ -312,75 +316,71 @@ msgstr "Try going back to the"
 msgid "página principal"
 msgstr "login page"
 
-#: templates/historialtrans.html:45
+#: templates/historialtrans.html:55
 msgid "Historial de transacciones de"
 msgstr "Transaction history of"
 
-#: templates/historialtrans.html:47
+#: templates/historialtrans.html:57
 msgid "Historial de transacciones de DeustoCoin"
 msgstr "Transaction history of DeustoCoin"
 
-#: templates/historialtrans.html:52
+#: templates/historialtrans.html:62
 msgid "Gire la pantalla para más detalles."
 msgstr "Rotate the screen for more details."
 
-#: templates/historialtrans.html:57
+#: templates/historialtrans.html:67
 msgid "Fecha"
 msgstr "Date"
 
-#: templates/historialtrans.html:58
+#: templates/historialtrans.html:68
 msgid "Remitente"
 msgstr "From"
 
-#: templates/historialtrans.html:59
+#: templates/historialtrans.html:69
 msgid "Destinatario"
 msgstr "To"
 
-#: templates/historialtrans.html:60
+#: templates/historialtrans.html:70
 msgid "Asunto"
 msgstr "Subject"
 
-#: templates/historialtrans.html:61
+#: templates/historialtrans.html:71
 msgid "Cantidad"
 msgstr "Amount"
 
-#: templates/historialtrans.html:62
+#: templates/historialtrans.html:72
 msgid "Imagen"
 msgstr "Image"
 
-#: templates/historialtrans.html:63
+#: templates/historialtrans.html:73
 msgid "Link de verificación"
 msgstr "Verification link"
 
-#: templates/historialtrans.html:63 templates/subirimagen.html:20
+#: templates/historialtrans.html:73 templates/subirimagen.html:20
 msgid "Opcional"
 msgstr "Not compulsory"
 
-#: templates/tab1cartera.html:9 templates/accion.html:15
-msgid "Tu dirección de blockchain es"
-msgstr "Your blockchain address is"
-
-#: templates/historialtrans.html:79
+#: templates/historialtrans.html:89
 msgid "Ver imagen"
 msgstr "Show image"
 
-#: templates/historialtrans.html:81
+#: templates/historialtrans.html:91
 msgid "No hay imagen"
 msgstr "No image"
 
-#: templates/historialtrans.html:84
+#: templates/historialtrans.html:94
 msgid "Ver verificación"
 msgstr "Show verification"
 
-#: templates/historialtrans.html:86
+#: templates/historialtrans.html:96
 msgid "No hay URL adicional"
 msgstr "No additional URL"
 
-#: templates/historialtrans.html:93
+#: templates/historialtrans.html:103
 msgid "No hay transacciones para mostrar"
 msgstr "There are no transactions shown"
 
-#: templates/historialtrans.html:94
+#: templates/historialtrans.html:104
 msgid "El usuario no ha estado involucrado en ninguna transacción."
 msgstr "The user hasn't been involved in any transaction yet."
 
@@ -547,18 +547,18 @@ msgstr ""
 msgid "URL de verificación"
 msgstr "Verification URL"
 
-#: templates/tab1cartera.html:9
+#: templates/tab1cartera.html:12
 msgid "Tu saldo actual es de"
 msgstr "Your current salary is"
 
-#: templates/tab1cartera.html:11
+#: templates/tab1cartera.html:14
 msgid "Enviar UDC"
 msgstr "Send UDC"
 
-#: templates/tab1cartera.html:17
+#: templates/tab1cartera.html:20
 msgid "Correo electrónico del destinatario"
 msgstr "Destination email"
 
-#: templates/tab1cartera.html:23
+#: templates/tab1cartera.html:26
 msgid "Cantidad de UDCs a enviar"
 msgstr "Amount of UDCs willing to be sent"
