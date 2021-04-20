@@ -717,6 +717,13 @@ def sw():
     response.headers['Content-Type'] = 'application/javascript'
     return response
 
+@app.before_request
+def before_request():
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
+
 @app.errorhandler(500)
 def internal_error(e):
     return render_template("error.html", code="500", type="Internal Server Error"), 500
