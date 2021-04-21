@@ -50,14 +50,15 @@
       <p style="font-size:12px;text-align:left;">{{gettext('Tu dirección de Blockchain es')}} {{user.blockHash}}.</p>
       {% endif %}
     </h2>
-    <p>&nbsp;<button class="btn btn-primary btn-large" id="mostrarformacc" style="width:38vw; text-align: center;">{{ gettext('Crear acción') }}</button>&nbsp;<button
-        class="btn btn-primary btn-large" id="mostraracc" style="width:38vw; text-align: center;">{{gettext('Mostrar acciones')}}</button>
-      <br>
-      &nbsp;<button class="btn btn-primary btn-large" id="mostrarformcamp" style="width:38vw; text-align: center;">{{ gettext('Crear campaña') }}</button>
-      &nbsp;<button class="btn btn-primary btn-large" id="mostrarcamp" style="width:38vw; text-align: center;">{{ gettext('Mostrar campañas') }}</button>
-      <br>
-      &nbsp;<button class="btn btn-primary btn-large" id="crearofertas" style="width:38vw; text-align: center;">{{ gettext('Crear oferta')}}</button>
-    &nbsp;<button class="btn btn-primary btn-large" id="mostrarofertas" style="width:38vw; text-align: center;">{{ gettext('Mostrar ofertas') }}</button></p>
+    <table>
+      <tr><td><button class="btn btn-primary btn-large" id="mostrarformacc" style="width:38vw; text-align: center;">{{ gettext('Crear acción') }}</button></td>&nbsp;<td><button
+        class="btn btn-primary btn-large" id="mostraracc" style="width:38vw; text-align: center;">{{gettext('Mostrar acciones')}}</button></td></tr>
+      <tr>
+      &nbsp;<td><button class="btn btn-primary btn-large" id="mostrarformcamp" style="width:38vw; text-align: center;">{{ gettext('Crear campaña') }}</button></td>
+        &nbsp;<td><button class="btn btn-primary btn-large" id="mostrarcamp" style="width:38vw; text-align: center;">{{ gettext('Mostrar campañas') }}</button></td></tr>
+      <tr>
+      &nbsp;<td>      &nbsp;<button class="btn btn-primary btn-large" id="crearofertas" style="width:38vw; text-align: center;">{{ gettext('Crear oferta')}}</button></td>
+      &nbsp;<td><button class="btn btn-primary btn-large" id="mostrarofertas" style="width:38vw; text-align: center;">{{ gettext('Mostrar ofertas') }}</button></td></tr></table>
   </div>
   <form style="display: none;" id="campanyasform" method="POST">
     {{ form.csrf_token }}
