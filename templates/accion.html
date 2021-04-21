@@ -1,4 +1,39 @@
 {% extends "base.html" %}
+{% block head %}
+<style>
+  @media (orientation:portrait) and (max-width: 768px) {
+        #acciones{
+            table-layout:auto;
+            width:100%;
+        }
+         .showDetails {
+             display:block;
+         }
+		.emp{
+			display:none;
+		}
+		.ind{
+			display:none;
+		}
+		.est{
+			display:none;
+		}
+		.obj{
+			display:none;
+		}
+	}
+    @media (orientation:landscape) {
+         .showDetails {
+             display:none;
+         }
+	}
+	@media (orientation:landscape) and (min-width: 1024px) {
+         .showDetails {
+             display:none;
+         }
+	}
+</style>
+{% endblock %}
 {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h1 class="h2">{{gettext('Menú principal')}}</h1>
@@ -124,30 +159,31 @@
 </div>
 <div id="acciones" style="display: none;">
   {% if acciones|length >= 1 %}
-  <table class="table" style="table-layout:auto; font-size:75%;">
+  <p style="font-size:75%;" class="showDetails"><b>{{gettext('Gire la pantalla para más detalles.')}}</b></p>
+  <table class="table" id="acciones" style="table-layout:auto; font-size:70%;">
     <thead>
       <tr>
-        <th scope="col">{{gettext('Nombre')}}</th>
-        <th scope="col">{{gettext('Empresa')}}</th>
-        <th scope="col">{{gettext('Descripción')}}</th>
-        <th scope="col">{{gettext('Recompensa por KPI')}}</th>
-        <th scope="col">{{gettext('Indicador')}}</th>
-        <th scope="col">{{gettext('Estado actual')}}</th>
-        <th scope="col">{{gettext('Objetivo')}}</th>
-        <th scope="col">{{gettext('Código QR')}}</th>
+        <th scope="col" class="nom">{{gettext('Nombre')}}</th>
+        <th scope="col" class="emp">{{gettext('Empresa')}}</th>
+        <th scope="col" class="des">{{gettext('Descripción')}}</th>
+        <th scope="col" class="rec">{{gettext('Recompensa por KPI')}}</th>
+        <th scope="col" class="ind">{{gettext('Indicador')}}</th>
+        <th scope="col" class="est">{{gettext('Estado actual')}}</th>
+        <th scope="col" class="obj">{{gettext('Objetivo')}}</th>
+        <th scope="col" class="qr">{{gettext('Código QR')}}</th>
       </tr>
     </thead>
     <tbody>
       {% for a in acciones %}
       <tr>
-        <th scope="row">{{a.nombre}}</th>
-        <td>{{a.empresa}}</td>
-        <td>{{a.descripcion}}</td>
-        <td>{{a.recompensa}} UDC</td>
-        <td>{{a.indicadorKpi}}</td>
-        <td>{{a.kpi}}</td>
-        <td>{{a.kpiObj}}</td>
-        <td><a href="{{ url_for('qr' ,accion_id=a.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
+        <th scope="row" class="nom">{{a.nombre}}</th>
+        <td class="emp">{{a.empresa}}</td>
+        <td class="des">{{a.descripcion}}</td>
+        <td class="rec">{{a.recompensa}} UDC</td>
+        <td class="ind">{{a.indicadorKpi}}</td>
+        <td class="est">{{a.kpi}}</td>
+        <td class="obj">{{a.kpiObj}}</td>
+        <td><a href="{{ url_for('qr' ,accion_id=a.id) }}" class="qr"><b>{{gettext('Descargar')}}</b></a></td>
       </tr>
       {% endfor %}
     </tbody>
@@ -158,7 +194,7 @@
 </div>
 <div id="campanyas" style="display: none;">
   {% if campanyas|length >= 1 %}
-  <table class="table" style="table-layout:fixed; font-size:75%;">
+  <table class="table" style="table-layout:fixed; font-size:70%;">
     <thead>
       <tr>
         <th scope="col">{{gettext('Nombre')}}</th>
@@ -182,7 +218,7 @@
 </div>
 <div id="ofertas" style="display: none;">
   {% if ofertas|length >= 1 %}
-  <table class="table" style="table-layout:fixed; font-size:75%;">
+  <table class="table" style="table-layout:fixed; font-size:70%;">
     <thead>
       <tr>
         <th scope="col">{{gettext('Nombre')}}</th>
