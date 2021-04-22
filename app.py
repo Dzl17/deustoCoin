@@ -360,7 +360,9 @@ def accion():
         s.commit()
         intId = Oferta.getIdByName(nombre)
         qr = qrcode.make(url_for("pay", offer_id=intId, _external=True))
-        qr.save('./static/qr/ofertas/' + str(intId) + ".png")
+        filename = "/qr/ofertas/" + str(intId) + ".png"
+        qr.save(url_for('static', filename=filename))
+        #qr.save('./static/qr/ofertas/' + str(intId) + ".png")
 
     if request.method == 'POST' and 'crearAccion' in request.form:
         nombre = request.form['nombre']
@@ -375,7 +377,9 @@ def accion():
         s.commit()
         intId = Accion.getIdByName(nombre)
         qr = qrcode.make(url_for("redeem", accion_id=intId, _external=True))
-        qr.save('./static/qr/acciones/' + str(intId) + ".png")
+        filename = "/qr/acciones/" + str(intId) + ".png"
+        qr.save(url_for('static', filename=filename))
+       # qr.save('./static/qr/acciones/' + str(intId) + ".png")
 
     try:
         del session['accionId']
@@ -548,6 +552,10 @@ def editorO():
             query = query.filter(Oferta.id == pk).first()
             s.delete(query)
             s.commit()
+            if user.role == "Promotor":
+                ofertas = Oferta.getOffers(user.organizacion)
+            if user.role == "Administrador":
+                ofertas = Oferta.getAllOffers()
     try:
         del session['accionId']
         del session['offerId']
