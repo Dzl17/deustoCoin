@@ -41,7 +41,7 @@
                 <td><b>{{o.nombre}}</b></td>
                 <td>{{o.empresa}}</td>
                 <td>{{o.descripcion}}</td>
-                <td>{{o.precio}}</td>
+                <td>{{o.precio}} UDC</td>
                 <td><a href="{{ url_for('qrOfertas' ,offerId=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
             </tr>
             {% endfor %}

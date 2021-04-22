@@ -485,6 +485,7 @@ def editor(campanya_id):
             query = query.filter(Accion.id == pk).first()
             s.delete(query)
             s.commit()
+            acciones = Accion.getActionsOfCampaign(campanya_id)
 
     return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, acciones=acciones, campanya=campanya)
@@ -503,10 +504,6 @@ def editorC():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    if user.role == "Promotor":
-        campanyas = Campanya.getCampaigns(user.organizacion)
-    if user.role == "Administrador":
-        campanyas = Campanya.getAllCampaigns()
     salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':
@@ -525,6 +522,11 @@ def editorC():
         del session['offerId']
     except:
         pass
+    if user.role == "Promotor":
+        campanyas = Campanya.getCampaigns(user.organizacion)
+    if user.role == "Administrador":
+        campanyas = Campanya.getAllCampaigns()
+
     return render_template('admincampanyas.html', title='Campañas', wallet=salary, email=email, name=given_name,
                            w3=web3, user=user, campanyas=campanyas)
 
@@ -533,10 +535,6 @@ def editorO():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    if user.role == "Promotor":
-        ofertas = Oferta.getOffers(user.organizacion)
-    if user.role == "Administrador":
-        ofertas = Oferta.getAllOffers()
     salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':
@@ -553,6 +551,10 @@ def editorO():
         del session['offerId']
     except:
         pass
+    if user.role == "Promotor":
+        ofertas = Oferta.getOffers(user.organizacion)
+    if user.role == "Administrador":
+        ofertas = Oferta.getAllOffers()
     return render_template('adminofertas.html', title='Ofertas', wallet=salary, email=email, name=given_name,
                            w3=web3, user=user, ofertas=ofertas)
 
