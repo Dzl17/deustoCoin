@@ -360,7 +360,7 @@ def accion():
         s.commit()
         intId = Oferta.getIdByName(nombre)
         qr = qrcode.make(url_for("pay", offer_id=intId, _external=True))
-        filename = "/qr/ofertas/" + str(intId) + ".png"
+        filename = "qr/ofertas/" + str(intId) + ".png"
         qr.save(url_for('static', filename=filename))
         #qr.save('./static/qr/ofertas/' + str(intId) + ".png")
 
@@ -377,7 +377,7 @@ def accion():
         s.commit()
         intId = Accion.getIdByName(nombre)
         qr = qrcode.make(url_for("redeem", accion_id=intId, _external=True))
-        filename = "/qr/acciones/" + str(intId) + ".png"
+        filename = "qr/acciones/" + str(intId) + ".png"
         qr.save(url_for('static', filename=filename))
        # qr.save('./static/qr/acciones/' + str(intId) + ".png")
 
