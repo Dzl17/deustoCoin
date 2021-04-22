@@ -316,6 +316,31 @@ def accion():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
+
+    if user.role == "Promotor":
+        campanyas = Campanya.getCampaigns(user.organizacion)
+        acciones = Accion.getActions(user.organizacion)
+        ofertas = Oferta.getOffers(user.organizacion)
+    elif user.role == "Administrador":
+        campanyas = Campanya.getAllCampaigns()
+        acciones = Accion.getAllActions()
+        ofertas = Oferta.getAllOffers()
+    else:
+        return redirect("/login")
+    try:
+        for c in campanyas:
+            c.nombre = translator.translate(c.nombre, dest=session['lang']).text
+            c.descripcion = translator.translate(c.descripcion, dest=session['lang']).text
+        for a in acciones:
+            a.nombre = translator.translate(a.nombre, dest=session['lang']).text
+            a.descripcion = translator.translate(a.descripcion, dest=session['lang']).text
+            a.indicadorKpi = translator.translate(a.indicadorKpi, dest=session['lang']).text
+        for o in ofertas:
+            o.nombre = translator.translate(o.nombre, dest=session['lang']).text
+            o.descripcion = translator.translate(o.descripcion, dest=session['lang']).text
+    except:
+        pass
+    salary = get_balance(os.environ.get('TEST_ADDRESS'))
     if form.validate_on_submit() and form.crearCamp.data:
         s = Session()
         if user.role == "Promotor":
@@ -351,6 +376,13 @@ def accion():
         intId = Accion.getIdByName(nombre)
         qr = qrcode.make(url_for("redeem", accion_id=intId, _external=True))
         qr.save('./static/qr/acciones/' + str(intId) + ".png")
+
+    try:
+        del session['accionId']
+        del session['offerId']
+    except:
+        pass
+    #Borro las keys para evitar conflictos con cookies
     if user.role == "Promotor":
         campanyas = Campanya.getCampaigns(user.organizacion)
         acciones = Accion.getActions(user.organizacion)
@@ -374,14 +406,6 @@ def accion():
             o.descripcion = translator.translate(o.descripcion, dest=session['lang']).text
     except:
         pass
-    salary = get_balance(os.environ.get('TEST_ADDRESS'))
-    try:
-        del session['accionId']
-        del session['offerId']
-    except:
-        pass
-    #Borro las keys para evitar conflictos con cookies
-
     return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
                            form=form, form2=form2, user=user, acciones=acciones, campanyas=campanyas, ofertas=ofertas)
 
@@ -502,6 +526,10 @@ def editorC():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
+    if user.role == "Promotor":
+        campanyas = Campanya.getCampaigns(user.organizacion)
+    if user.role == "Administrador":
+        campanyas = Campanya.getAllCampaigns()
     salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':
@@ -520,11 +548,6 @@ def editorC():
         del session['offerId']
     except:
         pass
-    if user.role == "Promotor":
-        campanyas = Campanya.getCampaigns(user.organizacion)
-    if user.role == "Administrador":
-        campanyas = Campanya.getAllCampaigns()
-
     return render_template('admincampanyas.html', title='Campañas', wallet=salary, email=email, name=given_name,
                            w3=web3, user=user, campanyas=campanyas)
 
@@ -533,6 +556,10 @@ def editorO():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
+    if user.role == "Promotor":
+        ofertas = Oferta.getOffers(user.organizacion)
+    if user.role == "Administrador":
+        ofertas = Oferta.getAllOffers()
     salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':
@@ -549,10 +576,6 @@ def editorO():
         del session['offerId']
     except:
         pass
-    if user.role == "Promotor":
-        ofertas = Oferta.getOffers(user.organizacion)
-    if user.role == "Administrador":
-        ofertas = Oferta.getAllOffers()
     return render_template('adminofertas.html', title='Ofertas', wallet=salary, email=email, name=given_name,
                            w3=web3, user=user, ofertas=ofertas)
 
