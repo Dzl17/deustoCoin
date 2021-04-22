@@ -20,6 +20,8 @@
                 <th scope="col">{{gettext('Empresa')}}</th>
                 <th scope="col">{{gettext('Descripción')}}</th>
                 <th scope="col">{{gettext('Recompensa por KPI (en UDC)')}}</th>
+                <th scope="col">{{gettext('Indicador')}}</th>
+                <th scope="col">{{gettext('Objetivo')}}</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +38,8 @@
                 <td>{{a.empresa}}</td>
                 <td>{{a.descripcion}}</td>
                 <td>{{a.recompensa}}</td>
+                <td>{{a.kpi}}</td>
+                <td>{{a.kpiObj}}</td>
             </tr>
             {% endfor %}
         </tbody>

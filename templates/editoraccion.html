@@ -25,6 +25,18 @@
                     value="{{accion.recompensa}}" required></input>
             </p>
         </div>
+        <div class="form-group">
+            <p>
+                <input type="text" placeholder="{{gettext('Indicador')}}" class="form-control" name="kpi"
+                    value="{{accion.kpi}}" required></input>
+            </p>
+        </div>
+        <div class="form-group">
+            <p>
+                <input type="text" placeholder="{{gettext('Objetivo')}}" class="form-control" name="kpiObj"
+                    value="{{accion.kpiObj}}" required></input>
+            </p>
+        </div>
         <p>
             <input type="submit" formmethod="POST" value="{{gettext('Actualizar')}}" name="actualizarA" class="btn btn-primary btn-large">
             </input>

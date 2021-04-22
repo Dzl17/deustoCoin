@@ -566,7 +566,7 @@ def editorAccion(accion_id):
     accion = query.filter(Accion.id == accion_id).first()
     if request.method == 'POST' and 'actualizarA' in request.form:
         dictupdate = {Accion.nombre: request.form['nombre'], Accion.descripcion: request.form['descripcion'],
-                      Accion.recompensa: float(request.form['recompensa'])}
+                      Accion.recompensa: float(request.form['recompensa']), Accion.kpi: request.form['kpi'], Accion.kpiObj: int(request.form['kpiObj'])}
         query.filter(Accion.id == accion_id).update(dictupdate, synchronize_session=False)
         s.commit()
     return render_template("editoraccion.html", accion=accion, email=email, name=given_name, user=user)
