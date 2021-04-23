@@ -606,7 +606,7 @@ def editorOferta(offer_id):
 def qr(accion_id):
     img = qrcode.make(url_for("redeem", accion_id=accion_id, _external=True))
     with io.BytesIO() as output:
-        img.save(output, format="GIF")
+        img.save(output, format="PNG")
         contents = output.getvalue()
     return Response(contents, mimetype='image/png')
 
@@ -614,7 +614,7 @@ def qr(accion_id):
 def qrOfertas(offerId):
     img = qrcode.make(url_for("pay", offer_id=offerId, _external=True))
     with io.BytesIO() as output:
-        img.save(output, format="GIF")
+        img.save(output, format="PNG")
         contents = output.getvalue()
     return Response(contents, mimetype='image/png')
 
