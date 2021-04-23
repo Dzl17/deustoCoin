@@ -358,11 +358,6 @@ def accion():
             o = Oferta(request.form['nomOferta'], request.form['empresa'], request.form['desc'], request.form['precio'])
         s.add(o)
         s.commit()
-        intId = Oferta.getIdByName(nombre)
-        qr = qrcode.make(url_for("pay", offer_id=intId, _external=True))
-        filename = "qr/ofertas/" + str(intId) + ".png"
-        qr.save(url_for('static', filename=filename))
-        #qr.save('./static/qr/ofertas/' + str(intId) + ".png")
 
     if request.method == 'POST' and 'crearAccion' in request.form:
         nombre = request.form['nombre']
@@ -375,11 +370,6 @@ def accion():
         a = Accion(nombre, user.organizacion, desc, recompensa, indKpi, kpiObj, camp)
         s.add(a)
         s.commit()
-        intId = Accion.getIdByName(nombre)
-        qr = qrcode.make(url_for("redeem", accion_id=intId, _external=True))
-        filename = "qr/acciones/" + str(intId) + ".png"
-        qr.save(url_for('static', filename=filename))
-       # qr.save('./static/qr/acciones/' + str(intId) + ".png")
 
     try:
         del session['accionId']
@@ -614,14 +604,19 @@ def editorOferta(offer_id):
 
 @app.route('/qr/<int:accion_id>')
 def qr(accion_id):
-    path = 'static/qr/acciones/' + str(accion_id) + ".png"
-    return send_file(path, as_attachment=True)
+    img = qrcode.make(url_for("redeem", accion_id=accion_id, _external=True))
+    with io.BytesIO() as output:
+        img.save(output, format="GIF")
+        contents = output.getvalue()
+    return Response(contents, mimetype='image/png')
 
 @app.route('/qrOfertas/<int:offerId>')
 def qrOfertas(offerId):
-    path = 'static/qr/ofertas/' + str(offerId) + ".png"
-    return send_file(path, as_attachment=True)
-
+    img = qrcode.make(url_for("pay", offer_id=offerId, _external=True))
+    with io.BytesIO() as output:
+        img.save(output, format="GIF")
+        contents = output.getvalue()
+    return Response(contents, mimetype='image/png')
 
 @app.route('/redeem/<int:accion_id>', methods=["GET", "POST"])
 def redeem(accion_id):
