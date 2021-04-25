@@ -147,6 +147,7 @@ def create_figure(id):
 def home():
     KPIporFechas.saveTodaysKPI()
     create_figure(1)
+    session['lang'] = 'eu'
     return render_template("index.html")
 
 @app.route('/language/<lang>')
