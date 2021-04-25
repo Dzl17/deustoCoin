@@ -96,7 +96,8 @@ def sendCoins(dest, amount, imgHash, urlProof):
 def offerTransaction(rem, dest, amount):
     destUser = User.get_by_email(dest)
     account_2 = destUser.blockHash
-    nonce = web3.eth.getTransactionCount(test_address)
+    remUser = User.get_by_email(rem)
+    nonce = web3.eth.getTransactionCount(remUser.blockHash)
     float_amount = float(amount) / valorUDC
     tx = {
         'chainId': 3,  # es 3 para Ropsten
