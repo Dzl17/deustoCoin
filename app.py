@@ -17,7 +17,7 @@ import qrcode
 import os
 
 app = Flask(__name__)
-app.config['BABEL_DEFAULT_LOCALE'] = 'es'
+#app.config['BABEL_DEFAULT_LOCALE'] = 'es'
 babel = Babel(app)
 translator = Translator()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -147,7 +147,6 @@ def create_figure(id):
 def home():
     KPIporFechas.saveTodaysKPI()
     create_figure(1)
-    session['lang'] = 'eu'
     return render_template("index.html")
 
 @app.route('/language/<lang>')
