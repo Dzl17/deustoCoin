@@ -15,7 +15,6 @@ import io
 import ipfshttpclient
 import qrcode
 import os
-import time
 
 app = Flask(__name__)
 #app.config['BABEL_DEFAULT_LOCALE'] = 'es'
@@ -147,7 +146,6 @@ def create_figure(id):
 @app.route('/')
 def home():
     KPIporFechas.saveTodaysKPI()
-    time.sleep(0.1)
     return render_template("index.html")
 
 @app.route('/language/<lang>')

@@ -1,6 +1,5 @@
 var cacheName = 'DeustoCoin';
 var filesToCache = [
-  './',
   './static/css/main.css',
   './static/css/floating-labels.css',
   './static/css/sidebar.css',
