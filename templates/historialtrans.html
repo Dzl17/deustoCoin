@@ -53,6 +53,8 @@
     <div class="jumbotron">
         {% if user.role == "Alumno" %}
         <h2>{{gettext('Historial de transacciones de')}} {{ name }}</h2>
+        {% elif user.role == "Promotor" %}
+        <h2>{{gettext('Historial de transacciones de')}} {{ user.organizacion }}</h2>
         {% else %}
         <h2>{{gettext('Historial de transacciones de DeustoCoin')}}</h2>
         {% endif %}
