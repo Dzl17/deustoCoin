@@ -432,6 +432,8 @@ def historialtrans():
 
     if user.role == "Alumno":
         transacciones = Transaccion.getTransactions(user.email)
+    elif user.role == "Promotor":
+        transacciones = Transaccion.getTransactions(user.organizacion)
     else:
         transacciones = Transaccion.getAllTransactions()
     for t in transacciones:

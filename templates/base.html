@@ -221,12 +221,6 @@ ul ul a {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('historialtrans')}}">
-                            <span class="iconify" data-icon="ri:file-history-line" data-inline="false"></span>
-                            {{gettext('Historial de transacciones')}}
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('campanyas')}}">
                             <span class="iconify" data-icon="ic:baseline-campaign" data-inline="false"></span>
                             {{gettext('Campañas')}}
@@ -239,6 +233,12 @@ ul ul a {
                         </a>
                     </li>
                     {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('historialtrans')}}">
+                            <span class="iconify" data-icon="ri:file-history-line" data-inline="false"></span>
+                            {{gettext('Historial de transacciones')}}
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('sobre')}}">
                             <span class="iconify" data-icon="ant-design:info-circle-outlined" data-inline="false"></span>
