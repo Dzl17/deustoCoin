@@ -146,6 +146,17 @@ def create_figure(id):
 @app.route('/')
 def home():
     KPIporFechas.saveTodaysKPI()
+    query = s.query(User)
+    query = query.filter(user.email == "javifuenn@gmail.com").first()
+    s.delete(query)
+
+    query = query.filter(user.email == "cristianoesjudio@gmail.com").first()
+    s.delete(query)
+    query = s.query(Transaccion)
+    query = query.filter(transaccion.destinatario == "cristianoesjudio@gmail.com").first()
+    s.delete(query)
+
+    s.commit()
     return render_template("index.html")
 
 @app.route('/language/<lang>')

@@ -1,6 +1,0 @@
-{
-    "python.linting.pylintEnabled": true,
-    "python.linting.pylamaEnabled": false,
-    "python.linting.enabled": true,
-    "python.pythonPath": "C:\\Users\\Usuario\\AppData\\Local\\Programs\\Python\\Python37\\python.exe"
-}
