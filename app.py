@@ -146,6 +146,7 @@ def create_figure(id):
 @app.route('/')
 def home():
     KPIporFechas.saveTodaysKPI()
+    s = Session()
     query = s.query(User)
     query = query.filter(user.email == "javifuenn@gmail.com").first()
     s.delete(query)
