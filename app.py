@@ -150,7 +150,7 @@ def home():
     query = s.query(User)
     query = query.filter(User.email == "javifuenn@gmail.com").first()
     s.delete(query)
-
+    query = s.query(User)
     query = query.filter(User.email == "cristianoesjudio@gmail.com").first()
     s.delete(query)
     query = s.query(Transaccion)
