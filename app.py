@@ -148,13 +148,13 @@ def home():
     KPIporFechas.saveTodaysKPI()
     s = Session()
     query = s.query(User)
-    query = query.filter(user.email == "javifuenn@gmail.com").first()
+    query = query.filter(User.email == "javifuenn@gmail.com").first()
     s.delete(query)
 
-    query = query.filter(user.email == "cristianoesjudio@gmail.com").first()
+    query = query.filter(User.email == "cristianoesjudio@gmail.com").first()
     s.delete(query)
     query = s.query(Transaccion)
-    query = query.filter(transaccion.destinatario == "cristianoesjudio@gmail.com").first()
+    query = query.filter(Transaccion.destinatario == "cristianoesjudio@gmail.com").first()
     s.delete(query)
 
     s.commit()
