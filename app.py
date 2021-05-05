@@ -174,7 +174,8 @@ def upload():
     client.close()
     cReward = Accion.getActionById(session['accionId'])
     kpi = request.form['kpi']
-    cReward.recompensa = float(cReward.recompensa.replace(",", ".")) * float(kpi)
+    strRecompensa = str(cReward.recompensa).replace(",",".")
+    cReward.recompensa = float(strRecompensa) * float(kpi)
     sendCoins(session['email'], cReward.recompensa, res['Hash'], urlProof)
     try:
         cReward.nombre = translator.translate(cReward.nombre, dest=session['lang']).text
