@@ -87,7 +87,7 @@ def sendCoins(dest, amount, imgHash, urlProof):
     s.add(t)
     s.commit()
     query = s.query(Accion)
-    kpi = int(request.form['kpi'])
+    kpi = int(float(request.form['kpi']))
     dictupdate = {Accion.kpi: Accion.kpi + kpi}
     query.filter(Accion.id == accion.id).update(dictupdate, synchronize_session=False)
     s.commit()
