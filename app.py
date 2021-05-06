@@ -107,7 +107,7 @@ def offerTransaction(rem, dest, amount):
         'gas': 21000,
         'gasPrice': web3.toWei(50, 'gwei')
     }
-    signed_tx = web3.eth.account.signTransaction(tx, private_key)
+    signed_tx = web3.eth.account.signTransaction(tx, remUser.pk)
     tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
     s = Session()
     dateTimeObj = datetime.now()
@@ -280,7 +280,7 @@ def wallet():
             'gas': 50000,
             'gasPrice': web3.toWei(100, 'gwei')
         }
-        signed_tx = web3.eth.account.signTransaction(tx, private_key)
+        signed_tx = web3.eth.account.signTransaction(tx, user.pk)
         tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
         s = Session()
         dateTimeObj = datetime.now()
