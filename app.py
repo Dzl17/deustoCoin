@@ -100,7 +100,7 @@ def offerTransaction(rem, dest, amount):
     nonce = web3.eth.getTransactionCount(remUser.blockHash)
     float_amount = float(amount) / valorUDC
     tx = {
-        'chainId': 3,  # es 3 para Ropsten
+        'chainId': None,  # es 3 para Ropsten
         'nonce': nonce,
         'to': account_2,
         'value': web3.toWei(float_amount, 'ether'),
