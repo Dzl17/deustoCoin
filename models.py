@@ -10,14 +10,16 @@ class User(Base):
     name = Column(String(80), nullable=False)
     email = Column(String(256), unique=True, nullable=False)
     blockHash = Column(String(128), nullable=True)
+    pk = Column(String(128), nullable=True)
     picture = Column(String(128), nullable=True)
     role = Column(String(128), nullable=False)
     organizacion = Column(String(128), nullable=False)
 
-    def __init__(self, name, email, blockHash, picture, role, organizacion):
+    def __init__(self, name, email, blockHash, pk, picture, role, organizacion):
         self.name = name
         self.email = email
         self.blockHash = blockHash
+        self.pk = pk
         self.picture = picture
         self.role = role
         self.organizacion = organizacion

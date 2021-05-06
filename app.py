@@ -100,7 +100,7 @@ def offerTransaction(rem, dest, amount):
     nonce = web3.eth.getTransactionCount(remUser.blockHash)
     float_amount = float(amount) / valorUDC
     tx = {
-        'chainId': None,  # es 3 para Ropsten
+        'chainId': 3,  # es 3 para Ropsten
         'nonce': nonce,
         'to': account_2,
         'value': web3.toWei(float_amount, 'ether'),
@@ -249,7 +249,7 @@ def register():
         org = request.form['organizacion']
 
         s = Session()
-        u = User(nombre, email, blockchainAddr, picture, rol, org)
+        u = User(nombre, email, blockchainAddr,pk, picture, rol, org)
         s.add(u)
         s.commit()
         if rol == 'Alumno':
