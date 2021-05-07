@@ -1,4 +1,4 @@
-from flask import template_rendered
+from flask import template_rendered, app
 from web3 import (
     EthereumTesterProvider,
     Web3,
@@ -6,7 +6,6 @@ from web3 import (
 from contextlib import contextmanager
 import pytest
 import typing as ty
-import app
 import json
 import ipfshttpclient.encoding
 import ipfshttpclient.exceptions
