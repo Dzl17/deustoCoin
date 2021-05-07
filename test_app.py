@@ -1,5 +1,8 @@
 from flask import template_rendered
-
+from web3 import (
+    EthereumTesterProvider,
+    Web3,
+)
 
 import pytest
 import typing as ty
@@ -8,6 +11,19 @@ import json
 import ipfshttpclient.encoding
 import ipfshttpclient.exceptions
 import ipfshttpclient.utils
+import cryptocompare
+
+@pytest.fixture
+def tester_provider():
+    return EthereumTesterProvider()
+
+@pytest.fixture
+def eth_tester(tester_provider):
+    return tester_provider.ethereum_tester
+
+@pytest.fixture
+def w3(tester_provider):
+    return Web3(tester_provider)
 
 @pytest.fixture
 def captured_templates(app):
@@ -23,7 +39,6 @@ def captured_templates(app):
 @pytest.fixture
 def json_encoder():
     return ipfshttpclient.encoding.Json()
-
 
 def test_dummy_encoder():
     dummy_encoder = ipfshttpclient.encoding.Dummy()
@@ -103,7 +118,6 @@ def test_json_encode_invalid_type(json_encoder):
     with pytest.raises(ipfshttpclient.exceptions.EncodingError):
         json_encoder.encode(data)
 
-
 def test_get_encoder_by_name():
     encoder = ipfshttpclient.encoding.get_encoding('json')
     assert encoder.name == 'json'
@@ -112,3 +126,7 @@ def test_get_encoder_by_name():
 def test_get_invalid_encoder():
     with pytest.raises(ipfshttpclient.exceptions.EncoderMissingError):
         ipfshttpclient.encoding.get_encoding('fake')
+
+def test_cryptocompare():
+    valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
+    assert isinstance(valorUDC, float)
