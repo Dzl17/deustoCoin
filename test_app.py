@@ -130,3 +130,10 @@ def test_get_invalid_encoder():
 def test_cryptocompare():
     valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
     assert valorUDC > 0
+
+def test_getbalance():
+    web3 = Web3(Web3.HTTPProvider(os.environ.get('ROPSTEN_URL')))
+    balance = web3.eth.getBalance(os.environ.get('TEST_ADDRESS')))
+    valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
+    balancefloat = float(web3.fromWei(balance, "ether")) * valorUDC
+    assert balancefloat >= 0
