@@ -129,4 +129,4 @@ def test_get_invalid_encoder():
 
 def test_cryptocompare():
     valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
-    assert isinstance(valorUDC, float)
+    assert valorUDC > 0
