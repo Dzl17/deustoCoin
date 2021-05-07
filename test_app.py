@@ -1,9 +1,5 @@
 from flask import template_rendered
-from web3 import (
-    EthereumTesterProvider,
-    Web3,
-)
-
+from web3 import EthereumTesterProvider, Web3
 import pytest
 import typing as ty
 import app
@@ -136,9 +132,3 @@ def test_getbalance():
     balance = web3.eth.getBalance(os.environ.get('TEST_ADDRESS')))
     assert balance >= 0
 
-with captured_templates(app) as templates:
-    rv = app.test_client().get('/')
-    assert rv.status_code == 200
-    assert len(templates) == 1
-    template, context = templates[0]
-    assert template.name == 'index.html'
