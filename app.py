@@ -1,4 +1,4 @@
-from flask import Flask, url_for, render_template, request, redirect, Response, session, send_file, send_from_directory, make_response
+from flask import Flask, url_for, render_template, request, redirect, Response, session, template_rendered, send_from_directory, make_response
 from flask_babel import Babel, gettext
 from authlib.integrations.flask_client import OAuth
 from base import Session, init_db
@@ -13,6 +13,7 @@ from flask.cli import with_appcontext
 import cryptocompare
 import io
 import ipfshttpclient
+import pytest
 import qrcode
 import os
 
@@ -755,6 +756,16 @@ def bad_request(e):
 def unauthorized(e):
     return render_template("error.html", code="401", type="Unauthorized"), 401
 
+@pytest.fixture
+def captured_templates(app):
+    recorded = []
+    def record(sender, template, context, **extra):
+        recorded.append((template, context))
+    template_rendered.connect(record, app)
+    try:
+        yield recorded
+    finally:
+        template_rendered.disconnect(record, app)
 
 if __name__ == "__main__":
     app.run()
