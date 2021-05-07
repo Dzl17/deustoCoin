@@ -25,6 +25,22 @@ def eth_tester(tester_provider):
 def w3(tester_provider):
     return Web3(tester_provider)
 
+@pytest.fixture(scope='module')
+def test_client():
+    flask_app = app
+
+    # Flask provides a way to test your application by exposing the Werkzeug test Client
+    # and handling the context locals for you.
+    testing_client = flask_app.test_client()
+
+    # Establish an application context before running the tests.
+    ctx = flask_app.app_context()
+    ctx.push()
+
+    yield testing_client  # this is where the testing happens!
+
+    ctx.pop()
+
 @contextmanager
 def captured_templates(app):
     recorded = []
@@ -131,9 +147,3 @@ def test_cryptocompare():
     valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
     assert valorUDC > 0
 
-with captured_templates(app) as templates:
-    rv = app.test_client().get('/accionalumnos')
-    assert rv.status_code == 200
-    assert len(templates) == 1
-    template, context = templates[0]
-    assert template.name == "accionalumnos.html"
