@@ -28,5 +28,18 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_DISCOVERY_URL: ${{ secrets.GOOGLE_DISCOVERY_URL }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        INFURA_SECRET: ${{ secrets.INFURA_SECRET }}
+        IPFS_CONNECT_URL: ${{ secrets.IPFS_CONNECT_URL }}
+        IPFS_FILE_URL: ${{ secrets.IPFS_FILE_URL }}
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        ROPSTEN_URL: ${{ secrets.ROPSTEN_URL }}
+        TEST_ADDRESS: ${{ secrets.TEST_ADDRESS }}
+        WEB3_INFURA_PROJECT_ID: ${{ secrets.WEB3_INFURA_PROJECT_ID }}
+
       run: |
         pytest
