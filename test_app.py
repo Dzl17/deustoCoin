@@ -3,7 +3,7 @@ from web3 import (
     EthereumTesterProvider,
     Web3,
 )
-
+from contextlib import contextmanager
 import pytest
 import typing as ty
 import app
@@ -25,7 +25,7 @@ def eth_tester(tester_provider):
 def w3(tester_provider):
     return Web3(tester_provider)
 
-@pytest.fixture
+@contextmanager
 def captured_templates(app):
     recorded = []
     def record(sender, template, context, **extra):
