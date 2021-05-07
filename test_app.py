@@ -1,4 +1,4 @@
-from flask import template_rendered
+from flask import template_rendered, url_for
 from app import app
 from web3 import (
     EthereumTesterProvider,
@@ -132,7 +132,8 @@ def test_cryptocompare():
     assert valorUDC > 0
 
 with captured_templates(app) as templates:
-    rv = app.test_client().get('/')
+    rv = app.test_client().get(url_for('home'))
+    assert rv.status_code == 200
     assert len(templates) == 1
     template, context = templates[0]
     assert template.name == "index.html"
