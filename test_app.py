@@ -1,4 +1,5 @@
-from flask import template_rendered, app
+from flask import template_rendered
+from app import app
 from web3 import (
     EthereumTesterProvider,
     Web3,
