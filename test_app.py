@@ -134,6 +134,11 @@ def test_cryptocompare():
 def test_getbalance():
     web3 = Web3(Web3.HTTPProvider(os.environ.get('ROPSTEN_URL')))
     balance = web3.eth.getBalance(os.environ.get('TEST_ADDRESS')))
-    valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
-    balancefloat = float(web3.fromWei(balance, "ether")) * valorUDC
-    assert balancefloat >= 0
+    assert balance >= 0
+
+with captured_templates(app) as templates:
+    rv = app.test_client().get('/')
+    assert rv.status_code == 200
+    assert len(templates) == 1
+    template, context = templates[0]
+    assert template.name == 'index.html'
