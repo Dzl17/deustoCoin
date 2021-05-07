@@ -756,16 +756,6 @@ def bad_request(e):
 def unauthorized(e):
     return render_template("error.html", code="401", type="Unauthorized"), 401
 
-@pytest.fixture
-def captured_templates(app):
-    recorded = []
-    def record(sender, template, context, **extra):
-        recorded.append((template, context))
-    template_rendered.connect(record, app)
-    try:
-        yield recorded
-    finally:
-        template_rendered.disconnect(record, app)
 
 if __name__ == "__main__":
     app.run()
