@@ -245,11 +245,12 @@ def register():
         email = request.form['email']
         blockchainAddr = request.form['blockAddr']
         session['blockchainAddr'] = blockchainAddr
+        pk = request.form['pk']
         rol = request.form['rol']
         org = request.form['organizacion']
 
         s = Session()
-        u = User(nombre, email, blockchainAddr,pk, picture, rol, org)
+        u = User(nombre, email, blockchainAddr, pk, picture, rol, org)
         s.add(u)
         s.commit()
         if rol == 'Alumno':

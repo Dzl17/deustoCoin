@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DeustoCoin VERSION\n"
 "Report-Msgid-Bugs-To: jorge.elbusto@opendeusto.es\n"
 "POT-Creation-Date: 2021-04-21 09:24+0200\n"
-"PO-Revision-Date: 2021-04-26 00:49+0200\n"
+"PO-Revision-Date: 2021-05-07 13:02+0200\n"
 "Last-Translator: Jorge El Busto <jorge.elbusto@opendeusto.es>\n"
 "Language: eu\n"
 "Language-Team: eu <LL@li.org>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Generated-By: Babel 2.9.0\n"
 "X-Generator: Poedit 2.4.2\n"
 
-#: app.py:448 templates/pago.html:3
+#: app.py:451 templates/pago.html:3
 msgid "Pago por oferta"
 msgstr "Ordainketa"
 
-#: app.py:450
+#: app.py:453
 msgid "Envío de UDCoins"
 msgstr "UDCoin-en bidalketa"
 
@@ -121,7 +121,7 @@ msgstr "Helburua"
 msgid "Nombre de la oferta"
 msgstr "Eskaintzaren izena"
 
-#: templates/accion.html:141 templates/register.html:53
+#: templates/accion.html:141 templates/register.html:58
 msgid "Organización"
 msgstr "Erakundea"
 
@@ -131,7 +131,7 @@ msgstr "Erakundea"
 msgid "Precio"
 msgstr "Prezioa"
 
-#: templates/accion.html:163 templates/historialtrans.html:62
+#: templates/accion.html:163 templates/historialtrans.html:64
 msgid "Gire la pantalla para más detalles."
 msgstr "Xehetasun gehiagorako itzuli pantaila."
 
@@ -251,18 +251,18 @@ msgstr "Eskaintza editorea"
 msgid "Cartera"
 msgstr "Diru-zorroa"
 
-#: templates/base.html:226 templates/historialtrans.html:50
-msgid "Historial de transacciones"
-msgstr "Transakzio historia"
-
-#: templates/base.html:232 templates/campanyas.html:20
+#: templates/base.html:226 templates/campanyas.html:20
 #: templates/empresas.html:3
 msgid "Campañas"
 msgstr "Kanpainak"
 
-#: templates/base.html:238 templates/ofertas.html:3
+#: templates/base.html:232 templates/ofertas.html:3
 msgid "Ofertas"
 msgstr "Eskaintzak"
+
+#: templates/base.html:239 templates/historialtrans.html:50
+msgid "Historial de transacciones"
+msgstr "Transakzio historia"
 
 #: templates/base.html:245 templates/sobre.html:3
 msgid "Sobre DeustoCoin"
@@ -320,67 +320,67 @@ msgstr "Saiatu orri nagusira itzultzen  "
 msgid "página principal"
 msgstr "hemen klikatzen"
 
-#: templates/historialtrans.html:55
+#: templates/historialtrans.html:55 templates/historialtrans.html:57
 msgid "Historial de transacciones de"
 msgstr "Transakzio historia"
 
-#: templates/historialtrans.html:57
+#: templates/historialtrans.html:59
 msgid "Historial de transacciones de DeustoCoin"
 msgstr "DeustoCoin-en transakzio historia"
 
-#: templates/historialtrans.html:67
+#: templates/historialtrans.html:69
 msgid "Fecha"
 msgstr "Data"
 
-#: templates/historialtrans.html:68
+#: templates/historialtrans.html:70
 msgid "Remitente"
 msgstr "Igorlea"
 
-#: templates/historialtrans.html:69
+#: templates/historialtrans.html:71
 msgid "Destinatario"
 msgstr "Hartzailea"
 
-#: templates/historialtrans.html:70
+#: templates/historialtrans.html:72
 msgid "Asunto"
 msgstr "Gaia"
 
-#: templates/historialtrans.html:71
+#: templates/historialtrans.html:73
 msgid "Cantidad"
 msgstr "Kopurua"
 
-#: templates/historialtrans.html:72
+#: templates/historialtrans.html:74
 msgid "Imagen"
 msgstr "Irudia"
 
-#: templates/historialtrans.html:73
+#: templates/historialtrans.html:75
 msgid "Link de verificación"
 msgstr "Egiaztatzeko linka"
 
-#: templates/historialtrans.html:73 templates/subirimagen.html:20
+#: templates/historialtrans.html:75 templates/subirimagen.html:20
 msgid "Opcional"
 msgstr "Hautazkoa"
 
-#: templates/historialtrans.html:89
+#: templates/historialtrans.html:91
 msgid "Ver imagen"
 msgstr "Irudia ikusi"
 
-#: templates/historialtrans.html:91
+#: templates/historialtrans.html:93
 msgid "No hay imagen"
 msgstr "Ez dago irudirik"
 
-#: templates/historialtrans.html:94
+#: templates/historialtrans.html:96
 msgid "Ver verificación"
 msgstr "Ikusi egiaztapena"
 
-#: templates/historialtrans.html:96
+#: templates/historialtrans.html:98
 msgid "No hay URL adicional"
 msgstr "Ez dago URL gehigarririk"
 
-#: templates/historialtrans.html:103
+#: templates/historialtrans.html:105
 msgid "No hay transacciones para mostrar"
 msgstr "Ez dago transakziorik erakusteko"
 
-#: templates/historialtrans.html:104
+#: templates/historialtrans.html:106
 msgid "El usuario no ha estado involucrado en ninguna transacción."
 msgstr "Erabiltzailea ez da inongo transakziotan nahasaia egon."
 
@@ -446,19 +446,23 @@ msgstr "Posta elektronikoa"
 msgid "Dirección blockchain"
 msgstr "Blockchain helbidea"
 
-#: templates/register.html:61
+#: templates/register.html:53
+msgid "Clave privada"
+msgstr "Klabe pribatua"
+
+#: templates/register.html:66
 msgid "Alumno"
 msgstr "Ikaslea"
 
-#: templates/register.html:62
+#: templates/register.html:67
 msgid "Promotor"
 msgstr "Sustatzailea"
 
-#: templates/register.html:63
+#: templates/register.html:68
 msgid "Administrador"
 msgstr "Administrazailea"
 
-#: templates/register.html:69
+#: templates/register.html:74
 msgid "Regístrate"
 msgstr "Erregistratu"
 
