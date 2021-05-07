@@ -132,8 +132,8 @@ def test_cryptocompare():
     assert valorUDC > 0
 
 with captured_templates(app) as templates:
-    rv = app.test_client().get('/')
+    rv = app.test_client().get('/accionalumnos')
     assert rv.status_code == 200
     assert len(templates) == 1
     template, context = templates[0]
-    assert template.name == "index.html"
+    assert template.name == "accionalumnos.html"
