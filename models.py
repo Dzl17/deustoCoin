@@ -100,6 +100,7 @@ class Transaccion(Base):
         query = s.query(Transaccion)
         return query.all()
 
+
 class KPIporFechas(Base):
     __tablename__ = 'kpi_fechas'
     id = Column(Integer, primary_key=True)
@@ -151,6 +152,7 @@ class KPIporFechas(Base):
             s.close()
         else:
             pass
+
 
 class Accion(Base):
     __tablename__ = 'accion'
@@ -308,6 +310,3 @@ class Oferta(Base):
         s = Session()
         query = s.query(Oferta)
         return query.filter(Oferta.id == id).first()
-
-
-

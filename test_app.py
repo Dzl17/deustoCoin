@@ -15,18 +15,20 @@ import ipfshttpclient.utils
 import cryptocompare
 
 
-
 @pytest.fixture
 def tester_provider():
     return EthereumTesterProvider()
+
 
 @pytest.fixture
 def eth_tester(tester_provider):
     return tester_provider.ethereum_tester
 
+
 @pytest.fixture
 def w3(tester_provider):
     return Web3(tester_provider)
+
 
 @pytest.fixture(scope='module')
 def test_client():
@@ -44,20 +46,25 @@ def test_client():
 
     ctx.pop()
 
+
 @contextmanager
 def captured_templates(app):
     recorded = []
+
     def record(sender, template, context, **extra):
         recorded.append((template, context))
+
     template_rendered.connect(record, app)
     try:
         yield recorded
     finally:
         template_rendered.disconnect(record, app)
 
+
 @pytest.fixture
 def json_encoder():
     return ipfshttpclient.encoding.Json()
+
 
 def test_dummy_encoder():
     dummy_encoder = ipfshttpclient.encoding.Dummy()
@@ -119,7 +126,6 @@ def test_json_encode(json_encoder):
 
 
 def test_json_encode_invalid_surrogate(json_encoder):
-
     data = ty.cast(
         ipfshttpclient.utils.json_dict_t,
         {'key': 'value with Ünicøde characters and disallowed surrgate: \uDC00'}
@@ -137,6 +143,7 @@ def test_json_encode_invalid_type(json_encoder):
     with pytest.raises(ipfshttpclient.exceptions.EncodingError):
         json_encoder.encode(data)
 
+
 def test_get_encoder_by_name():
     encoder = ipfshttpclient.encoding.get_encoding('json')
     assert encoder.name == 'json'
@@ -146,9 +153,11 @@ def test_get_invalid_encoder():
     with pytest.raises(ipfshttpclient.exceptions.EncoderMissingError):
         ipfshttpclient.encoding.get_encoding('fake')
 
+
 def test_cryptocompare():
     valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
     assert valorUDC > 0
+
 
 def test_ropsten():
     web3 = Web3(Web3.HTTPProvider(os.environ.get('ROPSTEN_URL')))

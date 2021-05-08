@@ -20,6 +20,7 @@ class CrearCampForm(FlaskForm):
     desc = TextAreaField('Descripción')
     crearCamp = SubmitField('Crear campaña')
 
+
 class CrearOfertaForm(FlaskForm):
     nomOferta = StringField('Nombre de la oferta')
     empresa = StringField('Organización')
@@ -27,17 +28,21 @@ class CrearOfertaForm(FlaskForm):
     precio = FloatField('Precio')
     crearOf = SubmitField('Crear oferta')
 
+
 class CampanyasForm(FlaskForm):
     editar = SubmitField("✎")
     eliminar = SubmitField("✖")
+
 
 class OfertasForm(FlaskForm):
     editar = SubmitField("✎")
     eliminar = SubmitField("✖")
 
+
 class AccionesForm(FlaskForm):
     editar = SubmitField("✎")
     eliminar = SubmitField("✖")
+
 
 class ImageForm(FlaskForm):
     image = FileField('Imagen')

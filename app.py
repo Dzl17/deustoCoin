@@ -1,4 +1,5 @@
-from flask import Flask, url_for, render_template, request, redirect, Response, session, template_rendered, send_from_directory, make_response
+from flask import Flask, url_for, render_template, request, redirect, Response, session, template_rendered, \
+    send_from_directory, make_response
 from flask_babel import Babel, gettext
 from authlib.integrations.flask_client import OAuth
 from base import Session, init_db
@@ -18,7 +19,6 @@ import qrcode
 import os
 
 app = Flask(__name__)
-#app.config['BABEL_DEFAULT_LOCALE'] = 'es'
 babel = Babel(app)
 translator = Translator()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -44,16 +44,19 @@ google = oauth.register(
     client_kwargs={'scope': 'openid email profile'},
 )
 
+
 @babel.localeselector
 def get_locale():
     if request.args.get('lang'):
         session['lang'] = request.args.get('lang')
     return session.get('lang', request.accept_languages.best_match(['en', 'es', 'eu']))
 
+
 @app.cli.command()
 @with_appcontext
 def init():
     init_db()
+
 
 def get_balance(test_address):
     web3 = Web3(Web3.HTTPProvider(os.environ.get('ROPSTEN_URL')))
@@ -94,6 +97,7 @@ def sendCoins(dest, amount, imgHash, urlProof):
     s.commit()
     s.close()
 
+
 def offerTransaction(rem, dest, amount):
     destUser = User.get_by_email(dest)
     account_2 = destUser.blockHash
@@ -117,6 +121,7 @@ def offerTransaction(rem, dest, amount):
     s.add(t)
     s.commit()
     s.close()
+
 
 def create_figure(id):
     try:
@@ -144,10 +149,12 @@ def create_figure(id):
     except:
         return None
 
+
 @app.route('/')
 def home():
     KPIporFechas.saveTodaysKPI()
     return render_template("index.html")
+
 
 @app.route('/language/<lang>')
 def language(lang):
@@ -175,7 +182,7 @@ def upload():
     client.close()
     cReward = Accion.getActionById(session['accionId'])
     kpi = request.form['kpi']
-    strRecompensa = str(cReward.recompensa).replace(",",".")
+    strRecompensa = str(cReward.recompensa).replace(",", ".")
     cReward.recompensa = float(strRecompensa) * float(kpi)
     sendCoins(session['email'], cReward.recompensa, res['Hash'], urlProof)
     try:
@@ -209,7 +216,7 @@ def authorize():
             pass
         if cReward != None:
             return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
-                               session=session, user=user, accionId=cReward)
+                                   session=session, user=user, accionId=cReward)
         else:
             return redirect('/wallet')
     if 'offerId' in session and user != None:
@@ -299,6 +306,7 @@ def wallet():
     return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, w3=web3,
                            form=form, user=user)
 
+
 @app.route('/redeemOffer/<int:offer_id>')
 def redeemOffer(offer_id):
     offer = Oferta.getOfferById(offer_id)
@@ -311,6 +319,7 @@ def redeemOffer(offer_id):
         pass
     return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
                            session=session, user=user)
+
 
 @app.route('/accion', methods=['GET', 'POST'])
 def accion():
@@ -379,7 +388,7 @@ def accion():
         del session['offerId']
     except:
         pass
-    #Borro las keys para evitar conflictos con cookies
+    # Borro las keys para evitar conflictos con cookies
     return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
                            form=form, form2=form2, user=user, acciones=acciones, campanyas=campanyas, ofertas=ofertas)
 
@@ -405,6 +414,7 @@ def accionalumnos():
     return render_template('accionalumnos.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, acciones=acciones)
 
+
 @app.route('/ofertas', methods=['GET', 'POST'])
 def ofertas():
     email = dict(session).get('email', None)
@@ -425,6 +435,7 @@ def ofertas():
         pass
     return render_template('ofertas.html', title='Oferta', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, ofertas=ofertas)
+
 
 @app.route('/historialtrans', methods=['GET', 'POST'])
 def historialtrans():
@@ -527,6 +538,7 @@ def editorC():
     return render_template('admincampanyas.html', title='Campañas', wallet=salary, email=email, name=given_name,
                            w3=web3, user=user, campanyas=campanyas)
 
+
 @app.route('/editorO', methods=['GET', 'POST'])
 def editorO():
     email = dict(session).get('email', None)
@@ -559,6 +571,7 @@ def editorO():
     return render_template('adminofertas.html', title='Ofertas', wallet=salary, email=email, name=given_name,
                            w3=web3, user=user, ofertas=ofertas)
 
+
 @app.route('/editarAcc/<int:accion_id>', methods=["GET", "POST"])
 def editorAccion(accion_id):
     email = dict(session).get('email', None)
@@ -569,7 +582,8 @@ def editorAccion(accion_id):
     accion = query.filter(Accion.id == accion_id).first()
     if request.method == 'POST' and 'actualizarA' in request.form:
         dictupdate = {Accion.nombre: request.form['nombre'], Accion.descripcion: request.form['descripcion'],
-                      Accion.recompensa: float(request.form['recompensa']), Accion.indicadorKpi: request.form['indicadorKpi'], Accion.kpiObj: int(request.form['kpiObj'])}
+                      Accion.recompensa: float(request.form['recompensa']),
+                      Accion.indicadorKpi: request.form['indicadorKpi'], Accion.kpiObj: int(request.form['kpiObj'])}
         query.filter(Accion.id == accion_id).update(dictupdate, synchronize_session=False)
         s.commit()
     return render_template("editoraccion.html", accion=accion, email=email, name=given_name, user=user)
@@ -591,6 +605,7 @@ def editorCamp(campanya_id):
     return render_template("editorcamp.html", campanya=campanya, email=email, name=given_name,
                            user=user)
 
+
 @app.route('/editorOferta/<int:offer_id>', methods=["GET", "POST"])
 def editorOferta(offer_id):
     email = dict(session).get('email', None)
@@ -601,11 +616,13 @@ def editorOferta(offer_id):
     query = s.query(Oferta)
     oferta = query.filter(Oferta.id == offer_id).first()
     if request.method == 'POST':
-        dictupdate = {Oferta.nombre: request.form['nombre'], Oferta.descripcion: request.form['descripcion'], Oferta.precio: request.form['precio']}
+        dictupdate = {Oferta.nombre: request.form['nombre'], Oferta.descripcion: request.form['descripcion'],
+                      Oferta.precio: request.form['precio']}
         query.filter(Oferta.id == offer_id).update(dictupdate, synchronize_session=False)
         s.commit()
     return render_template("editoroferta.html", oferta=oferta, email=email, name=given_name,
                            user=user)
+
 
 @app.route('/qr/<int:accion_id>')
 def qr(accion_id):
@@ -615,6 +632,7 @@ def qr(accion_id):
         contents = output.getvalue()
     return Response(contents, mimetype='image/png')
 
+
 @app.route('/qrOfertas/<int:offerId>')
 def qrOfertas(offerId):
     img = qrcode.make(url_for("pay", offer_id=offerId, _external=True))
@@ -623,6 +641,7 @@ def qrOfertas(offerId):
         contents = output.getvalue()
     return Response(contents, mimetype='image/png')
 
+
 @app.route('/redeem/<int:accion_id>', methods=["GET", "POST"])
 def redeem(accion_id):
     google = oauth.create_client('google')
@@ -630,12 +649,14 @@ def redeem(accion_id):
     session['accionId'] = accion_id
     return google.authorize_redirect(redirect_uri)
 
+
 @app.route('/pay/<int:offer_id>', methods=["GET", "POST"])
 def pay(offer_id):
     google = oauth.create_client('google')
     redirect_uri = url_for('authorize', _external=True)
     session['offerId'] = offer_id
     return google.authorize_redirect(redirect_uri)
+
 
 @app.route('/logout')
 def logout():
@@ -646,6 +667,7 @@ def logout():
     except:
         pass
     return redirect('/')
+
 
 @app.route('/sobre')
 def sobre():
@@ -659,6 +681,7 @@ def sobre():
         pass
     return render_template('sobre.html', email=email, name=given_name,
                            user=user)
+
 
 @app.route('/campanyas')
 def campanyas():
@@ -721,9 +744,10 @@ def registrarAccion(accion_id):
 
 @app.route('/sw.js')
 def sw():
-    response=make_response(send_from_directory('static',filename='sw.js'))
+    response = make_response(send_from_directory('static', filename='sw.js'))
     response.headers['Content-Type'] = 'application/javascript'
     return response
+
 
 @app.before_request
 def before_request():
@@ -731,6 +755,7 @@ def before_request():
         url = request.url.replace('http://', 'https://', 1)
         code = 301
         return redirect(url, code=code)
+
 
 @app.errorhandler(500)
 def internal_error(e):
