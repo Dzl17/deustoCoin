@@ -8,7 +8,7 @@ from contextlib import contextmanager
 import pytest
 import typing as ty
 import json
-from models import User
+import os
 import ipfshttpclient.encoding
 import ipfshttpclient.exceptions
 import ipfshttpclient.utils
