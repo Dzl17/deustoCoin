@@ -150,9 +150,8 @@ def test_cryptocompare():
     valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
     assert valorUDC > 0
 
-def test_home(self):
-    tester = app.test_client(self)
-    pages = ['/']
-    for page in pages:
-        response = tester.get(page, content_type='html/text')
-        self.assertEqual(response.status_code, 200)
+def test_ropsten():
+    web3 = Web3(Web3.HTTPProvider(os.environ.get('ROPSTEN_URL')))
+    balance = web3.eth.getBalance(os.environ.get('TEST_ADDRESS'))
+    fBalance = float(web3.fromWei(balance, "ether"))
+    return fBalance
