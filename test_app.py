@@ -8,10 +8,13 @@ from contextlib import contextmanager
 import pytest
 import typing as ty
 import json
+from models import User
 import ipfshttpclient.encoding
 import ipfshttpclient.exceptions
 import ipfshttpclient.utils
 import cryptocompare
+
+
 
 @pytest.fixture
 def tester_provider():
@@ -147,3 +150,9 @@ def test_cryptocompare():
     valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
     assert valorUDC > 0
 
+def test_home(self):
+    tester = app.test_client(self)
+    pages = ['/']
+    for page in pages:
+        response = tester.get(page, content_type='html/text')
+        self.assertEqual(response.status_code, 200)
