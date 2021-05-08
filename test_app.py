@@ -1,4 +1,4 @@
-from flask import template_rendered, url_for
+from flask import template_rendered
 from app import app
 from web3 import (
     EthereumTesterProvider,

@@ -1,4 +1,4 @@
-from flask import Flask, url_for, render_template, request, redirect, Response, session, template_rendered, \
+from flask import Flask, url_for, render_template, request, redirect, Response, session, \
     send_from_directory, make_response
 from flask_babel import Babel, gettext
 from authlib.integrations.flask_client import OAuth
@@ -206,7 +206,7 @@ def authorize():
     session['token'] = token
     user = User.get_by_email(session['email'])
 
-    if 'accionId' in session and user != None:
+    if 'accionId' in session and user is not None:
         cReward = Accion.getActionById(session['accionId'])
         try:
             cReward.nombre = translator.translate(cReward.nombre, dest=session['lang']).text
@@ -214,14 +214,14 @@ def authorize():
             cReward.indicadorKpi = translator.translate(cReward.indicadorKpi, dest=session['lang']).text
         except:
             pass
-        if cReward != None:
+        if cReward is not None:
             return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
                                    session=session, user=user, accionId=cReward)
         else:
             return redirect('/wallet')
-    if 'offerId' in session and user != None:
+    if 'offerId' in session and user is not None:
         offer = Oferta.getOfferById(session['offerId'])
-        if offer != None:
+        if offer is not None:
             dest = User.getCompanyBlockAddr(offer.empresa).email
             offerTransaction(session['email'], dest, offer.precio)
             try:
@@ -233,7 +233,7 @@ def authorize():
         else:
             return redirect('/wallet')
     else:
-        if user != None:
+        if user is not None:
             if user.role == 'Alumno':
                 return redirect('/wallet')
             else:
@@ -484,9 +484,6 @@ def editor(campanya_id):
     s = Session()
     if request.method == 'POST':
         if 'editarAcc' in request.form:
-            print("hay editarAcc")
-            id = request.form['accion_id']
-            # action="{{ url_for('editorAccion', accion_id=a.id) }}"
             return redirect(url_for('editorAccion', accion_id=request.form['accion_id']))
         elif 'eliminarAcc' in request.form:
             query = s.query(Accion)

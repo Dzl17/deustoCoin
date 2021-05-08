@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, FloatField, TextAreaField, FileField
 from markupsafe import Markup
-from models import Campanya
 
 strEdit = '<span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span>'
 iconEdit = Markup(strEdit)
