@@ -8,7 +8,7 @@
 
 # Introducción
 
-DeustoCoin es una aplicación web realizada por Jorge El Busto para su Proyecto Fin de Grado de Ingeniería Informática. 
+DeustoCoin es una aplicación web realizada por Jorge El Busto para MORElab (ICT for good), siendo este su Proyecto Fin de Grado de Ingeniería Informática en la Universidad de Deusto. 
 
 ---
 
