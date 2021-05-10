@@ -40,10 +40,10 @@ La aplicación se encuentra desplegada en Heroku, y puede accederse a ella media
 
 # Arquitectura del sistema
 
-![DeustoCoin%README/Untitled.png](DeustoCoin%README/Untitled.png)
+![README/Untitled.png](README/Untitled.png)
 
 ---
 
 # Diagrama entidad - relación
 
-![DeustoCoin%README/Untitled%201.png](DeustoCoin%README/Untitled%201.png)
+![README/Untitled%201.png](README/Untitled%201.png)
