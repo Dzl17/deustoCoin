@@ -51,7 +51,7 @@
 </div>
 <div class="view">
     <div class="jumbotron">
-        {% if user.role == "Alumno" %}
+        {% if user.role == "Colaborador" %}
         <h2>{{gettext('Historial de transacciones de')}} {{ name }}</h2>
         {% elif user.role == "Promotor" %}
         <h2>{{gettext('Historial de transacciones de')}} {{ user.organizacion }}</h2>

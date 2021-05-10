@@ -207,7 +207,7 @@ ul ul a {
                         </a>
                     </li>
                     {% endif %}
-                    {% if user.role == "Alumno" or user.role == "Administrador" %}
+                    {% if user.role == "Colaborador" or user.role == "Administrador" %}
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ url_for('wallet')}}">
                             <span class="iconify" data-icon="akar-icons:wallet" data-inline="false"></span>

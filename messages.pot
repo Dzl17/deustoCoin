@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: app.py:451 templates/pago.html:3
+#: app.py:463 templates/pago.html:3
 msgid "Pago por oferta"
 msgstr ""
 
-#: app.py:453
+#: app.py:465
 msgid "Envío de UDCoins"
 msgstr ""
 
@@ -443,7 +443,7 @@ msgid "Clave privada"
 msgstr ""
 
 #: templates/register.html:66
-msgid "Alumno"
+msgid "Colaborador"
 msgstr ""
 
 #: templates/register.html:67
@@ -477,11 +477,11 @@ msgid ""
 "    Hay varios roles que conforman la plataforma de DeustoCoin, además de"
 " una criptomoneda basada en Ethereum <b>(UDCoin)</b> que será la moneda a"
 " canjear para las diferentes ofertas. Los roles en cuestión varían en "
-"función del usuario, y hay tres: <b>Alumno</b>, <b>promotor</b>, y un "
-"<b>administrador</b> que podrá realizar las tareas de los dos tipos de "
-"usuario anteriores. <br><br>\n"
+"función del usuario, y hay tres: <b>Colaborador</b>, <b>promotor</b>, y "
+"un <b>administrador</b> que podrá realizar las tareas de los dos tipos de"
+" usuario anteriores. <br><br>\n"
 "\n"
-"    El <b>alumno</b> podrá realizar una serie de tareas como el envío de "
+"    El <b>colaborador</b> podrá realizar una serie de tareas como el envío de "
 "monedas a compañeros, consulta de campañas, canjeo de UDCoins en ofertas "
 "y registro y confirmación de una buena acción para así obtener su "
 "respectiva recompensa. <br><br>\n"

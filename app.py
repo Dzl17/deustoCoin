@@ -234,7 +234,7 @@ def authorize():
             return redirect('/wallet')
     else:
         if user is not None:
-            if user.role == 'Alumno':
+            if user.role == 'Colaborador':
                 return redirect('/wallet')
             else:
                 return redirect('/accion')
@@ -261,7 +261,7 @@ def register():
         u = User(nombre, email, blockchainAddr, pk, picture, rol, org)
         s.add(u)
         s.commit()
-        if rol == 'Alumno':
+        if rol == 'Colaborador':
             return redirect('/wallet')
         if rol == 'Promotor':
             return redirect('/accion')
@@ -444,7 +444,7 @@ def historialtrans():
     salary = get_balance(user.blockHash)
     name = dict(session).get('name', None)
 
-    if user.role == "Alumno":
+    if user.role == "Colaborador":
         transacciones = Transaccion.getTransactions(user.email)
     elif user.role == "Promotor":
         transacciones = Transaccion.getTransactions(user.organizacion)
