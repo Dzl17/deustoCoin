@@ -81,6 +81,7 @@ def sendCoins(dest, amount, imgHash, urlProof):
         'to': account_2,
         'value': web3.toWei(float_amount, 'ether'),
         'gas': 21000,
+        'gasLimit': '0x3d0900',
         'gasPrice': web3.toWei(50, 'gwei'),
         'data': bytes(bytesStr, 'utf8')
     }
