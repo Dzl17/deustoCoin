@@ -105,14 +105,18 @@ def offerTransaction(rem, dest, amount):
     account_2 = destUser.blockHash
     remUser = User.get_by_email(rem)
     nonce = web3.eth.getTransactionCount(remUser.blockHash)
+    offer = Oferta.getOfferById(session['offerId'])
+    strOffer = "Pago por oferta: " + offer.nombre
     float_amount = float(amount) / valorUDC
     tx = {
         'chainId': 3,  # es 3 para Ropsten
         'nonce': nonce,
         'to': account_2,
         'value': web3.toWei(float_amount, 'ether'),
-        'gas': 21000,
-        'gasPrice': web3.toWei(50, 'gwei')
+        'gas': 50000,
+        'gasPrice': web3.toWei(50, 'gwei'),
+        'data': bytes(strOffer, 'utf8')
+
     }
     signed_tx = web3.eth.account.signTransaction(tx, remUser.pk)
     tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
