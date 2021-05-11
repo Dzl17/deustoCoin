@@ -81,7 +81,8 @@ def sendCoins(dest, amount, imgHash, urlProof):
         'value': web3.toWei(float_amount, 'ether'),
         'gas': 21000,
         'gasPrice': web3.toWei(50, 'gwei'),
-        'data': web3.toHex("Accion:" + accion.nombre + ", Hash de la imagen: " + imgHash)
+        #'data': web3.toHex("Accion:" + accion.nombre + ", Hash de la imagen: " + imgHash)
+        'data': "Hola mundo"
     }
     signed_tx = web3.eth.account.signTransaction(tx, private_key)
     tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
