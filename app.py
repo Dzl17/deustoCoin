@@ -100,12 +100,12 @@ def sendCoins(dest, amount, imgHash, urlProof):
     s.close()
 
 
-def offerTransaction(rem, dest, amount):
+def offerTransaction(rem, dest, offer):
     destUser = User.get_by_email(dest)
     account_2 = destUser.blockHash
     remUser = User.get_by_email(rem)
     nonce = web3.eth.getTransactionCount(remUser.blockHash)
-    offer = Oferta.getOfferById(session['offerId'])
+    amount = offer.precio
     strOffer = "Pago por oferta: " + offer.nombre
     float_amount = float(amount) / valorUDC
     tx = {
@@ -229,7 +229,7 @@ def authorize():
         offer = Oferta.getOfferById(session['offerId'])
         if offer is not None:
             dest = User.getCompanyBlockAddr(offer.empresa).email
-            offerTransaction(session['email'], dest, offer.precio)
+            offerTransaction(session['email'], dest, offer)
             try:
                 offer.nombre = translator.translate(offer.nombre, dest=session['lang']).text
             except:
@@ -318,7 +318,7 @@ def redeemOffer(offer_id):
     offer = Oferta.getOfferById(offer_id)
     user = User.get_by_email(session['email'])
     dest = User.getCompanyBlockAddr(offer.empresa).email
-    offerTransaction(session['email'], dest, offer.precio)
+    offerTransaction(session['email'], dest, offer)
     try:
         offer.nombre = translator.translate(offer.nombre, dest=session['lang']).text
     except:
