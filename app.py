@@ -74,14 +74,13 @@ def sendCoins(dest, amount, imgHash, urlProof):
 
     accion = Accion.getActionById(session['accionId'])
     float_amount = float(amount) / valorUDC
-    bytesStr = "Accion:" + accion.nombre + ", Hash de la imagen: " + imgHash
+    bytesStr = "acc:" + accion.nombre + " img: " + imgHash
     tx = {
         'chainId': 3,  # es 3 para Ropsten
         'nonce': nonce,
         'to': account_2,
         'value': web3.toWei(float_amount, 'ether'),
-        'gas': 21000,
-        'gasLimit': '0x3d0900',
+        'gas': 50000,
         'gasPrice': web3.toWei(50, 'gwei'),
         'data': bytes(bytesStr, 'utf8')
     }
