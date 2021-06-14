@@ -91,14 +91,13 @@ class Transaccion(Base):
     @staticmethod
     def getTransactions(email):
         s = Session()
-        query = s.query(Transaccion)
-        query = query.order_by(Transaccion.id)
+        query = s.query(Transaccion).order_by(Transaccion.id)
         return query.filter(or_(Transaccion.remitente == email, Transaccion.destinatario == email)).all()
 
     @staticmethod
     def getAllTransactions():
         s = Session()
-        query = s.query(Transaccion)
+        query = s.query(Transaccion).order_by(Transaccion.id)
         return query.all()
 
 
