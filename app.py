@@ -151,9 +151,9 @@ def create_figure(id):
         xs = [x.fecha for x in results]
         ys = [y.kpi for y in results]
         print(type(fig))
-        axis.xticks(rotation = 90)
+        fig.set(axis.get_xticklabels(), fontsize=12, fontweight="bold",
+         horizontalalignment="left")
         axis.plot(xs, ys)
-        axis.show()
         return fig
     except:
         return None
