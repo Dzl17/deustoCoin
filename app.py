@@ -14,7 +14,6 @@ from flask.cli import with_appcontext
 import cryptocompare
 import io
 import ipfshttpclient
-import matplotlib.pyplot as plt
 import pytest
 import qrcode
 import os
@@ -132,8 +131,8 @@ def offerTransaction(rem, dest, offer):
 
 def create_figure(id):
     try:
-        fig = Figure()
-        axis = fig.add_subplot(1, 1, 1)
+        plt = Figure()
+        fig, axis = plt.subplots()
         accion = Accion.getActionById(id)
         data = KPIporFechas.getGraphData(id)
         titulo = data.get("name")
@@ -153,7 +152,7 @@ def create_figure(id):
         print(xs)
         axis.plot(xs, ys)
         print(type(axis))
-        return fig
+        return plt
     except:
         return None
 
