@@ -151,8 +151,8 @@ def create_figure(id):
         xs = [x.fecha for x in results]
         ys = [y.kpi for y in results]
         print(xs)
-        axis.plot(xs, ys)
         axis.xticks(rotation=90)
+        axis.plot(xs, ys)
         return fig
     except:
         return None
