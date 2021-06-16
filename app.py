@@ -150,7 +150,7 @@ def create_figure(id):
         results = data.get("results")[::-1]
         xs = [x.fecha for x in results]
         ys = [y.kpi for y in results]
-        axis.set_xticklabels(xs, rotation=90)
+        axis.set_xticklabels(xs, rotation=45, fontsize=7)
         axis.plot(xs, ys)
         return fig
     except:
