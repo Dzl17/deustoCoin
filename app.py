@@ -151,6 +151,10 @@ def create_figure(id):
         ys = [y.kpi for y in results]
         print(xs)
         axis.plot(xs, ys)
+        ax = axis.gca()
+        axis.xticks(rotation=90)
+        for label in ax.get_xaxis().get_ticklabels()[::2]:
+            label.set_visible(False)
         return fig
     except:
         return None
