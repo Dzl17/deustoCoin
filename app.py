@@ -152,7 +152,7 @@ def create_figure(id):
         print(xs)
         axis.plot(xs, ys)
         print(type(axis))
-        return plt
+        return fig
     except:
         return None
 
