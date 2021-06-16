@@ -150,7 +150,7 @@ def create_figure(id):
         fechaInicio = results[0].fecha
         fechaFinal = results[len(results)-1].fecha
         for x in results:
-            x.fecha = " "
+            x.fecha = "."
         results[0].fecha = fechaInicio
         results[len(results) - 1].fecha = fechaFinal
         xs = [x.fecha for x in results]
