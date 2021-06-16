@@ -152,6 +152,7 @@ def create_figure(id):
         ys = [y.kpi for y in results]
         print(xs)
         axis.plot(xs, ys)
+        axis.xticks(rotation=90)
         return fig
     except:
         return None
