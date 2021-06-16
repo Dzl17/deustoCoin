@@ -147,6 +147,12 @@ def create_figure(id):
         axis.set_xlabel(stringFecha)
         axis.set_ylabel(accion.indicadorKpi)
         results = data.get("results")[::-1]
+        fechaInicio = results[0].fecha
+        fechaFinal = results[len(results)-1].fecha
+        for x in results:
+            x.fecha = ""
+        results[0].fecha = fechaInicio
+        results[len(results) - 1].fecha = fechaFinal
         xs = [x.fecha for x in results]
         ys = [y.kpi for y in results]
         print(xs)
