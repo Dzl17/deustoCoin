@@ -25,7 +25,7 @@ translator = Translator()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 test_address = os.environ.get('TEST_ADDRESS')
 private_key = os.environ.get('PRIVATE_KEY')
-web3 = Web3(Web3.HTTPProvider(os.environ.get('ROPSTEN_URL')))
+web3 = Web3(Web3.HTTPProvider(os.environ.get('BESU_URL')))
 valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
 init_db()
 app.secret_key = os.environ.get("PRIVATE_KEY")
@@ -60,7 +60,7 @@ def init():
 
 
 def get_balance(test_address):
-    web3 = Web3(Web3.HTTPProvider(os.environ.get('ROPSTEN_URL')))
+    web3 = Web3(Web3.HTTPProvider(os.environ.get('BESU_URL')))
     balance = web3.eth.getBalance(test_address)
     valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
     balancefloat = float(web3.fromWei(balance, "ether")) * valorUDC
@@ -77,12 +77,12 @@ def sendCoins(dest, amount, imgHash, urlProof):
     float_amount = float(amount) / valorUDC
     bytesStr = "acc:" + accion.nombre + " img: " + imgHash
     tx = {
-        'chainId': 3,  # es 3 para Ropsten
+        'chainId': web3.eth.chain_id,
         'nonce': nonce,
         'to': account_2,
         'value': web3.toWei(float_amount, 'ether'),
         'gas': 50000,
-        'gasPrice': web3.toWei(50, 'gwei'),
+        'gasPrice': web3.toWei(web3.eth.gas_price, 'gwei'),
         'data': bytes(bytesStr, 'utf8')
     }
     signed_tx = web3.eth.account.signTransaction(tx, private_key)
@@ -110,14 +110,13 @@ def offerTransaction(rem, dest, offer):
     strOffer = "Pago por oferta: " + offer.nombre
     float_amount = float(amount) / valorUDC
     tx = {
-        'chainId': 3,  # es 3 para Ropsten
+        'chainId': web3.eth.chain_id,
         'nonce': nonce,
         'to': account_2,
         'value': web3.toWei(float_amount, 'ether'),
         'gas': 50000,
-        'gasPrice': web3.toWei(50, 'gwei'),
+        'gasPrice': web3.toWei(web3.eth.gas_price, 'gwei'),
         'data': bytes(strOffer, 'utf8')
-
     }
     signed_tx = web3.eth.account.signTransaction(tx, remUser.pk)
     tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
@@ -289,12 +288,12 @@ def wallet():
         nonce = web3.eth.getTransactionCount(account_1)
         float_amount = float(request.form['cantidad']) / valorUDC
         tx = {
-            'chainId': 3,
+            'chainId': web3.eth.chain_id,
             'nonce': nonce,
             'to': account_2,
             'value': web3.toWei(float_amount, 'ether'),
             'gas': 50000,
-            'gasPrice': web3.toWei(100, 'gwei')
+            'gasPrice': web3.toWei(web3.eth.gas_price, 'gwei')
         }
         signed_tx = web3.eth.account.signTransaction(tx, user.pk)
         tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
