@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 import pytest
 import qrcode
 import os
+import requests
 
 app = Flask(__name__)
 babel = Babel(app)
@@ -156,6 +157,14 @@ def create_figure(id):
         return None
 
 
+# TODO add the account to all nodes in the network, not only the first one?
+def addAccountToAllowlist(address):
+    """Adds an account to the permissioned blockchain allowlist"""
+    data = '{"jsonrpc":"2.0","method":"perm_addAccountsToAllowlist","params":[["' + address + '"]], "id":1}'
+    response = requests.post(os.environ.get('BESU_URL'), data=data)
+    return response
+
+
 @app.route('/')
 def home():
     KPIporFechas.saveTodaysKPI()
@@ -267,6 +276,7 @@ def register():
         u = User(nombre, email, blockchainAddr, pk, picture, rol, org)
         s.add(u)
         s.commit()
+        addAccountToAllowlist(blockchainAddr)   # Allow the user to use the permissioned blockchain
         if rol == 'Colaborador':
             return redirect('/wallet')
         if rol == 'Promotor':
