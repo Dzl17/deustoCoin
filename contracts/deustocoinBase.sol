@@ -74,7 +74,6 @@ contract Deustocoin{
     /// @return success of the operation
     function transfer(address _to, uint256 _value) public returns (bool success) {
         require(balances[msg.sender] >= _value);    // Must have enough balance
-        require(_to != _contractOwner); // Avoid transferring to the contract owner account
         balances[msg.sender] -= _value;
         balances[_to] += _value;
         emit Transfer(msg.sender, _to, _value);
