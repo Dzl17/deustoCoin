@@ -5,13 +5,14 @@ pragma solidity >=0.7.0 <0.9.0;
 // TODO: reduce gas cost (not really important) https://betterprogramming.pub/how-to-write-smart-contracts-that-optimize-gas-spent-on-ethereum-30b5e9c5db85
 // TODO: use SafeMath for security
 // TODO: adapt the contract to the deustocoin specification (difference between users and promoters)
+// TODO: adapt use of _mint() and _burn()
 
 /// @title ERC20 compliant token used in the Deustocoin project for the University of Deusto
 contract Deustocoin{
     string  private constant _name = "Deustocoin";
     string  private constant _symbol = "UDC";
     uint8   private constant _decimals = 2; // number of decimals the coin can be divided in, equivalent to euro in this case
-    uint256 private constant _totalSupply = 1000000;  // TODO: specify initial amount
+    uint256 private _totalSupply = 0;  // Total supply of tokens in circulation, depends on the _mint() and _burn() calls
     address _contractOwner; // Account that deploys the contract (the project administrator, e.g. the University of Deusto)
 
     enum Role {Collaborator, Promoter, Administrator}
@@ -63,7 +64,7 @@ contract Deustocoin{
 
     /// @notice returns the total token supply
     /// @return total token supply
-    function totalSupply() public pure returns (uint256) {
+    function totalSupply() public view returns (uint256) {
         return _totalSupply;
     }
 
@@ -119,5 +120,26 @@ contract Deustocoin{
     /// @return remaining allowed withdrawal amount
     function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
         return allowed[_owner][_spender];
+    }
+
+    /// @notice mints an amount of UDCs to the _to address; only an administrator can perform the operation
+    /// @dev a transfer event is emitted noting that the tokens come from the 0x00...0 address
+    function _mint(address _to, uint256 _value) internal {
+        require(_to != address(0)); // Do not mint to 0x00...0
+        require(roles[msg.sender] == Role.Administrator);   // Only admins can mint
+        _totalSupply += _value;
+        balances[_to] += _value;
+        emit Transfer(address(0), _to, _value);
+    }
+
+    /// @notice burns an amount of UDCs from the _from address; only an administrator can perform the operation
+    /// @dev a transfer event is emitted noting that the tokens are sent to the 0x00...0 address
+    function _burn(address _from, uint256 _value) internal {
+        require(_from != address(0));   // Do not burn from 0x00..0
+        require(balances[_from] >= _value); // _from address' balance must be enough
+        require(roles[msg.sender] == Role.Administrator);   // Onlye admins can burn
+        _totalSupply -= _value;
+        balances[_from] -= _value;
+        emit Transfer(_from, address(0), _value);
     }
 }
