@@ -6,6 +6,7 @@ pragma solidity >=0.7.0 <0.9.0;
 // TODO: use SafeMath for security
 // TODO: adapt the contract to the deustocoin specification (difference between users and promoters)
 // TODO: adapt use of _mint() and _burn()
+// TODO: registering of good actions (event) and credit granting (already done with Transfer event?)
 
 /// @title ERC20 compliant token used in the Deustocoin project for the University of Deusto
 contract Deustocoin {
