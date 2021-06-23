@@ -11,6 +11,7 @@ from web3 import Web3
 from forms import EnviarUDCForm, CrearCampForm, CrearOfertaForm
 from googletrans import Translator
 from flask.cli import with_appcontext
+from contracts import *
 import cryptocompare
 import io
 import ipfshttpclient
@@ -23,14 +24,19 @@ import requests
 app = Flask(__name__)
 babel = Babel(app)
 translator = Translator()
+web3 = Web3(Web3.HTTPProvider(os.environ.get('BESU_URL')))
+abi = open('contractABI.txt').read()
+contract = web3.eth.contract(address=Web3.toChecksumAddress(os.environ.get('CONTRACT_ADDRESS')), abi=abi)
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 test_address = os.environ.get('TEST_ADDRESS')
 private_key = os.environ.get('PRIVATE_KEY')
-web3 = Web3(Web3.HTTPProvider(os.environ.get('BESU_URL')))
+app.secret_key = os.environ.get("PRIVATE_KEY")
 valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
 init_db()
-app.secret_key = os.environ.get("PRIVATE_KEY")
 app.config["PRIVATE_KEY"] = app.secret_key
+
+print(roleOf(contract, test_address))
 
 oauth = OAuth(app)
 google = oauth.register(
