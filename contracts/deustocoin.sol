@@ -5,7 +5,7 @@ pragma solidity >=0.7.0 <0.9.0;
 // TODO: reduce gas cost (not really important) https://betterprogramming.pub/how-to-write-smart-contracts-that-optimize-gas-spent-on-ethereum-30b5e9c5db85
 // TODO: use SafeMath for security
 // TODO: adapt the contract to the deustocoin specification (difference between users and promoters)
-// TODO: adapt use of _mint() and _burn()
+// TODO: adapt use of mint() and burn()
 // TODO: registering of good actions (event) and credit granting (already done with Transfer event?)
 
 /// @title ERC20 compliant token used in the Deustocoin project for the University of Deusto
@@ -55,7 +55,7 @@ contract Deustocoin {
 
     constructor() {
         _contractOwner = msg.sender;
-        balances[msg.sender] = _totalSupply;
+        balances[msg.sender] = _totalSupply;    // TODO: 
         roles[msg.sender] = Role.Administrator;
     }
 
@@ -152,7 +152,7 @@ contract Deustocoin {
 
     /// @notice mints an amount of UDCs to the _to address; only an administrator can perform the operation
     /// @dev a transfer event is emitted noting that the tokens come from the 0x00...0 address
-    function _mint(
+    function mint(
         address _to, 
         uint256 _value
     ) internal {
@@ -165,10 +165,10 @@ contract Deustocoin {
 
     /// @notice burns an amount of UDCs from the _from address; only an administrator can perform the operation
     /// @dev a transfer event is emitted noting that the tokens are sent to the 0x00...0 address
-    function _burn(
+    function burn(
         address _from, 
         uint256 _value
-    ) internal {
+    ) public {
         require(_from != address(0));   // Do not burn from 0x00..0
         require(balances[_from] >= _value); // _from address' balance must be enough
         require(roles[msg.sender] == Role.Administrator);   // Onlye admins can burn
@@ -222,7 +222,6 @@ contract Deustocoin {
         require(balances[_promoter] >= _value);
 
         emit Action(_to, _actionID, _factor, _time, _ipfsHash);
-        transferFrom(_promoter, _to, _value);
         balances[_promoter] -= _value;
         balances[_to] += _value;
         emit Transfer(_promoter, _to, _value);
