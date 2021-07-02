@@ -36,8 +36,6 @@ valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
 init_db()
 app.config["PRIVATE_KEY"] = app.secret_key
 
-print(roleOf(contract, test_address))
-
 oauth = OAuth(app)
 google = oauth.register(
     name='google',
@@ -66,7 +64,11 @@ def init():
     init_db()
 
 
-def get_balance(test_address):
+def get_balance(address):
+    return balanceOf(contract=contract, address=address)
+
+
+def get_balance_old(test_address):
     web3 = Web3(Web3.HTTPProvider(os.environ.get('BESU_URL')))
     balance = web3.eth.getBalance(test_address)
     valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
@@ -163,7 +165,7 @@ def create_figure(id):
         return None
 
 
-# TODO add the account to all nodes in the network, not only the first one?
+# TODO añadir el nodo a todos los nodos de la red, no solo el primero?
 def addAccountToAllowlist(address):
     """Adds an account to the permissioned blockchain allowlist"""
     data = '{"jsonrpc":"2.0","method":"perm_addAccountsToAllowlist","params":[["' + address + '"]], "id":1}'
@@ -282,10 +284,11 @@ def register():
         u = User(nombre, email, blockchainAddr, pk, picture, rol, org)
         s.add(u)
         s.commit()
-        addAccountToAllowlist(blockchainAddr)   # Allow the user to use the permissioned blockchain
-        if rol == 'Colaborador':
+        addAccountToAllowlist(blockchainAddr)   # Permite al usuario usar la blockchain permisionada
+        if rol == 'Colaborador':    # No es necesario asignar el rol en el smart contract, ya que por defecto se asigna a colaborador
             return redirect('/wallet')
         if rol == 'Promotor':
+            assignRole(w3=web3, contract=contract, caller=test_address, callerKey=private_key, account=blockchainAddr, roleID=0)
             return redirect('/accion')
     else:
         return render_template("register.html", email=email, nombre=name)

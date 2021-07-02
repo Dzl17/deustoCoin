@@ -1,5 +1,3 @@
-from web3 import Web3
-
 def name(contract):
     return contract.functions.name().call()
 
@@ -54,9 +52,9 @@ def transfer(w3, contract, caller, callerKey, to, value):
     w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def transferFrom(w3, contract, caller, callerKey, from, to, value):
+def transferFrom(w3, contract, caller, callerKey, fromAcc, to, value):
     transaction = contract.functions.transferFrom(
-        from, to, value
+        fromAcc, to, value
     ).buildTransaction({
         'gas': 10000000,
         'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
@@ -93,9 +91,9 @@ def mint(w3, contract, caller, callerKey, to, value):
     w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def burn(w3, contract, caller, callerKey, from, value):
+def burn(w3, contract, caller, callerKey, fromAcc, value):
     transaction = contract.functions.burn(
-        from, value
+        fromAcc, value
     ).buildTransaction({
         'gas': 10000000,
         'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),

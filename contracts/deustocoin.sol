@@ -155,7 +155,7 @@ contract Deustocoin {
     function mint(
         address _to, 
         uint256 _value
-    ) internal {
+    ) public {
         require(_to != address(0)); // Do not mint to 0x00...0
         require(roles[msg.sender] == Role.Administrator);   // Only admins can mint
         _totalSupply += _value;
