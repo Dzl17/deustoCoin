@@ -80,12 +80,12 @@ def get_balance_old(address):
 
 
 def reward_coins(dest, amount, imgHash, urlProof):
-    """Rewards the input amount of coins to the user that completes a good deed."""
+    """Reward the input amount of coins to the user that completes a good deed."""
     dest_user = User.get_by_email(dest)
-    dest_account = dest_user.blockHash
+    dest_address = dest_user.blockHash
     accion = Accion.getActionById(session['accionId'])
 
-    tx_hash = transfer(w3=web3, contract=contract, caller=admin_address, callerKey=private_key, to=dest_account, value=amount)
+    tx_hash = transfer(w3=web3, contract=contract, caller=admin_address, callerKey=private_key, to=dest_address, value=amount)
 
     s = Session()
     dateTimeObj = datetime.now()
@@ -101,30 +101,20 @@ def reward_coins(dest, amount, imgHash, urlProof):
     s.close()
 
 
-def offerTransaction(rem, dest, offer):
-    """TODO"""
-    destUser = User.get_by_email(dest)
-    account_2 = destUser.blockHash
-    remUser = User.get_by_email(rem)
-    nonce = web3.eth.getTransactionCount(remUser.blockHash)
-    amount = offer.precio
-    strOffer = "Pago por oferta: " + offer.nombre
-    float_amount = float(amount) / valorUDC
-    tx = {
-        'chainId': web3.eth.chain_id,
-        'nonce': nonce,
-        'to': account_2,
-        'value': web3.toWei(float_amount, 'ether'),
-        'gas': 50000,
-        'gasPrice': web3.toWei(web3.eth.gas_price, 'gwei'),
-        'data': bytes(strOffer, 'utf8')
-    }
-    signed_tx = web3.eth.account.signTransaction(tx, remUser.pk)
-    tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+def offer_transaction(rem, dest, offer):
+    """Pay to a company in exchange of an offer."""
+    dest_user = User.get_by_email(dest)
+    dest_address = dest_user.blockHash
+    rem_user = User.get_by_email(rem)
+    rem_address = rem_user.blockHash
+    rem_key = rem_user.pk
+
+    tx_hash = transfer(w3=web3, contract=contract, caller=rem_address, callerKey=rem_key, to=dest_address, value=offer.precio)
+
     s = Session()
     dateTimeObj = datetime.now()
     timestampStr = dateTimeObj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
-    t = Transaccion(timestampStr, tx_hash, rem, destUser.organizacion, None, amount, "", "")
+    t = Transaccion(timestampStr, tx_hash, rem, dest_user.organizacion, None, offer.precio, "", "")
     s.add(t)
     s.commit()
     s.close()
@@ -157,7 +147,7 @@ def create_figure(id):
         return None
 
 
-# TODO añadir el nodo a todos los nodos de la red, no solo el primero?
+# TODO añadir el nodo a todos los nodos de la red, no solo al primero
 def addAccountToAllowlist(address):
     """Adds an account to the permissioned blockchain allowlist"""
     data = '{"jsonrpc":"2.0","method":"perm_addAccountsToAllowlist","params":[["' + address + '"]], "id":1}'
@@ -238,7 +228,7 @@ def authorize():
         offer = Oferta.getOfferById(session['offerId'])
         if offer is not None:
             dest = User.getCompanyBlockAddr(offer.empresa).email
-            offerTransaction(session['email'], dest, offer)
+            offer_transaction(session['email'], dest, offer)
             try:
                 offer.nombre = translator.translate(offer.nombre, dest=session['lang']).text
             except:
@@ -277,7 +267,8 @@ def register():
         s.add(u)
         s.commit()
         addAccountToAllowlist(blockchainAddr)   # Permite al usuario usar la blockchain permisionada
-        if rol == 'Colaborador':    # No es necesario asignar el rol en el smart contract, ya que por defecto se asigna a colaborador
+        if rol == 'Colaborador':    
+            # No es necesario asignar el rol en el smart contract, ya que por defecto se asigna a colaborador
             return redirect('/wallet')
         if rol == 'Promotor':
             assignRole(w3=web3, contract=contract, caller=admin_address, callerKey=private_key, account=blockchainAddr, roleID=0)
@@ -293,21 +284,12 @@ def wallet():
     user = User.get_by_email(email)
     salary = get_balance(user.blockHash)
     if form.validate_on_submit():
-        account_1 = user.blockHash
-        destUser = User.get_by_email(request.form['destino'])
-        account_2 = destUser.blockHash
-        nonce = web3.eth.getTransactionCount(account_1)
-        float_amount = float(request.form['cantidad']) / valorUDC
-        tx = {
-            'chainId': web3.eth.chain_id,
-            'nonce': nonce,
-            'to': account_2,
-            'value': web3.toWei(float_amount, 'ether'),
-            'gas': 50000,
-            'gasPrice': web3.toWei(web3.eth.gas_price, 'gwei')
-        }
-        signed_tx = web3.eth.account.signTransaction(tx, user.pk)
-        tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+        owner_address = user.blockHash
+        dest_user = User.get_by_email(request.form['destino'])
+        dest_address = dest_user.blockHash
+
+        tx_hash = transfer(w3=web3, contract=contract, caller= owner_address, callerKey=user.pk, to=dest_address, value=request.form['cantidad'])
+
         s = Session()
         dateTimeObj = datetime.now()
         timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
@@ -329,7 +311,7 @@ def redeemOffer(offer_id):
     offer = Oferta.getOfferById(offer_id)
     user = User.get_by_email(session['email'])
     dest = User.getCompanyBlockAddr(offer.empresa).email
-    offerTransaction(session['email'], dest, offer)
+    offer_transaction(session['email'], dest, offer)
     try:
         offer.nombre = translator.translate(offer.nombre, dest=session['lang']).text
     except:
