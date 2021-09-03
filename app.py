@@ -247,9 +247,10 @@ def register():
     if request.method == "POST":
         nombre = request.form['nombre']
         email = request.form['email']
-        blockchainAddr = request.form['blockAddr']
+        keys = generateKeys()
+        blockchainAddr = Web3.toChecksumAddress(keys['address'])
         session['blockchainAddr'] = blockchainAddr
-        pk = request.form['pk']
+        pk = keys['key']
         rol = request.form['rol']
         org = request.form['organizacion']
 
