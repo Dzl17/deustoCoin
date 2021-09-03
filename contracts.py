@@ -36,7 +36,7 @@ def assignRole(w3, contract, caller, callerKey, account, roleID):
         'nonce': w3.eth.getTransactionCount(caller)
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
-    w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
 def transfer(w3, contract, caller, callerKey, to, value):
@@ -49,7 +49,7 @@ def transfer(w3, contract, caller, callerKey, to, value):
         'nonce': w3.eth.getTransactionCount(caller)
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
-    w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
 def transferFrom(w3, contract, caller, callerKey, fromAcc, to, value):
@@ -62,7 +62,7 @@ def transferFrom(w3, contract, caller, callerKey, fromAcc, to, value):
         'nonce': w3.eth.getTransactionCount(caller)
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
-    w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
 def approve(w3, contract, caller, callerKey, spender, value):
@@ -75,7 +75,7 @@ def approve(w3, contract, caller, callerKey, spender, value):
         'nonce': w3.eth.getTransactionCount(caller)
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
-    w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
 def mint(w3, contract, caller, callerKey, to, value):
@@ -88,7 +88,7 @@ def mint(w3, contract, caller, callerKey, to, value):
         'nonce': w3.eth.getTransactionCount(caller)
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
-    w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
 def burn(w3, contract, caller, callerKey, fromAcc, value):
@@ -101,7 +101,7 @@ def burn(w3, contract, caller, callerKey, fromAcc, value):
         'nonce': w3.eth.getTransactionCount(caller)
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
-    w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
 def addAction(w3, contract, caller, callerKey, actionID, campaignID, reward):
@@ -114,7 +114,7 @@ def addAction(w3, contract, caller, callerKey, actionID, campaignID, reward):
         'nonce': w3.eth.getTransactionCount(caller)
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
-    w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
 def removeAction(w3, contract, caller, callerKey, actionID):
@@ -127,7 +127,7 @@ def removeAction(w3, contract, caller, callerKey, actionID):
         'nonce': w3.eth.getTransactionCount(caller)
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
-    w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
 def processAction(w3, contract, caller, callerKey, promoter, to, actionID, factor, time, ipfsHash):
@@ -140,4 +140,4 @@ def processAction(w3, contract, caller, callerKey, promoter, to, actionID, facto
         'nonce': w3.eth.getTransactionCount(caller)
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
-    w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    return w3.eth.sendRawTransaction(signed_tx.rawTransaction)

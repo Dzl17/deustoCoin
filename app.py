@@ -24,17 +24,18 @@ import requests
 app = Flask(__name__)
 babel = Babel(app)
 translator = Translator()
-web3 = Web3(Web3.HTTPProvider(os.environ.get('BESU_URL')))
+web3 = Web3(Web3.HTTPProvider(os.environ.get('BLOCKCHAIN_URL')))
 abi = open('contractABI.txt').read()
 contract = web3.eth.contract(address=Web3.toChecksumAddress(os.environ.get('CONTRACT_ADDRESS')), abi=abi)
+free_gas = web3.eth.gas_price == 0  # True if the gas is free; used to differentiate Ethereum from Besu
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-test_address = os.environ.get('TEST_ADDRESS')
+admin_address = os.environ.get('ADMIN_ADDRESS')
 private_key = os.environ.get('PRIVATE_KEY')
-app.secret_key = os.environ.get("PRIVATE_KEY")
+app.secret_key = os.environ.get('PRIVATE_KEY')
 valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
 init_db()
-app.config["PRIVATE_KEY"] = app.secret_key
+app.config['PRIVATE_KEY'] = app.secret_key
 
 oauth = OAuth(app)
 google = oauth.register(
@@ -65,37 +66,27 @@ def init():
 
 
 def get_balance(address):
-    return balanceOf(contract=contract, address=address)
+    """Return the balance of the parameter address."""
+    return balanceOf(contract=contract, address=address)/100    # Divide to create equivalence to the Euro
 
 
-def get_balance_old(test_address):
-    web3 = Web3(Web3.HTTPProvider(os.environ.get('BESU_URL')))
-    balance = web3.eth.getBalance(test_address)
+# TODO remove or fuse with get_balance()
+def get_balance_old(address):
+    web3 = Web3(Web3.HTTPProvider(os.environ.get('BLOCKCHAIN_URL')))
+    balance = web3.eth.getBalance(address)
     valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
     balancefloat = float(web3.fromWei(balance, "ether")) * valorUDC
     return balancefloat
 
 
-def sendCoins(dest, amount, imgHash, urlProof):
-    destUser = User.get_by_email(dest)
-    account_2 = destUser.blockHash
-
-    nonce = web3.eth.getTransactionCount(test_address)
-
+def reward_coins(dest, amount, imgHash, urlProof):
+    """Rewards the input amount of coins to the user that completes a good deed."""
+    dest_user = User.get_by_email(dest)
+    dest_account = dest_user.blockHash
     accion = Accion.getActionById(session['accionId'])
-    float_amount = float(amount) / valorUDC
-    bytesStr = "acc:" + accion.nombre + " img: " + imgHash
-    tx = {
-        'chainId': web3.eth.chain_id,
-        'nonce': nonce,
-        'to': account_2,
-        'value': web3.toWei(float_amount, 'ether'),
-        'gas': 50000,
-        'gasPrice': web3.toWei(web3.eth.gas_price, 'gwei'),
-        'data': bytes(bytesStr, 'utf8')
-    }
-    signed_tx = web3.eth.account.signTransaction(tx, private_key)
-    tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+
+    tx_hash = transfer(w3=web3, contract=contract, caller=admin_address, callerKey=private_key, to=dest_account, value=amount)
+
     s = Session()
     dateTimeObj = datetime.now()
     timestampStr = dateTimeObj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
@@ -111,6 +102,7 @@ def sendCoins(dest, amount, imgHash, urlProof):
 
 
 def offerTransaction(rem, dest, offer):
+    """TODO"""
     destUser = User.get_by_email(dest)
     account_2 = destUser.blockHash
     remUser = User.get_by_email(rem)
@@ -169,7 +161,7 @@ def create_figure(id):
 def addAccountToAllowlist(address):
     """Adds an account to the permissioned blockchain allowlist"""
     data = '{"jsonrpc":"2.0","method":"perm_addAccountsToAllowlist","params":[["' + address + '"]], "id":1}'
-    response = requests.post(os.environ.get('BESU_URL'), data=data)
+    response = requests.post(os.environ.get('BLOCKCHAIN_URL'), data=data)
     return response
 
 
@@ -207,7 +199,7 @@ def upload():
     kpi = request.form['kpi']
     strRecompensa = str(cReward.recompensa).replace(",", ".")
     cReward.recompensa = float(strRecompensa) * float(kpi)
-    sendCoins(session['email'], cReward.recompensa, res['Hash'], urlProof)
+    reward_coins(session['email'], cReward.recompensa, res['Hash'], urlProof)
     try:
         cReward.nombre = translator.translate(cReward.nombre, dest=session['lang']).text
     except:
@@ -288,7 +280,7 @@ def register():
         if rol == 'Colaborador':    # No es necesario asignar el rol en el smart contract, ya que por defecto se asigna a colaborador
             return redirect('/wallet')
         if rol == 'Promotor':
-            assignRole(w3=web3, contract=contract, caller=test_address, callerKey=private_key, account=blockchainAddr, roleID=0)
+            assignRole(w3=web3, contract=contract, caller=admin_address, callerKey=private_key, account=blockchainAddr, roleID=0)
             return redirect('/accion')
     else:
         return render_template("register.html", email=email, nombre=name)
@@ -377,7 +369,7 @@ def accion():
             o.descripcion = translator.translate(o.descripcion, dest=session['lang']).text
     except:
         pass
-    salary = get_balance(os.environ.get('TEST_ADDRESS'))
+    salary = get_balance(os.environ.get('ADMIN_ADDRESS'))
     if form.validate_on_submit() and form.crearCamp.data:
         s = Session()
         if user.role == "Promotor":

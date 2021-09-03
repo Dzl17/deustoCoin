@@ -160,7 +160,7 @@ def test_cryptocompare():
 
 
 def test_ropsten():
-    web3 = Web3(Web3.HTTPProvider(os.environ.get('BESU_URL')))
-    balance = web3.eth.getBalance(os.environ.get('TEST_ADDRESS'))
+    web3 = Web3(Web3.HTTPProvider(os.environ.get('BLOCKCHAIN_URL')))
+    balance = web3.eth.getBalance(os.environ.get('ADMIN_ADDRESS'))
     fBalance = float(web3.fromWei(balance, "ether"))
     assert fBalance >= 0
