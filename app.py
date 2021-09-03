@@ -70,15 +70,6 @@ def get_balance(address):
     return balanceOf(contract=contract, address=address)/100    # Divide to create equivalence to the Euro
 
 
-# TODO remove or fuse with get_balance()
-def get_balance_old(address):
-    web3 = Web3(Web3.HTTPProvider(os.environ.get('BLOCKCHAIN_URL')))
-    balance = web3.eth.getBalance(address)
-    valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
-    balancefloat = float(web3.fromWei(balance, "ether")) * valorUDC
-    return balancefloat
-
-
 def reward_coins(dest, amount, imgHash, urlProof):
     """Reward the input amount of coins to the user that completes a good deed."""
     dest_user = User.get_by_email(dest)

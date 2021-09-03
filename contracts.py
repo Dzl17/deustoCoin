@@ -8,6 +8,7 @@ def generateKeys():
     address = keccak_256(public_key).digest()[-20:]
     return {'address': address.hex(), 'key': private_key.hex()}
 
+
 def name(contract):
     return contract.functions.name().call()
 
