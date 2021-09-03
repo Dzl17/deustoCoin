@@ -444,7 +444,7 @@ msgstr "Email"
 
 #: templates/register.html:48
 msgid "Dirección blockchain"
-msgstr "Destination email"
+msgstr "Blockchain address"
 
 #: templates/register.html:53
 msgid "Clave privada"
