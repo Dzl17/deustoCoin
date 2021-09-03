@@ -1,3 +1,13 @@
+from secrets import token_bytes
+from coincurve import PublicKey
+from sha3 import keccak_256
+
+def generateKeys():
+    private_key = keccak_256(token_bytes(32)).digest()
+    public_key = PublicKey.from_valid_secret(private_key).format(compressed=False)[1:]
+    address = keccak_256(public_key).digest()[-20:]
+    return {'address': address.hex(), 'key': private_key.hex()}
+
 def name(contract):
     return contract.functions.name().call()
 
