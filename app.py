@@ -25,8 +25,7 @@ app = Flask(__name__)
 babel = Babel(app)
 translator = Translator()
 web3 = Web3(Web3.HTTPProvider(os.environ.get('BLOCKCHAIN_URL')))
-abi = open('contractABI.txt').read()
-contract = web3.eth.contract(address=Web3.toChecksumAddress(os.environ.get('CONTRACT_ADDRESS')), abi=abi)
+init_contract(web3)
 free_gas = web3.eth.gas_price == 0  # True if the gas is free; used to differentiate Ethereum from Besu
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -67,7 +66,7 @@ def init():
 
 def get_balance(address):
     """Return the balance of the parameter address."""
-    return balanceOf(contract=contract, address=address)/100    # Divide to create equivalence to the Euro
+    return balanceOf(address=address)/100    # Divide to create equivalence to the Euro
 
 
 def reward_coins(dest, amount, imgHash, urlProof):
@@ -76,7 +75,7 @@ def reward_coins(dest, amount, imgHash, urlProof):
     dest_address = dest_user.blockHash
     accion = Accion.getActionById(session['accionId'])
 
-    tx_hash = transfer(w3=web3, contract=contract, caller=admin_address, callerKey=private_key, to=dest_address, value=amount)
+    tx_hash = transfer(w3=web3, caller=admin_address, callerKey=private_key, to=dest_address, value=amount)
 
     s = Session()
     dateTimeObj = datetime.now()
@@ -100,7 +99,7 @@ def offer_transaction(rem, dest, offer):
     rem_address = rem_user.blockHash
     rem_key = rem_user.pk
 
-    tx_hash = transfer(w3=web3, contract=contract, caller=rem_address, callerKey=rem_key, to=dest_address, value=offer.precio)
+    tx_hash = transfer(w3=web3, caller=rem_address, callerKey=rem_key, to=dest_address, value=offer.precio)
 
     s = Session()
     dateTimeObj = datetime.now()
@@ -263,7 +262,7 @@ def register():
             # No es necesario asignar el rol en el smart contract, ya que por defecto se asigna a colaborador
             return redirect('/wallet')
         if rol == 'Promotor':
-            assignRole(w3=web3, contract=contract, caller=admin_address, callerKey=private_key, account=blockchainAddr, roleID=0)
+            assignRole(w3=web3, caller=admin_address, callerKey=private_key, account=blockchainAddr, roleID=0)
             return redirect('/accion')
     else:
         return render_template("register.html", email=email, nombre=name)
@@ -280,7 +279,7 @@ def wallet():
         dest_user = User.get_by_email(request.form['destino'])
         dest_address = dest_user.blockHash
 
-        tx_hash = transfer(w3=web3, contract=contract, caller= owner_address, callerKey=user.pk, to=dest_address, value=request.form['cantidad'])
+        tx_hash = transfer(w3=web3, caller= owner_address, callerKey=user.pk, to=dest_address, value=request.form['cantidad'])
 
         s = Session()
         dateTimeObj = datetime.now()

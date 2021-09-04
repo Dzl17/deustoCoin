@@ -1,43 +1,63 @@
 from secrets import token_bytes
 from coincurve import PublicKey
 from sha3 import keccak_256
+from web3 import Web3
+import os
+
+contract=None
+
+def init_contract(web3):
+    """Initialize the smart contract."""
+    abi = open('contractABI.txt').read()
+    global contract
+    contract = web3.eth.contract(address=Web3.toChecksumAddress(os.environ.get('CONTRACT_ADDRESS')), abi=abi)
+
 
 def generateKeys():
+    """Return a new random ethereum address with its private key."""
     private_key = keccak_256(token_bytes(32)).digest()
     public_key = PublicKey.from_valid_secret(private_key).format(compressed=False)[1:]
     address = keccak_256(public_key).digest()[-20:]
     return {'address': '0x' + address.hex(), 'key': private_key.hex()}
 
 
-def name(contract):
+def name():
+    """Get the name of the coin."""
     return contract.functions.name().call()
 
 
-def symbol(contract):
+def symbol():
+    """Get the symbol of the coin."""
     return contract.functions.symbol().call()
 
 
-def decimals(contract):
-    return contract.functions.symbol().call()
+def decimals():
+    """Get in how many decimals the coin is divided. Deustocoin has 2 decimals, to resemble the Euro."""
+    return contract.functions.decimals().call()
 
 
-def totalSuply(contract):
+def totalSupply():
+    """Returns the total supply of the coin."""
     return contract.functions.totalSupply().call()
 
 
-def balanceOf(contract, address):
+def balanceOf(address):
+    """Returns the balance of the input address."""
     return contract.functions.balanceOf(address).call()
 
 
-def roleOf(contract, address):
+def roleOf(address):
+    """Returns the role of the input address (Collaborator, Promoter or Administrator)."""
     return contract.functions.roleOf(address).call()
 
 
-def allowance(contract, owner, spender):
+def allowance(owner, spender):
+    """Returns the amount the spender is allowed to withdraw from the owner balance."""
     return contract.functions.allowance(owner, spender).call()
 
 
-def assignRole(w3, contract, caller, callerKey, account, roleID):
+def assignRole(w3, caller, callerKey, account, roleID):
+    """Allows an Administrator to change the role of a user."""
     transaction = contract.functions.assignRole(
         account, roleID
     ).buildTransaction({
@@ -50,7 +70,8 @@ def assignRole(w3, contract, caller, callerKey, account, roleID):
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def transfer(w3, contract, caller, callerKey, to, value):
+def transfer(w3, caller, callerKey, to, value):
+    """Allows a user to transfer their balance to another user."""
     transaction = contract.functions.transfer(
         to, value
     ).buildTransaction({
@@ -63,7 +84,8 @@ def transfer(w3, contract, caller, callerKey, to, value):
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def transferFrom(w3, contract, caller, callerKey, fromAcc, to, value):
+def transferFrom(w3, caller, callerKey, fromAcc, to, value):
+    """Allows a user to transfer to themselves an amount of coins limited by the allowance they have over that user's balance."""
     transaction = contract.functions.transferFrom(
         fromAcc, to, value
     ).buildTransaction({
@@ -76,7 +98,8 @@ def transferFrom(w3, contract, caller, callerKey, fromAcc, to, value):
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def approve(w3, contract, caller, callerKey, spender, value):
+def approve(w3, caller, callerKey, spender, value):
+    """Allows the spender to withdraw the input amount of coins from the caller accont."""
     transaction = contract.functions.approve(
         spender, value
     ).buildTransaction({
@@ -89,7 +112,8 @@ def approve(w3, contract, caller, callerKey, spender, value):
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def mint(w3, contract, caller, callerKey, to, value):
+def mint(w3, caller, callerKey, to, value):
+    """Allows an administrator to mint/generate an amount of coins to the 'to' address."""
     transaction = contract.functions.mint(
         to, value
     ).buildTransaction({
@@ -102,7 +126,8 @@ def mint(w3, contract, caller, callerKey, to, value):
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def burn(w3, contract, caller, callerKey, fromAcc, value):
+def burn(w3, caller, callerKey, fromAcc, value):
+    """Allows an administrator to burn/delete and amount of coins from the 'fromAcc' address."""
     transaction = contract.functions.burn(
         fromAcc, value
     ).buildTransaction({
@@ -115,7 +140,8 @@ def burn(w3, contract, caller, callerKey, fromAcc, value):
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def addAction(w3, contract, caller, callerKey, actionID, campaignID, reward):
+def addAction(w3, caller, callerKey, actionID, campaignID, reward):
+    """Allows a promoter to register an action on the blockchain."""
     transaction = contract.functions.addAction(
         actionID, campaignID, reward
     ).buildTransaction({
@@ -128,7 +154,8 @@ def addAction(w3, contract, caller, callerKey, actionID, campaignID, reward):
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def removeAction(w3, contract, caller, callerKey, actionID):
+def removeAction(w3, caller, callerKey, actionID):
+    """Allows a promoter to remove an action of their property from the blockchain."""
     transaction = contract.functions.removeAction(
         actionID
     ).buildTransaction({
@@ -141,7 +168,8 @@ def removeAction(w3, contract, caller, callerKey, actionID):
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def processAction(w3, contract, caller, callerKey, promoter, to, actionID, factor, time, ipfsHash):
+def processAction(w3, caller, callerKey, promoter, to, actionID, factor, time, ipfsHash):
+    """Registers a collaborator's good action on the blockchain and gives them credit."""
     transaction = contract.functions.processAction(
         promoter, to, actionID, factor, time, ipfsHash
     ).buildTransaction({
