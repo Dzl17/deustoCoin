@@ -2,10 +2,6 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
-// TODO: reduce gas cost (not really important) https://betterprogramming.pub/how-to-write-smart-contracts-that-optimize-gas-spent-on-ethereum-30b5e9c5db85
-// TODO: use SafeMath for security
-// TODO: adapt the contract to the deustocoin specification (difference between users and promoters)
-
 /// @title ERC20 compliant token used in the Deustocoin project for the University of Deusto
 contract Deustocoin{
     string  private constant _name = "Deustocoin";

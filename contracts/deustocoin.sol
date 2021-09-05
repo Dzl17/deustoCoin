@@ -2,8 +2,6 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
-// TODO: use SafeMath for security
-// TODO: adapt the contract to the deustocoin specification (difference between users and promoters)
 // TODO: adapt use of mint() and burn()
 // TODO: registering of good actions (event) and credit granting (already done with Transfer event?)
 
@@ -54,7 +52,7 @@ contract Deustocoin {
 
     constructor() {
         _contractOwner = msg.sender;
-        balances[msg.sender] = _totalSupply;    // TODO: 
+        balances[msg.sender] = _totalSupply;
         roles[msg.sender] = Role.Administrator;
     }
 

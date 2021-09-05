@@ -64,7 +64,7 @@ def assignRole(w3, caller, callerKey, account, roleID):
         'gas': 10000000,
         'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
         'from': caller,
-        'nonce': w3.eth.getTransactionCount(caller)
+        'nonce': w3.eth.getTransactionCount(caller, 'pending')
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
@@ -73,12 +73,12 @@ def assignRole(w3, caller, callerKey, account, roleID):
 def transfer(w3, caller, callerKey, to, value):
     """Allows a user to transfer their balance to another user."""
     transaction = contract.functions.transfer(
-        to, value
+        to, int(value)
     ).buildTransaction({
         'gas': 10000000,
         'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
         'from': caller,
-        'nonce': w3.eth.getTransactionCount(caller)
+        'nonce': w3.eth.getTransactionCount(caller, 'pending')
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
@@ -87,12 +87,12 @@ def transfer(w3, caller, callerKey, to, value):
 def transferFrom(w3, caller, callerKey, fromAcc, to, value):
     """Allows a user to transfer to themselves an amount of coins limited by the allowance they have over that user's balance."""
     transaction = contract.functions.transferFrom(
-        fromAcc, to, value
+        fromAcc, to, int(value)
     ).buildTransaction({
         'gas': 10000000,
         'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
         'from': caller,
-        'nonce': w3.eth.getTransactionCount(caller)
+        'nonce': w3.eth.getTransactionCount(caller, 'pending')
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
@@ -101,12 +101,12 @@ def transferFrom(w3, caller, callerKey, fromAcc, to, value):
 def approve(w3, caller, callerKey, spender, value):
     """Allows the spender to withdraw the input amount of coins from the caller accont."""
     transaction = contract.functions.approve(
-        spender, value
+        spender, int(value)
     ).buildTransaction({
         'gas': 10000000,
         'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
         'from': caller,
-        'nonce': w3.eth.getTransactionCount(caller)
+        'nonce': w3.eth.getTransactionCount(caller, 'pending')
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
@@ -115,12 +115,12 @@ def approve(w3, caller, callerKey, spender, value):
 def mint(w3, caller, callerKey, to, value):
     """Allows an administrator to mint/generate an amount of coins to the 'to' address."""
     transaction = contract.functions.mint(
-        to, value
+        to, int(value)
     ).buildTransaction({
         'gas': 10000000,
         'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
         'from': caller,
-        'nonce': w3.eth.getTransactionCount(caller)
+        'nonce': w3.eth.getTransactionCount(caller, 'pending')
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
@@ -129,12 +129,12 @@ def mint(w3, caller, callerKey, to, value):
 def burn(w3, caller, callerKey, fromAcc, value):
     """Allows an administrator to burn/delete and amount of coins from the 'fromAcc' address."""
     transaction = contract.functions.burn(
-        fromAcc, value
+        fromAcc, int(value)
     ).buildTransaction({
         'gas': 10000000,
         'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
         'from': caller,
-        'nonce': w3.eth.getTransactionCount(caller)
+        'nonce': w3.eth.getTransactionCount(caller, 'pending')
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
@@ -148,7 +148,7 @@ def addAction(w3, caller, callerKey, actionID, campaignID, reward):
         'gas': 10000000,
         'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
         'from': caller,
-        'nonce': w3.eth.getTransactionCount(caller)
+        'nonce': w3.eth.getTransactionCount(caller, 'pending')
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
@@ -162,21 +162,21 @@ def removeAction(w3, caller, callerKey, actionID):
         'gas': 10000000,
         'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
         'from': caller,
-        'nonce': w3.eth.getTransactionCount(caller)
+        'nonce': w3.eth.getTransactionCount(caller, 'pending')
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def processAction(w3, caller, callerKey, promoter, to, actionID, factor, time, ipfsHash):
-    """Registers a collaborator's good action on the blockchain and gives them credit."""
+def registerAction(w3, caller, callerKey, promoter, to, actionID, factor, time, ipfsHash):
+    """Registers a collaborator's good action on the blockchain and gives them credit for its completion."""
     transaction = contract.functions.processAction(
         promoter, to, actionID, factor, time, ipfsHash
     ).buildTransaction({
         'gas': 10000000,
         'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
         'from': caller,
-        'nonce': w3.eth.getTransactionCount(caller)
+        'nonce': w3.eth.getTransactionCount(caller, 'pending')
     })
     signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)

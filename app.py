@@ -26,7 +26,7 @@ babel = Babel(app)
 translator = Translator()
 web3 = Web3(Web3.HTTPProvider(os.environ.get('BLOCKCHAIN_URL')))
 init_contract(web3)
-free_gas = web3.eth.gas_price == 0  # True if the gas is free; used to differentiate Ethereum from Besu
+free_gas = web3.eth.gas_price == 0  # TODO: True if the gas is free; used to differentiate Ethereum from Besu?
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 admin_address = os.environ.get('ADMIN_ADDRESS')
@@ -75,7 +75,7 @@ def reward_coins(dest, amount, imgHash, urlProof):
     dest_address = dest_user.blockHash
     accion = Accion.getActionById(session['accionId'])
 
-    tx_hash = transfer(w3=web3, caller=admin_address, callerKey=private_key, to=dest_address, value=amount)
+    tx_hash = transfer(w3=web3, caller=admin_address, callerKey=private_key, to=dest_address, value=int(amount * 100))
 
     s = Session()
     dateTimeObj = datetime.now()
@@ -98,8 +98,9 @@ def offer_transaction(rem, dest, offer):
     rem_user = User.get_by_email(rem)
     rem_address = rem_user.blockHash
     rem_key = rem_user.pk
+    value = int(offer.precio) * 100
 
-    tx_hash = transfer(w3=web3, caller=rem_address, callerKey=rem_key, to=dest_address, value=offer.precio)
+    tx_hash = transfer(w3=web3, caller=rem_address, callerKey=rem_key, to=dest_address, value=int(value))
 
     s = Session()
     dateTimeObj = datetime.now()
@@ -111,6 +112,7 @@ def offer_transaction(rem, dest, offer):
 
 
 def create_figure(id):
+    """Generates a Matplotlib visualization of a given action."""
     try:
         fig = Figure()
         axis = fig.add_subplot(1, 1, 1)
@@ -178,7 +180,7 @@ def upload():
     cReward = Accion.getActionById(session['accionId'])
     kpi = request.form['kpi']
     strRecompensa = str(cReward.recompensa).replace(",", ".")
-    cReward.recompensa = float(strRecompensa) * float(kpi)
+    cReward.recompensa = float(strRecompensa) * float(kpi) * 100    # The multiplication adjusts to the coin decimals
     reward_coins(session['email'], cReward.recompensa, res['Hash'], urlProof)
     try:
         cReward.nombre = translator.translate(cReward.nombre, dest=session['lang']).text
@@ -274,12 +276,13 @@ def wallet():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     salary = get_balance(user.blockHash)
-    if form.validate_on_submit():
+    if form.validate_on_submit():   # TODO: move this section to its own function
         owner_address = user.blockHash
         dest_user = User.get_by_email(request.form['destino'])
         dest_address = dest_user.blockHash
+        value=int(request.form['cantidad'])*100
 
-        tx_hash = transfer(w3=web3, caller= owner_address, callerKey=user.pk, to=dest_address, value=request.form['cantidad'])
+        tx_hash = transfer(w3=web3, caller=owner_address, callerKey=user.pk, to=dest_address, value=value)
 
         s = Session()
         dateTimeObj = datetime.now()
