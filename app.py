@@ -6,7 +6,7 @@ from base import Session, init_db
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from models import User, Transaccion, Accion, Campanya, KPIporFechas, Oferta
-from datetime import datetime
+from datetime import datetime, time
 from web3 import Web3
 from forms import EnviarUDCForm, CrearCampForm, CrearOfertaForm
 from googletrans import Translator
@@ -20,6 +20,7 @@ import pytest
 import qrcode
 import os
 import requests
+import time
 
 app = Flask(__name__)
 babel = Babel(app)
@@ -375,6 +376,7 @@ def accion():
         a = Accion(nombre, user.organizacion, desc, recompensa, indKpi, kpiObj, camp)
         s.add(a)
         s.commit()
+        addAction(w3=web3, caller=user.blockHash, callerKey=user.pk, actionID=Accion.getIdByName(nombre), campaignID=camp, reward=int(int(recompensa) * 100))   # TODO: test this
 
     try:
         del session['accionId']
@@ -485,6 +487,7 @@ def editor(campanya_id):
             s.delete(query)
             s.commit()
             acciones = Accion.getActionsOfCampaign(campanya_id)
+            removeAction(w3=web3, caller=user.blockHash, callerKey=user.pk, actionID=pk) # TODO: test this
 
     return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, acciones=acciones, campanya=campanya)
@@ -726,6 +729,7 @@ def registrarAccion(accion_id):
         cReward.nombre = translator.translate(cReward.nombre, dest=session['lang']).text
         cReward.descripcion = translator.translate(cReward.descripcion, dest=session['lang']).text
         cReward.indicadorKpi = translator.translate(cReward.indicadorKpi, dest=session['lang']).text
+        registerAction(w3=web3, caller=admin_address, callerKey=private_key, promoter=User.getCompanyBlockAddr(cReward.empresa), to=user.blockHash, actionID=accion_id, factor=1, time=time.time(), ipfsHash=None)   # TODO: test this, fix values
     except:
         pass
     return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
@@ -747,9 +751,14 @@ def before_request():
         return redirect(url, code=code)
 
 
-@app.errorhandler(500)
-def internal_error(e):
-    return render_template("error.html", code="500", type="Internal Server Error"), 500
+@app.errorhandler(400)
+def bad_request(e):
+    return render_template("error.html", code="400", type="Bad Request"), 400
+
+
+@app.errorhandler(401)
+def unauthorized(e):
+    return render_template("error.html", code="401", type="Unauthorized"), 401
 
 
 @app.errorhandler(403)
@@ -762,14 +771,9 @@ def page_not_found(e):
     return render_template("error.html", code="404", type="Not Found"), 404
 
 
-@app.errorhandler(400)
-def bad_request(e):
-    return render_template("error.html", code="400", type="Bad Request"), 400
-
-
-@app.errorhandler(401)
-def unauthorized(e):
-    return render_template("error.html", code="401", type="Unauthorized"), 401
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template("error.html", code="500", type="Internal Server Error"), 500
 
 
 if __name__ == "__main__":
