@@ -13,16 +13,10 @@ contract Deustocoin {
     address _contractOwner; // Account that deploys the contract (the project administrator, e.g. the University of Deusto)
 
     enum Role {Collaborator, Promoter, Administrator}
-    struct CampaignAction {
-        address _promoter;
-        uint256 _campaignID;
-        uint256 _reward;
-    }
 
     mapping(address => uint256) balances;   // Balances of users, saved with 2 decimals (the value is equivalent to cents)
     mapping(address => mapping(address => uint256)) allowed;   // Accounts approved to withdraw from a given account + sum allowed
     mapping(address => Role) roles; // Roles of the users; access to the system is specified in the permissioned blockchain. TODO: might be expensive regarding gas
-    mapping(uint256 => CampaignAction) actions;   //  All available actions
 
     /// @notice MUST trigger when tokens are transferred, including zero value transfers
     /// @dev a token contract which creates new tokens SHOULD trigger the event with _from set to 0x0 when tokens are created
@@ -187,24 +181,7 @@ contract Deustocoin {
         else if (_role == 2) roles[_account] = Role.Administrator;
     }
 
-    /// @notice saves an action in the contract
-    function addAction(
-        uint256 _actionID,
-        uint256 _campaignID,
-        uint256 _reward
-    ) public {
-        require(roles[msg.sender] == Role.Promoter);
-        require(balances[msg.sender] >= _reward);   // Promoter must have enough balance to give at least one reward
-        actions[_actionID] = CampaignAction({_promoter:msg.sender, _campaignID:_campaignID, _reward:_reward});
-    }
-
-    /// @notice deletes an action from the contract
-    function removeAction(uint256 _actionID) public {
-        require(actions[_actionID]._promoter == msg.sender); // Only the owner of the action can delete it
-        delete actions[_actionID];
-    }
-
-    /// @notice registers a collaborator's good action and gives them credit
+    /// @notice registers a collaborator's good action in the blockchain
     function emitAction(
         address _promoter,
         address _who,
