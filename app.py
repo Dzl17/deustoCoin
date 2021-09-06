@@ -7,7 +7,6 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from models import User, Transaccion, Accion, Campanya, KPIporFechas, Oferta
 from datetime import datetime, time
-from web3 import Web3
 from forms import EnviarUDCForm, CrearCampForm, CrearOfertaForm
 from googletrans import Translator
 from flask.cli import with_appcontext
@@ -22,20 +21,18 @@ import os
 import requests
 import time
 
-app = Flask(__name__)
-babel = Babel(app)
-translator = Translator()
-web3 = Web3(Web3.HTTPProvider(os.environ.get('BLOCKCHAIN_URL')))
-init_contract(web3)
-free_gas = web3.eth.gas_price == 0  # TODO: True if the gas is free; used to differentiate Ethereum from Besu?
-
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 admin_address = os.environ.get('ADMIN_ADDRESS')
 private_key = os.environ.get('PRIVATE_KEY')
-app.secret_key = os.environ.get('PRIVATE_KEY')
 valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
+blockchain_manager = BlockchainManager()
+
+app = Flask(__name__)
+app.secret_key = private_key
+app.config['PRIVATE_KEY'] = private_key
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+babel = Babel(app)
+translator = Translator()
 init_db()
-app.config['PRIVATE_KEY'] = app.secret_key
 
 oauth = OAuth(app)
 google = oauth.register(
@@ -67,7 +64,7 @@ def init():
 
 def get_balance(address):
     """Return the balance of the parameter address."""
-    return balance_of(address=address)/100    # Divide to create equivalence to the Euro
+    return blockchain_manager.balance_of(address=address)/100    # Divide to create equivalence to the Euro
 
 
 def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof):
@@ -76,9 +73,8 @@ def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof)
     dest_address = dest_user.blockHash
     accion = Accion.getActionById(session['accionId'])
 
-    tx_hash = transfer(w3=web3, caller=admin_address, callerKey=private_key, to=dest_address, value=int(amount * 100))
-    action_tx_hash = emit_action(w3=web3, caller=admin_address, callerKey=private_key, promoter=promoter_address, to=dest_address, actionID=action_id, reward=amount, time=int(time.time()), ipfs_hash=img_hash, proof_url=url_proof)
-    # TODO: do something with action_tx_hash?
+    tx_hash = blockchain_manager.transfer(caller=admin_address, callerKey=private_key, to=dest_address, value=int(amount * 100))
+    blockchain_manager.emit_action(caller=admin_address, callerKey=private_key, promoter=promoter_address, to=dest_address, actionID=action_id, reward=amount, time=int(time.time()), ipfs_hash=img_hash, proof_url=url_proof)
 
     s = Session()
     dateTimeObj = datetime.now()
@@ -103,7 +99,7 @@ def offer_transaction(rem, dest, offer):
     rem_key = rem_user.pk
     value = int(offer.precio) * 100
 
-    tx_hash = transfer(w3=web3, caller=rem_address, callerKey=rem_key, to=dest_address, value=int(value))
+    tx_hash = blockchain_manager.transfer(caller=rem_address, callerKey=rem_key, to=dest_address, value=int(value))
 
     s = Session()
     dateTimeObj = datetime.now()
@@ -267,7 +263,7 @@ def register():
             # No es necesario asignar el rol en el smart contract, ya que por defecto se asigna a colaborador
             return redirect('/wallet')
         if rol == 'Promotor':
-            assign_role(w3=web3, caller=admin_address, callerKey=private_key, account=blockchainAddr, roleID=0)
+            blockchain_manager.assign_role(caller=admin_address, callerKey=private_key, account=blockchainAddr, roleID=0)
             return redirect('/accion')
     else:
         return render_template("register.html", email=email, nombre=name)
@@ -285,7 +281,7 @@ def wallet():
         dest_address = dest_user.blockHash
         value=int(request.form['cantidad'])*100
 
-        tx_hash = transfer(w3=web3, caller=owner_address, callerKey=user.pk, to=dest_address, value=value)
+        tx_hash = blockchain_manager.transfer(caller=owner_address, callerKey=user.pk, to=dest_address, value=value)
 
         s = Session()
         dateTimeObj = datetime.now()
@@ -299,7 +295,7 @@ def wallet():
         del session['offerId']
     except:
         pass
-    return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, w3=web3,
+    return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            form=form, user=user)
 
 
@@ -385,7 +381,7 @@ def accion():
     except:
         pass
     # Borro las keys para evitar conflictos con cookies
-    return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
+    return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            form=form, form2=form2, user=user, acciones=acciones, campanyas=campanyas, ofertas=ofertas)
 
 
@@ -407,7 +403,7 @@ def accionalumnos():
         del session['offerId']
     except:
         pass
-    return render_template('accionalumnos.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
+    return render_template('accionalumnos.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            user=user, acciones=acciones)
 
 
@@ -429,7 +425,7 @@ def ofertas():
         del session['offerId']
     except:
         pass
-    return render_template('ofertas.html', title='Oferta', wallet=salary, email=email, name=given_name, w3=web3,
+    return render_template('ofertas.html', title='Oferta', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            user=user, ofertas=ofertas)
 
 
@@ -465,7 +461,7 @@ def historialtrans():
         del session['offerId']
     except:
         pass
-    return render_template('historialtrans.html', title='Acción', wallet=salary, email=email, name=name, w3=web3,
+    return render_template('historialtrans.html', title='Acción', wallet=salary, email=email, name=name, w3=blockchain_manager.w3,
                            user=user, transacciones=transacciones)
 
 
@@ -489,7 +485,7 @@ def editor(campanya_id):
             s.commit()
             acciones = Accion.getActionsOfCampaign(campanya_id)
 
-    return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
+    return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            user=user, acciones=acciones, campanya=campanya)
 
 
@@ -529,7 +525,7 @@ def editorC():
     except:
         pass
     return render_template('admincampanyas.html', title='Campañas', wallet=salary, email=email, name=given_name,
-                           w3=web3, user=user, campanyas=campanyas)
+                           w3=blockchain_manager.w3, user=user, campanyas=campanyas)
 
 
 @app.route('/editorO', methods=['GET', 'POST'])
@@ -562,7 +558,7 @@ def editorO():
     except:
         pass
     return render_template('adminofertas.html', title='Ofertas', wallet=salary, email=email, name=given_name,
-                           w3=web3, user=user, ofertas=ofertas)
+                           w3=blockchain_manager.w3, user=user, ofertas=ofertas)
 
 
 @app.route('/editarAcc/<int:accion_id>', methods=["GET", "POST"])
@@ -716,7 +712,7 @@ def empresa(emp):
             a.descripcion = translator.translate(a.descripcion, dest=session['lang']).text
     except:
         pass
-    return render_template('campanyas.html', wallet=salary, email=email, name=given_name, w3=web3,
+    return render_template('campanyas.html', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            user=user, campanyas=campanyas, empresa=emp, acciones=acciones)
 
 
