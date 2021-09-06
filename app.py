@@ -110,6 +110,22 @@ def offer_transaction(rem, dest, offer):
     s.close()
 
 
+def transfer_coins(rem, dest, amount, email):
+    """Transfer coins to another user."""
+    owner_address = rem.blockHash
+    dest_address = dest.blockHash
+    value=int(amount)*100
+
+    tx_hash = blockchain_manager.transfer(caller=owner_address, callerKey=rem.pk, to=dest_address, value=value)
+
+    s = Session()
+    dateTimeObj = datetime.now()
+    timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+    t = Transaccion(timestampStr, tx_hash, email, request.form['destino'], None, request.form['cantidad'], "", "")
+    s.add(t)
+    s.commit()
+
+
 def create_figure(id):
     """Generates a Matplotlib visualization of a given action."""
     try:
@@ -138,8 +154,7 @@ def create_figure(id):
         return None
 
 
-# TODO añadir el nodo a todos los nodos de la red, no solo al primero
-def addAccountToAllowlist(address):
+def add_account_to_allowlist(address):
     """Adds an account to the permissioned blockchain allowlist"""
     data = '{"jsonrpc":"2.0","method":"perm_addAccountsToAllowlist","params":[["' + address + '"]], "id":1}'
     response = requests.post(os.environ.get('BLOCKCHAIN_URL'), data=data)
@@ -258,7 +273,7 @@ def register():
         u = User(nombre, email, blockchainAddr, pk, picture, rol, org)
         s.add(u)
         s.commit()
-        addAccountToAllowlist(blockchainAddr)   # Permite al usuario usar la blockchain permisionada
+        add_account_to_allowlist(blockchainAddr)   # Permite al usuario usar la blockchain permisionada
         if rol == 'Colaborador':    
             # No es necesario asignar el rol en el smart contract, ya que por defecto se asigna a colaborador
             return redirect('/wallet')
@@ -275,20 +290,8 @@ def wallet():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     salary = get_balance(user.blockHash)
-    if form.validate_on_submit():   # TODO: move this section to its own function
-        owner_address = user.blockHash
-        dest_user = User.get_by_email(request.form['destino'])
-        dest_address = dest_user.blockHash
-        value=int(request.form['cantidad'])*100
-
-        tx_hash = blockchain_manager.transfer(caller=owner_address, callerKey=user.pk, to=dest_address, value=value)
-
-        s = Session()
-        dateTimeObj = datetime.now()
-        timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-        t = Transaccion(timestampStr, tx_hash, email, request.form['destino'], None, request.form['cantidad'], "", "")
-        s.add(t)
-        s.commit()
+    if form.validate_on_submit():
+        transfer_coins(rem=user, dest=User.get_by_email(request.form['destino']), amount=request.form['cantidad'], email=email)
     given_name = dict(session).get('given_name', None)
     try:
         del session['accionId']
