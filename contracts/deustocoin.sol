@@ -3,7 +3,6 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 // TODO: adapt use of mint() and burn()
-// TODO: registering of good actions (event) and credit granting (already done with Transfer event?)
 
 /// @title ERC20 compliant token used in the Deustocoin project for the University of Deusto
 contract Deustocoin {
@@ -44,9 +43,10 @@ contract Deustocoin {
     event Action(
         address indexed _who,
         uint256 indexed _actionID,
-        uint256 _factor,
+        uint256 _reward,
         uint256 _time,
-        bytes32 _ipfsHash
+        bytes32 _ipfsHash,
+        bytes _proofUrl
     );
 
 
@@ -205,23 +205,20 @@ contract Deustocoin {
     }
 
     /// @notice registers a collaborator's good action and gives them credit
-    function processAction(
-        address _promoter, 
-        address _to, 
-        uint256 _actionID, 
-        uint256 _factor,
-        uint256 _time, 
-        bytes32 _ipfsHash
+    function emitAction(
+        address _promoter,
+        address _who,
+        uint256 _actionID,
+        uint256 _reward,
+        uint256 _time,
+        bytes32 _ipfsHash,
+        bytes memory _proofUrl
     ) public returns (bool success) {
-        uint256 _value = actions[_actionID]._reward * _factor;  // The final reward is the reward of the action * factor
         require(roles[msg.sender] == Role.Administrator);
-        require(roles[_promoter] == Role.Promoter && roles[_to] == Role.Collaborator);
-        require(balances[_promoter] >= _value);
+        require(roles[_promoter] == Role.Promoter && roles[_who] == Role.Collaborator);
+        require(balances[_promoter] >= _reward);
 
-        emit Action(_to, _actionID, _factor, _time, _ipfsHash);
-        balances[_promoter] -= _value;
-        balances[_to] += _value;
-        emit Transfer(_promoter, _to, _value);
+        emit Action(_who, _actionID, _reward, _time, _ipfsHash, _proofUrl);
         return true;
     }
 }
