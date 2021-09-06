@@ -67,21 +67,23 @@ def init():
 
 def get_balance(address):
     """Return the balance of the parameter address."""
-    return balanceOf(address=address)/100    # Divide to create equivalence to the Euro
+    return balance_of(address=address)/100    # Divide to create equivalence to the Euro
 
 
-def reward_coins(dest, amount, imgHash, urlProof):
+def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof):
     """Reward the input amount of coins to the user that completes a good deed."""
     dest_user = User.get_by_email(dest)
     dest_address = dest_user.blockHash
     accion = Accion.getActionById(session['accionId'])
 
     tx_hash = transfer(w3=web3, caller=admin_address, callerKey=private_key, to=dest_address, value=int(amount * 100))
+    action_tx_hash = emit_action(w3=web3, caller=admin_address, callerKey=private_key, promoter=promoter_address, to=dest_address, actionID=action_id, reward=amount, time=int(time.time()), ipfs_hash=img_hash, proof_url=url_proof)
+    # TODO: do something with action_tx_hash?
 
     s = Session()
     dateTimeObj = datetime.now()
     timestampStr = dateTimeObj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
-    t = Transaccion(timestampStr, tx_hash, accion.empresa, dest, accion.campanya_id, amount, imgHash, urlProof)
+    t = Transaccion(timestampStr, tx_hash, accion.empresa, dest, accion.campanya_id, amount, img_hash, url_proof)
     s.add(t)
     s.commit()
     query = s.query(Accion)
@@ -249,7 +251,7 @@ def register():
     if request.method == "POST":
         nombre = request.form['nombre']
         email = request.form['email']
-        keys = generateKeys()
+        keys = generate_keys()
         blockchainAddr = Web3.toChecksumAddress(keys['address'])
         session['blockchainAddr'] = blockchainAddr
         pk = keys['key']
@@ -265,7 +267,7 @@ def register():
             # No es necesario asignar el rol en el smart contract, ya que por defecto se asigna a colaborador
             return redirect('/wallet')
         if rol == 'Promotor':
-            assignRole(w3=web3, caller=admin_address, callerKey=private_key, account=blockchainAddr, roleID=0)
+            assign_role(w3=web3, caller=admin_address, callerKey=private_key, account=blockchainAddr, roleID=0)
             return redirect('/accion')
     else:
         return render_template("register.html", email=email, nombre=name)
@@ -376,7 +378,6 @@ def accion():
         a = Accion(nombre, user.organizacion, desc, recompensa, indKpi, kpiObj, camp)
         s.add(a)
         s.commit()
-        addAction(w3=web3, caller=user.blockHash, callerKey=user.pk, actionID=Accion.getIdByName(nombre), campaignID=camp, reward=int(int(recompensa) * 100))   # TODO: test this
 
     try:
         del session['accionId']
@@ -487,7 +488,6 @@ def editor(campanya_id):
             s.delete(query)
             s.commit()
             acciones = Accion.getActionsOfCampaign(campanya_id)
-            removeAction(w3=web3, caller=user.blockHash, callerKey=user.pk, actionID=pk) # TODO: test this
 
     return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=web3,
                            user=user, acciones=acciones, campanya=campanya)
@@ -729,7 +729,6 @@ def registrarAccion(accion_id):
         cReward.nombre = translator.translate(cReward.nombre, dest=session['lang']).text
         cReward.descripcion = translator.translate(cReward.descripcion, dest=session['lang']).text
         cReward.indicadorKpi = translator.translate(cReward.indicadorKpi, dest=session['lang']).text
-        registerAction(w3=web3, caller=admin_address, callerKey=private_key, promoter=User.getCompanyBlockAddr(cReward.empresa), to=user.blockHash, actionID=accion_id, factor=1, time=time.time(), ipfsHash=None)   # TODO: test this, fix values
     except:
         pass
     return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],

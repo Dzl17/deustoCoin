@@ -13,7 +13,7 @@ def init_contract(web3):
     contract = web3.eth.contract(address=Web3.toChecksumAddress(os.environ.get('CONTRACT_ADDRESS')), abi=abi)
 
 
-def generateKeys():
+def generate_keys():
     """Return a new random ethereum address with its private key."""
     private_key = keccak_256(token_bytes(32)).digest()
     public_key = PublicKey.from_valid_secret(private_key).format(compressed=False)[1:]
@@ -36,17 +36,17 @@ def decimals():
     return contract.functions.decimals().call()
 
 
-def totalSupply():
+def total_supply():
     """Returns the total supply of the coin."""
     return contract.functions.totalSupply().call()
 
 
-def balanceOf(address):
+def balance_of(address):
     """Returns the balance of the input address."""
     return contract.functions.balanceOf(address).call()
 
 
-def roleOf(address):
+def role_of(address):
     """Returns the role of the input address (Collaborator, Promoter or Administrator)."""
     return contract.functions.roleOf(address).call()
 
@@ -56,7 +56,7 @@ def allowance(owner, spender):
     return contract.functions.allowance(owner, spender).call()
 
 
-def assignRole(w3, caller, callerKey, account, roleID):
+def assign_role(w3, caller, callerKey, account, roleID):
     """Allows an Administrator to change the role of a user."""
     transaction = contract.functions.assignRole(
         account, roleID
@@ -84,7 +84,7 @@ def transfer(w3, caller, callerKey, to, value):
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def transferFrom(w3, caller, callerKey, fromAcc, to, value):
+def transfer_from(w3, caller, callerKey, fromAcc, to, value):
     """Allows a user to transfer to themselves an amount of coins limited by the allowance they have over that user's balance."""
     transaction = contract.functions.transferFrom(
         fromAcc, to, int(value)
@@ -140,38 +140,10 @@ def burn(w3, caller, callerKey, fromAcc, value):
     return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-def addAction(w3, caller, callerKey, actionID, campaignID, reward):
-    """Allows a promoter to register an action on the blockchain."""
-    transaction = contract.functions.addAction(
-        actionID, campaignID, reward
-    ).buildTransaction({
-        'gas': 10000000,
-        'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
-        'from': caller,
-        'nonce': w3.eth.getTransactionCount(caller, 'pending')
-    })
-    signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
-    return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
-
-
-def removeAction(w3, caller, callerKey, actionID):
-    """Allows a promoter to remove an action of their property from the blockchain."""
-    transaction = contract.functions.removeAction(
-        actionID
-    ).buildTransaction({
-        'gas': 10000000,
-        'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
-        'from': caller,
-        'nonce': w3.eth.getTransactionCount(caller, 'pending')
-    })
-    signed_tx = w3.eth.account.signTransaction(transaction, private_key=callerKey)
-    return w3.eth.sendRawTransaction(signed_tx.rawTransaction)
-
-
-def registerAction(w3, caller, callerKey, promoter, to, actionID, factor, time, ipfsHash):
+def emit_action(w3, caller, callerKey, promoter, to, actionID, reward, time, ipfs_hash, proof_url):
     """Registers a collaborator's good action on the blockchain and gives them credit for its completion."""
     transaction = contract.functions.processAction(
-        promoter, to, actionID, factor, time, ipfsHash
+        promoter, to, actionID, reward, time, ipfs_hash, proof_url
     ).buildTransaction({
         'gas': 10000000,
         'gasPrice': w3.toWei(w3.eth.gas_price, 'gwei'),
