@@ -29,14 +29,30 @@ class BlockchainManager():
         self.action_filter_instance = action_filter.deploy(self.w3)
 
 
-    def getAllTransfers(self):
+    def get_all_transfers(self) -> list:
         """Returns all transfer logs saved in the blockchain. TODO: improve fetching"""
         return self.transfer_filter_instance.get_all_entries()
 
 
-    def getAllActions(self):
+    def get_all_transfer_events(self):
+        """Returns all the filtered tranfer events, showing only the event values."""
+        new_list = []
+        for i in self.get_all_transfers():
+            new_list.append(i.args)
+        return new_list
+
+
+    def get_all_actions(self) -> list:
         """Returns all action logs saved in the blockchain. TODO: improve fetching"""
         return self.action_filter_instance.get_all_entries()
+
+
+    def get_all_action_events(self) -> list:
+        """Returns all the filtered action events, showing only the event values."""
+        new_list = []
+        for i in self.get_all_actions():
+            new_list.append(i.args)
+        return new_list
 
 
     def name(self):
