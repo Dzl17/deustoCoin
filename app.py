@@ -73,7 +73,7 @@ def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof)
     dest_address = dest_user.blockHash
     accion = Accion.getActionById(session['accionId'])
 
-    tx_hash = blockchain_manager.transfer(caller=admin_address, callerKey=private_key, to=dest_address, value=int(amount * 100))
+    tx_hash = blockchain_manager.transfer(caller=admin_address, callerKey=private_key, to=dest_address, value=int(float(amount) * 100))
     blockchain_manager.emit_action(caller=admin_address, callerKey=private_key, promoter=promoter_address, to=dest_address, actionID=action_id, reward=amount, time=int(time.time()), ipfs_hash=img_hash, proof_url=url_proof)
 
     s = Session()
@@ -97,7 +97,7 @@ def offer_transaction(rem, dest, offer):
     rem_user = User.get_by_email(rem)
     rem_address = rem_user.blockHash
     rem_key = rem_user.pk
-    value = int(offer.precio) * 100
+    value = int(float(offer.precio) * 100)
 
     tx_hash = blockchain_manager.transfer(caller=rem_address, callerKey=rem_key, to=dest_address, value=int(value))
 
@@ -114,7 +114,7 @@ def transfer_coins(rem, dest, amount, email):
     """Transfer coins to another user."""
     owner_address = rem.blockHash
     dest_address = dest.blockHash
-    value=int(amount)*100
+    value=int(float(amount)*100)
 
     tx_hash = blockchain_manager.transfer(caller=owner_address, callerKey=rem.pk, to=dest_address, value=value)
 
@@ -291,7 +291,7 @@ def wallet():
     user = User.get_by_email(email)
     salary = get_balance(user.blockHash)
     if form.validate_on_submit():
-        transfer_coins(rem=user, dest=User.get_by_email(request.form['destino']), amount=request.form['cantidad'], email=email)
+        transfer_coins(rem=user, dest=User.get_by_email(request.form['destino']), amount=request.form['cantidad'].replace(',', '.'), email=email)
     given_name = dict(session).get('given_name', None)
     try:
         del session['accionId']
