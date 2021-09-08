@@ -69,13 +69,13 @@ def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof)
     dest_address = dest_user.blockHash
     accion = Accion.getActionById(session['accionId'])
 
-    tx_hash = blockchain_manager.transfer(caller=admin_address, callerKey=private_key, to=dest_address, value=int(float(amount) * 100))
+    tx_hash = blockchain_manager.transfer(caller=admin_address, callerKey=private_key, to=dest_address, value=int(float(amount)*100))
     blockchain_manager.emit_action(caller=admin_address, callerKey=private_key, promoter=promoter_address, to=dest_address, actionID=action_id, reward=amount, time=int(time.time()), ipfs_hash=img_hash, proof_url=url_proof)
 
     s = Session()
-    dateTimeObj = datetime.now()
-    timestampStr = dateTimeObj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
-    t = Transaccion(timestampStr, tx_hash, accion.empresa, dest, accion.campanya_id, amount, img_hash, url_proof)
+    datetime_obj = datetime.now()
+    timestamp_str = datetime_obj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
+    t = Transaccion(timestamp_str, tx_hash, accion.empresa, dest, accion.campanya_id, amount, img_hash, url_proof)
     s.add(t)
     s.commit()
     query = s.query(Accion)
@@ -93,14 +93,14 @@ def offer_transaction(rem, dest, offer):
     rem_user = User.get_by_email(rem)
     rem_address = rem_user.blockHash
     rem_key = rem_user.pk
-    value = int(float(offer.precio) * 100)
+    value = int(float(offer.precio)*100)
 
-    tx_hash = blockchain_manager.transfer(caller=rem_address, callerKey=rem_key, to=dest_address, value=int(value))
+    tx_hash = blockchain_manager.transfer(caller=rem_address, callerKey=rem_key, to=dest_address, value=value)
 
     s = Session()
-    dateTimeObj = datetime.now()
-    timestampStr = dateTimeObj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
-    t = Transaccion(timestampStr, tx_hash, rem, dest_user.organizacion, None, offer.precio, "", "")
+    datetime_obj = datetime.now()
+    timestamp_str = datetime_obj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
+    t = Transaccion(timestamp_str, tx_hash, rem, dest_user.organizacion, None, offer.precio, "", "")
     s.add(t)
     s.commit()
     s.close()
@@ -115,9 +115,9 @@ def transfer_coins(rem, dest, amount, email, dest_email):
     tx_hash = blockchain_manager.transfer(caller=owner_address, callerKey=rem.pk, to=dest_address, value=value)
 
     s = Session()
-    dateTimeObj = datetime.now()
-    timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-    t = Transaccion(timestampStr, tx_hash, email, dest_email, None, amount, "", "")
+    datetime_obj = datetime.now()
+    timestamp_str = datetime_obj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+    t = Transaccion(timestamp_str, tx_hash, email, dest_email, None, amount, "", "")
     s.add(t)
     s.commit()
 
@@ -132,13 +132,13 @@ def create_figure(id):
         titulo = data.get("name")
         axis.set_title(titulo + " - " + accion.indicadorKpi)
         axis.set_ylim(0, accion.kpiObj)
-        stringFecha = "Fecha"
+        string_fecha = "Fecha"
         try:
-            stringFecha = translator.translate(stringFecha, dest=session['lang']).text
+            string_fecha = translator.translate(string_fecha, dest=session['lang']).text
             accion.indicadorKpi = translator.translate(accion.indicadorKpi, dest=session['lang']).text
         except:
             pass
-        axis.set_xlabel(stringFecha)
+        axis.set_xlabel(string_fecha)
         axis.set_ylabel(accion.indicadorKpi)
         results = data.get("results")[::-1]
         xs = [x.fecha for x in results]
@@ -187,17 +187,17 @@ def upload():
     file = request.files['filename']
     res = client.add(file)
     client.close()
-    cReward = Accion.getActionById(session['accionId'])
+    c_reward = Accion.getActionById(session['accionId'])
     kpi = request.form['kpi']
-    strRecompensa = str(cReward.recompensa).replace(",", ".")
-    cReward.recompensa = float(strRecompensa) * float(kpi) * 100    # The multiplication adjusts to the coin decimals
-    reward_coins(session['email'], cReward.recompensa, res['Hash'], urlProof)
+    str_recompensa = str(c_reward.recompensa).replace(",", ".")
+    c_reward.recompensa = float(str_recompensa) * float(kpi) * 100    # The multiplication adjusts to the coin decimals
+    reward_coins(session['email'], c_reward.recompensa, res['Hash'], urlProof)
     try:
-        cReward.nombre = translator.translate(cReward.nombre, dest=session['lang']).text
+        c_reward.nombre = translator.translate(c_reward.nombre, dest=session['lang']).text
     except:
         pass
     del session['accionId']
-    return render_template("recompensa.html", name=session['name'], accion=cReward, email=session['email'], user=user)
+    return render_template("recompensa.html", name=session['name'], accion=c_reward, email=session['email'], user=user)
 
 
 @app.route('/authorize')
@@ -214,16 +214,16 @@ def authorize():
     user = User.get_by_email(session['email'])
 
     if 'accionId' in session and user is not None:
-        cReward = Accion.getActionById(session['accionId'])
+        c_reward = Accion.getActionById(session['accionId'])
         try:
-            cReward.nombre = translator.translate(cReward.nombre, dest=session['lang']).text
-            cReward.descripcion = translator.translate(cReward.descripcion, dest=session['lang']).text
-            cReward.indicadorKpi = translator.translate(cReward.indicadorKpi, dest=session['lang']).text
+            c_reward.nombre = translator.translate(c_reward.nombre, dest=session['lang']).text
+            c_reward.descripcion = translator.translate(c_reward.descripcion, dest=session['lang']).text
+            c_reward.indicadorKpi = translator.translate(c_reward.indicadorKpi, dest=session['lang']).text
         except:
             pass
-        if cReward is not None:
-            return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
-                                   session=session, user=user, accionId=cReward)
+        if c_reward is not None:
+            return render_template("subirimagen.html", name=session['name'], cReward=c_reward, email=session['email'],
+                                   session=session, user=user, accionId=c_reward)
         else:
             return redirect('/wallet')
     if 'offerId' in session and user is not None:
@@ -259,22 +259,22 @@ def register():
         nombre = request.form['nombre']
         email = request.form['email']
         keys = generate_keys()
-        blockchainAddr = Web3.toChecksumAddress(keys['address'])
-        session['blockchainAddr'] = blockchainAddr
+        blockchain_address = Web3.toChecksumAddress(keys['address'])
+        session['blockchainAddr'] = blockchain_address
         pk = keys['key']
         rol = request.form['rol']
         org = request.form['organizacion']
 
         s = Session()
-        u = User(nombre, email, blockchainAddr, pk, picture, rol, org)
+        u = User(nombre, email, blockchain_address, pk, picture, rol, org)
         s.add(u)
         s.commit()
-        add_account_to_allowlist(blockchainAddr)   # Permite al usuario usar la blockchain permisionada
+        add_account_to_allowlist(blockchain_address)   # Permite al usuario usar la blockchain permisionada
         if rol == 'Colaborador':    
             # No es necesario asignar el rol en el smart contract, ya que por defecto se asigna a colaborador
             return redirect('/wallet')
         if rol == 'Promotor':
-            blockchain_manager.assign_role(caller=admin_address, callerKey=private_key, account=blockchainAddr, roleID=0)
+            blockchain_manager.assign_role(caller=admin_address, callerKey=private_key, account=blockchain_address, roleID=0)
             return redirect('/accion')
     else:
         return render_template("register.html", email=email, nombre=name)
@@ -287,9 +287,7 @@ def wallet():
     user = User.get_by_email(email)
     salary = get_balance(user.blockHash)
     if form.validate_on_submit():
-        amount = request.form['cantidad'].replace(',', '.')
-        print(amount)
-        transfer_coins(rem=user, dest=User.get_by_email(request.form['destino']), amount=amount, email=email, dest_email=request.form['destino'])
+        transfer_coins(rem=user, dest=User.get_by_email(request.form['destino']), amount=request.form['cantidad'], email=email, dest_email=request.form['destino'])
     given_name = dict(session).get('given_name', None)
     try:
         del session['accionId']
@@ -301,7 +299,7 @@ def wallet():
 
 
 @app.route('/redeemOffer/<int:offer_id>')
-def redeemOffer(offer_id):
+def redeem_offer(offer_id):
     offer = Oferta.getOfferById(offer_id)
     user = User.get_by_email(session['email'])
     dest = User.getCompanyBlockAddr(offer.empresa).email
@@ -316,8 +314,8 @@ def redeemOffer(offer_id):
 
 @app.route('/accion', methods=['GET', 'POST'])
 def accion():
-    form = CrearCampForm()
-    form2 = CrearOfertaForm()
+    form_1 = CrearCampForm()    # TODO: change name of this to a better one
+    form_2 = CrearOfertaForm()
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -346,7 +344,7 @@ def accion():
     except:
         pass
     salary = get_balance(os.environ.get('ADMIN_ADDRESS'))
-    if form.validate_on_submit() and form.crearCamp.data:
+    if form_1.validate_on_submit() and form_1.crearCamp.data:
         s = Session()
         if user.role == "Promotor":
             c = Campanya(request.form['nomCamp'], user.organizacion, request.form['desc'])
@@ -354,7 +352,7 @@ def accion():
             c = Campanya(request.form['nomCamp'], request.form['empresa'], request.form['desc'])
         s.add(c)
         s.commit()
-    elif form2.validate_on_submit() and form2.crearOf.data:
+    elif form_2.validate_on_submit() and form_2.crearOf.data:
         nombre = request.form['nomOferta']
         s = Session()
         if user.role == "Promotor":
@@ -383,11 +381,11 @@ def accion():
         pass
     # Borro las keys para evitar conflictos con cookies
     return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
-                           form=form, form2=form2, user=user, acciones=acciones, campanyas=campanyas, ofertas=ofertas)
+                           form=form_1, form2=form_2, user=user, acciones=acciones, campanyas=campanyas, ofertas=ofertas)
 
 
 @app.route('/accionalumnos', methods=['GET', 'POST'])
-def accionalumnos():
+def accion_alumnos():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -431,7 +429,7 @@ def ofertas():
 
 
 @app.route('/historialtrans', methods=['GET', 'POST'])
-def historialtrans():
+def historial_transacciones():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     salary = get_balance(user.blockHash)
@@ -444,9 +442,9 @@ def historialtrans():
     else:
         transacciones = Transaccion.getAllTransactions()
     for t in transacciones:
-        campId = t.campanya
+        camp_id = t.campanya
         try:
-            t.campanya = Campanya.getCampaignById(campId).nombre
+            t.campanya = Campanya.getCampaignById(camp_id).nombre
             try:
                 t.campanya = translator.translate(t.campanya, dest=session['lang']).text
             except:
@@ -499,7 +497,7 @@ def plot_png(campanya_id):
 
 
 @app.route('/editorC', methods=['GET', 'POST'])
-def editorC():
+def editor_campanyas():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -530,7 +528,7 @@ def editorC():
 
 
 @app.route('/editorO', methods=['GET', 'POST'])
-def editorO():
+def editor_ofertas():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -563,7 +561,7 @@ def editorO():
 
 
 @app.route('/editarAcc/<int:accion_id>', methods=["GET", "POST"])
-def editorAccion(accion_id):
+def editor_accion(accion_id):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -580,7 +578,7 @@ def editorAccion(accion_id):
 
 
 @app.route('/editorCampanyas/<int:campanya_id>', methods=["GET", "POST"])
-def editorCamp(campanya_id):
+def editor_campanyas_indiv(campanya_id):
     email = dict(session).get('email', None)
     given_name = dict(session).get('given_name', None)
     user = User.get_by_email(email)
@@ -597,7 +595,7 @@ def editorCamp(campanya_id):
 
 
 @app.route('/editorOferta/<int:offer_id>', methods=["GET", "POST"])
-def editorOferta(offer_id):
+def editor_oferta_indiv(offer_id):
     email = dict(session).get('email', None)
     given_name = dict(session).get('given_name', None)
     user = User.get_by_email(email)
@@ -624,7 +622,7 @@ def qr(accion_id):
 
 
 @app.route('/qrOfertas/<int:offerId>')
-def qrOfertas(offerId):
+def qr_ofertas(offerId):
     img = qrcode.make(url_for("pay", offer_id=offerId, _external=True))
     with io.BytesIO() as output:
         img.save(output, format="PNG")
@@ -651,9 +649,9 @@ def pay(offer_id):
 @app.route('/logout')
 def logout():
     try:
-        tempLang = session['lang']
+        temp_lang = session['lang']
         session.clear()
-        session['lang'] = tempLang
+        session['lang'] = temp_lang
     except:
         pass
     return redirect('/')
@@ -718,17 +716,17 @@ def empresa(emp):
 
 
 @app.route('/registraraccion/<int:accion_id>', methods=['GET', 'POST'])
-def registrarAccion(accion_id):
+def registrar_accion(accion_id):
     user = User.get_by_email(session['email'])
     session['accionId'] = accion_id
-    cReward = Accion.getActionById(accion_id)
+    c_reward = Accion.getActionById(accion_id)
     try:
-        cReward.nombre = translator.translate(cReward.nombre, dest=session['lang']).text
-        cReward.descripcion = translator.translate(cReward.descripcion, dest=session['lang']).text
-        cReward.indicadorKpi = translator.translate(cReward.indicadorKpi, dest=session['lang']).text
+        c_reward.nombre = translator.translate(c_reward.nombre, dest=session['lang']).text
+        c_reward.descripcion = translator.translate(c_reward.descripcion, dest=session['lang']).text
+        c_reward.indicadorKpi = translator.translate(c_reward.indicadorKpi, dest=session['lang']).text
     except:
         pass
-    return render_template("subirimagen.html", name=session['name'], cReward=cReward, email=session['email'],
+    return render_template("subirimagen.html", name=session['name'], cReward=c_reward, email=session['email'],
                            session=session, user=user, accionId=accion_id)
 
 
