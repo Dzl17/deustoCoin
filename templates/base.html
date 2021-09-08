@@ -189,19 +189,19 @@ ul ul a {
                 <ul class="nav flex-column">
                     {% if user.role == "Promotor" or user.role == "Administrador" %}
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ url_for('accion')}}">
+                        <a class="nav-link active" href="{{ url_for('action')}}">
                             <span class="iconify" data-icon="grommet-icons:domain" data-inline="false"></span>
                             {{gettext('Menú principal')}}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('editorC')}}">
+                        <a class="nav-link" href="{{ url_for('campaigns_editor')}}">
                             <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span>
                             {{gettext('Editor de campañas')}}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('editorO')}}">
+                        <a class="nav-link" href="{{ url_for('offers_editor')}}">
                             <span class="iconify" data-icon="carbon:tag-edit" data-inline="false"></span>
                             {{gettext('Editor de ofertas')}}
                         </a>
@@ -215,32 +215,32 @@ ul ul a {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('accionalumnos')}}">
+                        <a class="nav-link" href="{{ url_for('action_students')}}">
                             <span class="iconify" data-icon="codicon:github-action" data-inline="false"></span>
                             {{gettext('Acciones')}}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('campanyas')}}">
+                        <a class="nav-link" href="{{ url_for('campaigns')}}">
                             <span class="iconify" data-icon="ic:baseline-campaign" data-inline="false"></span>
                             {{gettext('Campañas')}}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('ofertas')}}">
+                        <a class="nav-link" href="{{ url_for('offers')}}">
                             <span class="iconify" data-icon="ic:outline-local-offer" data-inline="false"></span>
                             {{gettext('Ofertas')}}
                         </a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('historialtrans')}}">
+                        <a class="nav-link" href="{{ url_for('transaction_history')}}">
                             <span class="iconify" data-icon="ri:file-history-line" data-inline="false"></span>
                             {{gettext('Historial de transacciones')}}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('sobre')}}">
+                        <a class="nav-link" href="{{ url_for('about')}}">
                             <span class="iconify" data-icon="ant-design:info-circle-outlined" data-inline="false"></span>
                             {{gettext('Sobre DeustoCoin')}}</a>
                     </li>

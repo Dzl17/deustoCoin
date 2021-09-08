@@ -30,7 +30,7 @@ class BlockchainManager():
 
 
     def get_all_transfers(self) -> list:
-        """Returns all transfer logs saved in the blockchain. TODO: improve fetching"""
+        """Returns all transfer logs saved in the blockchain."""
         return self.transfer_filter_instance.get_all_entries()
 
 
@@ -43,7 +43,7 @@ class BlockchainManager():
 
 
     def get_all_actions(self) -> list:
-        """Returns all action logs saved in the blockchain. TODO: improve fetching"""
+        """Returns all action logs saved in the blockchain."""
         return self.action_filter_instance.get_all_entries()
 
 
@@ -95,7 +95,7 @@ class BlockchainManager():
         transaction = self.contract.functions.assignRole(
             account, roleID
         ).buildTransaction({
-            'gas': 10000000,
+            'gas': 10000000,    # TODO: calc this
             'gasPrice': self.w3.toWei(self.w3.eth.gas_price, 'gwei'),
             'from': caller,
             'nonce': self.w3.eth.getTransactionCount(caller, 'pending')

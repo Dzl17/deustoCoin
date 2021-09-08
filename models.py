@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship, backref
 from base import Base, Session
 import datetime
 
-
+# TODO: https://stackoverflow.com/questions/37758128/use-alias-for-column-name-in-sqlalchemy
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)

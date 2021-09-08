@@ -7,7 +7,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from models import User, Transaccion, Accion, Campanya, KPIporFechas, Oferta
 from datetime import datetime, time
-from forms import EnviarUDCForm, CrearCampForm, CrearOfertaForm
+from forms import SendUDCForm, CreateCampaignForm, CreateOfferForm
 from googletrans import Translator
 from flask.cli import with_appcontext
 from contracts import *
@@ -79,7 +79,7 @@ def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof)
     s.add(t)
     s.commit()
     query = s.query(Accion)
-    kpi = int(float(request.form['kpi']))
+    kpi = int(float(request.form['kpi']))   # TODO: what is this
     dictupdate = {Accion.kpi: Accion.kpi + kpi}
     query.filter(Accion.id == accion.id).update(dictupdate, synchronize_session=False)
     s.commit()
@@ -282,12 +282,12 @@ def register():
 
 @app.route('/wallet', methods=['GET', 'POST'])
 def wallet():
-    form = EnviarUDCForm()
+    form = SendUDCForm()
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     salary = get_balance(user.blockHash)
     if form.validate_on_submit():
-        transfer_coins(rem=user, dest=User.get_by_email(request.form['destino']), amount=request.form['cantidad'], email=email, dest_email=request.form['destino'])
+        transfer_coins(rem=user, dest=User.get_by_email(request.form['destiny']), amount=request.form['quantity'], email=email, dest_email=request.form['destiny'])
     given_name = dict(session).get('given_name', None)
     try:
         del session['accionId']
@@ -313,9 +313,9 @@ def redeem_offer(offer_id):
 
 
 @app.route('/accion', methods=['GET', 'POST'])
-def accion():
-    form_1 = CrearCampForm()    # TODO: change name of this to a better one
-    form_2 = CrearOfertaForm()
+def action():
+    form_1 = CreateCampaignForm()    # TODO: change name of this to a better one
+    form_2 = CreateOfferForm()
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -347,28 +347,28 @@ def accion():
     if form_1.validate_on_submit() and form_1.crearCamp.data:
         s = Session()
         if user.role == "Promotor":
-            c = Campanya(request.form['nomCamp'], user.organizacion, request.form['desc'])
+            c = Campanya(request.form['campaign_name'], user.organizacion, request.form['description'])
         elif user.role == "Administrador":
-            c = Campanya(request.form['nomCamp'], request.form['empresa'], request.form['desc'])
+            c = Campanya(request.form['campaign_name'], request.form['company'], request.form['description'])
         s.add(c)
         s.commit()
     elif form_2.validate_on_submit() and form_2.crearOf.data:
-        nombre = request.form['nomOferta']
+        nombre = request.form['offer_name']
         s = Session()
         if user.role == "Promotor":
-            o = Oferta(request.form['nomOferta'], user.organizacion, request.form['desc'], request.form['precio'])
+            o = Oferta(request.form['offer_name'], user.organizacion, request.form['description'], request.form['price'])
         elif user.role == "Administrador":
-            o = Oferta(request.form['nomOferta'], request.form['empresa'], request.form['desc'], request.form['precio'])
+            o = Oferta(request.form['offer_name'], request.form['company'], request.form['description'], request.form['price'])
         s.add(o)
         s.commit()
 
-    if request.method == 'POST' and 'crearAccion' in request.form:
-        nombre = request.form['nombre']
-        desc = request.form['desc']
-        recompensa = request.form['recompensa']
+    if request.method == 'POST' and 'create_action' in request.form:
+        nombre = request.form['name']
+        desc = request.form['description']
+        recompensa = request.form['reward']
         indKpi = request.form['kpi']
-        kpiObj = request.form['obj']
-        camp = request.form['campanya']
+        kpiObj = request.form['target']
+        camp = request.form['campaign']
         s = Session()
         a = Accion(nombre, user.organizacion, desc, recompensa, indKpi, kpiObj, camp)
         s.add(a)
@@ -385,7 +385,7 @@ def accion():
 
 
 @app.route('/accionalumnos', methods=['GET', 'POST'])
-def accion_alumnos():
+def action_students():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -407,7 +407,7 @@ def accion_alumnos():
 
 
 @app.route('/ofertas', methods=['GET', 'POST'])
-def ofertas():
+def offers():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -429,7 +429,7 @@ def ofertas():
 
 
 @app.route('/historialtrans', methods=['GET', 'POST'])
-def historial_transacciones():
+def transaction_history():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     salary = get_balance(user.blockHash)
@@ -475,7 +475,7 @@ def editor(campanya_id):
     s = Session()
     if request.method == 'POST':
         if 'editarAcc' in request.form:
-            return redirect(url_for('editorAccion', accion_id=request.form['accion_id']))
+            return redirect(url_for('action_editor', accion_id=request.form['accion_id']))
         elif 'eliminarAcc' in request.form:
             query = s.query(Accion)
             pk = request.form['accion_id']
@@ -497,7 +497,7 @@ def plot_png(campanya_id):
 
 
 @app.route('/editorC', methods=['GET', 'POST'])
-def editor_campanyas():
+def campaigns_editor():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -509,7 +509,7 @@ def editor_campanyas():
     s = Session()
     if request.method == 'POST':
         if 'editar' in request.form:
-            return redirect(url_for('editorCamp', campanya_id=request.form['id']))
+            return redirect(url_for('campaign_editor', campanya_id=request.form['id']))
         elif 'eliminar' in request.form:
             query = s.query(Campanya)
             pk = request.form['id']
@@ -528,7 +528,7 @@ def editor_campanyas():
 
 
 @app.route('/editorO', methods=['GET', 'POST'])
-def editor_ofertas():
+def offers_editor():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -540,7 +540,7 @@ def editor_ofertas():
     s = Session()
     if request.method == 'POST':
         if 'editarO' in request.form:
-            return redirect(url_for('editorOferta', offer_id=request.form['id']))
+            return redirect(url_for('offer_editor', offer_id=request.form['id']))
         elif 'eliminarO' in request.form:
             query = s.query(Oferta)
             pk = request.form['id']
@@ -561,7 +561,7 @@ def editor_ofertas():
 
 
 @app.route('/editarAcc/<int:accion_id>', methods=["GET", "POST"])
-def editor_accion(accion_id):
+def action_editor(accion_id):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -569,16 +569,16 @@ def editor_accion(accion_id):
     query = s.query(Accion)
     accion = query.filter(Accion.id == accion_id).first()
     if request.method == 'POST' and 'actualizarA' in request.form:
-        dictupdate = {Accion.nombre: request.form['nombre'], Accion.descripcion: request.form['descripcion'],
-                      Accion.recompensa: float(request.form['recompensa']),
-                      Accion.indicadorKpi: request.form['indicadorKpi'], Accion.kpiObj: int(request.form['kpiObj'])}
+        dictupdate = {Accion.nombre: request.form['name'], Accion.descripcion: request.form['description'],
+                      Accion.recompensa: float(request.form['reward']),
+                      Accion.indicadorKpi: request.form['kpi_indicator'], Accion.kpiObj: int(request.form['kpi_target'])}
         query.filter(Accion.id == accion_id).update(dictupdate, synchronize_session=False)
         s.commit()
     return render_template("editoraccion.html", accion=accion, email=email, name=given_name, user=user)
 
 
 @app.route('/editorCampanyas/<int:campanya_id>', methods=["GET", "POST"])
-def editor_campanyas_indiv(campanya_id):
+def campaign_editor(campanya_id):
     email = dict(session).get('email', None)
     given_name = dict(session).get('given_name', None)
     user = User.get_by_email(email)
@@ -587,7 +587,7 @@ def editor_campanyas_indiv(campanya_id):
     query = s.query(Campanya)
     campanya = query.filter(Campanya.id == campanya_id).first()
     if request.method == 'POST':
-        dictupdate = {Campanya.nombre: request.form['nombre'], Campanya.descripcion: request.form['descripcion']}
+        dictupdate = {Campanya.nombre: request.form['name'], Campanya.descripcion: request.form['description']}
         query.filter(Campanya.id == campanya_id).update(dictupdate, synchronize_session=False)
         s.commit()
     return render_template("editorcamp.html", campanya=campanya, email=email, name=given_name,
@@ -595,7 +595,7 @@ def editor_campanyas_indiv(campanya_id):
 
 
 @app.route('/editorOferta/<int:offer_id>', methods=["GET", "POST"])
-def editor_oferta_indiv(offer_id):
+def offer_editor(offer_id):
     email = dict(session).get('email', None)
     given_name = dict(session).get('given_name', None)
     user = User.get_by_email(email)
@@ -604,8 +604,8 @@ def editor_oferta_indiv(offer_id):
     query = s.query(Oferta)
     oferta = query.filter(Oferta.id == offer_id).first()
     if request.method == 'POST':
-        dictupdate = {Oferta.nombre: request.form['nombre'], Oferta.descripcion: request.form['descripcion'],
-                      Oferta.precio: request.form['precio']}
+        dictupdate = {Oferta.nombre: request.form['name'], Oferta.descripcion: request.form['description'],
+                      Oferta.precio: request.form['price']}
         query.filter(Oferta.id == offer_id).update(dictupdate, synchronize_session=False)
         s.commit()
     return render_template("editoroferta.html", oferta=oferta, email=email, name=given_name,
@@ -622,8 +622,8 @@ def qr(accion_id):
 
 
 @app.route('/qrOfertas/<int:offerId>')
-def qr_ofertas(offerId):
-    img = qrcode.make(url_for("pay", offer_id=offerId, _external=True))
+def qr_offers(offerId):
+    img = qrcode.make(url_for('pay', offer_id=offerId, _external=True))
     with io.BytesIO() as output:
         img.save(output, format="PNG")
         contents = output.getvalue()
@@ -658,7 +658,7 @@ def logout():
 
 
 @app.route('/sobre')
-def sobre():
+def about():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -672,7 +672,7 @@ def sobre():
 
 
 @app.route('/campanyas')
-def campanyas():
+def campaigns():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -695,7 +695,7 @@ def campanyas():
 
 
 @app.route('/campanyas/<emp>', methods=['GET', 'POST'])
-def empresa(emp):
+def company(emp):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
@@ -716,7 +716,7 @@ def empresa(emp):
 
 
 @app.route('/registraraccion/<int:accion_id>', methods=['GET', 'POST'])
-def registrar_accion(accion_id):
+def register_action(accion_id):
     user = User.get_by_email(session['email'])
     session['accionId'] = accion_id
     c_reward = Accion.getActionById(accion_id)
@@ -731,7 +731,7 @@ def registrar_accion(accion_id):
 
 
 @app.route('/sw.js')
-def sw():
+def sw():   # TODO: what is this?
     response = make_response(send_from_directory('static', filename='sw.js'))
     response.headers['Content-Type'] = 'application/javascript'
     return response

@@ -30,7 +30,7 @@
         <td>{{o.empresa}}</td>
         <td>{{o.descripcion}}</td>
         <td>{{o.precio}} UDC</td>
-        <td><a href="{{ url_for('redeemOffer', offer_id=o.id) }}"><b>{{gettext('Canjear oferta')}}</b></a></td>
+        <td><a href="{{ url_for('redeem_offer', offer_id=o.id) }}"><b>{{gettext('Canjear oferta')}}</b></a></td>
       </tr>
       {% endfor %}
     </tbody>

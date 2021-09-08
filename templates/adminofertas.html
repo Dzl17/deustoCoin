@@ -32,7 +32,7 @@
             <tr>
                 <td style="text-align: center;">
 
-                    <form action="{{ url_for('editorO') }}" method="post">
+                    <form action="{{ url_for('offers_editor') }}" method="post">
                         <input type="submit" name="editarO" class="{{o.id}}" value="✎">
                         <input type="submit" name="eliminarO" class="{{o.id}}" value="✖">
                         <input value="{{o.id}}" name="id" style="display: none;">
@@ -42,7 +42,7 @@
                 <td>{{o.empresa}}</td>
                 <td>{{o.descripcion}}</td>
                 <td>{{o.precio}} UDC</td>
-                <td><a href="{{ url_for('qrOfertas' ,offerId=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
+                <td><a href="{{ url_for('qr_offers' ,offerId=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
             </tr>
             {% endfor %}
         </tbody>

@@ -67,45 +67,45 @@
         <label for="exampleInputEmail1">{{ gettext('Nombre de la campaña') }}</label>
 
         <br />
-        {{form.nomCamp(class="form-control")}}
+        {{form.campaign_name(class="form-control")}}
       </p>
     </div>
     {% if user.role == "Administrador" %}
     <div class="form-group">
       {{ gettext('Empresa') }}
       <br />
-      {{form.empresa(class="form-control")}}
+      {{form.company(class="form-control")}}
     </div>
     {% endif %}
     <div class="form-group">
       {{gettext('Descripción')}}
       <br />
-      {{form.desc(class="form-control")}}
+      {{form.description(class="form-control")}}
     </div>
     <p>
-      {{form.crearCamp()}}
+      {{form.create_campaign()}}
     </p>
   </form>
   <form style="display: none;" id="accionesform" method="POST">
     <div class="form-group">
       <p>
-        <input type="text" class="form-control" placeholder="{{gettext('Nombre de la acción')}}" name="nombre" required></input>
+        <input type="text" class="form-control" placeholder="{{gettext('Nombre de la acción')}}" name="name" required></input>
       </p>
     </div>
     <div class="form-group">
       <p>
-        <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="desc" required></input>
+        <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="description" required></input>
       </p>
     </div>
     <div class="form-group">
       <p>
         <input type="number" step="0.01" placeholder="{{gettext('Recompensa por KPI (en UDC)')}}" class="form-control"
-          name="recompensa" required></input>
+          name="reward" required></input>
       </p>
     </div>
     <div class="form-group">
       <p>
-        <select class="form-control" name="campanya">
+        <select class="form-control" name="campaign">
             <option disabled selected>{{gettext('Campaña')}}</option>
             {% for c in campanyas %}
             <option value='{{c.id}}'>{{c.nombre}}</option>
@@ -121,10 +121,10 @@
     <div class="form-group">
       <p>
         <input type="number" step="0.01" placeholder="{{gettext('Objetivo')}}" class="form-control"
-          name="obj" required></input>
+          name="target" required></input>
       </p>
     </div>
-    <div class="form-group"><input type="submit" name="crearAccion" value="{{gettext('Crear acción')}}"></div>
+    <div class="form-group"><input type="submit" name="create_action" value="{{gettext('Crear acción')}}"></div>
   </form>
   <form style="display: none;" id="ofertasform" method="POST">
     {{ form2.csrf_token }}
@@ -133,28 +133,28 @@
         <label for="exampleInputEmail1">{{gettext('Nombre de la oferta')}}</label>
 
         <br />
-        {{form2.nomOferta(class="form-control")}}
+        {{form2.offer_name(class="form-control")}}
       </p>
     </div>
     {% if user.role == "Administrador" %}
     <div class="form-group">
       {{gettext('Organización')}}
       <br />
-      {{form2.empresa(class="form-control")}}
+      {{form2.company(class="form-control")}}
     </div>
     {% endif %}
     <div class="form-group">
       {{gettext('Descripción')}}
       <br />
-      {{form2.desc(class="form-control")}}
+      {{form2.description(class="form-control")}}
     </div>
     <div class="form-group">
       {{gettext('Precio')}}
       <br />
-      {{form2.precio(class="form-control")}}
+      {{form2.price(class="form-control")}}
     </div>
     <p>
-      {{form2.crearOf()}}
+      {{form2.create_offer()}}
     </p>
   </form>
 </div>
@@ -236,7 +236,7 @@
         <td>{{o.empresa}}</td>
         <td>{{o.descripcion}}</td>
         <td>{{o.precio}} UDC</td>
-        <td><a href="{{ url_for('qrOfertas' ,offerId=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
+        <td><a href="{{ url_for('qr_offers' ,offerId=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
       </tr>
       {% endfor %}
     </tbody>

@@ -82,7 +82,7 @@
                 <td class="rem">{{t.remitente}}</td>
                 <td class="dest">{{t.destinatario}}</td>
                 {% if t.campanya != "{{gettext('Envío de UDCoins')}}" or "{{gettext('Pago por oferta')}}" not in t.campanya %}
-                <td class="camp"><a href="{{ url_for('empresa', emp=t.remitente)}}"><b>{{gettext(t.campanya)}}</b></a></td>
+                <td class="camp"><a href="{{ url_for('company', emp=t.remitente)}}"><b>{{gettext(t.campanya)}}</b></a></td>
                 {% else %}
                     <td class="camp">{{gettext(t.campanya)}}</td>
                 {% endif %}

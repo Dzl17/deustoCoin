@@ -2,9 +2,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, FloatField, TextAreaField, FileField
 from markupsafe import Markup
 
-strEdit = '<span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span>'
-iconEdit = Markup(strEdit)
-iconRm = Markup('<span class="iconify" data-icon="clarity:remove-solid" data-inline="false"></span>')
+str_edit = '<span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span>'
+icon_edit = Markup(str_edit)
+icon_rm = Markup('<span class="iconify" data-icon="clarity:remove-solid" data-inline="false"></span>')
 
 
 class CustomFloatField(FloatField):
@@ -18,40 +18,40 @@ class CustomFloatField(FloatField):
                 raise ValueError(self.gettext('Not a valid float value'))
 
 
-class EnviarUDCForm(FlaskForm):
-    destino = StringField('Correo electrónico del destinatario')
-    cantidad = CustomFloatField('Cantidad de UDCs a enviar')
+class SendUDCForm(FlaskForm):
+    destiny = StringField('Correo electrónico del destinatario')
+    quantity = CustomFloatField('Cantidad de UDCs a enviar')
     submit = SubmitField('Enviar')
 
 
-class CrearCampForm(FlaskForm):
-    nomCamp = StringField('Nombre de la campaña')
-    empresa = StringField('Empresa proveedora')
-    desc = TextAreaField('Descripción')
-    crearCamp = SubmitField('Crear campaña')
+class CreateCampaignForm(FlaskForm):
+    campaign_name = StringField('Nombre de la campaña')
+    company = StringField('Empresa proveedora')
+    description = TextAreaField('Descripción')
+    create_campaign = SubmitField('Crear campaña')
 
 
-class CrearOfertaForm(FlaskForm):
-    nomOferta = StringField('Nombre de la oferta')
-    empresa = StringField('Organización')
-    desc = TextAreaField('Descripción')
-    precio = FloatField('Precio')
-    crearOf = SubmitField('Crear oferta')
+class CreateOfferForm(FlaskForm):
+    offer_name = StringField('Nombre de la oferta')
+    company = StringField('Organización')
+    description = TextAreaField('Descripción')
+    price = FloatField('Precio')
+    create_offer = SubmitField('Crear oferta')
 
 
-class CampanyasForm(FlaskForm):
-    editar = SubmitField("✎")
-    eliminar = SubmitField("✖")
+class CampaignsForm(FlaskForm):
+    edit = SubmitField("✎")
+    delete = SubmitField("✖")
 
 
-class OfertasForm(FlaskForm):
-    editar = SubmitField("✎")
-    eliminar = SubmitField("✖")
+class OffersForm(FlaskForm):
+    edit = SubmitField("✎")
+    delete = SubmitField("✖")
 
 
-class AccionesForm(FlaskForm):
-    editar = SubmitField("✎")
-    eliminar = SubmitField("✖")
+class ActionsForm(FlaskForm):
+    edit = SubmitField("✎")
+    delete = SubmitField("✖")
 
 
 class ImageForm(FlaskForm):
