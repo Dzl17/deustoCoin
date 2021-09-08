@@ -110,7 +110,7 @@ def offer_transaction(rem, dest, offer):
     s.close()
 
 
-def transfer_coins(rem, dest, amount, email):
+def transfer_coins(rem, dest, amount, email, dest_email):
     """Transfer coins to another user."""
     owner_address = rem.blockHash
     dest_address = dest.blockHash
@@ -121,7 +121,7 @@ def transfer_coins(rem, dest, amount, email):
     s = Session()
     dateTimeObj = datetime.now()
     timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-    t = Transaccion(timestampStr, tx_hash, email, request.form['destino'], None, request.form['cantidad'], "", "")
+    t = Transaccion(timestampStr, tx_hash, email, dest_email, None, amount, "", "")
     s.add(t)
     s.commit()
 
@@ -291,7 +291,9 @@ def wallet():
     user = User.get_by_email(email)
     salary = get_balance(user.blockHash)
     if form.validate_on_submit():
-        transfer_coins(rem=user, dest=User.get_by_email(request.form['destino']), amount=request.form['cantidad'].replace(',', '.'), email=email)
+        amount = request.form['cantidad'].replace(',', '.')
+        print(amount)
+        transfer_coins(rem=user, dest=User.get_by_email(request.form['destino']), amount=amount, email=email, dest_email=request.form['destino'])
     given_name = dict(session).get('given_name', None)
     try:
         del session['accionId']

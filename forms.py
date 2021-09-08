@@ -7,9 +7,20 @@ iconEdit = Markup(strEdit)
 iconRm = Markup('<span class="iconify" data-icon="clarity:remove-solid" data-inline="false"></span>')
 
 
+class CustomFloatField(FloatField):
+    """Allows to use commas along with dots to indicate decimals in a form."""
+    def process_formdata(self, valuelist):
+        if valuelist:
+            try:
+                self.data = float(valuelist[0].replace(',', '.'))
+            except ValueError:
+                self.data = None
+                raise ValueError(self.gettext('Not a valid float value'))
+
+
 class EnviarUDCForm(FlaskForm):
     destino = StringField('Correo electrónico del destinatario')
-    cantidad = FloatField('Cantidad de UDCs a enviar')
+    cantidad = CustomFloatField('Cantidad de UDCs a enviar')
     submit = SubmitField('Enviar')
 
 
