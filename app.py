@@ -11,11 +11,8 @@ from forms import EnviarUDCForm, CrearCampForm, CrearOfertaForm
 from googletrans import Translator
 from flask.cli import with_appcontext
 from contracts import *
-import cryptocompare
 import io
 import ipfshttpclient
-import matplotlib.pyplot as plt
-import pytest
 import qrcode
 import os
 import requests
@@ -23,7 +20,6 @@ import time
 
 admin_address = os.environ.get('ADMIN_ADDRESS')
 private_key = os.environ.get('PRIVATE_KEY')
-valorUDC = cryptocompare.get_price('ETH').get('ETH').get('EUR')
 blockchain_manager = BlockchainManager()
 
 app = Flask(__name__)
@@ -91,7 +87,7 @@ def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof)
 
 
 def offer_transaction(rem, dest, offer):
-    """Pay to a company in exchange of an offer."""
+    """Pay to a company in exchange for an offer."""
     dest_user = User.get_by_email(dest)
     dest_address = dest_user.blockHash
     rem_user = User.get_by_email(rem)
