@@ -4,37 +4,37 @@
 </div>
 <div class="view">
     <div class="jumbotron">
-        <h2>Acción {{accion.id}}: {{accion.nombre}}</h2>
+        <h2>Acción {{action.id}}: {{action.name}}</h2>
     </div>
-    <form id="editorcamp" action="{{ url_for('action_editor' ,accion_id=accion.id) }}" method="POST">
+    <form id="editorcamp" action="{{ url_for('action_editor' ,action_id=action.id) }}" method="POST">
         <div class="form-group">
             <p>
                 <input type="text" class="form-control" placeholder="{{gettext('Nombre')}}" name="name"
-                    value='{{accion.nombre}}' required></input>
+                    value='{{action.name}}' required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
                 <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="description"
-                    value="{{accion.descripcion}}" required></input>
+                    value="{{action.description}}" required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
                 <input type="text" placeholder="{{gettext('Recompensa por KPI (en UDC)')}}" class="form-control" name="reward"
-                    value="{{accion.recompensa}}" required></input>
+                    value="{{action.reward}}" required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
                 <input type="text" placeholder="{{gettext('Indicador')}}" class="form-control" name="kpi_indicator"
-                    value="{{accion.indicadorKpi}}" required></input>
+                    value="{{action.kpi_indicator}}" required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
                 <input type="text" placeholder="{{gettext('Objetivo')}}" class="form-control" name="kpi_target"
-                    value="{{accion.kpiObj}}" required></input>
+                    value="{{action.kpi_target}}" required></input>
             </p>
         </div>
         <p>

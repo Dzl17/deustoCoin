@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">{{gettext('Editor de acciones de')}} {{campanya.nombre}} ({{campanya.empresa}})</h1>
+    <h1 class="h2">{{gettext('Editor de acciones de')}} {{campaign.name}} ({{campaign.company}})</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
             <p>✎ {{gettext('Editar')}} | {{gettext('Eliminar')}} ✖</p>
@@ -11,7 +11,7 @@
 
 </div>
 <div id="acciones">
-    {% if acciones|length >= 1 %}
+    {% if actions|length >= 1 %}
     <table class="table" style="table-layout:fixed; font-size:75%;">
         <thead>
             <tr>
@@ -25,21 +25,21 @@
             </tr>
         </thead>
         <tbody>
-            {% for a in acciones %}
+            {% for a in actions %}
             <tr>
                 <td style="text-align: center;">
                     <form method="post">
-                        <input type="submit" name="editarAcc" class="{{a.id}}" value="✎">
-                        <input type="submit" name="eliminarAcc" class="{{a.id}}" value="✖">
-                        <input value="{{a.id}}" name="accion_id" style="display: none;">
+                        <input type="submit" name="edit_acc" class="{{a.id}}" value="✎">
+                        <input type="submit" name="delete_acc" class="{{a.id}}" value="✖">
+                        <input value="{{a.id}}" name="action_id" style="display: none;">
                     </form>
                 </td>
-                <td><b>{{a.nombre}}</b></th>
-                <td>{{a.empresa}}</td>
-                <td>{{a.descripcion}}</td>
-                <td>{{a.recompensa}} UDC</td>
-                <td>{{a.indicadorKpi}}</td>
-                <td>{{a.kpiObj}}</td>
+                <td><b>{{a.name}}</b></th>
+                <td>{{a.company}}</td>
+                <td>{{a.description}}</td>
+                <td>{{a.reward}} UDC</td>
+                <td>{{a.kpi_indicator}}</td>
+                <td>{{a.kpi_target}}</td>
             </tr>
             {% endfor %}
         </tbody>

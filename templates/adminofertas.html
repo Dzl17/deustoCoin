@@ -3,7 +3,7 @@
     {% if user.role == "Administrador" %}
     <h1 class="h2">{{gettext('Editor de ofertas - Administrador')}}</h1>
     {% else %}
-    <h1 class="h2">{{gettext('Editor de ofertas de')}} {{user.organizacion}}</h1>
+    <h1 class="h2">{{gettext('Editor de ofertas de')}} {{user.organization}}</h1>
     {% endif %}
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
@@ -15,7 +15,7 @@
 
 </div>
 <div id="ofertas">
-    {% if ofertas|length >= 1 %}
+    {% if offers|length >= 1 %}
     <table class="table" style="table-layout:fixed; font-size:75%;">
         <thead>
             <tr>
@@ -28,7 +28,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for o in ofertas %}
+            {% for o in offers %}
             <tr>
                 <td style="text-align: center;">
 
@@ -38,11 +38,11 @@
                         <input value="{{o.id}}" name="id" style="display: none;">
                     </form>
                 </td>
-                <td><b>{{o.nombre}}</b></td>
-                <td>{{o.empresa}}</td>
-                <td>{{o.descripcion}}</td>
-                <td>{{o.precio}} UDC</td>
-                <td><a href="{{ url_for('qr_offers' ,offerId=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
+                <td><b>{{o.name}}</b></td>
+                <td>{{o.company}}</td>
+                <td>{{o.description}}</td>
+                <td>{{o.price}} UDC</td>
+                <td><a href="{{ url_for('qr_offers' ,offer_id=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
             </tr>
             {% endfor %}
         </tbody>

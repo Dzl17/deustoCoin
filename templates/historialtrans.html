@@ -54,7 +54,7 @@
         {% if user.role == "Colaborador" %}
         <h2>{{gettext('Historial de transacciones de')}} {{ name }}</h2>
         {% elif user.role == "Promotor" %}
-        <h2>{{gettext('Historial de transacciones de')}} {{ user.organizacion }}</h2>
+        <h2>{{gettext('Historial de transacciones de')}} {{ user.organization }}</h2>
         {% else %}
         <h2>{{gettext('Historial de transacciones de DeustoCoin')}}</h2>
         {% endif %}
@@ -62,7 +62,7 @@
 </div>
 <div id="transacciones" style="width:100%;">
     <p style="font-size:75%;" class="showDetails"><b>{{gettext('Gire la pantalla para más detalles.')}}</b></p>
-    {% if transacciones|length >= 1 %}
+    {% if transactions|length >= 1 %}
     <table class="table" id="tabletrans">
         <thead>
             <tr>
@@ -76,19 +76,19 @@
             </tr>
         </thead>
         <tbody>
-            {% for t in transacciones %}
+            {% for t in transactions %}
             <tr>
-                <th scope="row" class="fecha">{{t.fecha}}</th>
-                <td class="rem">{{t.remitente}}</td>
-                <td class="dest">{{t.destinatario}}</td>
-                {% if t.campanya != "{{gettext('Envío de UDCoins')}}" or "{{gettext('Pago por oferta')}}" not in t.campanya %}
-                <td class="camp"><a href="{{ url_for('company', emp=t.remitente)}}"><b>{{gettext(t.campanya)}}</b></a></td>
+                <th scope="row" class="fecha">{{t.date}}</th>
+                <td class="rem">{{t.sender}}</td>
+                <td class="dest">{{t.receiver}}</td>
+                {% if t.campaign != "{{gettext('Envío de UDCoins')}}" or "{{gettext('Pago por oferta')}}" not in t.campaign %}
+                <td class="camp"><a href="{{ url_for('company', company=t.sender)}}"><b>{{gettext(t.campaign)}}</b></a></td>    <!--TODO: t.sender might break, change for t.remitente-->
                 {% else %}
-                    <td class="camp">{{gettext(t.campanya)}}</td>
+                    <td class="camp">{{gettext(t.campaign)}}</td>
                 {% endif %}
                 <td class="cantidad">{{t.cantidad}} UDC</td>
-                {% if t.imgHash != "" %}
-                <td class="img"><a href="http://ipfs.io/ipfs/{{t.imgHash}}"><b>{{gettext('Ver imagen')}}</b></a></td>
+                {% if t.img_hash != "" %}
+                <td class="img"><a href="http://ipfs.io/ipfs/{{t.img_hash}}"><b>{{gettext('Ver imagen')}}</b></a></td>
                 {% else %}
                 <td class="img">{{gettext('No hay imagen')}}</td>
                 {% endif %}

@@ -17,19 +17,19 @@
 
 {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">{{empresa}} - {{gettext('Campañas')}}</h1>
+  <h1 class="h2">{{company}} - {{gettext('Campañas')}}</h1>
 </div>
 <div id="campanyas">
-  <p>{{gettext('Estas son las campañas que promueve')}} {{empresa}}.
+  <p>{{gettext('Estas son las campañas que promueve')}} {{company}}.
   </p>
 
-  {% if campanyas|length >= 1 %}
-  {% for c in campanyas %}
-  <div class="{{c.empresa}}">
-    <h5>{{c.nombre}}</h5>
-    <p>{{c.descripcion}}</p>
-    {% for a in acciones %}
-    {% if a.campanya_id == c.id %}
+  {% if campaigns|length >= 1 %}
+  {% for c in campaigns %}
+  <div class="{{c.company}}">   <!--TODO: this might break too-->
+    <h5>{{c.name}}</h5>
+    <p>{{c.description}}</p>
+    {% for a in actions %}
+    {% if a.campaign_id == c.id %}
         <img src="/plot{{a.id}}.png" class="plot">
     {% endif %}
     {% endfor %}

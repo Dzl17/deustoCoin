@@ -13,7 +13,7 @@
 
 </div>
 <div id="acciones">
-  {% if acciones|length >= 1 %}
+  {% if actions|length >= 1 %}
   <table class="table" style="table-layout:fixed; font-size:70%;">
     <thead>
       <tr>
@@ -25,13 +25,13 @@
       </tr>
     </thead>
     <tbody>
-      {% for c in acciones %}
+      {% for c in actions %}
       <tr>
-        <th scope="row">{{c.nombre}}</th>
-        <td>{{c.empresa}}</td>
-        <td>{{c.descripcion}}</td>
-        <td>{{c.recompensa}} UDC</td>
-        <td><a href="{{ url_for('register_action', accion_id=c.id) }}"><b>{{gettext('Registrar acción')}}</b></a></td>
+        <th scope="row">{{c.name}}</th>
+        <td>{{c.company}}</td>
+        <td>{{c.description}}</td>
+        <td>{{c.reward}} UDC</td>
+        <td><a href="{{ url_for('register_action', action_id=c.id) }}"><b>{{gettext('Registrar acción')}}</b></a></td>
       </tr>
       {% endfor %}
     </tbody>

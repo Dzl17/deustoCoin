@@ -6,9 +6,9 @@
   <p>{{gettext('La Universidad de Deusto colabora con varias compañías que buscan fomentar la sostenibilidad.
     Dichas compañías organizan campañas, que puedes visualizar con más detalle aquí.')}}
   </p>
-  {% if empresas|length >= 1 %}
-  {% for e in empresas %}
-  <a href="{{url_for('.company', emp = e) }}"><h4 class="empresa" value="{{e}}">{{e}}</h4></a>
+  {% if companies|length >= 1 %}
+  {% for e in companies %}
+  <a href="{{url_for('.company', company = e) }}"><h4 class="empresa" value="{{e}}">{{e}}</h4></a>
   {% endfor %}
   {% else %}
   <h4>{{gettext('No hay compañías para mostrar.')}}</h4>

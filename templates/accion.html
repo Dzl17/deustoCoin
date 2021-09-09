@@ -47,7 +47,7 @@
     <h2>
       <span style="font-size: 1rem">{{ gettext ('El saldo actual de la universidad es de') }} <b>{{ wallet }}</b> UDC.</span><br />
       {% if user.blockAddr is not none %}
-      <p style="font-size:11px;text-align:left;">{{gettext('Tu dirección de Blockchain es')}} {{user.blockHash}}.</p>
+      <p style="font-size:11px;text-align:left;">{{gettext('Tu dirección de Blockchain es')}} {{user.block_addr}}.</p>
       {% endif %}
     </h2>
     <table>
@@ -107,8 +107,8 @@
       <p>
         <select class="form-control" name="campaign">
             <option disabled selected>{{gettext('Campaña')}}</option>
-            {% for c in campanyas %}
-            <option value='{{c.id}}'>{{c.nombre}}</option>
+            {% for c in campaigns %}
+            <option value='{{c.id}}'>{{c.name}}</option>
             {% endfor %}
         </select>
       </p>
@@ -159,7 +159,7 @@
   </form>
 </div>
 <div id="acciones" style="display: none;">
-  {% if acciones|length >= 1 %}
+  {% if actions|length >= 1 %}
   <p style="font-size:75%;" class="showDetails"><b>{{gettext('Gire la pantalla para más detalles.')}}</b></p>
   <table class="table" id="acciones" style="table-layout:auto; font-size:70%;">
     <thead>
@@ -175,16 +175,16 @@
       </tr>
     </thead>
     <tbody>
-      {% for a in acciones %}
+      {% for a in actions %}
       <tr>
-        <th scope="row" class="nom">{{a.nombre}}</th>
-        <td class="emp">{{a.empresa}}</td>
-        <td class="des">{{a.descripcion}}</td>
-        <td class="rec">{{a.recompensa}} UDC</td>
-        <td class="ind">{{a.indicadorKpi}}</td>
+        <th scope="row" class="nom">{{a.name}}</th>
+        <td class="emp">{{a.company}}</td>
+        <td class="des">{{a.description}}</td>
+        <td class="rec">{{a.reward}} UDC</td>
+        <td class="ind">{{a.kpi_indicator}}</td>
         <td class="est">{{a.kpi}}</td>
-        <td class="obj">{{a.kpiObj}}</td>
-        <td><a href="{{ url_for('qr' ,accion_id=a.id) }}" class="qr"><b>{{gettext('Descargar')}}</b></a></td>
+        <td class="obj">{{a.kpi_target}}</td>
+        <td><a href="{{ url_for('qr' ,action_id=a.id) }}" class="qr"><b>{{gettext('Descargar')}}</b></a></td>
       </tr>
       {% endfor %}
     </tbody>
@@ -194,7 +194,7 @@
   {% endif %}
 </div>
 <div id="campanyas" style="display: none;">
-  {% if campanyas|length >= 1 %}
+  {% if campaigns|length >= 1 %}
   <table class="table" style="table-layout:fixed; font-size:70%;">
     <thead>
       <tr>
@@ -204,11 +204,11 @@
       </tr>
     </thead>
     <tbody>
-      {% for c in campanyas %}
+      {% for c in campaigns %}
       <tr>
-        <th scope="row">{{c.nombre}}</th>
-        <td>{{c.empresa}}</td>
-        <td>{{c.descripcion}}</td>
+        <th scope="row">{{c.name}}</th>
+        <td>{{c.company}}</td>
+        <td>{{c.description}}</td>
       </tr>
       {% endfor %}
     </tbody>
@@ -218,7 +218,7 @@
   {% endif %}
 </div>
 <div id="ofertas" style="display: none;">
-  {% if ofertas|length >= 1 %}
+  {% if offers|length >= 1 %}
   <table class="table" style="table-layout:fixed; font-size:70%;">
     <thead>
       <tr>
@@ -230,13 +230,13 @@
       </tr>
     </thead>
     <tbody>
-      {% for o in ofertas %}
+      {% for o in offers %}
       <tr>
-        <th scope="row">{{o.nombre}}</th>
-        <td>{{o.empresa}}</td>
-        <td>{{o.descripcion}}</td>
-        <td>{{o.precio}} UDC</td>
-        <td><a href="{{ url_for('qr_offers' ,offerId=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
+        <th scope="row">{{o.name}}</th>
+        <td>{{o.company}}</td>
+        <td>{{o.description}}</td>
+        <td>{{o.price}} UDC</td>
+        <td><a href="{{ url_for('qr_offers' ,offer_id=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
       </tr>
       {% endfor %}
     </tbody>

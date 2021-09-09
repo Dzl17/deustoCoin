@@ -66,8 +66,8 @@ def get_balance(address):
 def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof):
     """Reward the input amount of coins to the user that completes a good deed."""
     dest_user = User.get_by_email(dest)
-    dest_address = dest_user.blockHash
-    action = Action.get_action_by_id(session['accionId'])
+    dest_address = dest_user.block_addr
+    action = Action.get_action_by_id(session['action_id'])
 
     tx_hash = blockchain_manager.transfer(caller=admin_address, callerKey=private_key, to=dest_address, value=int(float(amount)*100))
     blockchain_manager.emit_action(caller=admin_address, callerKey=private_key, promoter=promoter_address, to=dest_address, actionID=action_id, reward=amount, time=int(time.time()), ipfs_hash=img_hash, proof_url=url_proof)
@@ -75,7 +75,7 @@ def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof)
     s = Session()
     datetime_obj = datetime.now()
     timestamp_str = datetime_obj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
-    t = Transaction(timestamp_str, tx_hash, action.empresa, dest, action.campanya_id, amount, img_hash, url_proof)
+    t = Transaction(timestamp_str, tx_hash, action.company, dest, action.campaign_id, amount, img_hash, url_proof)
     s.add(t)
     s.commit()
     query = s.query(Action)
@@ -89,27 +89,27 @@ def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof)
 def offer_transaction(rem, dest, offer):
     """Pay to a company in exchange for an offer."""
     dest_user = User.get_by_email(dest)
-    dest_address = dest_user.blockHash
+    dest_address = dest_user.block_addr
     rem_user = User.get_by_email(rem)
-    rem_address = rem_user.blockHash
+    rem_address = rem_user.block_addr
     rem_key = rem_user.pk
-    value = int(float(offer.precio)*100)
+    value = int(float(offer.price)*100)
 
     tx_hash = blockchain_manager.transfer(caller=rem_address, callerKey=rem_key, to=dest_address, value=value)
 
     s = Session()
     datetime_obj = datetime.now()
     timestamp_str = datetime_obj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
-    t = Transaction(timestamp_str, tx_hash, rem, dest_user.organizacion, None, offer.precio, "", "")
+    t = Transaction(timestamp_str, tx_hash, rem, dest_user.organization, None, offer.price, "", "")
     s.add(t)
     s.commit()
     s.close()
 
 
-def transfer_coins(rem, dest, amount, email, dest_email):
+def transfer_coins(rem, dest, amount, email, dest_email):   # TODO: change 'rem' to 'sender'
     """Transfer coins to another user."""
-    owner_address = rem.blockHash
-    dest_address = dest.blockHash
+    owner_address = rem.block_addr
+    dest_address = dest.block_addr
     value=int(float(amount)*100)
 
     tx_hash = blockchain_manager.transfer(caller=owner_address, callerKey=rem.pk, to=dest_address, value=value)
@@ -130,18 +130,18 @@ def create_figure(id):
         action = Action.get_action_by_id(id)
         data = KPIByDates.get_graph_data(id)
         title = data.get("name")
-        axis.set_title(title + " - " + action.indicadorKpi)
-        axis.set_ylim(0, action.kpiObj)
+        axis.set_title(title + " - " + action.kpi_indicator)
+        axis.set_ylim(0, action.kpi_target)
         date_string = "Fecha"
         try:
             date_string = translator.translate(date_string, dest=session['lang']).text
-            action.indicadorKpi = translator.translate(action.indicadorKpi, dest=session['lang']).text
+            action.kpi_indicator = translator.translate(action.kpi_indicator, dest=session['lang']).text
         except:
             pass
         axis.set_xlabel(date_string)
-        axis.set_ylabel(action.indicadorKpi)
+        axis.set_ylabel(action.kpi_indicator)
         results = data.get("results")[::-1]
-        xs = [x.fecha for x in results]
+        xs = [x.fecha for x in results]  # TODO: graphs are not generated
         ys = [y.kpi for y in results]
         axis.set_xticklabels(xs, rotation=45, fontsize=6)
         axis.plot(xs, ys)
@@ -187,17 +187,17 @@ def upload():
     file = request.files['filename']
     res = client.add(file)
     client.close()
-    c_reward = Action.get_action_by_id(session['accionId'])
+    c_reward = Action.get_action_by_id(session['action_id'])
     kpi = request.form['kpi']
-    str_reward = str(c_reward.recompensa).replace(",", ".")
-    c_reward.recompensa = float(str_reward) * float(kpi) * 100    # The multiplication adjusts to the coin decimals
-    reward_coins(session['email'], c_reward.recompensa, res['Hash'], urlProof)
+    str_reward = str(c_reward.reward).replace(",", ".")
+    c_reward.reward = float(str_reward) * float(kpi) * 100    # The multiplication adjusts to the coin decimals
+    reward_coins(session['email'], c_reward.reward, res['Hash'], urlProof)
     try:
-        c_reward.nombre = translator.translate(c_reward.nombre, dest=session['lang']).text
+        c_reward.name = translator.translate(c_reward.name, dest=session['lang']).text
     except:
         pass
-    del session['accionId']
-    return render_template("recompensa.html", name=session['name'], accion=c_reward, email=session['email'], user=user)
+    del session['action_id']
+    return render_template("recompensa.html", name=session['name'], action=c_reward, email=session['email'], user=user)
 
 
 @app.route('/authorize')
@@ -213,26 +213,26 @@ def authorize():
     session['token'] = token
     user = User.get_by_email(session['email'])
 
-    if 'accionId' in session and user is not None:
-        c_reward = Action.get_action_by_id(session['accionId'])
+    if 'action_id' in session and user is not None:
+        c_reward = Action.get_action_by_id(session['action_id'])
         try:
-            c_reward.nombre = translator.translate(c_reward.nombre, dest=session['lang']).text
-            c_reward.descripcion = translator.translate(c_reward.descripcion, dest=session['lang']).text
-            c_reward.indicadorKpi = translator.translate(c_reward.indicadorKpi, dest=session['lang']).text
+            c_reward.name = translator.translate(c_reward.name, dest=session['lang']).text
+            c_reward.description = translator.translate(c_reward.description, dest=session['lang']).text
+            c_reward.kpi_indicator = translator.translate(c_reward.kpi_indicator, dest=session['lang']).text
         except:
             pass
         if c_reward is not None:
-            return render_template("subirimagen.html", name=session['name'], cReward=c_reward, email=session['email'],
-                                   session=session, user=user, accionId=c_reward)
+            return render_template("subirimagen.html", name=session['name'], c_reward=c_reward, email=session['email'],
+                                   session=session, user=user, action_id=c_reward)
         else:
             return redirect('/wallet')
-    if 'offerId' in session and user is not None:
-        offer = Offer.get_offer_by_id(session['offerId'])
+    if 'offer_id' in session and user is not None:
+        offer = Offer.get_offer_by_id(session['offer_id'])
         if offer is not None:
-            dest = User.get_company_block_addr(offer.empresa).email
+            dest = User.get_company_block_addr(offer.company).email
             offer_transaction(session['email'], dest, offer)
             try:
-                offer.nombre = translator.translate(offer.nombre, dest=session['lang']).text
+                offer.name = translator.translate(offer.name, dest=session['lang']).text
             except:
                 pass
             return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
@@ -244,7 +244,7 @@ def authorize():
             if user.role == 'Colaborador':
                 return redirect('/wallet')
             else:
-                return redirect('/accion')
+                return redirect('/action')
 
         else:
             return redirect('/register')
@@ -256,17 +256,17 @@ def register():
     name = dict(session).get('name', None)
     picture = dict(session).get('picture', None)
     if request.method == "POST":
-        nombre = request.form['nombre']
+        name = request.form['name']
         email = request.form['email']
         keys = generate_keys()
         blockchain_address = Web3.toChecksumAddress(keys['address'])
-        session['blockchainAddr'] = blockchain_address
+        session['blockchain_address'] = blockchain_address
         pk = keys['key']
-        rol = request.form['rol']
-        org = request.form['organizacion']
+        rol = request.form['role']
+        org = request.form['organization']
 
         s = Session()
-        u = User(nombre, email, blockchain_address, pk, picture, rol, org)
+        u = User(name, email, blockchain_address, pk, picture, rol, org)
         s.add(u)
         s.commit()
         add_account_to_allowlist(blockchain_address)   # Allows the new registered user to use the permissioned blockchain
@@ -275,9 +275,9 @@ def register():
             return redirect('/wallet')
         if rol == 'Promotor':
             blockchain_manager.assign_role(caller=admin_address, callerKey=private_key, account=blockchain_address, roleID=0)
-            return redirect('/accion')
+            return redirect('/action')
     else:
-        return render_template("register.html", email=email, nombre=name)
+        return render_template("register.html", email=email, name=name)
 
 
 @app.route('/wallet', methods=['GET', 'POST'])
@@ -285,34 +285,34 @@ def wallet():
     form = SendUDCForm()
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
-    salary = get_balance(user.blockHash)
+    salary = get_balance(user.block_addr)
     if form.validate_on_submit():
         transfer_coins(rem=user, dest=User.get_by_email(request.form['destiny']), amount=request.form['quantity'], email=email, dest_email=request.form['destiny'])
     given_name = dict(session).get('given_name', None)
     try:
-        del session['accionId']
-        del session['offerId']
+        del session['action_id']
+        del session['offer_id']
     except:
         pass
     return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            form=form, user=user)
 
 
-@app.route('/redeemOffer/<int:offer_id>')
+@app.route('/redeem-offer/<int:offer_id>')
 def redeem_offer(offer_id):
     offer = Offer.get_offer_by_id(offer_id)
     user = User.get_by_email(session['email'])
-    dest = User.get_company_block_addr(offer.empresa).email
+    dest = User.get_company_block_addr(offer.company).email
     offer_transaction(session['email'], dest, offer)
     try:
-        offer.nombre = translator.translate(offer.nombre, dest=session['lang']).text
+        offer.name = translator.translate(offer.name, dest=session['lang']).text
     except:
         pass
     return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
                            session=session, user=user)
 
 
-@app.route('/accion', methods=['GET', 'POST'])
+@app.route('/action', methods=['GET', 'POST'])
 def action():
     campaign_form = CreateCampaignForm()
     offer_form = CreateOfferForm()
@@ -321,9 +321,9 @@ def action():
     given_name = dict(session).get('given_name', None)
 
     if user.role == "Promotor":
-        campaigns = Campaign.get_campaigns(user.organizacion)
-        actions = Action.get_actions(user.organizacion)
-        offers = Offer.get_offers(user.organizacion)
+        campaigns = Campaign.get_campaigns(user.organization)
+        actions = Action.get_actions(user.organization)
+        offers = Offer.get_offers(user.organization)
     elif user.role == "Administrador":
         campaigns = Campaign.get_all_campaigns()
         actions = Action.get_all_actions()
@@ -332,22 +332,22 @@ def action():
         return redirect("/login")
     try:
         for c in campaigns:
-            c.nombre = translator.translate(c.nombre, dest=session['lang']).text
-            c.descripcion = translator.translate(c.descripcion, dest=session['lang']).text
+            c.name = translator.translate(c.name, dest=session['lang']).text
+            c.description = translator.translate(c.description, dest=session['lang']).text
         for a in actions:
-            a.nombre = translator.translate(a.nombre, dest=session['lang']).text
-            a.descripcion = translator.translate(a.descripcion, dest=session['lang']).text
-            a.indicadorKpi = translator.translate(a.indicadorKpi, dest=session['lang']).text
+            a.name = translator.translate(a.name, dest=session['lang']).text
+            a.description = translator.translate(a.description, dest=session['lang']).text
+            a.kpi_indicator = translator.translate(a.kpi_indicator, dest=session['lang']).text
         for o in offers:
-            o.nombre = translator.translate(o.nombre, dest=session['lang']).text
-            o.descripcion = translator.translate(o.descripcion, dest=session['lang']).text
+            o.name = translator.translate(o.name, dest=session['lang']).text
+            o.description = translator.translate(o.description, dest=session['lang']).text
     except:
         pass
     salary = get_balance(os.environ.get('ADMIN_ADDRESS'))
     if campaign_form.validate_on_submit() and campaign_form.crearCamp.data:
         s = Session()
         if user.role == "Promotor":
-            c = Campaign(request.form['campaign_name'], user.organizacion, request.form['description'])
+            c = Campaign(request.form['campaign_name'], user.organization, request.form['description'])
         elif user.role == "Administrador":
             c = Campaign(request.form['campaign_name'], request.form['company'], request.form['description'])
         s.add(c)
@@ -356,7 +356,7 @@ def action():
         offer_name = request.form['offer_name']
         s = Session()
         if user.role == "Promotor":
-            o = Offer(offer_name, user.organizacion, request.form['description'], request.form['price'])
+            o = Offer(offer_name, user.organization, request.form['description'], request.form['price'])
         elif user.role == "Administrador":
             o = Offer(offer_name, request.form['company'], request.form['description'], request.form['price'])
         s.add(o)
@@ -370,146 +370,146 @@ def action():
         kpi_target = request.form['target']
         campaign = request.form['campaign']
         s = Session()
-        a = Action(offer_name, user.organizacion, desc, reward, kpi_indicator, kpi_target, campaign)
+        a = Action(offer_name, user.organization, desc, reward, kpi_indicator, kpi_target, campaign)
         s.add(a)
         s.commit()
 
     try:
-        del session['accionId']
-        del session['offerId']
+        del session['action_id']
+        del session['offer_id']
     except:
         pass
     # Borro las keys para evitar conflictos con cookies
     return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
-                           form=campaign_form, form2=offer_form, user=user, acciones=actions, campanyas=campaigns, ofertas=offers)
+                           form=campaign_form, form2=offer_form, user=user, actions=actions, campaigns=campaigns, offers=offers)
 
 
-@app.route('/accionalumnos', methods=['GET', 'POST'])
+@app.route('/action-students', methods=['GET', 'POST'])
 def action_students():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    salary = get_balance(user.blockHash)
+    salary = get_balance(user.block_addr)
     actions = Action.get_all_actions()
     try:
         for a in actions:
-            a.nombre = translator.translate(a.nombre, dest=session['lang']).text
-            a.descripcion = translator.translate(a.descripcion, dest=session['lang']).text
+            a.name = translator.translate(a.name, dest=session['lang']).text
+            a.description = translator.translate(a.description, dest=session['lang']).text
     except:
         pass
     try:
-        del session['accionId']
-        del session['offerId']
+        del session['action_id']
+        del session['offer_id']
     except:
         pass
     return render_template('accionalumnos.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
-                           user=user, acciones=actions)
+                           user=user, actions=actions)
 
 
-@app.route('/ofertas', methods=['GET', 'POST'])
+@app.route('/offers', methods=['GET', 'POST'])
 def offers():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    salary = get_balance(user.blockHash)
+    salary = get_balance(user.block_addr)
     offers = Offer.get_all_offers()
     try:
         for o in offers:
-            o.nombre = translator.translate(o.nombre, dest=session['lang']).text
-            o.descripcion = translator.translate(o.descripcion, dest=session['lang']).text
+            o.name = translator.translate(o.name, dest=session['lang']).text
+            o.description = translator.translate(o.description, dest=session['lang']).text
     except:
         pass
     try:
-        del session['accionId']
-        del session['offerId']
+        del session['action_id']
+        del session['offer_id']
     except:
         pass
     return render_template('ofertas.html', title='Oferta', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
-                           user=user, ofertas=offers)
+                           user=user, offers=offers)
 
 
-@app.route('/historialtrans', methods=['GET', 'POST'])
+@app.route('/transaction-history', methods=['GET', 'POST'])
 def transaction_history():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
-    salary = get_balance(user.blockHash)
+    salary = get_balance(user.block_addr)
     name = dict(session).get('name', None)
 
     if user.role == "Colaborador":
         transactions = Transaction.get_transactions(user.email)
     elif user.role == "Promotor":
-        transactions = Transaction.get_transactions(user.organizacion)
+        transactions = Transaction.get_transactions(user.organization)
     else:
         transactions = Transaction.get_all_transactions()
     for t in transactions:
-        camp_id = t.campanya
+        camp_id = t.campaign
         try:
-            t.campanya = Campaign.get_campaign_by_id(camp_id).nombre
+            t.campaign = Campaign.get_campaign_by_id(camp_id).name
             try:
-                t.campanya = translator.translate(t.campanya, dest=session['lang']).text
+                t.campaign = translator.translate(t.campaign, dest=session['lang']).text
             except:
                 pass
         except:
-            if "@" not in str(t.destinatario):
-                t.campanya = gettext("Pago por oferta")
+            if "@" not in str(t.receiver):
+                t.campaign = gettext("Pago por oferta")
             else:
-                t.campanya = gettext("Envío de UDCoins")
+                t.campaign = gettext("Envío de UDCoins")
 
     try:
-        del session['accionId']
-        del session['offerId']
+        del session['action_id']
+        del session['offer_id']
     except:
         pass
     return render_template('historialtrans.html', title='Acción', wallet=salary, email=email, name=name, w3=blockchain_manager.w3,
-                           user=user, transacciones=transactions)
+                           user=user, transactions=transactions)
 
 
-@app.route('/editor/<int:campanya_id>', methods=['GET', 'POST'])    # TODO: translate 'campanya_id'
-def editor(campanya_id):
+@app.route('/editor/<int:campaign_id>', methods=['GET', 'POST'])
+def editor(campaign_id):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    actions = Action.get_actions_of_campaign(campanya_id)
-    campaign = Campaign.get_campaign_by_id(campanya_id)
-    salary = get_balance(user.blockHash)
+    actions = Action.get_actions_of_campaign(campaign_id)
+    campaign = Campaign.get_campaign_by_id(campaign_id)
+    salary = get_balance(user.block_addr)
     s = Session()
     if request.method == 'POST':
-        if 'editarAcc' in request.form:
+        if 'edit_acc' in request.form:     # TODO: 'edit_acc' => 'editarAcc', it might break
             return redirect(url_for('action_editor', accion_id=request.form['accion_id']))
-        elif 'eliminarAcc' in request.form:
+        elif 'delete_acc' in request.form: # TODO: 'delete_acc' => 'editarAcc', it might break
             query = s.query(Action)
             pk = request.form['accion_id']
             query = query.filter(Action.id == pk).first()
             s.delete(query)
             s.commit()
-            actions = Action.get_actions_of_campaign(campanya_id)
+            actions = Action.get_actions_of_campaign(campaign_id)
 
     return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
-                           user=user, acciones=actions, campanya=campaign)
+                           user=user, actions=actions, campaign=campaign)
 
 
-@app.route('/plot<int:campanya_id>.png')
-def plot_png(campanya_id):
-    fig = create_figure(campanya_id)
+@app.route('/plot<int:campaign_id>.png')
+def plot_png(campaign_id):
+    fig = create_figure(campaign_id)
     output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
+    FigureCanvas(fig).print_png(output)     # TODO: fix error appearing here
     return Response(output.getvalue(), mimetype='image/png')
 
 
-@app.route('/editorC', methods=['GET', 'POST'])
+@app.route('/campaigns-editor', methods=['GET', 'POST'])
 def campaigns_editor():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     if user.role == "Promotor":
-        campaigns = Campaign.get_campaigns(user.organizacion)
+        campaigns = Campaign.get_campaigns(user.organization)
     if user.role == "Administrador":
         campaigns = Campaign.get_all_campaigns()
-    salary = get_balance(user.blockHash)
+    salary = get_balance(user.block_addr)
     s = Session()
     if request.method == 'POST':
         if 'editar' in request.form:
-            return redirect(url_for('campaign_editor', campanya_id=request.form['id']))
+            return redirect(url_for('campaign_editor', campaign_id=request.form['id']))
         elif 'eliminar' in request.form:
             query = s.query(Campaign)
             pk = request.form['id']
@@ -517,26 +517,26 @@ def campaigns_editor():
             s.delete(query)
             s.commit()
         elif 'verAcc' in request.form:
-            return redirect(url_for('editor', campanya_id=request.form['id']))
+            return redirect(url_for('editor', campaign_id=request.form['id']))
     try:
-        del session['accionId']
-        del session['offerId']
+        del session['action_id']
+        del session['offer_id']
     except:
         pass
     return render_template('admincampanyas.html', title='Campañas', wallet=salary, email=email, name=given_name,
-                           w3=blockchain_manager.w3, user=user, campanyas=campaigns)
+                           w3=blockchain_manager.w3, user=user, campaigns=campaigns)
 
 
-@app.route('/editorO', methods=['GET', 'POST'])
+@app.route('/offers-editor', methods=['GET', 'POST'])
 def offers_editor():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     if user.role == "Promotor":
-        offers = Offer.get_offers(user.organizacion)
+        offers = Offer.get_offers(user.organization)
     if user.role == "Administrador":
         offers = Offer.get_all_offers()
-    salary = get_balance(user.blockHash)
+    salary = get_balance(user.block_addr)
     s = Session()
     if request.method == 'POST':
         if 'editarO' in request.form:
@@ -548,52 +548,52 @@ def offers_editor():
             s.delete(query)
             s.commit()
             if user.role == "Promotor":
-                offers = Offer.get_offers(user.organizacion)
+                offers = Offer.get_offers(user.organization)
             if user.role == "Administrador":
                 offers = Offer.get_all_offers()
     try:
-        del session['accionId']
-        del session['offerId']
+        del session['action_id']
+        del session['offer_id']
     except:
         pass
     return render_template('adminofertas.html', title='Ofertas', wallet=salary, email=email, name=given_name,
-                           w3=blockchain_manager.w3, user=user, ofertas=offers)
+                           w3=blockchain_manager.w3, user=user, offers=offers)
 
 
-@app.route('/editarAcc/<int:accion_id>', methods=["GET", "POST"])
-def action_editor(accion_id):
+@app.route('/action-editor/<int:action_id>', methods=["GET", "POST"])
+def action_editor(action_id):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     s = Session()
     query = s.query(Action)
-    accion = query.filter(Action.id == accion_id).first()
+    action = query.filter(Action.id == action_id).first()
     if request.method == 'POST' and 'actualizarA' in request.form:
-        dictupdate = {Action.nombre: request.form['name'], Action.descripcion: request.form['description'],
-                      Action.recompensa: float(request.form['reward']),
-                      Action.indicadorKpi: request.form['kpi_indicator'], Action.kpiObj: int(request.form['kpi_target'])}
-        query.filter(Action.id == accion_id).update(dictupdate, synchronize_session=False)
+        dictupdate = {Action.name: request.form['name'], Action.description: request.form['description'],   # TODO: check if this (and the other 2 below) work after the translation
+                      Action.reward: float(request.form['reward']),
+                      Action.kpi_indicator: request.form['kpi_indicator'], Action.kpi_target: int(request.form['kpi_target'])}
+        query.filter(Action.id == action_id).update(dictupdate, synchronize_session=False)
         s.commit()
-    return render_template("editoraccion.html", accion=accion, email=email, name=given_name, user=user)
+    return render_template("editoraccion.html", action=action, email=email, name=given_name, user=user)
 
 
-@app.route('/editorCampanyas/<int:campanya_id>', methods=["GET", "POST"])
-def campaign_editor(campanya_id):
+@app.route('/campaign-editor/<int:campaign_id>', methods=["GET", "POST"])
+def campaign_editor(campaign_id):
     email = dict(session).get('email', None)
     given_name = dict(session).get('given_name', None)
     user = User.get_by_email(email)
 
     s = Session()
     query = s.query(Campaign)
-    campaign = query.filter(Campaign.id == campanya_id).first()
+    campaign = query.filter(Campaign.id == campaign_id).first()
     if request.method == 'POST':
-        dictupdate = {Campaign.nombre: request.form['name'], Campaign.descripcion: request.form['description']}
-        query.filter(Campaign.id == campanya_id).update(dictupdate, synchronize_session=False)
+        dictupdate = {Campaign.name: request.form['name'], Campaign.description: request.form['description']}
+        query.filter(Campaign.id == campaign_id).update(dictupdate, synchronize_session=False)
         s.commit()
-    return render_template("editorcamp.html", campanya=campaign, email=email, name=given_name, user=user)
+    return render_template("editorcamp.html", campaign=campaign, email=email, name=given_name, user=user)
 
 
-@app.route('/editorOferta/<int:offer_id>', methods=["GET", "POST"])
+@app.route('/offer-editor/<int:offer_id>', methods=["GET", "POST"])
 def offer_editor(offer_id):
     email = dict(session).get('email', None)
     given_name = dict(session).get('given_name', None)
@@ -603,37 +603,36 @@ def offer_editor(offer_id):
     query = s.query(Offer)
     offer = query.filter(Offer.id == offer_id).first()
     if request.method == 'POST':
-        dictupdate = {Offer.nombre: request.form['name'], Offer.descripcion: request.form['description'],
-                      Offer.precio: request.form['price']}
+        dictupdate = {Offer.name: request.form['name'], Offer.description: request.form['description'],
+                      Offer.price: request.form['price']}
         query.filter(Offer.id == offer_id).update(dictupdate, synchronize_session=False)
         s.commit()
-    return render_template("editoroferta.html", oferta=offer, email=email, name=given_name,
-                           user=user)
+    return render_template("editoroferta.html", offer=offer, email=email, name=given_name, user=user)
 
 
-@app.route('/qr/<int:accion_id>')
-def qr(accion_id):
-    img = qrcode.make(url_for("redeem", accion_id=accion_id, _external=True))
+@app.route('/qr/<int:action_id>')
+def qr(action_id):
+    img = qrcode.make(url_for("redeem", action_id=action_id, _external=True))
     with io.BytesIO() as output:
         img.save(output, format="PNG")
         contents = output.getvalue()
     return Response(contents, mimetype='image/png')
 
 
-@app.route('/qrOfertas/<int:offerId>')
-def qr_offers(offerId):
-    img = qrcode.make(url_for('pay', offer_id=offerId, _external=True))
+@app.route('/qr-offers/<int:offer_id>')
+def qr_offers(offer_id):
+    img = qrcode.make(url_for('pay', offer_id=offer_id, _external=True))
     with io.BytesIO() as output:
         img.save(output, format="PNG")
         contents = output.getvalue()
     return Response(contents, mimetype='image/png')
 
 
-@app.route('/redeem/<int:accion_id>', methods=["GET", "POST"])
-def redeem(accion_id):
+@app.route('/redeem/<int:action_id>', methods=["GET", "POST"])
+def redeem(action_id):
     google = oauth.create_client('google')
     redirect_uri = url_for('authorize', _external=True)
-    session['accionId'] = accion_id
+    session['action_id'] = action_id
     return google.authorize_redirect(redirect_uri)
 
 
@@ -641,7 +640,7 @@ def redeem(accion_id):
 def pay(offer_id):
     google = oauth.create_client('google')
     redirect_uri = url_for('authorize', _external=True)
-    session['offerId'] = offer_id
+    session['offer_id'] = offer_id
     return google.authorize_redirect(redirect_uri)
 
 
@@ -656,21 +655,20 @@ def logout():
     return redirect('/')
 
 
-@app.route('/sobre')
+@app.route('/about')
 def about():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     try:
-        del session['accionId']
-        del session['offerId']
+        del session['action_id']
+        del session['offer_id']
     except:
         pass
-    return render_template('sobre.html', email=email, name=given_name,
-                           user=user)
+    return render_template('sobre.html', email=email, name=given_name, user=user)
 
 
-@app.route('/campanyas')
+@app.route('/campaigns')
 def campaigns():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
@@ -679,53 +677,52 @@ def campaigns():
     companies = Campaign.get_distinct_companies()
     try:
         for c in campaigns:
-            c.nombre = translator.translate(c.nombre, dest=session['lang']).text
-            c.descripcion = translator.translate(c.descripcion, dest=session['lang']).text
+            c.name = translator.translate(c.name, dest=session['lang']).text
+            c.description = translator.translate(c.description, dest=session['lang']).text
     except:
         pass
     try:
-        del session['accionId']
-        del session['offerId']
+        del session['action_id']
+        del session['offer_id']
     except:
         pass
-    return render_template('empresas.html', email=email, name=given_name,
-                           user=user, campanyas=campaigns, empresas=companies)
+    return render_template('empresas.html', email=email, name=given_name, user=user, campaigns=campaigns, companies=companies)
 
 
-@app.route('/campanyas/<emp>', methods=['GET', 'POST'])
-def company(emp):
+@app.route('/campaigns/<company>', methods=['GET', 'POST'])
+def company(company):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    salary = get_balance(user.blockHash)
-    campaigns = Campaign.get_campaigns(emp)
-    actions = Action.get_actions(emp)
+    salary = get_balance(user.block_addr)
+    campaigns = Campaign.get_campaigns(company)
+    actions = Action.get_actions(company)
     try:
         for c in campaigns:
-            c.nombre = translator.translate(c.nombre, dest=session['lang']).text
-            c.descripcion = translator.translate(c.descripcion, dest=session['lang']).text
+            c.name = translator.translate(c.name, dest=session['lang']).text
+            c.description = translator.translate(c.description, dest=session['lang']).text
         for a in actions:
-            a.nombre = translator.translate(a.nombre, dest=session['lang']).text
-            a.descripcion = translator.translate(a.descripcion, dest=session['lang']).text
+            a.name = translator.translate(a.name, dest=session['lang']).text
+            a.description = translator.translate(a.description, dest=session['lang']).text
     except:
         pass
     return render_template('campanyas.html', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
-                           user=user, campanyas=campaigns, empresa=emp, acciones=actions)
+                           user=user, campaigns=campaigns, company=company, actions=actions)
 
 
-@app.route('/registraraccion/<int:accion_id>', methods=['GET', 'POST'])
-def register_action(accion_id):
+@app.route('/register-action/<int:action_id>', methods=['GET', 'POST'])
+def register_action(action_id):
     user = User.get_by_email(session['email'])
-    session['accionId'] = accion_id
-    c_reward = Action.get_action_by_id(accion_id)
+    session['action_id'] = action_id
+    c_reward = Action.get_action_by_id(action_id)
     try:
-        c_reward.nombre = translator.translate(c_reward.nombre, dest=session['lang']).text
-        c_reward.descripcion = translator.translate(c_reward.descripcion, dest=session['lang']).text
-        c_reward.indicadorKpi = translator.translate(c_reward.indicadorKpi, dest=session['lang']).text
+        c_reward.name = translator.translate(c_reward.name, dest=session['lang']).text
+        c_reward.description = translator.translate(c_reward.description, dest=session['lang']).text
+        c_reward.kpi_indicator = translator.translate(c_reward.kpi_indicator, dest=session['lang']).text
     except:
         pass
-    return render_template("subirimagen.html", name=session['name'], cReward=c_reward, email=session['email'],
-                           session=session, user=user, accionId=accion_id)
+    return render_template("subirimagen.html", name=session['name'], c_reward=c_reward, email=session['email'],
+                           session=session, user=user, action_id=action_id)
 
 
 @app.route('/sw.js')
