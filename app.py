@@ -67,7 +67,7 @@ def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof)
     """Reward the input amount of coins to the user that completes a good deed."""
     dest_user = User.get_by_email(dest)
     dest_address = dest_user.blockHash
-    accion = Accion.getActionById(session['accionId'])
+    accion = Accion.get_action_by_id(session['accionId'])
 
     tx_hash = blockchain_manager.transfer(caller=admin_address, callerKey=private_key, to=dest_address, value=int(float(amount)*100))
     blockchain_manager.emit_action(caller=admin_address, callerKey=private_key, promoter=promoter_address, to=dest_address, actionID=action_id, reward=amount, time=int(time.time()), ipfs_hash=img_hash, proof_url=url_proof)
@@ -127,8 +127,8 @@ def create_figure(id):
     try:
         fig = Figure()
         axis = fig.add_subplot(1, 1, 1)
-        accion = Accion.getActionById(id)
-        data = KPIporFechas.getGraphData(id)
+        accion = Accion.get_action_by_id(id)
+        data = KPIporFechas.get_graph_data(id)
         titulo = data.get("name")
         axis.set_title(titulo + " - " + accion.indicadorKpi)
         axis.set_ylim(0, accion.kpiObj)
@@ -159,7 +159,7 @@ def add_account_to_allowlist(address):
 
 @app.route('/')
 def home():
-    KPIporFechas.saveTodaysKPI()
+    KPIporFechas.save_todays_KPI()
     return render_template("index.html")
 
 
@@ -187,7 +187,7 @@ def upload():
     file = request.files['filename']
     res = client.add(file)
     client.close()
-    c_reward = Accion.getActionById(session['accionId'])
+    c_reward = Accion.get_action_by_id(session['accionId'])
     kpi = request.form['kpi']
     str_recompensa = str(c_reward.recompensa).replace(",", ".")
     c_reward.recompensa = float(str_recompensa) * float(kpi) * 100    # The multiplication adjusts to the coin decimals
@@ -214,7 +214,7 @@ def authorize():
     user = User.get_by_email(session['email'])
 
     if 'accionId' in session and user is not None:
-        c_reward = Accion.getActionById(session['accionId'])
+        c_reward = Accion.get_action_by_id(session['accionId'])
         try:
             c_reward.nombre = translator.translate(c_reward.nombre, dest=session['lang']).text
             c_reward.descripcion = translator.translate(c_reward.descripcion, dest=session['lang']).text
@@ -227,9 +227,9 @@ def authorize():
         else:
             return redirect('/wallet')
     if 'offerId' in session and user is not None:
-        offer = Oferta.getOfferById(session['offerId'])
+        offer = Oferta.get_offer_by_id(session['offerId'])
         if offer is not None:
-            dest = User.getCompanyBlockAddr(offer.empresa).email
+            dest = User.get_company_block_addr(offer.empresa).email
             offer_transaction(session['email'], dest, offer)
             try:
                 offer.nombre = translator.translate(offer.nombre, dest=session['lang']).text
@@ -300,9 +300,9 @@ def wallet():
 
 @app.route('/redeemOffer/<int:offer_id>')
 def redeem_offer(offer_id):
-    offer = Oferta.getOfferById(offer_id)
+    offer = Oferta.get_offer_by_id(offer_id)
     user = User.get_by_email(session['email'])
-    dest = User.getCompanyBlockAddr(offer.empresa).email
+    dest = User.get_company_block_addr(offer.empresa).email
     offer_transaction(session['email'], dest, offer)
     try:
         offer.nombre = translator.translate(offer.nombre, dest=session['lang']).text
@@ -321,13 +321,13 @@ def action():
     given_name = dict(session).get('given_name', None)
 
     if user.role == "Promotor":
-        campanyas = Campanya.getCampaigns(user.organizacion)
-        acciones = Accion.getActions(user.organizacion)
-        ofertas = Oferta.getOffers(user.organizacion)
+        campanyas = Campanya.get_campaigns(user.organizacion)
+        acciones = Accion.get_actions(user.organizacion)
+        ofertas = Oferta.get_offers(user.organizacion)
     elif user.role == "Administrador":
-        campanyas = Campanya.getAllCampaigns()
-        acciones = Accion.getAllActions()
-        ofertas = Oferta.getAllOffers()
+        campanyas = Campanya.get_all_campaigns()
+        acciones = Accion.get_all_actions()
+        ofertas = Oferta.get_all_offers()
     else:
         return redirect("/login")
     try:
@@ -390,7 +390,7 @@ def action_students():
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     salary = get_balance(user.blockHash)
-    acciones = Accion.getAllActions()
+    acciones = Accion.get_all_actions()
     try:
         for a in acciones:
             a.nombre = translator.translate(a.nombre, dest=session['lang']).text
@@ -412,7 +412,7 @@ def offers():
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     salary = get_balance(user.blockHash)
-    ofertas = Oferta.getAllOffers()
+    ofertas = Oferta.get_all_offers()
     try:
         for o in ofertas:
             o.nombre = translator.translate(o.nombre, dest=session['lang']).text
@@ -436,15 +436,15 @@ def transaction_history():
     name = dict(session).get('name', None)
 
     if user.role == "Colaborador":
-        transacciones = Transaccion.getTransactions(user.email)
+        transacciones = Transaccion.get_transactions(user.email)
     elif user.role == "Promotor":
-        transacciones = Transaccion.getTransactions(user.organizacion)
+        transacciones = Transaccion.get_transactions(user.organizacion)
     else:
-        transacciones = Transaccion.getAllTransactions()
+        transacciones = Transaccion.get_all_transactions()
     for t in transacciones:
         camp_id = t.campanya
         try:
-            t.campanya = Campanya.getCampaignById(camp_id).nombre
+            t.campanya = Campanya.get_campaign_by_id(camp_id).nombre
             try:
                 t.campanya = translator.translate(t.campanya, dest=session['lang']).text
             except:
@@ -469,8 +469,8 @@ def editor(campanya_id):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    acciones = Accion.getActionsOfCampaign(campanya_id)
-    campanya = Campanya.getCampaignById(campanya_id)
+    acciones = Accion.get_actions_of_campaign(campanya_id)
+    campanya = Campanya.get_campaign_by_id(campanya_id)
     salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':
@@ -482,7 +482,7 @@ def editor(campanya_id):
             query = query.filter(Accion.id == pk).first()
             s.delete(query)
             s.commit()
-            acciones = Accion.getActionsOfCampaign(campanya_id)
+            acciones = Accion.get_actions_of_campaign(campanya_id)
 
     return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            user=user, acciones=acciones, campanya=campanya)
@@ -502,9 +502,9 @@ def campaigns_editor():
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     if user.role == "Promotor":
-        campanyas = Campanya.getCampaigns(user.organizacion)
+        campanyas = Campanya.get_campaigns(user.organizacion)
     if user.role == "Administrador":
-        campanyas = Campanya.getAllCampaigns()
+        campanyas = Campanya.get_all_campaigns()
     salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':
@@ -533,9 +533,9 @@ def offers_editor():
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     if user.role == "Promotor":
-        ofertas = Oferta.getOffers(user.organizacion)
+        ofertas = Oferta.get_offers(user.organizacion)
     if user.role == "Administrador":
-        ofertas = Oferta.getAllOffers()
+        ofertas = Oferta.get_all_offers()
     salary = get_balance(user.blockHash)
     s = Session()
     if request.method == 'POST':
@@ -548,9 +548,9 @@ def offers_editor():
             s.delete(query)
             s.commit()
             if user.role == "Promotor":
-                ofertas = Oferta.getOffers(user.organizacion)
+                ofertas = Oferta.get_offers(user.organizacion)
             if user.role == "Administrador":
-                ofertas = Oferta.getAllOffers()
+                ofertas = Oferta.get_all_offers()
     try:
         del session['accionId']
         del session['offerId']
@@ -676,8 +676,8 @@ def campaigns():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    campanyas = Campanya.getOrderedCampaigns()
-    empresas = Campanya.getDistinctCompanies()
+    campanyas = Campanya.get_ordered_campaigns()
+    empresas = Campanya.get_distinct_companies()
     try:
         for c in campanyas:
             c.nombre = translator.translate(c.nombre, dest=session['lang']).text
@@ -700,8 +700,8 @@ def company(emp):
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
     salary = get_balance(user.blockHash)
-    campanyas = Campanya.getCampaigns(emp)
-    acciones = Accion.getActions(emp)
+    campanyas = Campanya.get_campaigns(emp)
+    acciones = Accion.get_actions(emp)
     try:
         for c in campanyas:
             c.nombre = translator.translate(c.nombre, dest=session['lang']).text
@@ -719,7 +719,7 @@ def company(emp):
 def register_action(accion_id):
     user = User.get_by_email(session['email'])
     session['accionId'] = accion_id
-    c_reward = Accion.getActionById(accion_id)
+    c_reward = Accion.get_action_by_id(accion_id)
     try:
         c_reward.nombre = translator.translate(c_reward.nombre, dest=session['lang']).text
         c_reward.descripcion = translator.translate(c_reward.descripcion, dest=session['lang']).text

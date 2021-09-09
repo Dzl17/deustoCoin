@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship, backref
 from base import Base, Session
 import datetime
 
-# TODO: https://stackoverflow.com/questions/37758128/use-alias-for-column-name-in-sqlalchemy
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
@@ -36,7 +35,7 @@ class User(Base):
         s.close()
 
     @staticmethod
-    def getCompanyBlockAddr(compName):
+    def get_company_block_addr(compName):
         s = Session()
         query = s.query(User)
         return query.filter(User.organizacion == compName).first()
@@ -89,13 +88,13 @@ class Transaccion(Base):
         s.close()
 
     @staticmethod
-    def getTransactions(email):
+    def get_transactions(email):
         s = Session()
         query = s.query(Transaccion).order_by(Transaccion.id)
         return query.filter(or_(Transaccion.remitente == email, Transaccion.destinatario == email)).all()
 
     @staticmethod
-    def getAllTransactions():
+    def get_all_transactions():
         s = Session()
         query = s.query(Transaccion).order_by(Transaccion.id)
         return query.all()
@@ -114,13 +113,13 @@ class KPIporFechas(Base):
         self.kpi = kpi
 
     @staticmethod
-    def getAllKPIs():
+    def get_all_KPIs():
         s = Session()
         query = s.query(KPIporFechas)
         return query.all()
 
     @staticmethod
-    def getGraphData(id):
+    def get_graph_data(id):
         s = Session()
         query = s.query(KPIporFechas)
         results = query.filter(KPIporFechas.accion == id).order_by(desc(KPIporFechas.id)).all()
@@ -133,10 +132,10 @@ class KPIporFechas(Base):
         return data
 
     @staticmethod
-    def saveTodaysKPI():
+    def save_todays_KPI():
         fechas = []
-        acciones = Accion.getAllActions()
-        kpis = KPIporFechas.getAllKPIs()
+        acciones = Accion.get_all_actions()
+        kpis = KPIporFechas.get_all_KPIs()
         if len(kpis) > 0:
             for k in kpis:
                 fechas.append(k.fecha)
@@ -188,31 +187,31 @@ class Accion(Base):
         s.close()
 
     @staticmethod
-    def getActions(empresa):
+    def get_actions(empresa):
         s = Session()
         query = s.query(Accion)
         return query.filter(Accion.empresa == empresa).all()
 
     @staticmethod
-    def getActionsOfCampaign(campanya_id):
+    def get_actions_of_campaign(campanya_id):
         s = Session()
         query = s.query(Accion)
         return query.filter(Accion.campanya_id == campanya_id).all()
 
     @staticmethod
-    def getAllActions():
+    def get_all_actions():
         s = Session()
         query = s.query(Accion)
         return query.all()
 
     @staticmethod
-    def getIdByName(nombre):
+    def get_id_by_name(nombre):
         s = Session()
         query = s.query(Accion)
         return query.filter(Accion.nombre == nombre).first().id
 
     @staticmethod
-    def getActionById(id):
+    def get_action_by_id(id):
         s = Session()
         query = s.query(Accion)
         return query.filter(Accion.id == id).first()
@@ -232,26 +231,26 @@ class Campanya(Base):
         self.descripcion = descripcion
 
     @staticmethod
-    def getCampaigns(empresa):
+    def get_campaigns(empresa):
         s = Session()
         query = s.query(Campanya)
         return query.filter(Campanya.empresa == empresa).all()
 
     @staticmethod
-    def getAllCampaigns():
+    def get_all_campaigns():
         s = Session()
         query = s.query(Campanya)
         return query.all()
 
     @staticmethod
-    def getOrderedCampaigns():
+    def get_ordered_campaigns():
         s = Session()
         query = s.query(Campanya)
         query = query.order_by(Campanya.empresa).all()
         return query
 
     @staticmethod
-    def getDistinctCompanies():
+    def get_distinct_companies():
         s = Session()
         query = s.query(Campanya)
         query = query.distinct(Campanya.empresa).all()
@@ -261,13 +260,13 @@ class Campanya(Base):
         return companies
 
     @staticmethod
-    def getIdByName(nombre):
+    def get_id_by_name(nombre):
         s = Session()
         query = s.query(Campanya)
         return query.filter(Campanya.nombre == nombre).first()
 
     @staticmethod
-    def getCampaignById(id):
+    def get_campaign_by_id(id):
         s = Session()
         query = s.query(Campanya)
         return query.filter(Campanya.id == id).first()
@@ -288,25 +287,25 @@ class Oferta(Base):
         self.precio = precio
 
     @staticmethod
-    def getOffers(empresa):
+    def get_offers(empresa):
         s = Session()
         query = s.query(Oferta)
         return query.filter(Oferta.empresa == empresa).all()
 
     @staticmethod
-    def getAllOffers():
+    def get_all_offers():
         s = Session()
         query = s.query(Oferta)
         return query.all()
 
     @staticmethod
-    def getIdByName(nombre):
+    def get_id_by_name(nombre):
         s = Session()
         query = s.query(Oferta)
         return query.filter(Oferta.nombre == nombre).first().id
 
     @staticmethod
-    def getOfferById(id):
+    def get_offer_by_id(id):
         s = Session()
         query = s.query(Oferta)
         return query.filter(Oferta.id == id).first()

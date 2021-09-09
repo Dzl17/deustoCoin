@@ -35,7 +35,7 @@ class CreateOfferForm(FlaskForm):
     offer_name = StringField('Nombre de la oferta')
     company = StringField('Organización')
     description = TextAreaField('Descripción')
-    price = FloatField('Precio')
+    price = CustomFloatField('Precio')
     create_offer = SubmitField('Crear oferta')
 
 
