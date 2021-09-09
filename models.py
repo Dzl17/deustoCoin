@@ -53,7 +53,7 @@ class User(Base):
         return query.filter(User.blockHash == blockHash).first()
 
 
-class Transaccion(Base):
+class Transaction(Base):
     __tablename__ = 'transaccion'
     id = Column(Integer, primary_key=True)
     fecha = Column(String(80), nullable=False)
@@ -90,17 +90,17 @@ class Transaccion(Base):
     @staticmethod
     def get_transactions(email):
         s = Session()
-        query = s.query(Transaccion).order_by(Transaccion.id)
-        return query.filter(or_(Transaccion.remitente == email, Transaccion.destinatario == email)).all()
+        query = s.query(Transaction).order_by(Transaction.id)
+        return query.filter(or_(Transaction.remitente == email, Transaction.destinatario == email)).all()
 
     @staticmethod
     def get_all_transactions():
         s = Session()
-        query = s.query(Transaccion).order_by(Transaccion.id)
+        query = s.query(Transaction).order_by(Transaction.id)
         return query.all()
 
 
-class KPIporFechas(Base):
+class KPIByDates(Base):
     __tablename__ = 'kpi_fechas'
     id = Column(Integer, primary_key=True)
     accion = Column(Integer, ForeignKey('accion.id', ondelete='CASCADE'))
@@ -115,16 +115,16 @@ class KPIporFechas(Base):
     @staticmethod
     def get_all_KPIs():
         s = Session()
-        query = s.query(KPIporFechas)
+        query = s.query(KPIByDates)
         return query.all()
 
     @staticmethod
     def get_graph_data(id):
         s = Session()
-        query = s.query(KPIporFechas)
-        results = query.filter(KPIporFechas.accion == id).order_by(desc(KPIporFechas.id)).all()
-        query2 = s.query(Accion)
-        name = query2.filter(Accion.id == id).first().nombre
+        query = s.query(KPIByDates)
+        results = query.filter(KPIByDates.accion == id).order_by(desc(KPIByDates.id)).all()
+        query2 = s.query(Action)
+        name = query2.filter(Action.id == id).first().nombre
         data = {
             "name": name,
             "results": results
@@ -134,8 +134,8 @@ class KPIporFechas(Base):
     @staticmethod
     def save_todays_KPI():
         fechas = []
-        acciones = Accion.get_all_actions()
-        kpis = KPIporFechas.get_all_KPIs()
+        acciones = Action.get_all_actions()
+        kpis = KPIByDates.get_all_KPIs()
         if len(kpis) > 0:
             for k in kpis:
                 fechas.append(k.fecha)
@@ -145,7 +145,7 @@ class KPIporFechas(Base):
             s = Session()
             fechas.append(today)
             for a in acciones:
-                kpi = KPIporFechas(today, a.id, a.kpi)
+                kpi = KPIByDates(today, a.id, a.kpi)
                 s.add(kpi)
             s.commit()
             s.close()
@@ -153,7 +153,7 @@ class KPIporFechas(Base):
             pass
 
 
-class Accion(Base):
+class Action(Base):
     __tablename__ = 'accion'
     id = Column(Integer, primary_key=True)
     nombre = Column(String, nullable=False)
@@ -164,7 +164,7 @@ class Accion(Base):
     campanya_id = Column(Integer, ForeignKey('campanya.id'))
     kpi = Column(Integer, default=0)
     kpiObj = Column(Integer, default=0)
-    kpis = relationship(KPIporFechas, backref=backref("kpi_fechas", passive_deletes=True))
+    kpis = relationship(KPIByDates, backref=backref("kpi_fechas", passive_deletes=True))
 
     def __init__(self, nombre, empresa, descripcion, recompensa, indicadorKpi, kpiObj, campanya_id):
         self.nombre = nombre
@@ -189,41 +189,41 @@ class Accion(Base):
     @staticmethod
     def get_actions(empresa):
         s = Session()
-        query = s.query(Accion)
-        return query.filter(Accion.empresa == empresa).all()
+        query = s.query(Action)
+        return query.filter(Action.empresa == empresa).all()
 
     @staticmethod
     def get_actions_of_campaign(campanya_id):
         s = Session()
-        query = s.query(Accion)
-        return query.filter(Accion.campanya_id == campanya_id).all()
+        query = s.query(Action)
+        return query.filter(Action.campanya_id == campanya_id).all()
 
     @staticmethod
     def get_all_actions():
         s = Session()
-        query = s.query(Accion)
+        query = s.query(Action)
         return query.all()
 
     @staticmethod
     def get_id_by_name(nombre):
         s = Session()
-        query = s.query(Accion)
-        return query.filter(Accion.nombre == nombre).first().id
+        query = s.query(Action)
+        return query.filter(Action.nombre == nombre).first().id
 
     @staticmethod
     def get_action_by_id(id):
         s = Session()
-        query = s.query(Accion)
-        return query.filter(Accion.id == id).first()
+        query = s.query(Action)
+        return query.filter(Action.id == id).first()
 
 
-class Campanya(Base):
+class Campaign(Base):
     __tablename__ = 'campanya'
     id = Column(Integer, primary_key=True)
     nombre = Column(String, nullable=False)
     empresa = Column(String, nullable=False)
     descripcion = Column(String, nullable=False)
-    acciones = relationship("Accion")
+    acciones = relationship("Action")
 
     def __init__(self, nombre, empresa, descripcion):
         self.nombre = nombre
@@ -233,27 +233,27 @@ class Campanya(Base):
     @staticmethod
     def get_campaigns(empresa):
         s = Session()
-        query = s.query(Campanya)
-        return query.filter(Campanya.empresa == empresa).all()
+        query = s.query(Campaign)
+        return query.filter(Campaign.empresa == empresa).all()
 
     @staticmethod
     def get_all_campaigns():
         s = Session()
-        query = s.query(Campanya)
+        query = s.query(Campaign)
         return query.all()
 
     @staticmethod
     def get_ordered_campaigns():
         s = Session()
-        query = s.query(Campanya)
-        query = query.order_by(Campanya.empresa).all()
+        query = s.query(Campaign)
+        query = query.order_by(Campaign.empresa).all()
         return query
 
     @staticmethod
     def get_distinct_companies():
         s = Session()
-        query = s.query(Campanya)
-        query = query.distinct(Campanya.empresa).all()
+        query = s.query(Campaign)
+        query = query.distinct(Campaign.empresa).all()
         companies = []
         for campaign in query:
             companies.append(campaign.empresa)
@@ -262,17 +262,17 @@ class Campanya(Base):
     @staticmethod
     def get_id_by_name(nombre):
         s = Session()
-        query = s.query(Campanya)
-        return query.filter(Campanya.nombre == nombre).first()
+        query = s.query(Campaign)
+        return query.filter(Campaign.nombre == nombre).first()
 
     @staticmethod
     def get_campaign_by_id(id):
         s = Session()
-        query = s.query(Campanya)
-        return query.filter(Campanya.id == id).first()
+        query = s.query(Campaign)
+        return query.filter(Campaign.id == id).first()
 
 
-class Oferta(Base):
+class Offer(Base):
     __tablename__ = 'oferta'
     id = Column(Integer, primary_key=True)
     nombre = Column(String(80), nullable=False)
@@ -289,23 +289,23 @@ class Oferta(Base):
     @staticmethod
     def get_offers(empresa):
         s = Session()
-        query = s.query(Oferta)
-        return query.filter(Oferta.empresa == empresa).all()
+        query = s.query(Offer)
+        return query.filter(Offer.empresa == empresa).all()
 
     @staticmethod
     def get_all_offers():
         s = Session()
-        query = s.query(Oferta)
+        query = s.query(Offer)
         return query.all()
 
     @staticmethod
     def get_id_by_name(nombre):
         s = Session()
-        query = s.query(Oferta)
-        return query.filter(Oferta.nombre == nombre).first().id
+        query = s.query(Offer)
+        return query.filter(Offer.nombre == nombre).first().id
 
     @staticmethod
     def get_offer_by_id(id):
         s = Session()
-        query = s.query(Oferta)
-        return query.filter(Oferta.id == id).first()
+        query = s.query(Offer)
+        return query.filter(Offer.id == id).first()
