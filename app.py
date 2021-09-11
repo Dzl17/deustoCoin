@@ -344,7 +344,7 @@ def action():
     except:
         pass
     salary = get_balance(os.environ.get('ADMIN_ADDRESS'))
-    if campaign_form.validate_on_submit() and campaign_form.crearCamp.data:
+    if campaign_form.validate_on_submit() and campaign_form.create_campaign.data:
         s = Session()
         if user.role == "Promotor":
             c = Campaign(request.form['campaign_name'], user.organization, request.form['description'])
@@ -352,7 +352,7 @@ def action():
             c = Campaign(request.form['campaign_name'], request.form['company'], request.form['description'])
         s.add(c)
         s.commit()
-    elif offer_form.validate_on_submit() and offer_form.crearOf.data:
+    elif offer_form.validate_on_submit() and offer_form.create_offer.data:
         offer_name = request.form['offer_name']
         s = Session()
         if user.role == "Promotor":
@@ -474,11 +474,11 @@ def editor(campaign_id):
     salary = get_balance(user.block_addr)
     s = Session()
     if request.method == 'POST':
-        if 'edit_acc' in request.form:     # TODO: 'edit_acc' => 'editarAcc', it might break
-            return redirect(url_for('action_editor', accion_id=request.form['accion_id']))
-        elif 'delete_acc' in request.form: # TODO: 'delete_acc' => 'editarAcc', it might break
+        if 'edit_action' in request.form:     # TODO: 'edit_action' => 'editarAcc', it might break
+            return redirect(url_for('action_editor', action_id=request.form['action_id']))
+        elif 'delete_action' in request.form: # TODO: 'delete_action' => 'editarAcc', it might break
             query = s.query(Action)
-            pk = request.form['accion_id']
+            pk = request.form['action_id']
             query = query.filter(Action.id == pk).first()
             s.delete(query)
             s.commit()
@@ -492,7 +492,7 @@ def editor(campaign_id):
 def plot_png(campaign_id):
     fig = create_figure(campaign_id)
     output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)     # TODO: fix error appearing here
+    FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
 
 
@@ -508,15 +508,15 @@ def campaigns_editor():
     salary = get_balance(user.block_addr)
     s = Session()
     if request.method == 'POST':
-        if 'editar' in request.form:
+        if 'edit_campaign' in request.form:
             return redirect(url_for('campaign_editor', campaign_id=request.form['id']))
-        elif 'eliminar' in request.form:
+        elif 'delete_campaign' in request.form:
             query = s.query(Campaign)
             pk = request.form['id']
             query = query.filter(Campaign.id == pk).first()
             s.delete(query)
             s.commit()
-        elif 'verAcc' in request.form:
+        elif 'view_actions' in request.form:
             return redirect(url_for('editor', campaign_id=request.form['id']))
     try:
         del session['action_id']
@@ -539,9 +539,9 @@ def offers_editor():
     salary = get_balance(user.block_addr)
     s = Session()
     if request.method == 'POST':
-        if 'editarO' in request.form:
+        if 'edit_offer' in request.form:
             return redirect(url_for('offer_editor', offer_id=request.form['id']))
-        elif 'eliminarO' in request.form:
+        elif 'delete_offer' in request.form:
             query = s.query(Offer)
             pk = request.form['id']
             query = query.filter(Offer.id == pk).first()
@@ -568,7 +568,7 @@ def action_editor(action_id):
     s = Session()
     query = s.query(Action)
     action = query.filter(Action.id == action_id).first()
-    if request.method == 'POST' and 'actualizarA' in request.form:
+    if request.method == 'POST' and 'update_action' in request.form:  # TODO: take a look at 'actualizarA'
         dictupdate = {Action.name: request.form['name'], Action.description: request.form['description'],   # TODO: check if this (and the other 2 below) work after the translation
                       Action.reward: float(request.form['reward']),
                       Action.kpi_indicator: request.form['kpi_indicator'], Action.kpi_target: int(request.form['kpi_target'])}

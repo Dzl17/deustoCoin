@@ -32,8 +32,8 @@
                 <td style="text-align: center;">
 
                     <form action="{{ url_for('campaigns_editor') }}" method="post">
-                        <input type="submit" name="editar" class="{{c.id}}" value="✎">
-                        <input type="submit" name="eliminar" class="{{c.id}}" value="✖">
+                        <input type="submit" name="edit_campaign" class="{{c.id}}" value="✎">
+                        <input type="submit" name="delete_campaign" class="{{c.id}}" value="✖">
                         <input value="{{c.id}}" name="id" style="display: none;">
                     </form>
                 </td>
@@ -42,7 +42,7 @@
                 <td>{{c.description}}</td>
                 <td>
                     <form action="{{ url_for('editor', campaign_id=c.id) }}" method="post">
-                        <input type="submit" name="verAcc" class="{{c.id}}" value="{{gettext('Ver acciones')}}">
+                        <input type="submit" name="view_action" class="{{c.id}}" value="{{gettext('Ver acciones')}}">
                         <input value="{{c.id}}" name="id" style="display: none;">
                     </form>
                 </td>
