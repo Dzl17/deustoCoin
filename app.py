@@ -86,33 +86,33 @@ def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof)
     s.close()
 
 
-def offer_transaction(rem, dest, offer):
+def offer_transaction(sender, dest, offer):
     """Pay to a company in exchange for an offer."""
     dest_user = User.get_by_email(dest)
     dest_address = dest_user.block_addr
-    rem_user = User.get_by_email(rem)
-    rem_address = rem_user.block_addr
-    rem_key = rem_user.pk
+    sender_user = User.get_by_email(sender)
+    sender_address = sender_user.block_addr
+    sender_key = sender_user.pk
     value = int(float(offer.price)*100)
 
-    tx_hash = blockchain_manager.transfer(caller=rem_address, callerKey=rem_key, to=dest_address, value=value)
+    tx_hash = blockchain_manager.transfer(caller=sender_address, callerKey=sender_key, to=dest_address, value=value)
 
     s = Session()
     datetime_obj = datetime.now()
     timestamp_str = datetime_obj.strftime("%d-%m-%Y (%H:%M:%S.%f)")
-    t = Transaction(timestamp_str, tx_hash, rem, dest_user.organization, None, offer.price, "", "")
+    t = Transaction(timestamp_str, tx_hash, sender, dest_user.organization, None, offer.price, "", "")
     s.add(t)
     s.commit()
     s.close()
 
 
-def transfer_coins(rem, dest, amount, email, dest_email):   # TODO: change 'rem' to 'sender'
+def transfer_coins(sender, dest, amount, email, dest_email):
     """Transfer coins to another user."""
-    owner_address = rem.block_addr
+    owner_address = sender.block_addr
     dest_address = dest.block_addr
     value=int(float(amount)*100)
 
-    tx_hash = blockchain_manager.transfer(caller=owner_address, callerKey=rem.pk, to=dest_address, value=value)
+    tx_hash = blockchain_manager.transfer(caller=owner_address, callerKey=sender.pk, to=dest_address, value=value)
 
     s = Session()
     datetime_obj = datetime.now()
@@ -287,7 +287,7 @@ def wallet():
     user = User.get_by_email(email)
     salary = get_balance(user.block_addr)
     if form.validate_on_submit():
-        transfer_coins(rem=user, dest=User.get_by_email(request.form['destiny']), amount=request.form['quantity'], email=email, dest_email=request.form['destiny'])
+        transfer_coins(sender=user, dest=User.get_by_email(request.form['destiny']), amount=request.form['quantity'], email=email, dest_email=request.form['destiny'])
     given_name = dict(session).get('given_name', None)
     try:
         del session['action_id']
