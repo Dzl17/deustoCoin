@@ -33,8 +33,8 @@
       <form id="registerform" action="/register" method="POST">
         <div class="form-group">
           <p>
-            <input type="text" class="form-control" placeholder="{{gettext('Nombre y apellidos')}}" name="nombre"
-              value='{{name}}'></input>   <!--TODO: this 'name' might break, and the 'nombre' above too-->
+            <input type="text" class="form-control" placeholder="{{gettext('Nombre y apellidos')}}" name="name"
+              value='{{name}}'></input>
           </p>
         </div>
         <div class="form-group">
@@ -45,14 +45,14 @@
         </div>
         <div class="form-group">
           <p>
-            <input type="text" class="form-control" placeholder="{{gettext('Organización')}}" name="organizacion" id="organizacion"
-              value="Universidad de Deusto">           <!--TODO: check that the above 'organizacion' works properly, and the 'rol' below-->
+            <input type="text" class="form-control" placeholder="{{gettext('Organización')}}" name="organization" id="organizacion"
+              value="Universidad de Deusto">           <!--TODO: check that the above 'organization' works properly, and the 'role' below-->
           </p>
         </div>
         <div class="form-group">
           <p>
 
-            <select class="form-control" name="rol" id="userrole">
+            <select class="form-control" name="role" id="userrole">
               <option value="Colaborador">{{gettext('Colaborador')}}</option>
               <option value="Promotor">{{gettext('Promotor')}}</option>
               <option value="Administrador">{{gettext('Administrador')}}</option>

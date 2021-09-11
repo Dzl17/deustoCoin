@@ -474,9 +474,9 @@ def editor(campaign_id):
     salary = get_balance(user.block_addr)
     s = Session()
     if request.method == 'POST':
-        if 'edit_action' in request.form:     # TODO: 'edit_action' => 'editarAcc', it might break
+        if 'edit_action' in request.form:
             return redirect(url_for('action_editor', action_id=request.form['action_id']))
-        elif 'delete_action' in request.form: # TODO: 'delete_action' => 'editarAcc', it might break
+        elif 'delete_action' in request.form:
             query = s.query(Action)
             pk = request.form['action_id']
             query = query.filter(Action.id == pk).first()
@@ -568,7 +568,7 @@ def action_editor(action_id):
     s = Session()
     query = s.query(Action)
     action = query.filter(Action.id == action_id).first()
-    if request.method == 'POST' and 'update_action' in request.form:  # TODO: take a look at 'actualizarA'
+    if request.method == 'POST' and 'update_action' in request.form:
         dictupdate = {Action.name: request.form['name'], Action.description: request.form['description'],   # TODO: check if this (and the other 2 below) work after the translation
                       Action.reward: float(request.form['reward']),
                       Action.kpi_indicator: request.form['kpi_indicator'], Action.kpi_target: int(request.form['kpi_target'])}
