@@ -141,7 +141,7 @@ def create_figure(id):
         axis.set_xlabel(date_string)
         axis.set_ylabel(action.kpi_indicator)
         results = data.get("results")[::-1]
-        xs = [x.fecha for x in results]  # TODO: graphs are not generated
+        xs = [x.date for x in results]
         ys = [y.kpi for y in results]
         axis.set_xticklabels(xs, rotation=45, fontsize=6)
         axis.plot(xs, ys)

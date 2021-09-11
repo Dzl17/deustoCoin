@@ -162,16 +162,16 @@ class Action(Base):
     kpi_indicator = Column('indicadorKpi', String, nullable=False)
     campaign_id = Column('campanya_id', Integer, ForeignKey('campanya.id'))
     kpi = Column(Integer, default=0)
-    kpi_objective = Column('kpiObj', Integer, default=0)
+    kpi_target = Column('kpiObj', Integer, default=0)
     kpis = relationship(KPIByDates, backref=backref("kpi_fechas", passive_deletes=True))
 
-    def __init__(self, name, company, description, reward, kpi_indicator, kpi_objective, campaign_id):
+    def __init__(self, name, company, description, reward, kpi_indicator, kpi_target, campaign_id):
         self.name = name
         self.company = company
         self.description = description
         self.reward = reward
         self.kpi_indicator = kpi_indicator
-        self.kpi_objective = kpi_objective
+        self.kpi_target = kpi_target
         self.campaign_id = campaign_id
 
     def __repr__(self):
