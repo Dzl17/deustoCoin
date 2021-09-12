@@ -1,5 +1,5 @@
 from flask import Flask, url_for, render_template, request, redirect, Response, session, \
-    send_from_directory, make_response
+    send_from_directory, make_response, abort
 from flask_babel import Babel, gettext
 from authlib.integrations.flask_client import OAuth
 from base import Session, init_db
@@ -568,8 +568,10 @@ def action_editor(action_id):
     s = Session()
     query = s.query(Action)
     action = query.filter(Action.id == action_id).first()
+    if (action == None):
+        abort(404)
     if request.method == 'POST' and 'update_action' in request.form:
-        dictupdate = {Action.name: request.form['name'], Action.description: request.form['description'],   # TODO: check if this (and the other 2 below) work after the translation
+        dictupdate = {Action.name: request.form['name'], Action.description: request.form['description'],
                       Action.reward: float(request.form['reward']),
                       Action.kpi_indicator: request.form['kpi_indicator'], Action.kpi_target: int(request.form['kpi_target'])}
         query.filter(Action.id == action_id).update(dictupdate, synchronize_session=False)
@@ -586,6 +588,8 @@ def campaign_editor(campaign_id):
     s = Session()
     query = s.query(Campaign)
     campaign = query.filter(Campaign.id == campaign_id).first()
+    if (campaign == None):
+        abort(404)
     if request.method == 'POST':
         dictupdate = {Campaign.name: request.form['name'], Campaign.description: request.form['description']}
         query.filter(Campaign.id == campaign_id).update(dictupdate, synchronize_session=False)
@@ -602,6 +606,8 @@ def offer_editor(offer_id):
     s = Session()
     query = s.query(Offer)
     offer = query.filter(Offer.id == offer_id).first()
+    if (offer == None):
+        abort(404)
     if request.method == 'POST':
         dictupdate = {Offer.name: request.form['name'], Offer.description: request.form['description'],
                       Offer.price: request.form['price']}
