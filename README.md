@@ -1,49 +1,31 @@
 # DeustoCoin
 
-> Jorge El Busto Suárez
+Adaptation to Smart Contracts and Hyperledger Besu of [Deustocoin, by Jorge El Busto](https://github.com/bu5to/deustoCoin). Created for MORElab from Deusto University.
 
-> Proyecto Fin de Grado
+Deustocoin is a project that intends to promote the motto "Blockchain for Good" and contribute to a better world through a social coin using the emerging technology that is Blockchain.
 
----
 
-# Introducción
+## How does it work?
 
-DeustoCoin es una aplicación web realizada por Jorge El Busto para MORElab (ICT for good), siendo este su Proyecto Fin de Grado de Ingeniería Informática en la Universidad de Deusto. 
+The web application works as follows: 
 
----
+Both members of the university and promoters of campaigns belonging to external companies can operate on the app. The promoters can create campaigns and actions that intend to comply with the [United Nations' SDGs (Sustainable Development Goals)](https://sdgs.un.org/goals). Examples of those actions are using recyclable coffee cups or walking/cycling to the university instead of using a car. They can monitor the Key Performance Indicators (KPIs) of the campaigns and actions, and observe their progress on graphics.
 
-# Resumen
+Members of the university, referred to as 'collaborators', can then complete those actions to earn a reward in UDCoin, a cryptocurrency based on the Ethereum ERC20 standard (more details below). This coin can then be exchanged for offers created by the companies, such as food, drinks, or discounts on other products; it can also be sent to other collaborators.
 
-DeustoCoin es un proyecto que pretende fomentar el lema “Blockchain for Good” y contribuir a un mundo mejor a través de una tecnología emergente como es el Blockchain.
+Some users may be administrators, to manage and watch over the usage of the system.
 
-Dicho proyecto consta de una aplicación web en la que pueden operar tanto miembros de la universidad de Deusto como promotores de campañas pertenecientes a empresas externas a la universidad (cafeterías, museos, transporte...).
 
-Mediante este proyecto, se pretende mejorar la imagen corporativa de la Universidad, cumpliendo con varios de los 17 ODS (Objetivos de Desarrollo Sostenible) establecidos por las Naciones Unidas.
+## Technical aspects
 
-Hay varios roles que conforman la plataforma de DeustoCoin, además de una criptomoneda basada en Ethereum (UDCoin) que será la moneda a canjear por las diferentes ofertas. Los roles en cuestión varían en función del usuario, y hay tres: alumno o participante en campaña, promotor, y un administrador que podrá realizar las tareas de los dos tipos de usuario anteriores.
+The web app is written in [Flask](https://flask.palletsprojects.com/en/2.0.x/), a Python framework. The communication with the blockchain is done trhough the [Python version of Web3](https://web3py.readthedocs.io/en/stable/). Other technologies used are IPFS (used to save action realization proofs) or Google App Engine (to carry out authentication).
 
-Los participantes de las campañas podrán realizar una serie de tareas como el envío de monedas, consulta de campañas, canjeo de UDCoins en ofertas y registro y confirmación de una buena acción para así obtener su respectiva recompensa.
+In the original project, the coins where based on the ether token and sent using raw transactions on the blockchain. In this fork, the system has been redesigned to rely on a Solidity Smart Contract, which can be read in [contracts/deustocoin.sol](contracts/deustocoin.sol). This contract is compliant with the Ethereum [ERC20 Token Standard](https://ethereum.org/en/developers/docs/standards/tokens/erc-20/). This contract can be deployed on the Ethereum network, but a different approach is being tested and explored, based on [Hyperledger Besu](https://www.hyperledger.org/use/besu).
 
-Los promotores podrán lanzar campañas y acciones, monitorizar las métricas de objetivos (KPIs) de las mismas, y observar en gráficas el progreso de las acciones correspondientes a las campañas.
+Besu is an Ethereum client developed by the Linux Foundation that supports the creation of private and permissioned networks. As it has been previously mentioned, this application tries to comply with the UN's Sustainable Development Goals, an intention which is not currently compatible with the high energy usage of blockchains like Ethereum or Bitcoin. That is why for now the plan is to deploy the system in a smaller network that uses the [Proof of Authority](https://en.wikipedia.org/wiki/Proof_of_authority) consensus protocol, which consumes a lot less energy and works better with our approach. Besu also supports gas-free networks (with no transaction fees) which greatly improves the final user experience.
 
-Las tecnologías utilizadas en el proyecto son Python, Ethereum (Infura), IPFS, HTML y Google App Engine.
+This way, the web app would be deployed on a centralized server, while the currency management would be carried out in a decentralized blockchain, combining the best of both worlds.
 
----
 
-# Despliegue en la nube
-
-La aplicación se encuentra desplegada en Heroku, y puede accederse a ella mediante haciendo clic en este enlace. 
-
-[DeustoCoin](https://deustocoin.herokuapp.com)
-
----
-
-# Arquitectura del sistema
-
-![README/Untitled.png](README/Untitled.png)
-
----
-
-# Diagrama entidad - relación
-
-![README/Untitled%201.png](README/Untitled%201.png)
+## Cloud deployment
+The original application is currently [deployed in Heroku](https://deustocoin.herokuapp.com), without the use of smart contracts or Besu.
