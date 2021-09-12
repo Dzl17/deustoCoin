@@ -39,8 +39,7 @@ contract Deustocoin {
         uint256 indexed _actionID,
         uint256 _reward,
         uint256 _time,
-        bytes32 _ipfsHash,
-        bytes _proofUrl
+        bytes32 _ipfsHash
     );
 
 
@@ -188,14 +187,13 @@ contract Deustocoin {
         uint256 _actionID,
         uint256 _reward,
         uint256 _time,
-        bytes32 _ipfsHash,
-        bytes memory _proofUrl
+        bytes32 _ipfsHash
     ) public returns (bool success) {
         require(roles[msg.sender] == Role.Administrator);
         require(roles[_promoter] == Role.Promoter && roles[_who] == Role.Collaborator);
         require(balances[_promoter] >= _reward);
 
-        emit Action(_who, _actionID, _reward, _time, _ipfsHash, _proofUrl);
+        emit Action(_who, _actionID, _reward, _time, _ipfsHash);
         return true;
     }
 }

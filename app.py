@@ -63,14 +63,21 @@ def get_balance(address):
     return blockchain_manager.balance_of(address)/100    # Divide to create equivalence to the Euro, as a single UDC is equivalent to a cent
 
 
-def reward_coins(dest, promoter_address, action_id, amount, img_hash, url_proof):
+def reward_coins(dest, promoter, action_id, amount, img_hash, url_proof):
     """Reward the input amount of coins to the user that completes a good deed."""
     dest_user = User.get_by_email(dest)
     dest_address = dest_user.block_addr
+    promoter_address = promoter.block_addr
+    promoter_balance = get_balance(promoter_address)
+    # Avoid trying to reward more than the promoter's balance; this is already enforced on the 
+    # smart contract, but here the rest of the balance is sent if there's not enough for the whole reward
+    reward = int(float(amount)*100) if promoter_balance > int(float(amount)*100) else promoter_balance
     action = Action.get_action_by_id(session['action_id'])
 
-    tx_hash = blockchain_manager.transfer(caller=admin_address, callerKey=private_key, to=dest_address, value=int(float(amount)*100))
-    blockchain_manager.emit_action(caller=admin_address, callerKey=private_key, promoter=promoter_address, to=dest_address, actionID=action_id, reward=amount, time=int(time.time()), ipfs_hash=img_hash, proof_url=url_proof)
+    print(f'Caller={admin_address} callerKey={private_key} Promoter={promoter_address} To={dest_address} actionID={action_id} reward={int(amount)} time={int(time.time())} ipfs_hash={img_hash} proof_url={url_proof}')
+    tx_hash = blockchain_manager.transfer(caller=admin_address, callerKey=private_key, to=dest_address, value=reward)
+    blockchain_manager.emit_action(caller=admin_address, callerKey=private_key, promoter=promoter_address, to=dest_address, actionID=action_id, reward=int(amount), time=int(time.time()), ipfs_hash=img_hash)
+
 
     s = Session()
     datetime_obj = datetime.now()
@@ -181,9 +188,9 @@ def upload():
     client = ipfshttpclient.connect(os.environ.get('IPFS_CONNECT_URL'))
     user = User.get_by_email(session['email'])
     try:
-        urlProof = request.form['proof']
+        url_proof = request.form['proof']
     except:
-        urlProof = ""
+        url_proof = ""
     file = request.files['filename']
     res = client.add(file)
     client.close()
@@ -191,7 +198,9 @@ def upload():
     kpi = request.form['kpi']
     str_reward = str(c_reward.reward).replace(",", ".")
     c_reward.reward = float(str_reward) * float(kpi) * 100    # The multiplication adjusts to the coin decimals
-    reward_coins(session['email'], c_reward.reward, res['Hash'], urlProof)
+    company = User.get_company_block_addr(c_reward.company)
+    # Important: the 'img_hash' parameter must be a valid bytes32 hash (e.g. '0x64EC88CA00B268E5BA1A35678A1B5316D212F4F366B2477232534A8AECA37F3C')
+    reward_coins(dest=session['email'], promoter=company, action_id=session['action_id'], amount=c_reward.reward, img_hash=res['Hash'], url_proof=url_proof)
     try:
         c_reward.name = translator.translate(c_reward.name, dest=session['lang']).text
     except:

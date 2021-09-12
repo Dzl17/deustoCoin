@@ -174,10 +174,10 @@ class BlockchainManager():
         return self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-    def emit_action(self, caller, callerKey, promoter, to, actionID, reward, time, ipfs_hash, proof_url):
+    def emit_action(self, caller, callerKey, promoter, to, actionID, reward, time, ipfs_hash):
         """Registers a collaborator's good action on the blockchain and gives them credit for its completion."""
-        transaction = self.contract.functions.processAction(
-            promoter, to, actionID, reward, time, ipfs_hash, proof_url
+        transaction = self.contract.functions.emitAction(
+            promoter, to, actionID, reward, time, ipfs_hash
         ).buildTransaction({
             'gas': 10000000,
             'gasPrice': self.w3.toWei(self.w3.eth.gas_price, 'gwei'),

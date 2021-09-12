@@ -123,7 +123,7 @@ class KPIByDates(Base):
         query = s.query(KPIByDates)
         results = query.filter(KPIByDates.action == id).order_by(desc(KPIByDates.id)).all()
         query2 = s.query(Action)
-        name = query2.filter(Action.id == id).first().name  # TODO: the last 'name' might break something
+        name = query2.filter(Action.id == id).first().name
         data = {
             "name": name,
             "results": results
