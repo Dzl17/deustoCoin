@@ -7,7 +7,7 @@ contract Deustocoin{
     string  private constant _name = "Deustocoin";
     string  private constant _symbol = "UDC";
     uint8   private constant _decimals = 2; // number of decimals the coin can be divided in, equivalent to euro in this case
-    uint256 private constant _totalSupply = 1000000;  // TODO: specify initial amount
+    uint256 private constant _totalSupply = 1000000;
     address _contractOwner; // Account that deploys the contract (the project administrator, e.g. the University of Deusto) 
 
     mapping(address => uint256) balances;   // Balances of users

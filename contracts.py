@@ -34,7 +34,7 @@ class BlockchainManager():
         return self.transfer_filter_instance.get_all_entries()
 
 
-    def get_all_transfer_events(self):
+    def get_all_transfer_events(self) -> list:
         """Returns all the filtered tranfer events, showing only the event values."""
         new_list = []
         for i in self.get_all_transfers():

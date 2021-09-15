@@ -2,8 +2,6 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
-// TODO: adapt use of mint() and burn()
-
 /// @title ERC20 compliant token used in the Deustocoin project for the University of Deusto
 contract Deustocoin {
     string  private constant _name = "Deustocoin";
@@ -16,7 +14,7 @@ contract Deustocoin {
 
     mapping(address => uint256) balances;   // Balances of users, saved with 2 decimals (the value is equivalent to cents)
     mapping(address => mapping(address => uint256)) allowed;   // Accounts approved to withdraw from a given account + sum allowed
-    mapping(address => Role) roles; // Roles of the users; access to the system is specified in the permissioned blockchain. TODO: might be expensive regarding gas
+    mapping(address => Role) roles; // Roles of the users; access to the system is specified in the permissioned blockchain.
 
     /// @notice MUST trigger when tokens are transferred, including zero value transfers
     /// @dev a token contract which creates new tokens SHOULD trigger the event with _from set to 0x0 when tokens are created

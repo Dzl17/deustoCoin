@@ -68,16 +68,15 @@ def reward_coins(dest, promoter, action_id, amount, img_hash, url_proof):
     dest_user = User.get_by_email(dest)
     dest_address = dest_user.block_addr
     promoter_address = promoter.block_addr
+    promoter_key = promoter.pk
     promoter_balance = get_balance(promoter_address)
     # Avoid trying to reward more than the promoter's balance; this is already enforced on the 
     # smart contract, but here the rest of the balance is sent if there's not enough for the whole reward
     reward = int(float(amount)*100) if promoter_balance > int(float(amount)*100) else promoter_balance
     action = Action.get_action_by_id(session['action_id'])
 
-    print(f'Caller={admin_address} callerKey={private_key} Promoter={promoter_address} To={dest_address} actionID={action_id} reward={int(amount)} time={int(time.time())} ipfs_hash={img_hash} proof_url={url_proof}')
-    tx_hash = blockchain_manager.transfer(caller=admin_address, callerKey=private_key, to=dest_address, value=reward)
+    tx_hash = blockchain_manager.transfer(caller=promoter_address, callerKey=promoter_key, to=dest_address, value=reward)
     blockchain_manager.emit_action(caller=admin_address, callerKey=private_key, promoter=promoter_address, to=dest_address, actionID=action_id, reward=int(amount), time=int(time.time()), ipfs_hash=img_hash)
-
 
     s = Session()
     datetime_obj = datetime.now()
@@ -86,7 +85,7 @@ def reward_coins(dest, promoter, action_id, amount, img_hash, url_proof):
     s.add(t)
     s.commit()
     query = s.query(Action)
-    kpi = int(float(request.form['kpi']))   # TODO: what is this
+    kpi = int(float(request.form['kpi']))
     dictupdate = {Action.kpi: Action.kpi + kpi}
     query.filter(Action.id == action.id).update(dictupdate, synchronize_session=False)
     s.commit()
