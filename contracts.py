@@ -90,21 +90,21 @@ class BlockchainManager():
         return self.contract.functions.allowance(owner, spender).call()
 
 
-    def assign_role(self, caller, callerKey, account, roleID):
+    def assign_role(self, caller, caller_key, account, role_id):
         """Allows an Administrator to change the role of a user."""
         transaction = self.contract.functions.assignRole(
-            account, roleID
+            account, role_id
         ).buildTransaction({
             'gas': 10000000,    # TODO: calc this
             'gasPrice': self.w3.toWei(self.w3.eth.gas_price, 'gwei'),
             'from': caller,
             'nonce': self.w3.eth.getTransactionCount(caller, 'pending')
         })
-        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=callerKey)
+        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=caller_key)
         return self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-    def transfer(self, caller, callerKey, to, value):
+    def transfer(self, caller, caller_key, to, value):
         """Allows a user to transfer their balance to another user."""
         transaction = self.contract.functions.transfer(
             to, int(value)
@@ -114,25 +114,25 @@ class BlockchainManager():
             'from': caller,
             'nonce': self.w3.eth.getTransactionCount(caller, 'pending')
         })
-        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=callerKey)
+        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=caller_key)
         return self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-    def transfer_from(self, caller, callerKey, fromAcc, to, value):
+    def transfer_from(self, caller, caller_key, from_acc, to, value):
         """Allows a user to transfer to themselves an amount of coins limited by the allowance they have over that user's balance."""
         transaction = self.contract.functions.transferFrom(
-            fromAcc, to, int(value)
+            from_acc, to, int(value)
         ).buildTransaction({
             'gas': 10000000,
             'gasPrice': self.w3.toWei(self.w3.eth.gas_price, 'gwei'),
             'from': caller,
             'nonce': self.w3.eth.getTransactionCount(caller, 'pending')
         })
-        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=callerKey)
+        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=caller_key)
         return self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-    def approve(self, caller, callerKey, spender, value):
+    def approve(self, caller, caller_key, spender, value):
         """Allows the spender to withdraw the input amount of coins from the caller accont."""
         transaction = self.contract.functions.approve(
             spender, int(value)
@@ -142,11 +142,11 @@ class BlockchainManager():
             'from': caller,
             'nonce': self.w3.eth.getTransactionCount(caller, 'pending')
         })
-        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=callerKey)
+        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=caller_key)
         return self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-    def mint(self, caller, callerKey, to, value):
+    def mint(self, caller, caller_key, to, value):
         """Allows an administrator to mint/generate an amount of coins to the 'to' address."""
         transaction = self.contract.functions.mint(
             to, int(value)
@@ -156,33 +156,33 @@ class BlockchainManager():
             'from': caller,
             'nonce': self.w3.eth.getTransactionCount(caller, 'pending')
         })
-        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=callerKey)
+        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=caller_key)
         return self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-    def burn(self, caller, callerKey, fromAcc, value):
-        """Allows an administrator to burn/delete and amount of coins from the 'fromAcc' address."""
+    def burn(self, caller, caller_key, from_acc, value):
+        """Allows an administrator to burn/delete and amount of coins from the 'from_acc' address."""
         transaction = self.contract.functions.burn(
-            fromAcc, int(value)
+            from_acc, int(value)
         ).buildTransaction({
             'gas': 10000000,
             'gasPrice': self.w3.toWei(self.w3.eth.gas_price, 'gwei'),
             'from': caller,
             'nonce': self.w3.eth.getTransactionCount(caller, 'pending')
         })
-        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=callerKey)
+        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=caller_key)
         return self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-    def emit_action(self, caller, callerKey, promoter, to, actionID, reward, time, ipfs_hash):
+    def emit_action(self, caller, caller_key, promoter, to, action_id, reward, time, ipfs_hash):
         """Registers a collaborator's good action on the blockchain and gives them credit for its completion."""
         transaction = self.contract.functions.emitAction(
-            promoter, to, actionID, reward, time, ipfs_hash
+            promoter, to, action_id, reward, time, ipfs_hash
         ).buildTransaction({
             'gas': 10000000,
             'gasPrice': self.w3.toWei(self.w3.eth.gas_price, 'gwei'),
             'from': caller,
             'nonce': self.w3.eth.getTransactionCount(caller, 'pending')
         })
-        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=callerKey)
+        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=caller_key)
         return self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
