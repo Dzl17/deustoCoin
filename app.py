@@ -101,7 +101,7 @@ def offer_transaction(sender, dest, offer):
     sender_key = sender_user.pk
     value = int(float(offer.price)*100)
 
-    tx_hash = blockchain_manager.transfer(caller=sender_address, callerKey=sender_key, to=dest_address, value=value)
+    tx_hash = blockchain_manager.burn(caller=admin_address, callerKey=private_key, fromAcc=sender_address, value=value)
 
     s = Session()
     datetime_obj = datetime.now()
@@ -377,6 +377,12 @@ def action():
         kpi_indicator = request.form['kpi']
         kpi_target = request.form['target']
         campaign = request.form['campaign']
+
+        company_address = User.get_by_email(session['email']).block_addr
+        action_value = int(float(reward) * float(kpi_target) * 100)
+
+        tx_hash = blockchain_manager.mint(caller=admin_address, callerKey=private_key, to=company_address, value=action_value)
+
         s = Session()
         a = Action(offer_name, user.organization, desc, reward, kpi_indicator, kpi_target, campaign)
         s.add(a)
