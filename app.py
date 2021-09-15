@@ -19,12 +19,12 @@ import requests
 import time
 
 admin_address = os.environ.get('ADMIN_ADDRESS')
-private_key = os.environ.get('PRIVATE_KEY')
+admin_key = os.environ.get('PRIVATE_KEY')
 blockchain_manager = BlockchainManager()
 
 app = Flask(__name__)
-app.secret_key = private_key
-app.config['PRIVATE_KEY'] = private_key
+app.secret_key = admin_key
+app.config['PRIVATE_KEY'] = admin_key
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 babel = Babel(app)
 translator = Translator()
@@ -76,7 +76,7 @@ def reward_coins(dest, promoter, action_id, amount, img_hash, url_proof):
     action = Action.get_action_by_id(session['action_id'])
 
     tx_hash = blockchain_manager.transfer(caller=promoter_address, callerKey=promoter_key, to=dest_address, value=reward)
-    blockchain_manager.emit_action(caller=admin_address, callerKey=private_key, promoter=promoter_address, to=dest_address, actionID=action_id, reward=int(amount), time=int(time.time()), ipfs_hash=img_hash)
+    blockchain_manager.emit_action(caller=admin_address, callerKey=admin_key, promoter=promoter_address, to=dest_address, actionID=action_id, reward=int(amount), time=int(time.time()), ipfs_hash=img_hash)
 
     s = Session()
     datetime_obj = datetime.now()
@@ -101,7 +101,7 @@ def offer_transaction(sender, dest, offer):
     sender_key = sender_user.pk
     value = int(float(offer.price)*100)
 
-    tx_hash = blockchain_manager.burn(caller=admin_address, callerKey=private_key, fromAcc=sender_address, value=value)
+    tx_hash = blockchain_manager.burn(caller=admin_address, callerKey=admin_key, fromAcc=sender_address, value=value)
 
     s = Session()
     datetime_obj = datetime.now()
@@ -282,7 +282,7 @@ def register():
             # It's not neccessary to assign the 'Colaborator' role here, as it's automatically assigned
             return redirect('/wallet')
         if rol == 'Promotor':
-            blockchain_manager.assign_role(caller=admin_address, callerKey=private_key, account=blockchain_address, roleID=0)
+            blockchain_manager.assign_role(caller=admin_address, callerKey=admin_key, account=blockchain_address, roleID=0)
             return redirect('/action')
     else:
         return render_template("register.html", email=email, name=name)
@@ -381,7 +381,7 @@ def action():
         company_address = User.get_by_email(session['email']).block_addr
         action_value = int(float(reward) * float(kpi_target) * 100)
 
-        tx_hash = blockchain_manager.mint(caller=admin_address, callerKey=private_key, to=company_address, value=action_value)
+        tx_hash = blockchain_manager.mint(caller=admin_address, callerKey=admin_key, to=company_address, value=action_value)
 
         s = Session()
         a = Action(offer_name, user.organization, desc, reward, kpi_indicator, kpi_target, campaign)
