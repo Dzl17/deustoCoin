@@ -1,3 +1,4 @@
+from functools import reduce
 from flask import Flask, url_for, render_template, request, redirect, Response, session, \
     send_from_directory, make_response, abort
 from flask_babel import Babel, gettext
@@ -11,6 +12,7 @@ from forms import SendUDCForm, CreateCampaignForm, CreateOfferForm
 from googletrans import Translator
 from flask.cli import with_appcontext
 from contracts import *
+import base58
 import io
 import ipfshttpclient
 import qrcode
@@ -61,6 +63,14 @@ def init():
 def get_balance(address):
     """Return the balance of the parameter address."""
     return blockchain_manager.balance_of(address)/100    # Divide to create equivalence to the Euro, as a single UDC is equivalent to a cent
+
+
+def decode_hash(hash):
+    """Turns an IPFS hash into a value that can be stored in the Smart Contract.\n
+    The hash is returned in a base58 multihash, from which the first two bytes are removed, as they represent the hash function and the length in bytes, which we don't need."""
+    decoded_hash = base58.b58decode(hash)
+    reduced_hash = decoded_hash.hex()[4:]
+    return reduced_hash
 
 
 def reward_coins(dest, promoter, action_id, amount, img_hash, url_proof):
@@ -157,9 +167,22 @@ def create_figure(id):
 
 
 def add_account_to_allowlist(address):
-    """Adds an account to the permissioned blockchain allowlist"""
+    """Adds an account to the permissioned blockchain allowlist."""
     data = '{"jsonrpc":"2.0","method":"perm_addAccountsToAllowlist","params":[["' + address + '"]], "id":1}'
     response = requests.post(os.environ.get('BLOCKCHAIN_URL'), data=data)
+    return response
+
+
+def ipfs_add_file(file):
+    """Uploads a file to IPFS."""
+    files = {
+        'image': (file.filename, file.read(), 'rb'),
+    }
+    params = (
+        ('hash', 'sha2-256'),
+    )
+    response = requests.post(os.environ.get('IPFS_URL'), files=files, params=params)
+    print(response)
     return response
 
 
@@ -184,22 +207,22 @@ def login():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    client = ipfshttpclient.connect(os.environ.get('IPFS_CONNECT_URL'))
     user = User.get_by_email(session['email'])
     try:
         url_proof = request.form['proof']
     except:
         url_proof = ""
     file = request.files['filename']
-    res = client.add(file)
-    client.close()
+    res = ipfs_add_file(file)
     c_reward = Action.get_action_by_id(session['action_id'])
     kpi = request.form['kpi']
     str_reward = str(c_reward.reward).replace(",", ".")
     c_reward.reward = float(str_reward) * float(kpi) * 100    # The multiplication adjusts to the coin decimals
     company = User.get_company_block_addr(c_reward.company)
+
+    decoded_hash = '0x' + decode_hash(res.json()['Hash'])
     # Important: the 'img_hash' parameter must be a valid bytes32 hash (e.g. '0x64EC88CA00B268E5BA1A35678A1B5316D212F4F366B2477232534A8AECA37F3C')
-    reward_coins(dest=session['email'], promoter=company, action_id=session['action_id'], amount=c_reward.reward, img_hash=res['Hash'], url_proof=url_proof)
+    reward_coins(dest=session['email'], promoter=company, action_id=session['action_id'], amount=c_reward.reward, img_hash=decoded_hash, url_proof=url_proof)
     try:
         c_reward.name = translator.translate(c_reward.name, dest=session['lang']).text
     except:
