@@ -14,7 +14,6 @@ from flask.cli import with_appcontext
 from contracts import *
 import base58
 import io
-import ipfshttpclient
 import qrcode
 import os
 import requests
