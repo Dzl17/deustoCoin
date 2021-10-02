@@ -85,11 +85,6 @@ class BlockchainManager():
         return self.contract.functions.roleOf(address).call()
 
 
-    def allowance(self, owner, spender):
-        """Returns the amount the spender is allowed to withdraw from the owner balance."""
-        return self.contract.functions.allowance(owner, spender).call()
-
-
     def assign_role(self, caller, caller_key, account, role_id):
         """Allows an Administrator to change the role of a user."""
         transaction = self.contract.functions.assignRole(
@@ -108,34 +103,6 @@ class BlockchainManager():
         """Allows a user to transfer their balance to another user."""
         transaction = self.contract.functions.transfer(
             to, int(value)
-        ).buildTransaction({
-            'gas': 10000000,
-            'gasPrice': self.w3.toWei(self.w3.eth.gas_price, 'gwei'),
-            'from': caller,
-            'nonce': self.w3.eth.getTransactionCount(caller, 'pending')
-        })
-        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=caller_key)
-        return self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
-
-
-    def transfer_from(self, caller, caller_key, from_acc, to, value):
-        """Allows a user to transfer to themselves an amount of coins limited by the allowance they have over that user's balance."""
-        transaction = self.contract.functions.transferFrom(
-            from_acc, to, int(value)
-        ).buildTransaction({
-            'gas': 10000000,
-            'gasPrice': self.w3.toWei(self.w3.eth.gas_price, 'gwei'),
-            'from': caller,
-            'nonce': self.w3.eth.getTransactionCount(caller, 'pending')
-        })
-        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=caller_key)
-        return self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
-
-
-    def approve(self, caller, caller_key, spender, value):
-        """Allows the spender to withdraw the input amount of coins from the caller accont."""
-        transaction = self.contract.functions.approve(
-            spender, int(value)
         ).buildTransaction({
             'gas': 10000000,
             'gasPrice': self.w3.toWei(self.w3.eth.gas_price, 'gwei'),
