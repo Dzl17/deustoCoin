@@ -77,15 +77,14 @@ def reward_coins(dest, promoter, action_id, amount, img_hash, url_proof):
     dest_user = User.get_by_email(dest)
     dest_address = dest_user.block_addr
     promoter_address = promoter.block_addr
-    promoter_key = promoter.pk
     promoter_balance = get_balance(promoter_address)
     # Avoid trying to reward more than the promoter's balance; this is already enforced on the 
     # smart contract, but here the rest of the balance is sent if there's not enough for the whole reward
     reward = int(float(amount)*100) if promoter_balance > int(float(amount)*100) else promoter_balance
     action = Action.get_action_by_id(session['action_id'])
 
-    tx_hash = blockchain_manager.transfer(caller=promoter_address, caller_key=promoter_key, to=dest_address, value=reward)
-    blockchain_manager.emit_action(caller=admin_address, caller_key=admin_key, promoter=promoter_address, to=dest_address, action_id=action_id, reward=int(amount), time=int(time.time()), ipfs_hash=img_hash)
+    tx_hash = blockchain_manager.processAction(caller=admin_address, caller_key=admin_key, promoter=promoter_address, 
+        to=dest_address, action_id=action_id, reward=reward, time=int(time.time()), ipfs_hash=img_hash)
 
     s = Session()
     datetime_obj = datetime.now()
@@ -300,11 +299,9 @@ def register():
         s.add(u)
         s.commit()
         add_account_to_allowlist(blockchain_address)   # Allows the new registered user to use the permissioned blockchain
-        if rol == 'Colaborador':    
-            # It's not neccessary to assign the 'Colaborator' role here, as it's automatically assigned
+        if rol == 'Colaborador':
             return redirect('/wallet')
         if rol == 'Promotor':
-            blockchain_manager.assign_role(caller=admin_address, caller_key=admin_key, account=blockchain_address, role_id=1)
             return redirect('/action')
     else:
         return render_template("register.html", email=email, name=name)

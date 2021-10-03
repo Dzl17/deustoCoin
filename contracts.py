@@ -80,25 +80,6 @@ class BlockchainManager():
         return self.contract.functions.balanceOf(address).call()
 
 
-    def role_of(self, address):
-        """Returns the role of the input address (Collaborator, Promoter or Administrator)."""
-        return self.contract.functions.roleOf(address).call()
-
-
-    def assign_role(self, caller, caller_key, account, role_id):
-        """Allows an Administrator to change the role of a user."""
-        transaction = self.contract.functions.assignRole(
-            account, role_id
-        ).buildTransaction({
-            'gas': 10000000,    # TODO: calc this
-            'gasPrice': self.w3.toWei(self.w3.eth.gas_price, 'gwei'),
-            'from': caller,
-            'nonce': self.w3.eth.getTransactionCount(caller, 'pending')
-        })
-        signed_tx = self.w3.eth.account.signTransaction(transaction, private_key=caller_key)
-        return self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
-
-
     def transfer(self, caller, caller_key, to, value):
         """Allows a user to transfer their balance to another user."""
         transaction = self.contract.functions.transfer(
@@ -141,9 +122,9 @@ class BlockchainManager():
         return self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
 
-    def emit_action(self, caller, caller_key, promoter, to, action_id, reward, time, ipfs_hash):
+    def processAction(self, caller, caller_key, promoter, to, action_id, reward, time, ipfs_hash):
         """Registers a collaborator's good action on the blockchain and gives them credit for its completion."""
-        transaction = self.contract.functions.emitAction(
+        transaction = self.contract.functions.processAction(
             promoter, to, action_id, reward, time, ipfs_hash
         ).buildTransaction({
             'gas': 10000000,
