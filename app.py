@@ -84,7 +84,7 @@ def reward_coins(dest, promoter, action_id, amount, img_hash, url_proof):
     action = Action.get_action_by_id(session['action_id'])
 
     tx_hash = blockchain_manager.processAction(caller=admin_address, caller_key=admin_key, promoter=promoter_address, 
-        to=dest_address, action_id=action_id, reward=reward, time=int(time.time()), ipfs_hash=img_hash)
+        to=dest_address, action_id=action_id, reward=int(reward), time=int(time.time()), ipfs_hash=img_hash)
 
     s = Session()
     datetime_obj = datetime.now()
