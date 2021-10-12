@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 {% block head %}
 <style>
-  @media (min-width:768px)  {
-   .plot {
-        width: 768px;
-        height: 576px;
+  @media (min-width:768px) {
+    .plot {
+      width: 768px;
+      height: 576px;
     }
-   }
-   @media (max-width:768px)  {
-   .plot {
-        width: 100%;
+  }
+
+  @media (max-width:768px) {
+    .plot {
+      width: 100%;
     }
-   }
+  }
 </style>
 {% endblock %}
 
@@ -30,12 +31,12 @@
     <p>{{c.description}}</p>
     {% for a in actions %}
     {% if a.campaign_id == c.id %}
-        <img src="/plot{{a.id}}.png" class="plot">
+    <img src="/plot{{a.id}}.png" class="plot">
     {% endif %}
     {% endfor %}
     <!--<img src="/plot{{c.id}}.png" width="640" height="480">-->
   </div>
-  
+
   {% endfor %}
   {% else %}
   <h4>{{gettext('No hay campañas para mostrar.')}}</h4>

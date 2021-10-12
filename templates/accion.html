@@ -2,36 +2,43 @@
 {% block head %}
 <style>
   @media (orientation:portrait) and (max-width: 768px) {
-        #acciones{
-            table-layout:auto;
-            width:100%;
-        }
-         .showDetails {
-             display:block;
-         }
-		.emp{
-			display:none;
-		}
-		.ind{
-			display:none;
-		}
-		.est{
-			display:none;
-		}
-		.obj{
-			display:none;
-		}
-	}
-    @media (orientation:landscape) {
-         .showDetails {
-             display:none;
-         }
-	}
-	@media (orientation:landscape) and (min-width: 1024px) {
-         .showDetails {
-             display:none;
-         }
-	}
+    #acciones {
+      table-layout: auto;
+      width: 100%;
+    }
+
+    .showDetails {
+      display: block;
+    }
+
+    .emp {
+      display: none;
+    }
+
+    .ind {
+      display: none;
+    }
+
+    .est {
+      display: none;
+    }
+
+    .obj {
+      display: none;
+    }
+  }
+
+  @media (orientation:landscape) {
+    .showDetails {
+      display: none;
+    }
+  }
+
+  @media (orientation:landscape) and (min-width: 1024px) {
+    .showDetails {
+      display: none;
+    }
+  }
 </style>
 {% endblock %}
 {% block body %}
@@ -45,20 +52,33 @@
       <span style="font-size: 1rem">{{ gettext('Bienvenido al menú principal.' )}}</span>
     </h2>
     <h2>
-      <span style="font-size: 1rem">{{ gettext ('El saldo actual de la universidad es de') }} <b>{{ wallet }}</b> UDC.</span><br />
+      <span style="font-size: 1rem">{{ gettext ('El saldo actual de la universidad es de') }} <b>{{ wallet }}</b>
+        UDC.</span><br />
       {% if user.blockAddr is not none %}
       <p style="font-size:11px;text-align:left;">{{gettext('Tu dirección de Blockchain es')}} {{user.block_addr}}.</p>
       {% endif %}
     </h2>
     <table>
-      <tr><td><button class="btn btn-primary btn-large" id="mostrarformacc" style="width:38vw; text-align: center; font-size:70%;">{{ gettext('Crear acción') }}</button></td>&nbsp;<td><button
-        class="btn btn-primary btn-large" id="mostraracc" style="width:38vw; text-align: center;  font-size:70%;">{{gettext('Mostrar acciones')}}</button></td></tr>
       <tr>
-      &nbsp;<td><button class="btn btn-primary btn-large" id="mostrarformcamp" style="width:38vw; text-align: center;  font-size:70%;">{{ gettext('Crear campaña') }}</button></td>
-        &nbsp;<td><button class="btn btn-primary btn-large" id="mostrarcamp" style="width:38vw; text-align: center;  font-size:70%;">{{ gettext('Mostrar campañas') }}</button></td></tr>
+        <td><button class="btn btn-primary btn-large" id="mostrarformacc"
+            style="width:38vw; text-align: center; font-size:70%;">{{ gettext('Crear acción') }}</button></td>&nbsp;<td>
+          <button class="btn btn-primary btn-large" id="mostraracc"
+            style="width:38vw; text-align: center;  font-size:70%;">{{gettext('Mostrar acciones')}}</button>
+        </td>
+      </tr>
       <tr>
-      &nbsp;<td><button class="btn btn-primary btn-large" id="crearofertas" style="width:38vw; text-align: center;  font-size:70%;">{{ gettext('Crear oferta')}}</button></td>
-      &nbsp;<td><button class="btn btn-primary btn-large" id="mostrarofertas" style="width:38vw; text-align: center;  font-size:70%;">{{ gettext('Mostrar ofertas') }}</button></td></tr></table>
+        &nbsp;<td><button class="btn btn-primary btn-large" id="mostrarformcamp"
+            style="width:38vw; text-align: center;  font-size:70%;">{{ gettext('Crear campaña') }}</button></td>
+        &nbsp;<td><button class="btn btn-primary btn-large" id="mostrarcamp"
+            style="width:38vw; text-align: center;  font-size:70%;">{{ gettext('Mostrar campañas') }}</button></td>
+      </tr>
+      <tr>
+        &nbsp;<td><button class="btn btn-primary btn-large" id="crearofertas"
+            style="width:38vw; text-align: center;  font-size:70%;">{{ gettext('Crear oferta')}}</button></td>
+        &nbsp;<td><button class="btn btn-primary btn-large" id="mostrarofertas"
+            style="width:38vw; text-align: center;  font-size:70%;">{{ gettext('Mostrar ofertas') }}</button></td>
+      </tr>
+    </table>
   </div>
   <form style="display: none;" id="campanyasform" method="POST">
     {{ form.csrf_token }}
@@ -89,12 +109,14 @@
   <form style="display: none;" id="accionesform" method="POST">
     <div class="form-group">
       <p>
-        <input type="text" class="form-control" placeholder="{{gettext('Nombre de la acción')}}" name="name" required></input>
+        <input type="text" class="form-control" placeholder="{{gettext('Nombre de la acción')}}" name="name"
+          required></input>
       </p>
     </div>
     <div class="form-group">
       <p>
-        <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="description" required></input>
+        <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="description"
+          required></input>
       </p>
     </div>
     <div class="form-group">
@@ -106,22 +128,23 @@
     <div class="form-group">
       <p>
         <select class="form-control" name="campaign">
-            <option disabled selected>{{gettext('Campaña')}}</option>
-            {% for c in campaigns %}
-            <option value='{{c.id}}'>{{c.name}}</option>
-            {% endfor %}
+          <option disabled selected>{{gettext('Campaña')}}</option>
+          {% for c in campaigns %}
+          <option value='{{c.id}}'>{{c.name}}</option>
+          {% endfor %}
         </select>
       </p>
     </div>
     <div class="form-group">
       <p>
-        <input type="text" class="form-control" placeholder="{{gettext('Indicador de KPI')}}" name="kpi" required></input>
+        <input type="text" class="form-control" placeholder="{{gettext('Indicador de KPI')}}" name="kpi"
+          required></input>
       </p>
     </div>
     <div class="form-group">
       <p>
-        <input type="number" step="0.01" placeholder="{{gettext('Objetivo')}}" class="form-control"
-          name="target" required></input>
+        <input type="number" step="0.01" placeholder="{{gettext('Objetivo')}}" class="form-control" name="target"
+          required></input>
       </p>
     </div>
     <div class="form-group"><input type="submit" name="create_action" value="{{gettext('Crear acción')}}"></div>
@@ -184,7 +207,8 @@
         <td class="ind">{{a.kpi_indicator}}</td>
         <td class="est">{{a.kpi}}</td>
         <td class="obj">{{a.kpi_target}}</td>
-        <td><a href="{{ url_for('qr' ,action_id=a.id) }}" class="qr"><b>{{gettext('Descargar')}}</b></a></td>
+        <td><a href="{{ url_for('qr' ,action_id=a.id) }}" target="_blank" class="qr"><b>{{gettext('Descargar')}}</b></a>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
@@ -236,7 +260,7 @@
         <td>{{o.company}}</td>
         <td>{{o.description}}</td>
         <td>{{o.price}} UDC</td>
-        <td><a href="{{ url_for('qr_offers' ,offer_id=o.id) }}"><b>{{gettext('Descargar')}}</b></a></td>
+        <td><a href="{{ url_for('qr_offers' ,offer_id=o.id) }}" target="_blank"><b>{{gettext('Descargar')}}</b></a></td>
       </tr>
       {% endfor %}
     </tbody>

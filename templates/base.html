@@ -2,159 +2,170 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title>DeustoCoin {% block title %} {% endblock %}</title>
 
-    <base href="/"/>
-    <meta name="color-scheme" content="light dark"/>
+    <base href="/" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="viewport"
-          content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="format-detection" content="telephone=no"/>
-    <meta name="msapplication-tap-highlight" content="no"/>
+        content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <link rel="icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}"/>
-	<link rel="apple-touch-icon" href="{{ url_for('static', filename='icon/deustoCoin-152.png') }}">   
-	<meta name="theme-color" content="white"/>  
-	<meta name="apple-mobile-web-app-capable" content="yes">  
-	<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
-	<meta name="apple-mobile-web-app-title" content="DeustoCoin"> 
-	<meta name="msapplication-TileImage" content="{{ url_for('static', filename='icon/deustoCoin-144.png') }}">  
-	<meta name="msapplication-TileColor" content="#FFFFFF">
+    <link rel="icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}" />
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon/deustoCoin-152.png') }}">
+    <meta name="theme-color" content="white" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="DeustoCoin">
+    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='icon/deustoCoin-144.png') }}">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-            crossorigin="anonymous"></script>
-    <meta name="google-signin-scope" content="profile email"/>
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <meta name="google-signin-scope" content="profile email" />
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-            crossorigin="anonymous"></script>
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
     <meta name="google-signin-client_id"
-          content="543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com"/>
+        content="543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com" />
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
         var $homeIcon = $('#sidebar');
-        $(window).resize(function() {
-          if (window.innerWidth >= 768) $homeIcon.removeClass('active');
+        $(window).resize(function () {
+            if (window.innerWidth >= 768) $homeIcon.removeClass('active');
         });
 
     </script>
     <style>
-    p {
-        text-align: justify;
-    }
+        p {
+            text-align: justify;
+        }
+
         .wrapper {
-    display: flex;
-    align-items: stretch;
-}
+            display: flex;
+            align-items: stretch;
+        }
 
-#sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    min-height: 100vh;
-}
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            min-height: 100vh;
+        }
 
-#sidebar.active {
-    margin-left: -250px;
-}
-a[data-toggle="collapse"] {
-    position: relative;
-}
+        #sidebar.active {
+            margin-left: -250px;
+        }
 
-.dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-}
-@media handheld {
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-}
-@media handheld and (max-width: 992px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-}
-@media screen and (min-width: 768px) {
-    #sidebarCollapse {
-		display:none;
-	}
-    #sidebar {
-    display:block;
-  }
-}
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+        a[data-toggle="collapse"] {
+            position: relative;
+        }
 
-a, a:hover, a:focus {
-    color: inherit;
-    text-decoration: none;
-    transition: all 0.3s;
-}
+        .dropdown-toggle::after {
+            display: block;
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
 
-#sidebar {
-    /* don't forget to add all the previously mentioned styles here too */
-    background: #1177d1;
-    color: #fff;
-    transition: all 0.3s;
-}
+        @media handheld {
+            #sidebar {
+                margin-left: -250px;
+            }
 
-#sidebar .sidebar-header {
-    padding: 20px;
-    background: #1177d1;
-}
+            #sidebar.active {
+                margin-left: 0;
+            }
+        }
 
-#sidebar ul.components {
-    padding: 20px 0;
-    border-bottom: 1px solid #47748b;
-}
+        @media handheld and (max-width: 992px) {
+            #sidebar {
+                margin-left: -250px;
+            }
 
-#sidebar ul p {
-    color: #fff;
-    padding: 10px;
-}
+            #sidebar.active {
+                margin-left: 0;
+            }
+        }
 
-#sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
-    display: block;
-}
-#sidebar ul li a:hover {
-    color: #1177d1;
-    background: #fff;
-}
+        @media screen and (min-width: 768px) {
+            #sidebarCollapse {
+                display: none;
+            }
 
-#sidebar ul li.active > a, a[aria-expanded="true"] {
-    color: #fff;
-    background: #1177d1;
-}
-ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-    background: #1177d1;
-}
+            #sidebar {
+                display: block;
+            }
+        }
 
+        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
+        a,
+        a:hover,
+        a:focus {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
 
+        #sidebar {
+            /* don't forget to add all the previously mentioned styles here too */
+            background: #1177d1;
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        #sidebar .sidebar-header {
+            padding: 20px;
+            background: #1177d1;
+        }
+
+        #sidebar ul.components {
+            padding: 20px 0;
+            border-bottom: 1px solid #47748b;
+        }
+
+        #sidebar ul p {
+            color: #fff;
+            padding: 10px;
+        }
+
+        #sidebar ul li a {
+            padding: 10px;
+            font-size: 1.1em;
+            display: block;
+        }
+
+        #sidebar ul li a:hover {
+            color: #1177d1;
+            background: #fff;
+        }
+
+        #sidebar ul li.active>a,
+        a[aria-expanded="true"] {
+            color: #fff;
+            background: #1177d1;
+        }
+
+        ul ul a {
+            font-size: 0.9em !important;
+            padding-left: 30px !important;
+            background: #1177d1;
+        }
     </style>
     <script>
         $(document).ready(function () {
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-    });
-});
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
 
 
 
@@ -163,9 +174,9 @@ ul ul a {
 </head>
 
 <body>
-{% if user != None %}
-<div class="wrapper"
-     style="background-image:url('{{url_for('static', filename='icon/background.jpg')}}');background-size:cover;overflow:auto;">
+    {% if user != None %}
+    <div class="wrapper"
+        style="background-image:url('{{url_for('static', filename='icon/background.jpg')}}');background-size:cover;overflow:auto;">
         <nav id="sidebar" style="flex-shrink:0;">
             <div class="sidebar-header">
                 <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('home') }}">DeustoCoin</a>
@@ -173,7 +184,7 @@ ul ul a {
                 <div class="sidebar-item sidebar-header d-flex flex-nowrap">
                     <div class="user-pic">
                         <img class="img-responsive img-rounded" src="{{ session['picture'] }}" width="75" height="75"
-                             style="border:6px solid #1177d1;">
+                            style="border:6px solid #1177d1;">
                     </div>
                     <div class="user-info">
                         <span class="user-name">
@@ -241,37 +252,37 @@ ul ul a {
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('about')}}">
-                            <span class="iconify" data-icon="ant-design:info-circle-outlined" data-inline="false"></span>
+                            <span class="iconify" data-icon="ant-design:info-circle-outlined"
+                                data-inline="false"></span>
                             {{gettext('Sobre DeustoCoin')}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('logout')}}"><span class="iconify"
-                                                                                data-icon="carbon:logout"
-                                                                                data-inline="false"></span>
+                                data-icon="carbon:logout" data-inline="false"></span>
                             {{gettext('Cerrar sesión')}}</a>
                     </li>
                 </ul>
                 <div class="sidebar-footer">
-                            <p class="mt-5 mb-3 text-center"><a href="{{url_for('language', lang='en')}}">EN</a>&nbsp;&nbsp;<a
-                                    href="{{url_for('language', lang='es')}}">ES</a>&nbsp;&nbsp;<a
-                                    href="{{url_for('language', lang='eu')}}">EU</a>
-                            </p>
+                    <p class="mt-5 mb-3 text-center"><a href="{{url_for('language', lang='en')}}">EN</a>&nbsp;&nbsp;<a
+                            href="{{url_for('language', lang='es')}}">ES</a>&nbsp;&nbsp;<a
+                            href="{{url_for('language', lang='eu')}}">EU</a>
+                    </p>
                 </div>
             </div>
         </nav>
 
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="width:100%;">
-        <button id="sidebarCollapse" class="btn btn-sm btn-dark" style="background-color: #1177d1;">
-            <span class="iconify" data-icon="ant-design:menu-outlined" data-inline="false"></span>
-        </button>
-        {% block body %} {% endblock %}
-    </main>
-</div>
-{% endif %}
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="width:100%;">
+            <button id="sidebarCollapse" class="btn btn-sm btn-dark" style="background-color: #1177d1;">
+                <span class="iconify" data-icon="ant-design:menu-outlined" data-inline="false"></span>
+            </button>
+            {% block body %} {% endblock %}
+        </main>
+    </div>
+    {% endif %}
 
-<!-- Icons -->
-<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-<script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
         feather.replace();
 
 
@@ -279,11 +290,11 @@ ul ul a {
 
 
 
-</script>
+    </script>
 
-<!-- Graphs -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-<script>
+    <!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
         var ctx = document.getElementById("myChart");
         var myChart = new Chart(ctx, {
             type: "line",
@@ -325,8 +336,9 @@ ul ul a {
 
 
 
-</script>
-</div>
+    </script>
+    </div>
 </body>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
 </html>

@@ -1,48 +1,57 @@
 {% extends "base.html" %}
 {% block head %}
 <style>
-  @media (orientation:portrait) and (max-width: 768px) {
-        #tabletrans{
-            table-layout:auto;
-            font-size:3vw;
-            width:100%;
+    @media (orientation:portrait) and (max-width: 768px) {
+        #tabletrans {
+            table-layout: auto;
+            font-size: 3vw;
+            width: 100%;
         }
-         .showDetails {
-             display:block;
-         }
-		.rem{
-			display:none;
-		}
-		.dest{
-			display:none;
-		}
-		.img{
-			display:none;
-		}
-		.proof{
-			display:none;
-		}
-	}
+
+        .showDetails {
+            display: block;
+        }
+
+        .rem {
+            display: none;
+        }
+
+        .dest {
+            display: none;
+        }
+
+        .img {
+            display: none;
+        }
+
+        .proof {
+            display: none;
+        }
+    }
+
     @media (orientation:landscape) {
-        #tabletrans{
-            table-layout:auto;
-            font-size:1.2vw;
-            width:100%;
+        #tabletrans {
+            table-layout: auto;
+            font-size: 1.2vw;
+            width: 100%;
         }
-         .showDetails {
-             display:none;
-         }
-	}
-	@media (orientation:landscape) and (min-width: 1024px) {
-        #tabletrans{
-            table-layout:auto;
-            font-size:0.8vw;
-            width:100%;
+
+        .showDetails {
+            display: none;
         }
-         .showDetails {
-             display:none;
-         }
-	}
+    }
+
+    @media (orientation:landscape) and (min-width: 1024px) {
+        #tabletrans {
+            table-layout: auto;
+            font-size: 0.8vw;
+            width: 100%;
+        }
+
+        .showDetails {
+            display: none;
+        }
+    }
 </style>
 {% endblock %}
 {% block body %}
@@ -81,10 +90,12 @@
                 <th scope="row" class="fecha">{{t.date}}</th>
                 <td class="rem">{{t.sender}}</td>
                 <td class="dest">{{t.receiver}}</td>
-                {% if t.campaign != "{{gettext('Envío de UDCoins')}}" or "{{gettext('Pago por oferta')}}" not in t.campaign %}
-                <td class="camp"><a href="{{ url_for('company', company=t.sender)}}"><b>{{gettext(t.campaign)}}</b></a></td>
+                {% if t.campaign != "{{gettext('Envío de UDCoins')}}" or "{{gettext('Pago por oferta')}}" not in
+                t.campaign %}
+                <td class="camp"><a href="{{ url_for('company', company=t.sender)}}"><b>{{gettext(t.campaign)}}</b></a>
+                </td>
                 {% else %}
-                    <td class="camp">{{gettext(t.campaign)}}</td>
+                <td class="camp">{{gettext(t.campaign)}}</td>
                 {% endif %}
                 <td class="cantidad">{{t.quantity}} UDC</td>
                 {% if t.img_hash != "" %}

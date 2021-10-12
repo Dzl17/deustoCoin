@@ -2,21 +2,21 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title>DeustoCoin - {{gettext('Error')}}</title>
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.34/dist/web3.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
-    <meta name="color-scheme" content="light dark"/>
+    <meta name="color-scheme" content="light dark" />
     <meta name="viewport"
-          content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="format-detection" content="telephone=no"/>
-    <meta name="msapplication-tap-highlight" content="no"/>
+        content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
     <style>
         :root {
@@ -41,53 +41,54 @@
         .full-width>header {
             padding: 0 10px;
         }
-
-
     </style>
-    <link rel="icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}"/>
-    <meta name="google-signin-scope" content="profile email"/>
+    <link rel="icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}" />
+    <meta name="google-signin-scope" content="profile email" />
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
     <meta name="google-signin-client_id"
-          content="543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com"/>
+        content="543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com" />
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 
 <body>
-<nav class="navbar navbar-dark sticky-top bg-dark navbar-expand-md">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">DeustoCoin</a>
-</nav>
+    <nav class="navbar navbar-dark sticky-top bg-dark navbar-expand-md">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">DeustoCoin</a>
+    </nav>
 
-<div class="container-fluid">
-    <div class="row">
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-12 pt-4 px-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                <h1 class="h2">{{gettext('Error')}}</h1>
-            </div>
-            <div class="view">
-                <div class="jumbotron">
-                    <h2>{{gettext('Lo sentimos.')}}</h2>
-                    <h2>
-                        <span style="font-size: 1rem">{{gettext('Ha habido un error en la página')}}. <b>{{ code }} - {{ type }}</b>. <br>
-                          {{gettext('Prueba a volver a la')}} <a href="{{ url_for('home') }}">{{gettext('página principal')}}</a>.
-                        </span>
-                    </h2>
+    <div class="container-fluid">
+        <div class="row">
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-12 pt-4 px-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                    <h1 class="h2">{{gettext('Error')}}</h1>
                 </div>
-            </div>
-        </main>
+                <div class="view">
+                    <div class="jumbotron">
+                        <h2>{{gettext('Lo sentimos.')}}</h2>
+                        <h2>
+                            <span style="font-size: 1rem">{{gettext('Ha habido un error en la página')}}. <b>{{ code }}
+                                    - {{ type }}</b>. <br>
+                                {{gettext('Prueba a volver a la')}} <a href="{{ url_for('home') }}">{{gettext('página
+                                    principal')}}</a>.
+                            </span>
+                        </h2>
+                    </div>
+                </div>
+            </main>
+        </div>
     </div>
-</div>
 
-<!-- Icons -->
-<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-<script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
         feather.replace();
 
 
-</script>
+    </script>
 
-<!-- Graphs -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-<script>
+    <!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
         var ctx = document.getElementById("myChart");
         var myChart = new Chart(ctx, {
             type: "line",
@@ -125,7 +126,7 @@
         });
 
 
-</script>
+    </script>
 </body>
 
 </html>

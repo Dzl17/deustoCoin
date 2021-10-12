@@ -8,7 +8,9 @@
   </p>
   {% if companies|length >= 1 %}
   {% for e in companies %}
-  <a href="{{url_for('.company', company = e) }}"><h4 class="empresa" value="{{e}}">{{e}}</h4></a>
+  <a href="{{url_for('.company', company = e) }}">
+    <h4 class="empresa" value="{{e}}">{{e}}</h4>
+  </a>
   {% endfor %}
   {% else %}
   <h4>{{gettext('No hay compañías para mostrar.')}}</h4>

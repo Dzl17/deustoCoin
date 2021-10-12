@@ -6,8 +6,8 @@
 <div class="view">
   <div class="jumbotron">
     <h2>{{gettext('Verificando acción')}} - {{c_reward.name}}</h2>
-    <p>{{gettext('Tienes que subir una imagen que corrobore que la acción gracias a la cual pretendes ser recompensado es
-      verídica.')}}</p>
+    <p>{{gettext('Tienes que subir una imagen que corrobore que la acción gracias a la cual pretendes ser recompensado
+      es verídica.')}}</p>
     <br>
     <form action="/upload" method="POST" enctype="multipart/form-data" name="fileform" id="uploadfile">
       <div class="form-group">
@@ -17,10 +17,11 @@
         <h6><b>{{c_reward.kpi_indicator}}</b>&nbsp;<input type="text" id="kpi" name="kpi" required></h6>
       </div>
       <div class="form-group">
-        <h6><b>{{gettext('URL de verificación')}}</b>(<i>{{gettext('Opcional')}}</i>)&nbsp;<input type="text" id="proof" name="proof"></h6>
+        <h6><b>{{gettext('URL de verificación')}}</b>(<i>{{gettext('Opcional')}}</i>)&nbsp;<input type="text" id="proof"
+            name="proof"></h6>
       </div>
       <input type="submit">
     </form>
   </div>
 
-{% endblock %}
+  {% endblock %}
