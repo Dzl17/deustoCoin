@@ -55,6 +55,11 @@ class BlockchainManager():
         return new_list
 
 
+    def owner(self):
+        """Get the addres of the contract owner/administrator."""
+        return self.contract.functions.owner().call()
+
+
     def name(self):
         """Get the name of the coin."""
         return self.contract.functions.name().call()

@@ -35,6 +35,12 @@ contract Deustocoin {
         balances[msg.sender] = _totalSupply;
     }
 
+    /// @notice returns the address of the contract owner/administrator
+    /// @return owner address
+    function owner() public view returns (address) {
+        return _contractOwner;
+    }
+
     /// @notice returns the name of the token
     /// @return token name
     function name() public pure returns (string memory) {
