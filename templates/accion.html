@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block head %}
 <style>
+  .button-grid {
+    display: grid;
+    gap: 2px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   @media (orientation:portrait) and (max-width: 768px) {
     #acciones {
       table-layout: auto;
@@ -25,6 +31,10 @@
 
     .obj {
       display: none;
+    }
+
+    .button-grid {
+      grid-template-columns: repeat(1, 1fr);
     }
   }
 
@@ -58,27 +68,20 @@
       <p style="font-size:11px;text-align:left;">{{gettext('Tu dirección de Blockchain es')}} {{user.block_addr}}.</p>
       {% endif %}
     </h2>
-    <table>
-      <tr>
-        <td><button class="btn btn-primary btn-large" id="mostrarformacc"
-            style="width:38vw; text-align: center; font-size:70%;">{{ gettext('Crear acción') }}</button></td>&nbsp;<td>
-          <button class="btn btn-primary btn-large" id="mostraracc"
-            style="width:38vw; text-align: center;  font-size:70%;">{{gettext('Mostrar acciones')}}</button>
-        </td>
-      </tr>
-      <tr>
-        &nbsp;<td><button class="btn btn-primary btn-large" id="mostrarformcamp"
-            style="width:38vw; text-align: center;  font-size:70%;">{{ gettext('Crear campaña') }}</button></td>
-        &nbsp;<td><button class="btn btn-primary btn-large" id="mostrarcamp"
-            style="width:38vw; text-align: center;  font-size:70%;">{{ gettext('Mostrar campañas') }}</button></td>
-      </tr>
-      <tr>
-        &nbsp;<td><button class="btn btn-primary btn-large" id="crearofertas"
-            style="width:38vw; text-align: center;  font-size:70%;">{{ gettext('Crear oferta')}}</button></td>
-        &nbsp;<td><button class="btn btn-primary btn-large" id="mostrarofertas"
-            style="width:38vw; text-align: center;  font-size:70%;">{{ gettext('Mostrar ofertas') }}</button></td>
-      </tr>
-    </table>
+    <div class="button-grid">
+      <button class="btn btn-primary btn-large" id="mostrarformacc"
+            style="text-align: center; font-size:70%;">{{ gettext('Crear acción') }}</button>
+      <button class="btn btn-primary btn-large" id="mostraracc"
+            style="text-align: center;  font-size:70%;">{{gettext('Mostrar acciones')}}</button>
+      <button class="btn btn-primary btn-large" id="mostrarformcamp"
+            style="text-align: center;  font-size:70%;">{{ gettext('Crear campaña') }}</button>
+      <button class="btn btn-primary btn-large" id="mostrarcamp"
+            style="text-align: center;  font-size:70%;">{{ gettext('Mostrar campañas') }}</button>
+      <button class="btn btn-primary btn-large" id="crearofertas"
+            style="text-align: center;  font-size:70%;">{{ gettext('Crear oferta')}}</button>
+      <button class="btn btn-primary btn-large" id="mostrarofertas"
+            style="text-align: center;  font-size:70%;">{{ gettext('Mostrar ofertas') }}</button>
+    </div>
   </div>
   <form style="display: none;" id="campanyasform" method="POST">
     {{ form.csrf_token }}
