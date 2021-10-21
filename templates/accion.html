@@ -273,6 +273,25 @@
   <h4>{{gettext('No hay ofertas para mostrar')}}</h4>
   {% endif %}
 </div>
+
+<a href="#" data-toggle="modal" data-target="#confirmationModal">Toggle Modal</a>
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        </div>
+        <div class="modal-body">Modal Text Modal Text Modal Text Modal Text Modal Text Modal Text Modal Text</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
+          <a class="btn btn-primary" href="#">Yes</a>
+        </div>
+      </div>
+  </div>
+</div>
 <script>
   $(document).ready(function () {
     $("#mostrarformcamp").click(function () {
