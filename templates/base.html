@@ -12,7 +12,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
     <link rel="icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}" />
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon/deustoCoin-152.png') }}">
@@ -53,7 +53,17 @@
             align-items: stretch;
         }
 
+        main {
+            margin-left: 250px;
+            transition: margin 0.3s;
+        }
+
+        main.marginless {
+            margin-left: 0;
+        }
+
         #sidebar {
+            position: fixed;
             width: 250px;
             height: 100vh;
             overflow: hidden;
@@ -111,6 +121,10 @@
 
         /* Small sidebar */
         @media screen and (max-width: 768px) {
+            main {
+                margin-left: 140px;
+            }
+
             #sidebar {
                 transition: width none;
                 width: 140px;
@@ -197,19 +211,16 @@
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
+                $('main').toggleClass('marginless');
             });
         });
-
-
-
     </script>
     {% block head %} {% endblock %}
 </head>
 
 <body>
     {% if user != None %}
-    <div class="wrapper"
-        style="background-image:url('{{url_for('static', filename='icon/background.jpg')}}');background-size:cover;overflow:auto;">
+    <div class="wrapper" style="overflow:auto;">
         <nav id="sidebar" style="flex-shrink:0;">
             <div class="sidebar-header">
                 <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('home') }}">DeustoCoin</a>
@@ -304,7 +315,7 @@
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="width:100%;">
+        <main role="main" class="col-md-9 col-lg-10 pt-3 px-4" style="width:100%;">
             <button id="sidebarCollapse" class="btn btn-sm btn-dark" style="background-color: #1177d1;">
                 <span class="iconify" data-icon="ant-design:menu-outlined" data-inline="false"></span>
             </button>
