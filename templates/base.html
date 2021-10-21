@@ -214,6 +214,13 @@
                 $('main').toggleClass('marginless');
             });
         });
+        $(window).on('resize', function(){
+            var win = $(this);
+            if (win.width() >= 768 && !$('sidebar').hasClass('active')) {
+                $('#sidebar').removeClass('active');
+                $('main').removeClass('marginless');
+            }
+        });
     </script>
     {% block head %} {% endblock %}
 </head>
