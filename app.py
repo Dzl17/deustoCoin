@@ -371,7 +371,7 @@ def action():
     except:
         pass
     salary = get_balance(os.environ.get('ADMIN_ADDRESS'))
-    if campaign_form.validate_on_submit() and campaign_form.create_campaign.data:
+    if campaign_form.validate_on_submit() and 'create_campaign' in request.form:
         s = Session()
         if user.role == "Promotor":
             c = Campaign(request.form['campaign_name'], user.organization, request.form['description'])
@@ -379,13 +379,12 @@ def action():
             c = Campaign(request.form['campaign_name'], request.form['company'], request.form['description'])
         s.add(c)
         s.commit()
-    elif offer_form.validate_on_submit() and offer_form.create_offer.data:
-        offer_name = request.form['offer_name']
+    elif offer_form.validate_on_submit() and 'create_offer' in request.form:
         s = Session()
         if user.role == "Promotor":
-            o = Offer(offer_name, user.organization, request.form['description'], request.form['price'])
+            o = Offer(request.form['offer_name'], user.organization, request.form['description'], request.form['price'])
         elif user.role == "Administrador":
-            o = Offer(offer_name, request.form['company'], request.form['description'], request.form['price'])
+            o = Offer(request.form['offer_name'], request.form['company'], request.form['description'], request.form['price'])
         s.add(o)
         s.commit()
 

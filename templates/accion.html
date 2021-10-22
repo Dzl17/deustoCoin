@@ -83,7 +83,7 @@
             style="text-align: center;  font-size:70%;">{{ gettext('Mostrar ofertas') }}</button>
     </div>
   </div>
-  <form style="display: none;" id="campanyasform" method="POST">
+  <form style="display: none;" id="create-campaign-form" method="POST">
     {{ form.csrf_token }}
     <div class="form-group">
       <p>
@@ -106,10 +106,10 @@
       {{form.description(class="form-control")}}
     </div>
     <p>
-      {{form.create_campaign()}}
+      <input type="button" name="create_campaign" value="Create campaign" data-toggle="modal" data-target="#campaign-modal">
     </p>
   </form>
-  <form style="display: none;" action="/action" name="create_action" id="create-action-form" method="POST">
+  <form style="display: none;" action="/action" id="create-action-form" method="POST">
     <div class="form-group">
       <p>
         <input type="text" class="form-control" placeholder="{{gettext('Nombre de la acción')}}" name="name"
@@ -157,7 +157,7 @@
     {{ form2.csrf_token }}
     <div class="form-group">
       <p>
-        <label for="exampleInputEmail1">{{gettext('Nombre de la oferta')}}</label>
+        <label for="offer_name">{{gettext('Nombre de la oferta')}}</label>
 
         <br />
         {{form2.offer_name(class="form-control")}}
@@ -181,7 +181,7 @@
       {{form2.price(class="form-control")}}
     </div>
     <p>
-      {{form2.create_offer()}}
+      <input type="button" name="create_offer" value="Create offer" data-toggle="modal" data-target="#offer-modal">
     </p>
   </form>
 </div>
@@ -291,6 +291,42 @@
       </div>
   </div>
 </div>
+
+<div class="modal fade" id="campaign-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        </div>
+        <div class="modal-body">Do you want to create a new campaign?</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" id="campaign-submit" href="/action">Create</a>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="offer-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        </div>
+        <div class="modal-body">Do you want to create a new offer?</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" id="offer-submit" href="/action">Create</a>
+        </div>
+      </div>
+  </div>
+</div>
 <script>
   $('#action-submit').click(function (e) {
     e.preventDefault();
@@ -302,9 +338,29 @@
   });
 </script>
 <script>
+  $('#campaign-submit').click(function (e) {
+    e.preventDefault();
+    let input = $('<input>')
+      .attr("type", "hidden")
+      .attr('name', 'create_campaign');
+    $('#create-campaign-form').append(input);
+    $('#create-campaign-form').submit();
+  })
+</script>
+<script>
+  $('#offer-submit').click(function (e) {
+    e.preventDefault();
+    let input = $('<input>')
+      .attr("type", "hidden")
+      .attr('name', 'create_offer');
+    $('#create-offer-form').append(input);
+    $('#create-offer-form').submit();
+  })
+</script>
+<script>
   $(document).ready(function () {
     $("#mostrarformcamp").click(function () {
-      $("#campanyasform").show();
+      $("#create-campaign-form").show();
       $("#acciones").hide();
       $("#campanyas").hide();
       $("#create-action-form").hide();
@@ -316,7 +372,7 @@
 <script>
   $(document).ready(function () {
     $("#mostrarcamp").click(function () {
-      $("#campanyasform").hide();
+      $("#create-campaign-form").hide();
       $("#acciones").hide();
       $("#campanyas").show();
       $("#create-action-form").hide();
@@ -330,7 +386,7 @@
     $("#mostrarformacc").click(function () {
       $("#create-action-form").show();
       $("#campanyas").hide();
-      $("#campanyasform").hide();
+      $("#create-campaign-form").hide();
       $("#acciones").hide();
       $("#ofertas").hide();
       $("#create-offer-form").hide();
@@ -342,7 +398,7 @@
     $("#mostraracc").click(function () {
       $("#create-action-form").hide();
       $("#campanyas").hide();
-      $("#campanyasform").hide();
+      $("#create-campaign-form").hide();
       $("#acciones").show();
       $("#ofertas").hide();
       $("#create-offer-form").hide();
@@ -354,7 +410,7 @@
     $("#mostrarofertas").click(function () {
       $("#create-action-form").hide();
       $("#campanyas").hide();
-      $("#campanyasform").hide();
+      $("#create-campaign-form").hide();
       $("#acciones").hide();
       $("#ofertas").show();
       $("#create-offer-form").hide();
@@ -366,7 +422,7 @@
     $("#crearofertas").click(function () {
       $("#create-action-form").hide();
       $("#campanyas").hide();
-      $("#campanyasform").hide();
+      $("#create-campaign-form").hide();
       $("#acciones").hide();
       $("#ofertas").hide();
       $("#create-offer-form").show();
