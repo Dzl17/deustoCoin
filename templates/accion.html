@@ -109,7 +109,7 @@
       {{form.create_campaign()}}
     </p>
   </form>
-  <form style="display: none;" id="accionesform" method="POST">
+  <form style="display: none;" action="/action" name="create_action" id="create-action-form" method="POST">
     <div class="form-group">
       <p>
         <input type="text" class="form-control" placeholder="{{gettext('Nombre de la acción')}}" name="name"
@@ -150,10 +150,10 @@
           required></input>
       </p>
     </div>
-    <div class="form-group"><input type="submit" name="create_action" value="{{gettext('Crear acción')}}" 
-      onclick="return confirm('Are you sure?')"></div>
+    <div class="form-group"><input type="button" name="create_action" value="{{gettext('Crear acción')}}" 
+      data-toggle="modal" data-target="#action-modal"></div>
   </form>
-  <form style="display: none;" id="ofertasform" method="POST">
+  <form style="display: none;" id="create-offer-form" method="POST">
     {{ form2.csrf_token }}
     <div class="form-group">
       <p>
@@ -274,33 +274,42 @@
   {% endif %}
 </div>
 
-<a href="#" data-toggle="modal" data-target="#confirmationModal">Toggle Modal</a>
-<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="action-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
         </div>
-        <div class="modal-body">Modal Text Modal Text Modal Text Modal Text Modal Text Modal Text Modal Text</div>
+        <div class="modal-body">Do you want to create a new good deed?</div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
-          <a class="btn btn-primary" href="#">Yes</a>
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" id="action-submit" href="/action">Create</a>
         </div>
       </div>
   </div>
 </div>
+<script>
+  $('#action-submit').click(function (e) {
+    e.preventDefault();
+    let input = $('<input>')
+      .attr("type", "hidden")
+      .attr('name', 'create_action');
+    $('#create-action-form').append(input);
+    $('#create-action-form').submit();
+  });
+</script>
 <script>
   $(document).ready(function () {
     $("#mostrarformcamp").click(function () {
       $("#campanyasform").show();
       $("#acciones").hide();
       $("#campanyas").hide();
-      $("#accionesform").hide();
+      $("#create-action-form").hide();
       $("#ofertas").hide();
-      $("#ofertasform").hide();
+      $("#create-offer-form").hide();
     });
   });
 </script>
@@ -310,57 +319,57 @@
       $("#campanyasform").hide();
       $("#acciones").hide();
       $("#campanyas").show();
-      $("#accionesform").hide();
+      $("#create-action-form").hide();
       $("#ofertas").hide();
-      $("#ofertasform").hide();
+      $("#create-offer-form").hide();
     });
   });
 </script>
 <script>
   $(document).ready(function () {
     $("#mostrarformacc").click(function () {
-      $("#accionesform").show();
+      $("#create-action-form").show();
       $("#campanyas").hide();
       $("#campanyasform").hide();
       $("#acciones").hide();
       $("#ofertas").hide();
-      $("#ofertasform").hide();
+      $("#create-offer-form").hide();
     });
   });
 </script>
 <script>
   $(document).ready(function () {
     $("#mostraracc").click(function () {
-      $("#accionesform").hide();
+      $("#create-action-form").hide();
       $("#campanyas").hide();
       $("#campanyasform").hide();
       $("#acciones").show();
       $("#ofertas").hide();
-      $("#ofertasform").hide();
+      $("#create-offer-form").hide();
     });
   });
 </script>
 <script>
   $(document).ready(function () {
     $("#mostrarofertas").click(function () {
-      $("#accionesform").hide();
+      $("#create-action-form").hide();
       $("#campanyas").hide();
       $("#campanyasform").hide();
       $("#acciones").hide();
       $("#ofertas").show();
-      $("#ofertasform").hide();
+      $("#create-offer-form").hide();
     });
   });
 </script>
 <script>
   $(document).ready(function () {
     $("#crearofertas").click(function () {
-      $("#accionesform").hide();
+      $("#create-action-form").hide();
       $("#campanyas").hide();
       $("#campanyasform").hide();
       $("#acciones").hide();
       $("#ofertas").hide();
-      $("#ofertasform").show();
+      $("#create-offer-form").show();
     });
   });
 </script>
