@@ -20,8 +20,33 @@
         <h6><b>{{gettext('URL de verificación')}}</b>(<i>{{gettext('Opcional')}}</i>)&nbsp;<input type="text" id="proof"
             name="proof"></h6>
       </div>
-      <input type="submit" onclick="return confirm('Are you sure?')">
+      <input type="button" value="Submit action" data-toggle="modal" data-target="#register-action-modal"
+        class="btn btn-outline-secondary">
     </form>
   </div>
 
+  <div class="modal fade" id="register-action-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Do you want to register the action?</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" id="register-action-submit" href="/register-action">Confirm</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $('#register-action-submit').click(function (e) {
+      e.preventDefault();
+      $('#uploadfile').submit();
+    });
+  </script>
   {% endblock %}
