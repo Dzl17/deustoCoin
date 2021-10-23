@@ -12,38 +12,77 @@
 </div>
 <div id="acciones">
     {% if actions|length >= 1 %}
-    <table class="table" style="table-layout:fixed; font-size:75%;">
-        <thead>
-            <tr>
-                <th scope="col"></th>
-                <th scope="col">{{gettext('Nombre')}}</th>
-                <th scope="col">{{gettext('Empresa')}}</th>
-                <th scope="col">{{gettext('Descripción')}}</th>
-                <th scope="col">{{gettext('Recompensa por KPI (en UDC)')}}</th>
-                <th scope="col">{{gettext('Indicador')}}</th>
-                <th scope="col">{{gettext('Objetivo')}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for a in actions %}
-            <tr>
-                <td style="text-align: center;">
-                    <form method="post">
-                        <input type="submit" name="edit_action" class="{{a.id}}" value="✎">
-                        <input type="submit" name="delete_action" class="{{a.id}}" value="✖" onclick="return confirm('Are you sure?')">
-                        <input value="{{a.id}}" name="action_id" style="display: none;">
-                    </form>
-                </td>
-                <td><b>{{a.name}}</b></th>
-                <td>{{a.company}}</td>
-                <td>{{a.description}}</td>
-                <td>{{a.reward}} UDC</td>
-                <td>{{a.kpi_indicator}}</td>
-                <td>{{a.kpi_target}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold">Edit your actions</h6>
+        </div>
+        <div class="card-body">
+            <table class="table" style="table-layout:fixed; font-size:75%;">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">{{gettext('Nombre')}}</th>
+                        <th scope="col">{{gettext('Empresa')}}</th>
+                        <th scope="col">{{gettext('Descripción')}}</th>
+                        <th scope="col">{{gettext('Recompensa por KPI (en UDC)')}}</th>
+                        <th scope="col">{{gettext('Indicador')}}</th>
+                        <th scope="col">{{gettext('Objetivo')}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in actions %}
+                    <tr>
+                        <td style="text-align: center;">
+                            <form method="post" id="action-form-{{a.id}}">
+                                <input type="submit" name="edit_action" class="{{a.id}} btn btn-sm btn-outline-primary" 
+                                    value="✎">
+                                <input type="button" name="delete_action" class="{{a.id}} btn btn-sm btn-outline-danger" 
+                                    value="✖" data-toggle="modal" data-target="#delete-modal-{{a.id}}">
+                                <input value="{{a.id}}" name="action_id" style="display: none;">
+                            </form>
+                        </td>
+                        <td><b>{{a.name}}</b></th>
+                        <td>{{a.company}}</td>
+                        <td>{{a.description}}</td>
+                        <td>{{a.reward}} UDC</td>
+                        <td>{{a.kpi_indicator}}</td>
+                        <td>{{a.kpi_target}}</td>
+                    </tr>
+
+                    <div class="modal fade" id="delete-modal-{{a.id}}" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">Do you want to delete the action "{{a.name}}"?</div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                    <a class="btn btn-primary" id="delete-submit-{{a.id}}"
+                                        href="/editor/{{a.id}}">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        $('#delete-submit-{{a.id}}').click(function (e) {
+                            e.preventDefault();
+                            let input = $('<input>')
+                                .attr("type", "hidden")
+                                .attr('name', 'delete_action');
+                            $('#action-form-{{a.id}}').append(input);
+                            $('#action-form-{{a.id}}').submit();
+                        });
+                    </script>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
     {% else %}
     <h4>{{gettext('No hay acciones para mostrar')}}</h4>
     {% endif %}
