@@ -12,7 +12,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-    integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
     <link rel="icon" href="{{ url_for('static', filename='icon/deustoCoin.ico') }}" />
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon/deustoCoin-152.png') }}">
@@ -68,7 +68,7 @@
             height: 100vh;
             overflow-x: hidden;
             overflow-y: auto;
-            z-index: 100;
+            z-index: 10;
         }
 
         #sidebar.active {
@@ -124,29 +124,13 @@
             }
 
             #sidebarCollapse {
-                margin-left: 130px;
+                margin-left: 230px;
                 transition: margin 0.3s;
             }
 
             #sidebarCollapse.active {
                 margin-left: -10px;
-            }
-
-            #sidebar {
-                transition: width none;
-                width: 140px;
-            }
-
-            .sidebar-item {
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-            }
-
-            .nav-link {
-                flex-direction: column;
-                text-align: center;
+                transform: rotateZ(180deg);
             }
         }
 
@@ -169,6 +153,7 @@
         #sidebarCollapse {
             height: 2.5rem;
             width: 2.5rem;
+            z-index: 150;
         }
 
         #sidebar {
@@ -218,7 +203,7 @@
 
         .nav-link {
             display: flex !important;
-            align-items: center; 
+            align-items: center;
         }
 
         .nav-link svg {
@@ -233,7 +218,7 @@
                 $('main').toggleClass('marginless');
             });
         });
-        $(window).on('resize', function(){
+        $(window).on('resize', function () {
             var win = $(this);
             if (win.width() >= 768 && !$('sidebar').hasClass('active')) {
                 $('#sidebar').removeClass('active');
@@ -350,7 +335,8 @@
             <button id="sidebarCollapse" class="btn btn-link d-md-none rounded-circle mr-3">
                 <!-- <span class="iconify" data-icon="ant-design:menu-outlined" data-inline="false"></span> -->
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
-                    <path d="M0 0h24v24H0V0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    <path d="M0 0h24v24H0V0z" fill="none" opacity=".87" />
+                    <path d="M17.51 3.87L15.73 2.1 5.84 12l9.9 9.9 1.77-1.77L9.38 12l8.13-8.13z" />
                 </svg>
             </button>
             {% block body %} {% endblock %}
