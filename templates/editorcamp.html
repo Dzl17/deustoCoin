@@ -26,43 +26,4 @@
         </p>
     </form>
 </div>
-<div id="campanyas" style="display: none;">
-    {% if campaigns|length >= 1 %}
-    <table class="table" style="table-layout:fixed; font-size:75%;">
-        <thead>
-            <tr>
-                <th scope="col">{{gettext('Nombre')}}</th>
-                <th scope="col">{{gettext('Empresa')}}</th>
-                <th scope="col">{{gettext('Descripción')}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for c in campaigns %}
-            <tr>
-                <th scope="row">{{c.name}}</th>
-                <td>{{c.company}}</td>
-                <td>{{c.description}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <h4>{{gettext('No hay campañas para mostrar.')}}</h4>
-    {% endif %}
-</div>
-
-<script>
-    $(document).ready(function () {
-        $("#mostrarformcamp").click(function () {
-            $("#campanyasform").show();
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $("#mostrarcamp").click(function () {
-            $("#campanyas").show();
-        });
-    });
-</script>
 {% endblock %}
