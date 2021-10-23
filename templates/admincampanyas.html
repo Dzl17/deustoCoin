@@ -16,78 +16,67 @@
 </div>
 <div id="campanyas">
     {% if campaigns|length >= 1 %}
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold">Edit your campaigns</h6>
-        </div>
-        <div class="card-body">          
-            <table class="table table-fit" style="table-layout:fixed; font-size:75%;">
-                <thead>
-                    <tr>
-                        <th scope="col">{{gettext('Acciones')}}</th>
-                        <th scope="col">{{gettext('Nombre')}}</th>
-                        <th scope="col">{{gettext('Empresa')}}</th>
-                        <th scope="col">{{gettext('Descripción')}}</th>
-                        <th scope="col">&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for c in campaigns %}
-                    <tr id="row-{{c.id}}">
-                        <td style="text-align: center;">
-                            <form action="{{ url_for('campaigns_editor') }}" method="post" id="campaign-form-{{c.id}}">
-                                <input type="submit" name="edit_campaign" class="{{c.id}} btn btn-sm btn-outline-primary"
-                                    value="✎">
-                                <input type="button" name="delete_campaign" class="{{c.id}} btn btn-sm btn-outline-danger"
-                                    value="✖" data-toggle="modal" data-target="#delete-modal-{{c.id}}">
-                                <input value="{{c.id}}" name="id" style="display: none;">
-                            </form>
-                        </td>
-                        <th scope="row">{{c.name}}</th>
-                        <td>{{c.company}}</td>
-                        <td style="width: 500px;">{{c.description}}</td>
-                        <td>
-                            <form action="{{ url_for('editor', campaign_id=c.id) }}" method="post">
-                                <input type="submit" name="view_action" class="{{c.id}} btn btn-outline-info btn-sm"
-                                    value="{{gettext('Ver acciones')}}">
-                                <input value="{{c.id}}" name="id" style="display: none;">
-                            </form>
-                        </td>
-                    </tr>
-        
-                    <div class="modal fade" id="delete-modal-{{c.id}}" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
-                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">Do you want to delete the campaign "{{c.name}}"?</div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                    <a class="btn btn-primary" id="delete-submit-{{c.id}}" href="/campaigns-editor">Delete</a>
-                                </div>
-                            </div>
-                        </div>
+    <div class="row">
+        {% for c in campaigns %}
+        <div class="col-xl-6 mb-4">
+            <div class="card shadow mb-4 h-100" style="padding: 0 !important;">
+                <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+                    <h5 class="m-0 font-weight-bold">{{c.name}}</h5>
+
+                    <form action="{{ url_for('campaigns_editor') }}" method="post" id="campaign-form-{{c.id}}"
+                        class="d-flex align-items-center justify-content-center">
+                        <input type="submit" name="edit_campaign" class="{{c.id}} btn btn-sm btn-outline-primary mx-1 my-1"
+                            value="✎">
+                        <input type="button" name="delete_campaign" class="{{c.id}} btn btn-sm btn-outline-danger mx-1 my-1"
+                            value="✖" data-toggle="modal" data-target="#delete-modal-{{c.id}}">
+                        <input value="{{c.id}}" name="id" style="display: none;">
+                    </form>
+                </div>
+                <div class="card-body">
+                    <span class="font-weight-bold">Company: {{c.company}}</span>
+                    <p>{{c.description}}</p>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <form action="{{ url_for('editor', campaign_id=c.id) }}" method="post">
+                            <input type="submit" name="view_action" class="{{c.id}} btn btn-outline-info btn-sm"
+                                value="{{gettext('Ver acciones')}}">
+                            <input value="{{c.id}}" name="id" style="display: none;">
+                        </form>
                     </div>
-                    <script>
-                        $('#delete-submit-{{c.id}}').click(function (e) {
-                            e.preventDefault();
-                            let input = $('<input>')
-                                .attr("type", "hidden")
-                                .attr('name', 'delete_campaign');
-                            $('#campaign-form-{{c.id}}').append(input);
-                            $('#campaign-form-{{c.id}}').submit();
-                        });
-                    </script>
-                    {% endfor %}
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
+
+        <div class="modal fade" id="delete-modal-{{c.id}}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Do you want to delete the campaign "{{c.name}}"?</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" id="delete-submit-{{c.id}}" href="/campaigns-editor">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $('#delete-submit-{{c.id}}').click(function (e) {
+                e.preventDefault();
+                let input = $('<input>')
+                    .attr("type", "hidden")
+                    .attr('name', 'delete_campaign');
+                $('#campaign-form-{{c.id}}').append(input);
+                $('#campaign-form-{{c.id}}').submit();
+            });
+        </script>
+        {% endfor %}
     </div>
+
     {% else %}
     <h4>{{gettext('No hay campañas para mostrar.')}}</h4>
     {% endif %}
