@@ -14,38 +14,25 @@
 </div>
 <div id="acciones">
   {% if actions|length >= 1 %}
-  <div class="card shadow mb-4">
-    <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold">Register good deeds</h6>
+  <div class="row">
+    {% for a in actions %}
+    <div class="col-xl-4 mb-4">
+      <div class="card shadow mb-4 h-100" style="padding: 0 !important;">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+          <h5 class="m-0 font-weight-bold">{{a.name}}</h5>
+        </div>
+        <div class="card-body">
+          <span class="font-weight-bold">Company: {{a.company}}</span>
+          <p class="text-left">{{a.description}}</p>
+          <div class="d-flex align-items-center justify-content-center">
+            <a href="{{ url_for('register_action', action_id=a.id) }}" class="btn btn-sm btn-outline-info">
+              <b>{{gettext('Registrar acción')}}</b>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="card-body">
-      <table class="table" style="table-layout:fixed; font-size:70%;">
-        <thead>
-          <tr>
-            <th scope="col">{{gettext('Nombre')}}</th>
-            <th scope="col">{{gettext('Empresa')}}</th>
-            <th scope="col">{{gettext('Descripción')}}</th>
-            <th scope="col">{{gettext('Recompensa por KPI')}}</th>
-            <th scope="col"> </th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for c in actions %}
-          <tr>
-            <th scope="row">{{c.name}}</th>
-            <td>{{c.company}}</td>
-            <td>{{c.description}}</td>
-            <td>{{c.reward}} UDC</td>
-            <td>
-              <a href="{{ url_for('register_action', action_id=c.id) }}" class=" btn btn-sm btn-outline-info">
-                <b>{{gettext('Registrar acción')}}</b>
-              </a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+    {% endfor %}
   </div>
   {% else %}
   <h4>{{gettext('No hay acciones para mostrar.')}}</h4>
