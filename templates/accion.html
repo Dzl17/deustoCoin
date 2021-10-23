@@ -69,18 +69,18 @@
       {% endif %}
     </h2>
     <div class="button-grid">
-      <button class="btn btn-primary btn-large" id="mostrarformacc"
-            style="text-align: center; font-size:70%;">{{ gettext('Crear acción') }}</button>
+      <button class="btn btn-primary btn-large" id="mostrarformacc" style="text-align: center; font-size:70%;">{{
+        gettext('Crear acción') }}</button>
       <button class="btn btn-primary btn-large" id="mostraracc"
-            style="text-align: center;  font-size:70%;">{{gettext('Mostrar acciones')}}</button>
-      <button class="btn btn-primary btn-large" id="mostrarformcamp"
-            style="text-align: center;  font-size:70%;">{{ gettext('Crear campaña') }}</button>
-      <button class="btn btn-primary btn-large" id="mostrarcamp"
-            style="text-align: center;  font-size:70%;">{{ gettext('Mostrar campañas') }}</button>
-      <button class="btn btn-primary btn-large" id="crearofertas"
-            style="text-align: center;  font-size:70%;">{{ gettext('Crear oferta')}}</button>
-      <button class="btn btn-primary btn-large" id="mostrarofertas"
-            style="text-align: center;  font-size:70%;">{{ gettext('Mostrar ofertas') }}</button>
+        style="text-align: center;  font-size:70%;">{{gettext('Mostrar acciones')}}</button>
+      <button class="btn btn-primary btn-large" id="mostrarformcamp" style="text-align: center;  font-size:70%;">{{
+        gettext('Crear campaña') }}</button>
+      <button class="btn btn-primary btn-large" id="mostrarcamp" style="text-align: center;  font-size:70%;">{{
+        gettext('Mostrar campañas') }}</button>
+      <button class="btn btn-primary btn-large" id="crearofertas" style="text-align: center;  font-size:70%;">{{
+        gettext('Crear oferta')}}</button>
+      <button class="btn btn-primary btn-large" id="mostrarofertas" style="text-align: center;  font-size:70%;">{{
+        gettext('Mostrar ofertas') }}</button>
     </div>
   </div>
   <form style="display: none;" id="create-campaign-form" method="POST">
@@ -106,7 +106,8 @@
       {{form.description(class="form-control")}}
     </div>
     <p>
-      <input type="button" name="create_campaign" value="Create campaign" data-toggle="modal" data-target="#campaign-modal">
+      <input type="button" name="create_campaign" value="Create campaign" data-toggle="modal"
+        data-target="#campaign-modal" class="btn btn-outline-secondary">
     </p>
   </form>
   <form style="display: none;" action="/action" id="create-action-form" method="POST">
@@ -150,8 +151,10 @@
           required></input>
       </p>
     </div>
-    <div class="form-group"><input type="button" name="create_action" value="{{gettext('Crear acción')}}" 
-      data-toggle="modal" data-target="#action-modal"></div>
+    <div class="form-group">
+      <input type="button" name="create_action" value="{{gettext('Crear acción')}}" data-toggle="modal"
+        data-target="#action-modal" class="btn btn-outline-secondary">
+    </div>
   </form>
   <form style="display: none;" id="create-offer-form" method="POST">
     {{ form2.csrf_token }}
@@ -181,7 +184,8 @@
       {{form2.price(class="form-control")}}
     </div>
     <p>
-      <input type="button" name="create_offer" value="Create offer" data-toggle="modal" data-target="#offer-modal">
+      <input type="button" name="create_offer" value="Create offer" data-toggle="modal" data-target="#offer-modal"
+        class="btn btn-outline-secondary">
     </p>
   </form>
 </div>
@@ -274,7 +278,8 @@
   {% endif %}
 </div>
 
-<div class="modal fade" id="action-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="action-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -282,17 +287,18 @@
         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
-        </div>
-        <div class="modal-body">Do you want to create a new good deed?</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" id="action-submit" href="/action">Create</a>
-        </div>
       </div>
+      <div class="modal-body">Do you want to create a new good deed?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" id="action-submit" href="/action">Create</a>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="modal fade" id="campaign-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="campaign-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -300,17 +306,18 @@
         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
-        </div>
-        <div class="modal-body">Do you want to create a new campaign?</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" id="campaign-submit" href="/action">Create</a>
-        </div>
       </div>
+      <div class="modal-body">Do you want to create a new campaign?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" id="campaign-submit" href="/action">Create</a>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="modal fade" id="offer-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="offer-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -318,13 +325,13 @@
         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
-        </div>
-        <div class="modal-body">Do you want to create a new offer?</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" id="offer-submit" href="/action">Create</a>
-        </div>
       </div>
+      <div class="modal-body">Do you want to create a new offer?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" id="offer-submit" href="/action">Create</a>
+      </div>
+    </div>
   </div>
 </div>
 <script>

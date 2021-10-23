@@ -3,7 +3,7 @@
   <h1 class="h2">{{gettext('Cartera')}}</h1>
 </div>
 <div class="view">
-  <div class="jumbotron">
+  <div class="bg-light card shadow px-5 py-5 mb-5">
     <h2>{{gettext('Hola')}}, {{ name }}.</h2>
     {% if user.blockAddr is not none %}
     <p style="font-size:11px;text-align:left;">{{gettext('Tu dirección de Blockchain es')}} {{user.block_addr}}.</p>
@@ -28,12 +28,41 @@
       {{form.quantity(class="form-control")}}
     </div>
     <p>
-      {{form.submit()}}
+      <input type="button" name="create_offer" value="Send" data-toggle="modal" data-target="#wallet-modal"
+        id="send-btn" class="btn btn-outline-secondary">
     </p>
   </form>
 </div>
 
-
+<div class="modal fade" id="wallet-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Do you want to send <span id="udc-span"></span> UDC to <span id="udc-mail"></span>?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" id="wallet-submit" href="/wallet">Send</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $('#send-btn').click(function (e) {
+    e.preventDefault();
+    $('#udc-span').text($('#quantity').val());
+    $('#udc-mail').text($('#destiny').val());
+  });
+  $('#wallet-submit').click(function (e) {
+    e.preventDefault();
+    $('#udcform').submit();
+  });
+</script>
 <script>
   $(document).ready(function () {
     $("#mostrarformudc").click(function () {
