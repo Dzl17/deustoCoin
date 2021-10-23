@@ -13,30 +13,62 @@
 </div>
 <div id="ofertas">
   {% if offers|length >= 1 %}
-  <table class="table" style="table-layout:fixed; font-size:70%;" style="table-layout:fixed; font-size:75%;">
-    <thead>
-      <tr>
-        <th scope="col">{{gettext('Nombre')}}</th>
-        <th scope="col">{{gettext('Empresa')}}</th>
-        <th scope="col">{{gettext('Descripción')}}</th>
-        <th scope="col">{{gettext('Precio')}}</th>
-        <th scope="col"> </th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for o in offers %}
-      <tr>
-        <th scope="row">{{o.name}}</th>
-        <td>{{o.company}}</td>
-        <td>{{o.description}}</td>
-        <td>{{o.price}} UDC</td>
-        <td><a href="{{ url_for('redeem_offer', offer_id=o.id) }}" onclick="return confirm('Are you sure?')"><b>{{gettext('Canjear oferta')}}</b></a></td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold">Redeem offers</h6>
+    </div>
+    <div class="card-body">
+      <table class="table" style="table-layout:fixed; font-size:70%;" style="table-layout:fixed; font-size:75%;">
+        <thead>
+          <tr>
+            <th scope="col">{{gettext('Nombre')}}</th>
+            <th scope="col">{{gettext('Empresa')}}</th>
+            <th scope="col">{{gettext('Descripción')}}</th>
+            <th scope="col">{{gettext('Precio')}}</th>
+            <th scope="col"> </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for o in offers %}
+          <tr>
+            <th scope="row">{{o.name}}</th>
+            <td>{{o.company}}</td>
+            <td>{{o.description}}</td>
+            <td>{{o.price}} UDC</td>
+            <td>
+              <a href="#redeem-modal-{{o.id}}" data-toggle="modal" data-target="#redeem-modal-{{o.id}}"
+                class=" btn btn-outline-info btn-sm">
+                <b>{{gettext('Canjear oferta')}}</b>
+              </a>
+            </td>
+          </tr>
+          <div class="modal fade" id="redeem-modal-{{o.id}}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">Do you want to redeem the offer {{o.name}}?</div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                  <a class="btn btn-primary" id="campaign-submit"
+                    href="{{ url_for('redeem_offer', offer_id=o.id) }}">Redeem</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
   {% else %}
   <h4>{{gettext('No hay ofertas para mostrar.')}}</h4>
   {% endif %}
 </div>
+
 {% endblock %}
