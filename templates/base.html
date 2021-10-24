@@ -130,7 +130,6 @@
 
             #sidebarCollapse.active {
                 margin-left: -10px;
-                transform: rotateZ(180deg);
             }
         }
 
@@ -332,11 +331,12 @@
         </nav>
 
         <main role="main" class="pt-3 px-4" style="width:100%;">
-            <button id="sidebarCollapse" class="btn btn-link d-md-none rounded-circle mr-3">
+            <button id="sidebarCollapse" class="btn btn-link rounded-circle p-0 bg-light d-flex align-items-center 
+                justify-content-center">
                 <!-- <span class="iconify" data-icon="ant-design:menu-outlined" data-inline="false"></span> -->
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
-                    <path d="M0 0h24v24H0V0z" fill="none" opacity=".87" />
-                    <path d="M17.51 3.87L15.73 2.1 5.84 12l9.9 9.9 1.77-1.77L9.38 12l8.13-8.13z" />
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                 </svg>
             </button>
             {% block body %} {% endblock %}
