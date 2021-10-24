@@ -25,10 +25,11 @@
 
                     <form action="{{ url_for('campaigns_editor') }}" method="post" id="campaign-form-{{c.id}}"
                         class="d-flex align-items-center justify-content-center">
-                        <input type="submit" name="edit_campaign" class="{{c.id}} btn btn-sm btn-outline-primary mx-1 my-1"
-                            value="✎">
-                        <input type="button" name="delete_campaign" class="{{c.id}} btn btn-sm btn-outline-danger mx-1 my-1"
-                            value="✖" data-toggle="modal" data-target="#delete-modal-{{c.id}}">
+                        <input type="submit" name="edit_campaign"
+                            class="{{c.id}} btn btn-sm btn-outline-primary mx-1 my-1" value="✎">
+                        <input type="button" name="delete_campaign"
+                            class="{{c.id}} btn btn-sm btn-outline-danger mx-1 my-1" value="✖" data-toggle="modal"
+                            data-target="#delete-modal-{{c.id}}">
                         <input value="{{c.id}}" name="id" style="display: none;">
                     </form>
                 </div>
@@ -56,7 +57,8 @@
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">Do you want to delete the campaign "{{c.name}}"?</div>
+                    <div class="modal-body">Do you want to delete the campaign "{{c.name}}"?<i>All of its associated
+                            good deeds will also be deleted.</i></div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                         <a class="btn btn-primary" id="delete-submit-{{c.id}}" href="/campaigns-editor">Delete</a>
