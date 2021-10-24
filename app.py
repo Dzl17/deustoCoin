@@ -370,7 +370,6 @@ def action():
             o.description = translator.translate(o.description, dest=session['lang']).text
     except:
         pass
-    salary = get_balance(os.environ.get('ADMIN_ADDRESS'))
     if campaign_form.validate_on_submit() and 'create_campaign' in request.form:
         s = Session()
         if user.role == "Promotor":
@@ -412,7 +411,7 @@ def action():
     except:
         pass
     # Borro las keys para evitar conflictos con cookies
-    return render_template('accion.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
+    return render_template('accion.html', title='Acción', email=email, name=given_name, w3=blockchain_manager.w3,
                            form=campaign_form, form2=offer_form, user=user, actions=actions, campaigns=campaigns, offers=offers)
 
 
