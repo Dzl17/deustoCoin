@@ -14,7 +14,7 @@
     {% if actions|length >= 1 %}
     <div class="row">
         {% for a in actions %}
-        <div class="col-xl-6 mb-4">
+        <div class="col-xl-4 mb-4">
             <div class="card shadow mb-4 h-100" style="padding: 0 !important;">
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
                     <h5 class="m-0 font-weight-bold">{{a.name}}</h5>
@@ -42,8 +42,8 @@
                             <td>{{a.reward}} UDC</td>
                         </tr>
                         <tr>
-                            <td class="font-weight-bold">{{gettext('Objetivo')}}</td>
-                            <td>{{a.kpi_target}}:</td>
+                            <td class="font-weight-bold">{{gettext('Objetivo')}}:</td>
+                            <td>{{a.kpi_target}}</td>
                         </tr>
                     </table>
                 </div>
