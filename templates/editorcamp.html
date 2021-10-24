@@ -3,7 +3,7 @@
     <h1 class="h2">{{gettext('Editor de campañas')}}</h1>
 </div>
 <div class="view">
-    <div class="bg-light card shadow px-5 py-5 mb-5">
+    <div class="bg-light card px-5 py-5 mb-5">
         <h2>{{gettext('Campaña')}} {{campaign.id}}: {{campaign.name}}</h2>
     </div>
     <form id="editorcamp" action="{{ url_for('campaign_editor',campaign_id=campaign.id) }}" method="POST">

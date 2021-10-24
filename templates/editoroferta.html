@@ -3,7 +3,7 @@
     <h1 class="h2">{{gettext('Editor de ofertas')}}</h1>
 </div>
 <div class="view">
-    <div class="bg-light card shadow px-5 py-5 mb-5">
+    <div class="bg-light card px-5 py-5 mb-5">
         <h2>{{gettext('Oferta')}} {{offer.id}}: {{offer.name}}</h2>
     </div>
     <form id="editoroferta" action="{{ url_for('offer_editor',offer_id=offer.id) }}" method="POST">
