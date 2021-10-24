@@ -92,19 +92,30 @@
                 <td class="dest">{{t.receiver}}</td>
                 {% if t.campaign != "{{gettext('Envío de UDCoins')}}" or "{{gettext('Pago por oferta')}}" not in
                 t.campaign %}
-                <td class="camp"><a href="{{ url_for('company', company=t.sender)}}"><b>{{gettext(t.campaign)}}</b></a>
+                <td class="camp">
+                    <a href="{{ url_for('company', company=t.sender)}}" target="_blank">
+                        <b>{{gettext(t.campaign)}}</b>
+                    </a>
                 </td>
                 {% else %}
                 <td class="camp">{{gettext(t.campaign)}}</td>
                 {% endif %}
                 <td class="cantidad">{{t.quantity}} UDC</td>
                 {% if t.img_hash != "" %}
-                <td class="img"><a href="http://ipfs.io/ipfs/{{t.img_hash}}"><b>{{gettext('Ver imagen')}}</b></a></td>
+                <td class="img">
+                    <a href="http://ipfs.io/ipfs/{{t.img_hash}}" target="_blank">
+                        <b>{{gettext('Ver imagen')}}</b>
+                    </a>
+                </td>
                 {% else %}
                 <td class="img">{{gettext('No hay imagen')}}</td>
                 {% endif %}
                 {% if t.proof != "" %}
-                <td class="proof"><a href="{{t.proof}}"><b>{{gettext('Ver verificación')}}</b></a></td>
+                <td class="proof">
+                    <a href="{{t.proof}}" target="_blank">
+                        <b>{{gettext('Ver verificación')}}</b>
+                    </a>
+                </td>
                 {% else %}
                 <td class="proof">{{gettext('No hay URL adicional')}}</td>
                 {% endif %}
