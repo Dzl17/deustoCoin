@@ -37,23 +37,3 @@ class CreateOfferForm(FlaskForm):
     description = TextAreaField('Descripción')
     price = CustomFloatField('Precio')
     create_offer = SubmitField('Crear oferta')
-
-
-class CampaignsForm(FlaskForm):
-    edit = SubmitField("✎")
-    delete = SubmitField("✖")
-
-
-class OffersForm(FlaskForm):
-    edit = SubmitField("✎")
-    delete = SubmitField("✖")
-
-
-class ActionsForm(FlaskForm):
-    edit = SubmitField("✎")
-    delete = SubmitField("✖")
-
-
-class ImageForm(FlaskForm):
-    image = FileField('Imagen')
-    submit = SubmitField('Enviar')
