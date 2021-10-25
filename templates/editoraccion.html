@@ -38,11 +38,45 @@
             </p>
         </div>
         <p>
-            <input type="submit" formmethod="POST" value="{{gettext('Actualizar')}}" name="update_action"
-                class="btn btn-primary btn-large" onclick="return confirm('Are you sure?')">
+            <input type="button" formmethod="POST" value="{{gettext('Actualizar')}}" name="update_action"
+                class="btn btn-primary btn-large" id="update-button">
             </input>
         </p>
     </form>
 </div>
-
+<div class="modal fade" id="update-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Do you want to update the action?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" id="update-submit" href="/action">Update</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#update-button').click(function (e) {
+        if ($('#editorcamp').valid()) {
+            $('#update-modal').modal('show');
+        }
+    });
+</script>
+<script>
+    $('#update-submit').click(function (e) {
+        e.preventDefault();
+        let input = $('<input>')
+            .attr("type", "hidden")
+            .attr('name', 'update_action');
+        $('#editorcamp').append(input);
+        $('#editorcamp').submit();
+    });
+</script>
 {% endblock %}
