@@ -81,6 +81,7 @@
         gettext('Mostrar ofertas') }}</button>
     </div>
   </div>
+
   <form style="display: none;" id="create-campaign-form" method="POST">
     {{ form.csrf_token }}
     <div class="form-group">
@@ -88,26 +89,27 @@
         <label for="exampleInputEmail1">{{ gettext('Nombre de la campaña') }}</label>
 
         <br />
-        {{form.campaign_name(class="form-control")}}
+        {{form.campaign_name(class="form-control", required="")}}
       </p>
     </div>
     {% if user.role == "Administrador" %}
     <div class="form-group">
       {{ gettext('Empresa') }}
       <br />
-      {{form.company(class="form-control")}}
+      {{form.company(class="form-control", required="")}}
     </div>
     {% endif %}
     <div class="form-group">
       {{gettext('Descripción')}}
       <br />
-      {{form.description(class="form-control")}}
+      {{form.description(class="form-control", required="")}}
     </div>
     <p>
-      <input type="button" name="create_campaign" value="Create campaign" data-toggle="modal"
-        data-target="#campaign-modal" class="btn btn-outline-dark">
+      <input type="button" name="create_campaign" value="Create campaign" id="create-campaign-button"
+        class="btn btn-outline-dark">
     </p>
   </form>
+
   <form style="display: none;" action="/action" id="create-action-form" method="POST">
     <div class="form-group">
       <p>
@@ -150,10 +152,11 @@
       </p>
     </div>
     <div class="form-group">
-      <input type="button" name="create_action" value="{{gettext('Crear acción')}}" data-toggle="modal"
-        data-target="#action-modal" class="btn btn-outline-dark">
+      <input type="button" name="create_action" value="{{gettext('Crear acción')}}" class="btn btn-outline-dark"
+        id="create-action-button">
     </div>
   </form>
+
   <form style="display: none;" id="create-offer-form" method="POST">
     {{ form2.csrf_token }}
     <div class="form-group">
@@ -161,32 +164,33 @@
         <label for="offer_name">{{gettext('Nombre de la oferta')}}</label>
 
         <br />
-        {{form2.offer_name(class="form-control")}}
+        {{form2.offer_name(class="form-control", required="")}}
       </p>
     </div>
     {% if user.role == "Administrador" %}
     <div class="form-group">
       {{gettext('Organización')}}
       <br />
-      {{form2.company(class="form-control")}}
+      {{form2.company(class="form-control", required="")}}
     </div>
     {% endif %}
     <div class="form-group">
       {{gettext('Descripción')}}
       <br />
-      {{form2.description(class="form-control")}}
+      {{form2.description(class="form-control", required="")}}
     </div>
     <div class="form-group">
       {{gettext('Precio')}}
       <br />
-      {{form2.price(class="form-control")}}
+      {{form2.price(class="form-control", required="")}}
     </div>
     <p>
-      <input type="button" name="create_offer" value="Create offer" data-toggle="modal" data-target="#offer-modal"
+      <input type="button" name="create_offer" value="Create offer" id="create-offer-button"
         class="btn btn-outline-dark">
     </p>
   </form>
 </div>
+
 <div id="acciones" style="display: none;">
   {% if actions|length >= 1 %}
   <p style="font-size:75%;" class="showDetails"><b>{{gettext('Gire la pantalla para más detalles.')}}</b></p>
@@ -332,6 +336,28 @@
     </div>
   </div>
 </div>
+
+<script>
+  $('#create-action-button').click(function (e) {
+    if ($('#create-action-form').valid()) {
+      $('#action-modal').modal('show');
+    }
+  });
+</script>
+<script>
+  $('#create-campaign-button').click(function (e) {
+    if ($('#create-campaign-form').valid()) {
+      $('#campaign-modal').modal('show');
+    }
+  });
+</script>
+<script>
+  $('#create-offer-button').click(function (e) {
+    if ($('#create-offer-form').valid()) {
+      $('#offer-modal').modal('show');
+    }
+  });
+</script>
 <script>
   $('#action-submit').click(function (e) {
     e.preventDefault();
