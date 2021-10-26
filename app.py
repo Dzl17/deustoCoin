@@ -314,7 +314,19 @@ def wallet():
     user = User.get_by_email(email)
     salary = get_balance(user.block_addr)
     if form.validate_on_submit():
-        transfer_coins(sender=user, dest=User.get_by_email(request.form['destiny']), amount=request.form['quantity'], email=email, dest_email=request.form['destiny'])
+        destination = User.get_by_email(request.form['destiny'])
+        if destination != None:
+            transfer_coins(sender=user, dest=destination, amount=request.form['quantity'], 
+                email=email, dest_email=request.form['destiny'])
+        else:
+            given_name = dict(session).get('given_name', None)
+            try:
+                del session['action_id']
+                del session['offer_id']
+            except:
+                pass
+            return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, 
+                w3=blockchain_manager.w3, form=form, user=user, nouser=1)
     given_name = dict(session).get('given_name', None)
     try:
         del session['action_id']
@@ -322,7 +334,7 @@ def wallet():
     except:
         pass
     return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
-                           form=form, user=user)
+                           form=form, user=user, nouser=0)
 
 
 @app.route('/redeem-offer/<int:offer_id>')
