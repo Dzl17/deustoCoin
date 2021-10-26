@@ -3,7 +3,8 @@ var filesToCache = [
   './static/css/main.css',
   './static/css/floating-labels.css',
   './static/css/sidebar.css',
-  './static/js/sidebar.js'
+  './static/js/sidebar.js',
+  './static/css/style.css'
 ];
 
 self.addEventListener('install', function(e) {

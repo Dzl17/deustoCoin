@@ -1,0 +1,268 @@
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+:root {
+    --ion-safe-area-top: 20px;
+    --ion-safe-area-bottom: 22px;
+}
+
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+main {
+    margin-left: 250px;
+    transition: margin 0.3s;
+}
+
+main.marginless {
+    margin-left: 0;
+}
+
+p {
+    text-align: justify;
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #1177d1;
+}
+
+header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.25em;
+    text-transform: uppercase;
+}
+
+section {
+    margin-top: 1em;
+    margin-bottom: 2.5em;
+}
+
+section:not(.full-width), .full-width>header {
+    padding: 0 10px;
+}
+
+#sidebar {
+    background: #1177d1;
+    color: #fff;
+    position: fixed;
+    width: 250px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 10;
+    transition: all 0.3s;
+}
+
+#sidebar .sidebar-header {
+    padding: 10px 5px;
+    background: #1177d1;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#sidebar ul li a:hover {
+    color: #1177d1;
+    background: #fff;
+}
+
+#sidebar ul li.active>a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #1177d1;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebarCollapse {
+    height: 2.5rem;
+    width: 2.5rem;
+    z-index: 150;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+.nav-link {
+    display: flex !important;
+    align-items: center;
+}
+
+.nav-link svg {
+    margin-right: 5px;
+}
+
+.button-grid {
+    display: grid;
+    gap: 2px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media handheld {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+}
+
+@media (orientation:landscape) {
+    .showDetails {
+        display: none;
+    }
+
+    #tabletrans {
+        table-layout: auto;
+        font-size: 1.2vw;
+        width: 100%;
+    }
+}
+
+@media (orientation:portrait) and (max-width: 768px) {
+    #acciones {
+        table-layout: auto;
+        width: 100%;
+    }
+
+    #tabletrans {
+        table-layout: auto;
+        font-size: 3vw;
+        width: 100%;
+    }
+
+    .button-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .showDetails {
+        display: block;
+    }
+
+    .rem {
+        display: none;
+    }
+
+    .dest {
+        display: none;
+    }
+
+    .img {
+        display: none;
+    }
+
+    .proof {
+        display: none;
+    }
+
+    .emp {
+        display: none;
+    }
+
+    .ind {
+        display: none;
+    }
+
+    .est {
+        display: none;
+    }
+
+    .obj {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .card {
+        padding: 2rem 1rem !important;
+    }
+}
+
+@media (min-width:768px) {
+    .plot {
+        width: 768px;
+        height: 576px;
+    }
+}
+
+@media (max-width:768px) {
+    .plot {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #sidebarCollapse {
+        display: none !important;
+    }
+    #sidebar {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    main {
+        margin-left: 0px;
+    }
+    #sidebarCollapse {
+        margin-left: 240px;
+        transition: margin 0.3s;
+    }
+    #sidebarCollapse.active {
+        margin-left: -10px;
+    }
+}
+
+@media handheld and (max-width: 992px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+}
+
+@media (orientation:landscape) and (min-width: 1024px) {
+    .showDetails {
+        display: none;
+    }
+
+    #tabletrans {
+        table-layout: auto;
+        font-size: 0.8vw;
+        width: 100%;
+    }
+}

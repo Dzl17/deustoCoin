@@ -1,21 +1,4 @@
 {% extends "base.html" %}
-{% block head %}
-<style>
-  @media (min-width:768px) {
-    .plot {
-      width: 768px;
-      height: 576px;
-    }
-  }
-
-  @media (max-width:768px) {
-    .plot {
-      width: 100%;
-    }
-  }
-</style>
-{% endblock %}
-
 {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h1 class="h2">{{company}} - {{gettext('Campañas')}}</h1>
