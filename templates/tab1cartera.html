@@ -19,17 +19,16 @@
       <p>
         <label for="exampleInputEmail1">{{gettext('Correo electrónico del destinatario')}}</label>
         <br />
-        {{form.destiny(class="form-control")}}
+        {{form.destiny(class="form-control", required="")}}
       </p>
     </div>
     <div class="form-group">
       {{gettext('Cantidad de UDCs a enviar')}}
       <br />
-      {{form.quantity(class="form-control")}}
+      {{form.quantity(class="form-control", required="")}}
     </div>
     <p>
-      <input type="button" name="create_offer" value="Send" data-toggle="modal" data-target="#wallet-modal"
-        id="send-btn" class="btn btn-outline-dark">
+      <input type="button" name="create_offer" value="Send" id="send-btn" class="btn btn-outline-dark">
     </p>
   </form>
 </div>
@@ -52,15 +51,41 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="credit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">You don't have enough coins to send.</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   $('#send-btn').click(function (e) {
     e.preventDefault();
-    $('#udc-span').text($('#quantity').val());
-    $('#udc-mail').text($('#destiny').val());
+    if($('#udcform').valid()) {
+      $('#udc-span').text($('#quantity').val());
+      $('#udc-mail').text($('#destiny').val());
+      $('#wallet-modal').modal('show');
+    }
   });
   $('#wallet-submit').click(function (e) {
     e.preventDefault();
-    $('#udcform').submit();
+    if($('#quantity').val() < {{ wallet }}) {
+      $('#udcform').submit();
+    } else {
+      $('#wallet-modal').modal('hide');      
+      $('#credit-modal').modal('show');
+    }
   });
 </script>
 <script>
