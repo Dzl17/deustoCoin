@@ -23,8 +23,7 @@
           <span class="font-weight-bold">Company: {{o.company}}</span>
           <p class="text-left">{{o.description}}</p>
           <div class="d-flex align-items-center justify-content-center">
-            <a href="#redeem-modal-{{o.id}}" data-toggle="modal" data-target="#redeem-modal-{{o.id}}"
-              class=" btn btn-outline-info btn-sm">
+            <button type="button" class=" btn btn-outline-info btn-sm" id="offer-submit-{{o.id}}">
               <b>{{gettext('Canjear oferta')}}</b>
             </a>
           </div>
@@ -51,6 +50,34 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" id="credit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">You don't have enough coins.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $('#offer-submit-{{o.id}}').click(function (e) {
+        e.preventDefault();
+        if ({{ o.price }} < {{ wallet }}) {
+          $('#redeem-modal-{{o.id}}').modal('show');
+        } else {
+          $('#redeem-modal-{{o.id}}').modal('hide');
+          $('#credit-modal').modal('show');
+        }
+      });
+    </script>
     {% endfor %}
   </div>
   {% else %}
