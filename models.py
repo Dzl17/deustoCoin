@@ -163,7 +163,7 @@ class Action(Base):
     campaign_id = Column('campanya_id', Integer, ForeignKey('campanya.id'))
     kpi = Column(Integer, default=0)
     kpi_target = Column('kpiObj', Integer, default=0)
-    kpis = relationship(KPIByDates, backref=backref("kpi_fechas", passive_deletes=True))
+    kpis = relationship(KPIByDates, backref=backref('kpi_fechas', passive_deletes=True))
 
     def __init__(self, name, company, description, reward, kpi_indicator, kpi_target, campaign_id):
         self.name = name
@@ -222,7 +222,7 @@ class Campaign(Base):
     name = Column('nombre', String, nullable=False)
     company = Column('empresa', String, nullable=False)
     description = Column('descripcion', String, nullable=False)
-    actions = relationship("Action")
+    actions = relationship('Action', cascade='all,delete', backref='parent')
 
     def __init__(self, name, company, description):
         self.name = name
