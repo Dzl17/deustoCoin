@@ -9,14 +9,16 @@
     <form id="editorcamp" action="{{ url_for('campaign_editor',campaign_id=campaign.id) }}" method="POST">
         <div class="form-group">
             <p>
-                <input type="text" class="form-control" placeholder="{{gettext('Nombre')}}" name="name"
+                <label for="name">Campaign name</label>
+                <input type="text" class="form-control" placeholder="{{gettext('Nombre')}}" name="name" id="name"
                     value='{{campaign.name}}' required>
             </p>
         </div>
         <div class="form-group">
             <p>
+                <label for="description">Campaign description</label>
                 <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="description"
-                    value="{{campaign.description}}" required>
+                    id="description" value="{{campaign.description}}" required>
             </p>
         </div>
         <p>

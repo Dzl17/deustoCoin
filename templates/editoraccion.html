@@ -9,32 +9,37 @@
     <form id="editorcamp" action="{{ url_for('action_editor' ,action_id=action.id) }}" method="POST">
         <div class="form-group">
             <p>
-                <input type="text" class="form-control" placeholder="{{gettext('Nombre')}}" name="name"
+                <label for="name">Deed name</label>
+                <input type="text" class="form-control" placeholder="{{gettext('Nombre')}}" name="name" id="name"
                     value='{{action.name}}' required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
+                <label for="description">Deed description</label>
                 <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="description"
-                    value="{{action.description}}" required></input>
+                    id="description" value="{{action.description}}" required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
+                <label for="reward">Deed reward</label>
                 <input type="text" placeholder="{{gettext('Recompensa por KPI (en UDC)')}}" class="form-control"
-                    name="reward" value="{{action.reward}}" required></input>
+                    name="reward" id="reward" value="{{action.reward}}" required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
+                <label for="kpi-indicator">KPI indicator</label>
                 <input type="text" placeholder="{{gettext('Indicador')}}" class="form-control" name="kpi_indicator"
-                    value="{{action.kpi_indicator}}" required></input>
+                    id="kpi-indicator" value="{{action.kpi_indicator}}" required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
+                <label for="kpi-target">KPI target</label>
                 <input type="text" placeholder="{{gettext('Objetivo')}}" class="form-control" name="kpi_target"
-                    value="{{action.kpi_target}}" required></input>
+                    id="kpi-target" value="{{action.kpi_target}}" required></input>
             </p>
         </div>
         <p>

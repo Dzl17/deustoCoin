@@ -9,19 +9,22 @@
     <form id="editoroferta" action="{{ url_for('offer_editor',offer_id=offer.id) }}" method="POST">
         <div class="form-group">
             <p>
-                <input type="text" class="form-control" placeholder="{{gettext('Nombre')}}" name="name"
+                <label for="name">Offer name</label>
+                <input type="text" class="form-control" placeholder="{{gettext('Nombre')}}" name="name" id="name"
                     value='{{offer.name}}' required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
+                <label for="description">Offer description</label>
                 <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="description"
-                    value="{{offer.description}}" required></input>
+                    id="description" value="{{offer.description}}" required></input>
             </p>
         </div>
         <div class="form-group">
             <p>
-                <input type="text" class="form-control" placeholder="{{gettext('Precio')}}" name="price"
+                <label for="price">Offer price</label>
+                <input type="text" class="form-control" placeholder="{{gettext('Precio')}}" name="price" id="price"
                     value="{{offer.price}}" required></input>
             </p>
         </div>
