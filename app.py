@@ -359,29 +359,6 @@ def action():
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
 
-    if user.role == "Promotor":
-        campaigns = Campaign.get_campaigns(user.organization)
-        actions = Action.get_actions(user.organization)
-        offers = Offer.get_offers(user.organization)
-    elif user.role == "Administrador":
-        campaigns = Campaign.get_all_campaigns()
-        actions = Action.get_all_actions()
-        offers = Offer.get_all_offers()
-    else:
-        return redirect("/login")
-    try:
-        for c in campaigns:
-            c.name = translator.translate(c.name, dest=session['lang']).text
-            c.description = translator.translate(c.description, dest=session['lang']).text
-        for a in actions:
-            a.name = translator.translate(a.name, dest=session['lang']).text
-            a.description = translator.translate(a.description, dest=session['lang']).text
-            a.kpi_indicator = translator.translate(a.kpi_indicator, dest=session['lang']).text
-        for o in offers:
-            o.name = translator.translate(o.name, dest=session['lang']).text
-            o.description = translator.translate(o.description, dest=session['lang']).text
-    except:
-        pass
     if campaign_form.validate_on_submit() and 'create_campaign' in request.form:
         s = Session()
         if user.role == "Promotor":
@@ -416,6 +393,29 @@ def action():
         a = Action(offer_name, user.organization, desc, reward, kpi_indicator, kpi_target, campaign)
         s.add(a)
         s.commit()
+    if user.role == "Promotor":
+        campaigns = Campaign.get_campaigns(user.organization)
+        actions = Action.get_actions(user.organization)
+        offers = Offer.get_offers(user.organization)
+    elif user.role == "Administrador":
+        campaigns = Campaign.get_all_campaigns()
+        actions = Action.get_all_actions()
+        offers = Offer.get_all_offers()
+    else:
+        return redirect("/login")
+    try:
+        for c in campaigns:
+            c.name = translator.translate(c.name, dest=session['lang']).text
+            c.description = translator.translate(c.description, dest=session['lang']).text
+        for a in actions:
+            a.name = translator.translate(a.name, dest=session['lang']).text
+            a.description = translator.translate(a.description, dest=session['lang']).text
+            a.kpi_indicator = translator.translate(a.kpi_indicator, dest=session['lang']).text
+        for o in offers:
+            o.name = translator.translate(o.name, dest=session['lang']).text
+            o.description = translator.translate(o.description, dest=session['lang']).text
+    except:
+        pass
 
     try:
         del session['action_id']
@@ -559,6 +559,10 @@ def campaigns_editor():
             query = query.filter(Campaign.id == pk).first()
             s.delete(query)
             s.commit()
+            if user.role == "Promotor":
+                campaigns = Campaign.get_campaigns(user.organization)
+            if user.role == "Administrador":
+                campaigns = Campaign.get_all_campaigns()
         elif 'view_actions' in request.form:
             return redirect(url_for('editor', campaign_id=request.form['id']))
     try:
