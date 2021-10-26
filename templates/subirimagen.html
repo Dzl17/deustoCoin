@@ -6,47 +6,57 @@
 <div class="view">
   <div class="bg-light card px-5 py-5 mb-5">
     <h2>{{gettext('Verificando acción')}} - {{c_reward.name}}</h2>
-    <p>{{gettext('Tienes que subir una imagen que corrobore que la acción gracias a la cual pretendes ser recompensado
-      es verídica.')}}</p>
+    <p>
+      {{gettext('Tienes que subir una imagen que corrobore que la acción gracias a la cual pretendes ser recompensado
+      es verídica.')}}
+    </p>
     <br>
     <form action="/upload" method="POST" enctype="multipart/form-data" name="fileform" id="uploadfile">
       <div class="form-group">
         <input type="file" id="filename" name="filename" style="width:100%;" required>
       </div>
       <div class="form-group">
-        <h6><b>{{c_reward.kpi_indicator}}</b>&nbsp;<input type="text" id="kpi" name="kpi" required></h6>
+        <b>{{c_reward.kpi_indicator}}</b>&nbsp;
+        <input type="text" id="kpi" name="kpi" required>
       </div>
       <div class="form-group">
-        <h6><b>{{gettext('URL de verificación')}}</b>(<i>{{gettext('Opcional')}}</i>)&nbsp;<input type="text" id="proof"
-            name="proof"></h6>
+        <b>{{gettext('URL de verificación')}}</b> (<i>{{gettext('Opcional')}}</i>)&nbsp;<input type="text" id="proof"
+          name="proof">
       </div>
-      <input type="button" value="Submit action" data-toggle="modal" data-target="#register-action-modal"
-        class="btn btn-outline-dark">
+    <input type="button" value="Submit action" class="btn btn-outline-dark" id="submit-button">
     </form>
   </div>
+</div>
 
-  <div class="modal fade" id="register-action-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Do you want to register the action?</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" id="register-action-submit" href="/register-action">Confirm</a>
-        </div>
+<div class="modal fade" id="register-action-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Do you want to register the action?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" id="register-action-submit" href="/register-action">Confirm</a>
       </div>
     </div>
   </div>
-  <script>
-    $('#register-action-submit').click(function (e) {
-      e.preventDefault();
-      $('#uploadfile').submit();
-    });
-  </script>
-  {% endblock %}
+</div>
+<script>
+  $('#submit-button').click(function (e) {
+    if ($('#uploadfile').valid()) {
+      $('#register-action-modal').modal('show');
+    }
+  });
+</script>
+<script>
+  $('#register-action-submit').click(function (e) {
+    e.preventDefault();
+    $('#uploadfile').submit();
+  });
+</script>
+{% endblock %}
