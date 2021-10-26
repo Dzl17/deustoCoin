@@ -623,6 +623,7 @@ def action_editor(action_id):
                       Action.kpi_indicator: request.form['kpi_indicator'], Action.kpi_target: int(request.form['kpi_target'])}
         query.filter(Action.id == action_id).update(dictupdate, synchronize_session=False)
         s.commit()
+        return redirect(url_for('editor', campaign_id=action.campaign_id))
     return render_template("editoraccion.html", action=action, email=email, name=given_name, user=user)
 
 
@@ -641,6 +642,7 @@ def campaign_editor(campaign_id):
         dictupdate = {Campaign.name: request.form['name'], Campaign.description: request.form['description']}
         query.filter(Campaign.id == campaign_id).update(dictupdate, synchronize_session=False)
         s.commit()
+        return redirect('/campaigns-editor')
     return render_template("editorcamp.html", campaign=campaign, email=email, name=given_name, user=user)
 
 
@@ -660,6 +662,7 @@ def offer_editor(offer_id):
                       Offer.price: request.form['price']}
         query.filter(Offer.id == offer_id).update(dictupdate, synchronize_session=False)
         s.commit()
+        return redirect('/offers-editor')
     return render_template("editoroferta.html", offer=offer, email=email, name=given_name, user=user)
 
 
