@@ -484,19 +484,18 @@ def transaction_history():
         transactions = Transaction.get_transactions(user.organization)
     else:
         transactions = Transaction.get_all_transactions()
+
+    all_campaigns = Campaign.get_all_campaigns()
     for t in transactions:
         camp_id = t.campaign
-        try:
-            t.campaign = Campaign.get_campaign_by_id(camp_id).name
-            try:
-                t.campaign = translator.translate(t.campaign, dest=session['lang']).text
-            except:
-                pass
-        except:
-            if "@" not in str(t.receiver):
-                t.campaign = gettext("Pago por oferta")
-            else:
-                t.campaign = gettext("Envío de UDCoins")
+        for c in all_campaigns:
+            if c.id == camp_id:
+                t.campaign = c.name
+                try:
+                    t.campaign = translator.translate(t.campaign, dest=session['lang']).text
+                except:
+                    pass
+                break
 
     try:
         del session['action_id']

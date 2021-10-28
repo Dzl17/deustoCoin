@@ -35,15 +35,14 @@
                 <th scope="row" class="fecha">{{t.date}}</th>
                 <td class="rem">{{t.sender}}</td>
                 <td class="dest">{{t.receiver}}</td>
-                {% if t.campaign != "{{gettext('Envío de UDCoins')}}" or "{{gettext('Pago por oferta')}}" not in
-                t.campaign %}
+                {% if t.campaign != None %}
                 <td class="camp">
                     <a href="{{ url_for('company', company=t.sender)}}" target="_blank">
                         <b>{{gettext(t.campaign)}}</b>
                     </a>
                 </td>
                 {% else %}
-                <td class="camp">{{gettext(t.campaign)}}</td>
+                <td class="camp">Transfer, offer payment</td>
                 {% endif %}
                 <td class="cantidad">{{t.quantity}} UDC</td>
                 {% if t.img_hash != "" %}
