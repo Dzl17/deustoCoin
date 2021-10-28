@@ -9,11 +9,6 @@
     <h2>
       <span style="font-size: 1rem">{{ gettext('Bienvenido al menú principal.' )}}</span>
     </h2>
-    <h2>
-      {% if user.blockAddr is not none %}
-      <p style="font-size:11px;text-align:left;">{{gettext('Tu dirección de Blockchain es')}} {{user.block_addr}}.</p>
-      {% endif %}
-    </h2>
     <div class="button-grid">
       <button class="btn btn-primary btn-large" id="mostrarformacc" style="text-align: center; font-size:70%;">{{
         gettext('Crear acción') }}</button>

@@ -52,6 +52,9 @@
                 $('#sidebarCollapse').toggleClass('active');
                 $('main').toggleClass('marginless');
             });
+            $('#sidebar').addClass('active');
+            $('#sidebarCollapse').addClass('active');
+            $('main').addClass('marginless');
         });
         $(window).on('resize', function () {
             var win = $(this);
@@ -74,22 +77,7 @@
         <nav id="sidebar" style="flex-shrink:0;">
             <div class="sidebar-header">
                 <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('home') }}">DeustoCoin</a>
-                {% if user != None %}
-                <div class="sidebar-item sidebar-header d-flex flex-nowrap">
-                    <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="{{ session['picture'] }}" width="75" height="75"
-                            style="border:6px solid #1177d1;">
-                    </div>
-                    <div class="user-info">
-                        <span class="user-name">
-                            <strong> {{ user.name }}</strong>
-                        </span>
-                        <br>
-                        <span class="user-role"> {{ gettext(user.role) }}</span>
-                    </div>
-                </div>
             </div>
-            {% endif %}
             <div class="sidebar-content">
                 <ul class="nav flex-column">
                     {% if user.role == "Promotor" or user.role == "Administrador" %}
@@ -150,11 +138,6 @@
                                 data-inline="false"></span>
                             {{gettext('Sobre DeustoCoin')}}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout')}}"><span class="iconify"
-                                data-icon="carbon:logout" data-inline="false"></span>
-                            {{gettext('Cerrar sesión')}}</a>
-                    </li>
                 </ul>
                 <div class="sidebar-footer">
                     <p class="mt-5 mb-3 text-center"><a href="{{url_for('language', lang='en')}}">EN</a>&nbsp;&nbsp;<a
@@ -165,17 +148,84 @@
             </div>
         </nav>
 
-        <main role="main" class="pt-3 px-4" style="width:100%;">
-            <button id="sidebarCollapse" class="btn btn-link rounded-circle p-0 bg-light d-flex align-items-center 
-                justify-content-center">
-                <!-- <span class="iconify" data-icon="ant-design:menu-outlined" data-inline="false"></span> -->
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
-                    <path d="M0 0h24v24H0V0z" fill="none" />
-                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
-                </svg>
-            </button>
-            {% block body %} {% endblock %}
-        </main>
+        <div class="main-content">
+            <nav id="topbar" class="navbar navbar-expand navbar-light bg-white topbar m-0 static-top shadow">
+                <button id="sidebarCollapse" class="btn btn-link rounded-circle p-0 bg-light d-flex align-items-center 
+                    justify-content-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+                        fill="#000000">
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                    </svg>
+                </button>
+
+                <a class="user-toggle" href="#" data-toggle="dropdown">
+                    <img class="img-responsive img-rounded" src="{{ session['picture'] }}">
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" id="user-dropdown">
+                    <div class="user-info">
+                        <div class="user-pic">
+                            <img class="img-responsive img-rounded" src="{{ session['picture'] }}">
+                        </div>
+                        <div class="user-text">
+                            <span class="user-name">
+                                <strong> {{ user.name }}</strong>
+                            </span>
+                            <br>
+                            <span class="user-role"> {{ gettext(user.role) }}</span>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ url_for('profile') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="20"
+                            height="20" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2c3e50" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <circle cx="12" cy="7" r="4" />
+                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                        </svg>
+                        Profile
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" data-toggle="modal"
+                        data-target="#logoutModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" width="20"
+                            height="20" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2c3e50" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                            <path d="M7 12h14l-3 -3m0 6l3 -3" />
+                        </svg>
+                        Logout
+                    </a>
+                </div>
+            </nav>
+
+            <main role="main" class="pt-3 px-4" style="width:100%;">
+                {% block body %} {% endblock %}
+            </main>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="{{ url_for('logout')}}">Logout</a>
+                </div>
+            </div>
+        </div>
     </div>
     {% endif %}
 

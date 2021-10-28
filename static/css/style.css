@@ -1,4 +1,5 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
 :root {
     --ion-safe-area-top: 20px;
     --ion-safe-area-bottom: 22px;
@@ -9,13 +10,14 @@
     align-items: stretch;
 }
 
-main {
-    margin-left: 250px;
-    transition: margin 0.3s;
-}
-
 main.marginless {
     margin-left: 0;
+}
+
+.main-content {
+    margin-left: 250px;
+    transition: margin 0.3s;
+    width: 100%;
 }
 
 p {
@@ -49,6 +51,59 @@ section {
 
 section:not(.full-width), .full-width>header {
     padding: 0 10px;
+}
+
+#topbar {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-toggle {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-toggle img {
+    height: 40px;
+    border-radius: 100%;
+}
+
+.user-toggle:focus {
+    background-color: transparent;
+}
+
+#user-dropdown {
+    margin: 5px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+}
+
+.user-info img {
+    border-radius: 100%;
+    max-width: 65px;
+    margin-right: 10px;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item:hover {
+    background: #EAECF4 !important;
+}
+
+.dropdown-item svg {
+    margin-right: 10px;
 }
 
 #sidebar {
@@ -226,7 +281,7 @@ a[data-toggle="collapse"] {
 
 @media screen and (min-width: 768px) {
     #sidebarCollapse {
-        display: none !important;
+        visibility: hidden;
     }
     #sidebar {
         display: block;
@@ -234,7 +289,7 @@ a[data-toggle="collapse"] {
 }
 
 @media screen and (max-width: 768px) {
-    main {
+    .main-content {
         margin-left: 0px;
     }
     #sidebarCollapse {
@@ -242,7 +297,7 @@ a[data-toggle="collapse"] {
         transition: margin 0.3s;
     }
     #sidebarCollapse.active {
-        margin-left: -10px;
+        margin-left: 0px;
     }
 }
 
