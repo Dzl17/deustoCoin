@@ -205,7 +205,6 @@ a[data-toggle="collapse"] {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background-color: #fff;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .5rem;
     max-width: 800px;
