@@ -1,5 +1,4 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-
 :root {
     --ion-safe-area-top: 20px;
     --ion-safe-area-bottom: 22px;
@@ -186,6 +185,73 @@ a[data-toggle="collapse"] {
     grid-template-columns: repeat(2, 1fr);
 }
 
+
+.profile-img {
+    max-width: 100px;
+}
+
+.address-text {
+    font-size: 12px;
+}
+
+.user-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .5rem;
+    max-width: 800px;
+}
+
+.main-user-info {
+    width: 100%;
+    flex: 1;
+    background-image: linear-gradient(to right bottom, rgb(56, 189, 248), rgb(99, 102, 241));
+    color: white;
+    border-top-left-radius: .4rem;
+    border-bottom-left-radius: .4rem;
+}
+
+.sec-user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex: 3;
+    padding: 15px 15px 15px 30px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-container {
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex: 1 1 0px;
+}
+
+.info-text {
+    color: #585858;
+}
+
+.block-info {
+    font-size: 11px;
+}
+
+
 @media handheld {
     #sidebar {
         margin-left: -250px;
@@ -199,7 +265,6 @@ a[data-toggle="collapse"] {
     .showDetails {
         display: none;
     }
-
     #tabletrans {
         table-layout: auto;
         font-size: 1.2vw;
@@ -212,49 +277,38 @@ a[data-toggle="collapse"] {
         table-layout: auto;
         width: 100%;
     }
-
     #tabletrans {
         table-layout: auto;
         font-size: 3vw;
         width: 100%;
     }
-
     .button-grid {
         grid-template-columns: repeat(1, 1fr);
     }
-
     .showDetails {
         display: block;
     }
-
     .rem {
         display: none;
     }
-
     .dest {
         display: none;
     }
-
     .img {
         display: none;
     }
-
     .proof {
         display: none;
     }
-
     .emp {
         display: none;
     }
-
     .ind {
         display: none;
     }
-
     .est {
         display: none;
     }
-
     .obj {
         display: none;
     }
@@ -276,6 +330,14 @@ a[data-toggle="collapse"] {
 @media (max-width:768px) {
     .plot {
         width: 100%;
+    }
+    .user-container {
+        flex-direction: column;
+    }
+    .main-user-info {
+        border-top-left-radius: .4rem;
+        border-top-right-radius: .4rem;
+        border-bottom-left-radius: 0;
     }
 }
 
@@ -314,7 +376,6 @@ a[data-toggle="collapse"] {
     .showDetails {
         display: none;
     }
-
     #tabletrans {
         table-layout: auto;
         font-size: 0.8vw;

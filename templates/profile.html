@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="user-wrapper">
+    <div class="user-container my-5">
+        <div class="main-user-info d-flex flex-column align-items-center justify-content-center p-5">
+            <img class="profile-img rounded-circle" src="{{ session['picture'] }}">
+            <h4 class="my-2 text-center"><strong>{{ user.name }}</strong></h4>
+            <h6>{{ gettext(user.role) }}</h6>
+        </div>
+        <div class="sec-user-info">
+            <div class="info-container">
+                <p class="d-flex flex-column align-items-start">
+                    <strong class="info-title">Email</strong>
+                    <span class="info-text">{{ user.email }}</span>
+                </p>
+            </div>
+            <div class="info-container">
+                <p class="d-flex flex-column align-items-start">
+                    <strong class="info-title">Organization</strong>
+                    <span class="info-text">{{ user.organization }}</span>
+                </p>
+            </div>
+            <div class="info-container">
+                <p class="d-flex flex-column align-items-start">
+                    <strong class="info-title">Blockchain address</strong>
+                    <span class="info-text block-info">{{ user.block_addr }}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
