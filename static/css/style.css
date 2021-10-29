@@ -326,7 +326,7 @@ a[data-toggle="collapse"] {
     }
 }
 
-@media (max-width:768px) {
+@media (max-width:767px) {
     .plot {
         width: 100%;
     }
@@ -349,7 +349,7 @@ a[data-toggle="collapse"] {
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
     .main-content {
         margin-left: 0px;
     }
