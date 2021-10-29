@@ -46,14 +46,7 @@
 
     </script>
     <script>
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-                $('#sidebarCollapse').toggleClass('active');
-                $('main').toggleClass('marginless');
-            });
-        });
-        $(window).on('resize', function () {
+        function sidebarChange() {
             var win = $(this);
             if (win.width() >= 768 && !$('sidebar').hasClass('active')) {
                 $('#sidebar').removeClass('active');
@@ -64,7 +57,16 @@
                 $('#sidebarCollapse').addClass('active');
                 $('main').addClass('marginless');
             }
+        }
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $('#sidebarCollapse').toggleClass('active');
+                $('main').toggleClass('marginless');
+            });
         });
+        $(window).on('resize', sidebarChange);
+        $(window).on('scroll', sidebarChange);
     </script>
 </head>
 
