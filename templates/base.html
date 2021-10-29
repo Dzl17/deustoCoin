@@ -87,7 +87,17 @@
     <div class="wrapper" style="overflow:auto;">
         <nav id="sidebar" style="flex-shrink:0;">
             <div class="sidebar-header">
-                <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('home') }}">DeustoCoin</a>
+                {% if user.role == "Colaborador" %}
+                <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('wallet') }}">
+                    <img src="{{ url_for('static', filename='icon/deustoCoin-64.png') }}" alt="logo">
+                    DeustoCoin
+                </a>
+                {% else %}
+                <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('action') }}">
+                    <img src="{{ url_for('static', filename='icon/deustoCoin-64.png') }}" alt="logo">
+                    DeustoCoin
+                </a>
+                {% endif %}
             </div>
             <div class="sidebar-content">
                 <ul class="nav flex-column">
