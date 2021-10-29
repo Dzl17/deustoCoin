@@ -313,6 +313,15 @@ a[data-toggle="collapse"] {
     }
 }
 
+@media screen and (max-width: 361px) {
+    #sidebarCollapse {
+        position: fixed;
+    }
+    #sidebarCollapse.active {
+        position: static;
+    }
+}
+
 @media screen and (max-width: 576px) {
     .card {
         padding: 2rem 1rem !important;
@@ -354,7 +363,7 @@ a[data-toggle="collapse"] {
         margin-left: 0px;
     }
     #sidebarCollapse {
-        margin-left: 240px;
+        margin-left: 250px;
         transition: margin 0.3s;
     }
     #sidebarCollapse.active {
