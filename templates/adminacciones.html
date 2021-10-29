@@ -1,15 +1,10 @@
-{% extends "base.html" %} {% block body %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">{{gettext('Editor de acciones de')}} {{campaign.name}} ({{campaign.company}})</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group mr-2">
-            <p>✎ {{gettext('Editar')}} | {{gettext('Eliminar')}} ✖</p>
-        </div>
-    </div>
-</div>
-<div class="view">
-
-</div>
+{% extends "base.html" %}
+{% block headtitle %}
+{{gettext('Good deed editor')}}
+{% endblock %}
+{% block body %}
+<h2 class="h2 content-title">{{gettext('Good deed editor')}}</h2>
+<h5>{{campaign.name}} ({{campaign.company}})</h5>
 <div id="acciones">
     {% if actions|length >= 1 %}
     <div class="row">

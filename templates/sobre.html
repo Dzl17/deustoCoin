@@ -1,7 +1,9 @@
-{% extends "base.html" %} {% block body %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">{{gettext('Sobre DeustoCoin')}}</h1>
-</div>
+{% extends "base.html" %} 
+{% block headtitle %}
+{{gettext('Sobre DeustoCoin')}}
+{% endblock %}
+{% block body %}
+<h2 class="h2 content-title">{{gettext('Sobre DeustoCoin')}}</h2>
 <div>
   <p>{{gettext('DeustoCoin es un proyecto que pretende fomentar el lema <b>“Blockchain for Good”</b> y contribuir a un
     mundo mejor a través de una tecnología emergente como es el Blockchain. <br><br>

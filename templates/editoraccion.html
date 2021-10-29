@@ -1,10 +1,12 @@
-{% extends "base.html" %} {% block body %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">{{gettext('Acciones')}}</h1>
-</div>
+{% extends "base.html" %} 
+{% block headtitle %}
+{{gettext('Acciones')}}
+{% endblock %}
+{% block body %}
+<h2 class="h2 content-title">{{gettext('Acciones')}}</h2>
 <div class="view">
     <div class="bg-light card px-5 py-5 mb-5">
-        <h2>Acción {{action.id}}: {{action.name}}</h2>
+        <h2>{{action.name}}</h2>
     </div>
     <form id="editorcamp" action="{{ url_for('action_editor' ,action_id=action.id) }}" method="POST">
         <div class="form-group">

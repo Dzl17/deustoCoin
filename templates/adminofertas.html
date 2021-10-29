@@ -1,15 +1,14 @@
-{% extends "base.html" %} {% block body %}
+{% extends "base.html" %}
+{% block headtitle %}
+{{gettext('Offer editor')}}
+{% endblock %}
+{% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
     {% if user.role == "Administrador" %}
-    <h1 class="h2">{{gettext('Editor de ofertas - Administrador')}}</h1>
+    <h1 class="h2 content-title">{{gettext('Editor de ofertas - Administrador')}}</h1>
     {% else %}
-    <h1 class="h2">{{gettext('Editor de ofertas de')}} {{user.organization}}</h1>
+    <h1 class="h2 content-title">{{gettext('Editor de ofertas de')}} {{user.organization}}</h1>
     {% endif %}
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group mr-2">
-            <p>✎ {{gettext('Editar')}} | {{gettext('Eliminar')}} ✖</p>
-        </div>
-    </div>
 </div>
 <div class="view">
 

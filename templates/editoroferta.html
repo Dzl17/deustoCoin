@@ -1,10 +1,12 @@
-{% extends "base.html" %} {% block body %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">{{gettext('Editor de ofertas')}}</h1>
-</div>
+{% extends "base.html" %} 
+{% block headtitle %}
+{{gettext('Editor de ofertas')}}
+{% endblock %}
+{% block body %}
+<h2 class="h2 content-title">{{gettext('Editor de ofertas')}}</h2>
 <div class="view">
     <div class="bg-light card px-5 py-5 mb-5">
-        <h2>{{gettext('Oferta')}} {{offer.id}}: {{offer.name}}</h2>
+        <h2>{{offer.name}}</h2>
     </div>
     <form id="editoroferta" action="{{ url_for('offer_editor',offer_id=offer.id) }}" method="POST">
         <div class="form-group">

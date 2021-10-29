@@ -148,13 +148,19 @@
         <div class="main-content">
             <nav id="topbar" class="navbar navbar-expand navbar-light bg-white topbar m-0 static-top shadow">
                 <button id="sidebarCollapse" class="btn btn-link rounded-circle p-0 bg-light d-flex align-items-center 
-                    justify-content-center">
+                        justify-content-center">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
                         fill="#000000">
                         <path d="M0 0h24v24H0V0z" fill="none" />
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                     </svg>
                 </button>
+
+                <div class="top-title">
+                    <h2 class="h2 m-0">
+                        {% block headtitle %} {% endblock %}
+                    </h2>
+                </div>
 
                 <a class="user-toggle" href="#" data-toggle="dropdown">
                     <img class="img-responsive img-rounded" src="{{ session['picture'] }}">
@@ -185,8 +191,7 @@
                         Profile
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" data-toggle="modal"
-                        data-target="#logoutModal">
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" width="20"
                             height="20" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2c3e50" fill="none"
                             stroke-linecap="round" stroke-linejoin="round">

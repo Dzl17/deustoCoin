@@ -1,7 +1,9 @@
-{% extends "base.html" %} {% block body %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">{{gettext('Pago por oferta')}} - {{offer.name}}</h1>
-</div>
+{% extends "base.html" %} 
+{% block headtitle %}
+{{gettext('Pago por oferta')}}
+{% endblock %}
+{% block body %}
+<h1 class="h2 content-title">{{gettext('Pago por oferta')}} - {{offer.name}}</h1>
 <div class="view">
   <div class="bg-light card px-5 py-5 mb-5">
     <h2>{{gettext('Hola')}}, {{ name }}</h2>

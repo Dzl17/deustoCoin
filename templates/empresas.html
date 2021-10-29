@@ -1,7 +1,9 @@
-{% extends "base.html" %} {% block body %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">{{gettext('Campañas')}}</h1>
-</div>
+{% extends "base.html" %} 
+{% block headtitle %}
+{{gettext('Campañas')}}
+{% endblock %}
+{% block body %}
+<h2 class="h2 content-title">{{gettext('Campañas')}}</h2>
 <div id="empresas">
   <p>{{gettext('La Universidad de Deusto colabora con varias compañías que buscan fomentar la sostenibilidad.
     Dichas compañías organizan campañas, que puedes visualizar con más detalle aquí.')}}

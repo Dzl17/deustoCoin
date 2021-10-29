@@ -1,10 +1,12 @@
 {% extends "base.html" %}
+{% block headtitle %}
+{{gettext('Campañas')}}
+{% endblock %}
 {% block body %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">{{company}} - {{gettext('Campañas')}}</h1>
-</div>
+<h2 class="h2 content-title">{{company}} - {{gettext('Campañas')}}</h2>
 <div id="campanyas">
-  <p>{{gettext('Estas son las campañas que promueve')}} {{company}}.
+  <p>
+    {{gettext('Estas son las campañas que promueve')}} <strong>{{company}}</strong>.
   </p>
 
   {% if campaigns|length >= 1 %}
