@@ -67,6 +67,17 @@
         });
         $(window).on('resize', sidebarChange);
         $(window).on('scroll', sidebarChange);
+        $(document).on('click', function (e) {
+            if(
+                $(e.target).closest('#sidebar').length == 0 &&
+                !$('#sidebar').hasClass('active') &&
+                $(e.target).closest('#sidebarCollapse').length == 0
+            ) {
+                $('#sidebar').toggleClass('active');
+                $('#sidebarCollapse').toggleClass('active');
+                $('main').toggleClass('marginless');
+            }
+        });
     </script>
 </head>
 
