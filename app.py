@@ -337,12 +337,6 @@ def wallet():
                            form=form, user=user, nouser=0)
 
 
-@app.route('/profile')
-def profile():
-    user = User.get_by_email(session['email'])
-    return render_template('profile.html', title='Profile', user=user)
-
-
 @app.route('/redeem-offer/<int:offer_id>')
 def redeem_offer(offer_id):
     offer = Offer.get_offer_by_id(offer_id)

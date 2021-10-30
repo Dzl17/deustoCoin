@@ -204,7 +204,8 @@
                         </div>
                     </div>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ url_for('profile') }}">
+                    <!-- <a class="dropdown-item" href="{{ url_for('profile') }}"> -->
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profileModal">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="20"
                             height="20" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2c3e50" fill="none"
                             stroke-linecap="round" stroke-linejoin="round">
@@ -245,10 +246,43 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Select "Logout" below to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="{{ url_for('logout')}}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog user-modal" role="document">
+            <div class="modal-content user-container">
+                <div class="main-user-info d-flex flex-column align-items-center justify-content-center p-5">
+                    <img class="profile-img rounded-circle" src="{{ session['picture'] }}">
+                    <h4 class="my-2 text-center"><strong>{{ user.name }}</strong></h4>
+                    <h6>{{ gettext(user.role) }}</h6>
+                </div>
+                <div class="sec-user-info">
+                    <div class="info-container">
+                        <p class="d-flex flex-column align-items-start">
+                            <strong class="info-title">Email</strong>
+                            <span class="info-text">{{ user.email }}</span>
+                        </p>
+                    </div>
+                    <div class="info-container">
+                        <p class="d-flex flex-column align-items-start">
+                            <strong class="info-title">Organization</strong>
+                            <span class="info-text">{{ user.organization }}</span>
+                        </p>
+                    </div>
+                    <div class="info-container">
+                        <p class="d-flex flex-column align-items-start">
+                            <strong class="info-title">Blockchain address</strong>
+                            <span class="info-text block-info">{{ user.block_addr }}</span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
