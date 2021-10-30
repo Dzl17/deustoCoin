@@ -15,58 +15,54 @@
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
 
-  <link href="{{ url_for('static', filename='css/floating-labels.css') }}" rel="stylesheet" />
   <meta name="google-signin-scope" content="profile email" />
   <meta name="google-signin-client_id"
     content="543251693947-uuomjheqpj6piup81pvbahrc3nu25o9m.apps.googleusercontent.com" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 
-<body>
-  <form class="form-signin">
-    <div class="text-center mb-4">
-      <img class="mb-4" src="{{ url_for('static', filename='icon/deustoCoin.ico') }}" alt="" width="72" height="72" />
-      <h1 class="h3 mb-3 font-weight-normal">DeustoCoin</h1>
-      <p>
-        {{gettext('DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain y llevarla al ámbito
-        universitario, promoviendo un estilo de vida sostenible y respetuoso con el medio ambiente.')}}
-      </p>
-      <form id="registerform" action="/register" method="POST">
-        <div class="form-group">
-          <p>
+<body class="p-0">
+  <div class="my-5">
+    <form class="form-signin">
+      <div class="text-center mb-4">
+        <img class="mb-4" src="{{ url_for('static', filename='icon/deustoCoin.ico') }}" alt="" width="72" height="72" />
+        <h1 class="h3 mb-3 font-weight-normal">DeustoCoin</h1>
+        <p>
+          {{gettext('DeustoCoin pretende sacar el máximo partido de la tecnología Blockchain y llevarla al ámbito
+          universitario, promoviendo un estilo de vida sostenible y respetuoso con el medio ambiente.')}}
+        </p>
+        <form id="registerform" action="/register" method="POST">
+          <div class="form-group d-flex flex-column align-items-start">
+            <label for="name">Name</label>
             <input type="text" class="form-control" placeholder="{{gettext('Nombre y apellidos')}}" name="name"
-              value='{{name}}'></input>
-          </p>
-        </div>
-        <div class="form-group">
-          <p>
+              id="name" value='{{name}}' required>
+          </div>
+          <div class="form-group d-flex flex-column align-items-start">
+            <label for="email">University email</label>
             <input type="email" class="form-control" placeholder="{{gettext('Correo electrónico')}}" name="email"
-              value="{{email}}"></input>
-          </p>
-        </div>
-        <div class="form-group">
-          <p>
+              id="email" value="{{email}}" required>
+          </div>
+          <div class="form-group d-flex flex-column align-items-start">
+            <label for="organizacion">Organization</label>
             <input type="text" class="form-control" placeholder="{{gettext('Organización')}}" name="organization"
-              id="organizacion" value="Universidad de Deusto">
-          </p>
-        </div>
-        <div class="form-group">
-          <p>
-
+              id="organizacion" value="Universidad de Deusto" required>
+          </div>
+          <div class="form-group">
             <select class="form-control" name="role" id="userrole">
               <option value="Colaborador">{{gettext('Colaborador')}}</option>
               <option value="Promotor">{{gettext('Promotor')}}</option>
-          </p>
-          <br>
-        </div>
+            </select>
+          </div>
 
-        <p>
-          <input type="submit" formmethod="POST" value="{{gettext('Regístrate')}}" class="btn btn-primary btn-large" onclick="return confirm('Are you sure?')">
-          </input>
-        </p>
-      </form>
-    </div>
-  </form>
+          <input type="submit" formmethod="POST" value="{{gettext('Regístrate')}}" class="btn btn-primary btn-large">
+        </form>
+      </div>
+    </form>
+    <footer class="page-footer">
+      <p class="mt-5 mb-3 text-muted text-center">&copy; 2020-2021 - MORELab</p>
+    </footer>
+  </div>
   <script>
     $("#userrole").on("change", function () {
       var value = $(this).val();
@@ -93,8 +89,5 @@
     }
   </script>
 </body>
-<footer class="page-footer">
-  <p class="mt-5 mb-3 text-muted text-center">&copy; 2020-2021 - MORELab</p>
-</footer>
 
 </html>
