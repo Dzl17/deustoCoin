@@ -87,7 +87,7 @@
     <div class="wrapper" style="overflow:auto;">
         <nav id="sidebar" style="flex-shrink:0;">
             <div class="sidebar-header">
-                {% if user.role == "Colaborador" %}
+                {% if user.role == "Collaborator" %}
                 <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('wallet') }}">
                     <img src="{{ url_for('static', filename='icon/deustoCoin-64.png') }}" alt="logo">
                     DeustoCoin
@@ -101,7 +101,7 @@
             </div>
             <div class="sidebar-content">
                 <ul class="nav flex-column">
-                    {% if user.role == "Promotor" or user.role == "Administrador" %}
+                    {% if user.role == "promoter" or user.role == "Administrator" %}
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ url_for('action')}}">
                             <span class="iconify" data-icon="grommet-icons:domain" data-inline="false"></span>
@@ -121,7 +121,7 @@
                         </a>
                     </li>
                     {% endif %}
-                    {% if user.role == "Colaborador" or user.role == "Administrador" %}
+                    {% if user.role == "Collaborator" or user.role == "Administrator" %}
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ url_for('wallet')}}">
                             <span class="iconify" data-icon="akar-icons:wallet" data-inline="false"></span>

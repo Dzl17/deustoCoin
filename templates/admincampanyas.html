@@ -4,7 +4,7 @@
 {% endblock %}
 {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    {% if user.role == "Administrador" %}
+    {% if user.role == "Administrator" %}
     <h1 class="h2 content-title">{{gettext('Editor de campañas - Administrador')}}</h1>
     {% else %}
     <h1 class="h2 content-title">{{gettext('Editor de campañas de')}} {{user.organization}}</h1>

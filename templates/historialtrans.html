@@ -6,9 +6,9 @@
 <h2 class="h2 content-title">{{gettext('Historial de transacciones')}}</h2>
 <div class="view">
     <div class="bg-light card px-5 py-5 mb-5">
-        {% if user.role == "Colaborador" %}
+        {% if user.role == "Collaborator" %}
         <h2>{{gettext('Historial de transacciones de')}} {{ name }}</h2>
-        {% elif user.role == "Promotor" %}
+        {% elif user.role == "promoter" %}
         <h2>{{gettext('Historial de transacciones de')}} {{ user.organization }}</h2>
         {% else %}
         <h2>{{gettext('Historial de transacciones de DeustoCoin')}}</h2>

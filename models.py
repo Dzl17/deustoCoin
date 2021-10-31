@@ -8,11 +8,11 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
     email = Column(String(256), unique=True, nullable=False)
-    block_addr = Column('blockHash', String(128), nullable=True)
+    block_addr = Column(String(128), nullable=True)
     pk = Column(String(128), nullable=True)
     picture = Column(String(128), nullable=True)
     role = Column(String(128), nullable=False)
-    organization = Column('organizacion', String(128), nullable=False)
+    organization = Column(String(128), nullable=False)
 
     def __init__(self, name, email, block_addr, pk, picture, role, organization):
         self.name = name
@@ -54,15 +54,15 @@ class User(Base):
 
 
 class Transaction(Base):
-    __tablename__ = 'transaccion'
+    __tablename__ = 'transaction'
     id = Column(Integer, primary_key=True)
-    date = Column('fecha', String(80), nullable=False)
-    transaction_hash = Column('transHash', String(255), nullable=False)
-    sender = Column('remitente', String(255), nullable=False)
-    receiver = Column('destinatario', String(255), nullable=False)
-    campaign = Column('campanya', Integer, ForeignKey('campanya.id'), nullable=True)
-    quantity = Column('cantidad', Float, nullable=False)
-    img_hash = Column('imgHash', String(255), nullable=True)
+    date = Column(String(80), nullable=False)
+    transaction_hash = Column(String(255), nullable=False)
+    sender = Column(String(255), nullable=False)
+    receiver = Column(String(255), nullable=False)
+    campaign = Column(Integer, ForeignKey('campaign.id'), nullable=True)
+    quantity = Column(Float, nullable=False)
+    img_hash = Column(String(255), nullable=True)
     proof = Column(String(255), nullable=True)
 
     def __init__(self, date, transaction_hash, sender, receiver, campaign, quantity, img_hash, proof):
@@ -100,10 +100,10 @@ class Transaction(Base):
 
 
 class KPIByDates(Base):
-    __tablename__ = 'kpi_fechas'
+    __tablename__ = 'kpi_dates'
     id = Column(Integer, primary_key=True)
-    action = Column('accion', Integer, ForeignKey('accion.id', ondelete='CASCADE'))
-    date = Column('fecha', String, nullable=False)
+    action = Column(Integer, ForeignKey('action.id', ondelete='CASCADE'))
+    date = Column(String, nullable=False)
     kpi = Column(Integer)
 
     def __init__(self, date, action, kpi):
@@ -153,17 +153,17 @@ class KPIByDates(Base):
 
 
 class Action(Base):
-    __tablename__ = 'accion'
+    __tablename__ = 'action'
     id = Column(Integer, primary_key=True)
-    name = Column('nombre', String, nullable=False)
-    company = Column('empresa', String(255), nullable=False)
-    description = Column('descripcion', String, unique=True, nullable=False)
-    reward = Column('recompensa', Float, nullable=False)
-    kpi_indicator = Column('indicadorKpi', String, nullable=False)
-    campaign_id = Column('campanya_id', Integer, ForeignKey('campanya.id'))
+    name = Column(String, nullable=False)
+    company = Column(String(255), nullable=False)
+    description = Column(String, unique=True, nullable=False)
+    reward = Column(Float, nullable=False)
+    kpi_indicator = Column(String, nullable=False)
+    campaign_id = Column(Integer, ForeignKey('campaign.id'))
     kpi = Column(Integer, default=0)
-    kpi_target = Column('kpiObj', Integer, default=0)
-    kpis = relationship(KPIByDates, backref=backref('kpi_fechas', passive_deletes=True))
+    kpi_target = Column(Integer, default=0)
+    kpis = relationship(KPIByDates, backref=backref('kpi_dates', passive_deletes=True))
 
     def __init__(self, name, company, description, reward, kpi_indicator, kpi_target, campaign_id):
         self.name = name
@@ -217,11 +217,11 @@ class Action(Base):
 
 
 class Campaign(Base):
-    __tablename__ = 'campanya'
+    __tablename__ = 'campaign'
     id = Column(Integer, primary_key=True)
-    name = Column('nombre', String, nullable=False)
-    company = Column('empresa', String, nullable=False)
-    description = Column('descripcion', String, nullable=False)
+    name = Column(String, nullable=False)
+    company = Column(String, nullable=False)
+    description = Column(String, nullable=False)
     actions = relationship('Action', cascade='all,delete', backref='parent')
 
     def __init__(self, name, company, description):
@@ -272,12 +272,12 @@ class Campaign(Base):
 
 
 class Offer(Base):
-    __tablename__ = 'oferta'
+    __tablename__ = 'offer'
     id = Column(Integer, primary_key=True)
-    name = Column('nombre', String(80), nullable=False)
-    company = Column('empresa', String(80), nullable=False)
-    description = Column('descripcion', String, nullable=True)
-    price = Column('precio', String, nullable=False)
+    name = Column(String(80), nullable=False)
+    company = Column(String(80), nullable=False)
+    description = Column(String, nullable=True)
+    price = Column(String, nullable=False)
 
     def __init__(self, name, company, description, price):
         self.name = name

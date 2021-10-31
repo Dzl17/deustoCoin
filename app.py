@@ -270,7 +270,7 @@ def authorize():
             return redirect('/wallet')
     else:
         if user is not None:
-            if user.role == 'Colaborador':
+            if user.role == 'Collaborator':
                 return redirect('/wallet')
             else:
                 return redirect('/action')
@@ -299,9 +299,9 @@ def register():
         s.add(u)
         s.commit()
         add_account_to_allowlist(blockchain_address)   # Allows the new registered user to use the permissioned blockchain
-        if rol == 'Colaborador':
+        if rol == 'Collaborator':
             return redirect('/wallet')
-        if rol == 'Promotor':
+        if rol == 'Promoter':
             return redirect('/action')
     else:
         return render_template("register.html", email=email, name=name)
@@ -361,17 +361,17 @@ def action():
 
     if campaign_form.validate_on_submit() and 'create_campaign' in request.form:
         s = Session()
-        if user.role == "Promotor":
+        if user.role == 'Promoter':
             c = Campaign(request.form['campaign_name'], user.organization, request.form['description'])
-        elif user.role == "Administrador":
+        elif user.role == 'Administrator':
             c = Campaign(request.form['campaign_name'], request.form['company'], request.form['description'])
         s.add(c)
         s.commit()
     elif offer_form.validate_on_submit() and 'create_offer' in request.form:
         s = Session()
-        if user.role == "Promotor":
+        if user.role == 'Promoter':
             o = Offer(request.form['offer_name'], user.organization, request.form['description'], request.form['price'])
-        elif user.role == "Administrador":
+        elif user.role == 'Administrator':
             o = Offer(request.form['offer_name'], request.form['company'], request.form['description'], request.form['price'])
         s.add(o)
         s.commit()
@@ -393,16 +393,16 @@ def action():
         a = Action(offer_name, user.organization, desc, reward, kpi_indicator, kpi_target, campaign)
         s.add(a)
         s.commit()
-    if user.role == "Promotor":
+    if user.role == 'Promoter':
         campaigns = Campaign.get_campaigns(user.organization)
         actions = Action.get_actions(user.organization)
         offers = Offer.get_offers(user.organization)
-    elif user.role == "Administrador":
+    elif user.role == 'Administrator':
         campaigns = Campaign.get_all_campaigns()
         actions = Action.get_all_actions()
         offers = Offer.get_all_offers()
     else:
-        return redirect("/login")
+        return redirect('/login')
     try:
         for c in campaigns:
             c.name = translator.translate(c.name, dest=session['lang']).text
@@ -478,9 +478,9 @@ def transaction_history():
     salary = get_balance(user.block_addr)
     name = dict(session).get('name', None)
 
-    if user.role == "Colaborador":
+    if user.role == 'Collaborator':
         transactions = Transaction.get_transactions(user.email)
-    elif user.role == "Promotor":
+    elif user.role == 'Promoter':
         transactions = Transaction.get_transactions(user.organization)
     else:
         transactions = Transaction.get_all_transactions()
@@ -543,9 +543,9 @@ def campaigns_editor():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    if user.role == "Promotor":
+    if user.role == 'Promoter':
         campaigns = Campaign.get_campaigns(user.organization)
-    if user.role == "Administrador":
+    if user.role == 'Administrator':
         campaigns = Campaign.get_all_campaigns()
     salary = get_balance(user.block_addr)
     s = Session()
@@ -558,9 +558,9 @@ def campaigns_editor():
             query = query.filter(Campaign.id == pk).first()
             s.delete(query)
             s.commit()
-            if user.role == "Promotor":
+            if user.role == 'Promoter':
                 campaigns = Campaign.get_campaigns(user.organization)
-            if user.role == "Administrador":
+            if user.role == 'Administrator':
                 campaigns = Campaign.get_all_campaigns()
         elif 'view_actions' in request.form:
             return redirect(url_for('editor', campaign_id=request.form['id']))
@@ -578,9 +578,9 @@ def offers_editor():
     email = dict(session).get('email', None)
     user = User.get_by_email(email)
     given_name = dict(session).get('given_name', None)
-    if user.role == "Promotor":
+    if user.role == 'Promoter':
         offers = Offer.get_offers(user.organization)
-    if user.role == "Administrador":
+    if user.role == 'Administrator':
         offers = Offer.get_all_offers()
     salary = get_balance(user.block_addr)
     s = Session()
@@ -593,9 +593,9 @@ def offers_editor():
             query = query.filter(Offer.id == pk).first()
             s.delete(query)
             s.commit()
-            if user.role == "Promotor":
+            if user.role == 'Promoter':
                 offers = Offer.get_offers(user.organization)
-            if user.role == "Administrador":
+            if user.role == 'Administrator':
                 offers = Offer.get_all_offers()
     try:
         del session['action_id']
