@@ -1,0 +1,484 @@
+{% extends "base.html" %}
+{% block headtitle %}
+{{gettext('Menú principal')}}
+{% endblock %}
+{% block body %}
+<style>
+  .main-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    margin: 5px;
+  }
+
+  .main-container-sub {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .menu-container {
+    border-radius: 12px;
+    padding: 10px;
+  }
+
+  .select-container {
+    flex: 2;
+
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .form-container {
+    flex: 1;
+    height: 100%;
+  }
+
+  .table-container {
+    grid-column: 1;
+    grid-row: 2;
+    height: 100%;
+    width: 100%;
+  }
+
+
+  .select-box {
+    border-radius: 12px;
+    background-color: white;
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.3s all;
+    flex: 1;
+  }
+
+  .select-box.selected {
+    background-color: hsl(208, 85%, 44%);
+    color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  }
+
+  .select-box:hover {
+    background-color: #0EA5E9;
+    color: #fff;
+  }
+
+  .select-box p {
+    text-align: left;
+  }
+
+  @media only screen and (max-width: 576px) {
+    .main-container-sub {
+      flex-direction: column;
+    }
+  }
+
+  @media only screen and (max-width: 1500px) {
+    .select-container {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<div class="view">
+  <h2 class="h2 content-title">{{gettext('Menú principal')}}</h2>
+
+  <div class="main-container">
+    <div class="main-container-sub">
+      <div class="select-container menu-container">
+        <div class="select-box" id="select-campaigns">
+          <h3>Campaigns</h3>
+          <p>
+            Campaigns are groups of good deeds with the objective of fulfilling the UN's Sustainable Development Goals.
+            When creating new campaigns, we encourage the promoters to add a detailed description explaining the
+            campaign's objectives and what collaborators can do to help fulfill those objectives.
+          </p>
+        </div>
+        <div class="select-box" id="select-actions">
+          <h3>Good deeds</h3>
+          <p>
+            Good deeds are actions that collaborators can complete to help fulfill the good deed's campaign's
+            objectives. Actions have a reward for completing them, and a target to complete them. For example, a good 
+            deed that encourages using a reusable coffee cup in the cafeteria might reward 0.2UDC (equivalent to 0.2€) 
+            and have a target of 1000 total reuses. When creating the good deed, you must indicate its measurement 
+            unit/KPI indicator. In this case, it would be 'Number of reuses'.
+          </p>
+        </div>
+        <div class="select-box" id="select-offers">
+          <h3>Offers</h3>
+          <p>
+            As a promoter, you can reward users that complete good deeds by offering them offers in exchange for the UDC
+            earned. Offers must have a description detailing what the collaborators are paying for, and a price tag. 
+          </p>
+          <p>
+            With Deustocoin, the intention is to achieve an equivalence between UDC and the Euro; this is, 1 UDC should
+            be equal to 1€.
+          </p>
+        </div>
+      </div>
+      <div class="form-container menu-container">
+        <form style="display: none;" id="create-campaign-form" method="POST">
+          {{ form.csrf_token }}
+          <div class="form-group">
+            <p>
+              <label for="exampleInputEmail1">{{ gettext('Nombre de la campaña') }}</label>
+              {{form.campaign_name(class="form-control", required="")}}
+            </p>
+          </div>
+          {% if user.role == "Administrator" %}
+          <div class="form-group">
+            {{ gettext('Empresa') }}
+            {{form.company(class="form-control", required="")}}
+          </div>
+          {% endif %}
+          <div class="form-group">
+            {{gettext('Descripción')}}
+            {{form.description(class="form-control", required="")}}
+          </div>
+          <p>
+            <input type="button" name="create_campaign" value="Create campaign" id="create-campaign-button"
+              class="btn btn-outline-dark">
+          </p>
+        </form>
+
+        <form style="display: none;" action="/action" id="create-action-form" method="POST">
+          <div class="form-group">
+            <p>
+              <input type="text" class="form-control" placeholder="{{gettext('Nombre de la acción')}}" name="name"
+                required></input>
+            </p>
+          </div>
+          <div class="form-group">
+            <p>
+              <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="description"
+                required></input>
+            </p>
+          </div>
+          <div class="form-group">
+            <p>
+              <input type="number" step="0.01" placeholder="{{gettext('Recompensa por KPI (en UDC)')}}"
+                class="form-control" name="reward" required></input>
+            </p>
+          </div>
+          <div class="form-group">
+            <p>
+              <select class="form-control" name="campaign">
+                <option disabled selected>{{gettext('Campaña')}}</option>
+                {% for c in campaigns %}
+                <option value='{{c.id}}'>{{c.name}}</option>
+                {% endfor %}
+              </select>
+            </p>
+          </div>
+          <div class="form-group">
+            <p>
+              <input type="text" class="form-control" placeholder="{{gettext('Indicador de KPI')}}" name="kpi"
+                required></input>
+            </p>
+          </div>
+          <div class="form-group">
+            <p>
+              <input type="number" step="0.01" placeholder="{{gettext('Objetivo')}}" class="form-control" name="target"
+                required></input>
+            </p>
+          </div>
+          <div class="form-group">
+            <input type="button" name="create_action" value="{{gettext('Crear acción')}}" class="btn btn-outline-dark"
+              id="create-action-button">
+          </div>
+        </form>
+
+        <form style="display: none;" id="create-offer-form" method="POST">
+          {{ form2.csrf_token }}
+          <div class="form-group">
+            <p>
+              <label for="offer_name">{{gettext('Nombre de la oferta')}}</label>
+              {{form2.offer_name(class="form-control", required="")}}
+            </p>
+          </div>
+          {% if user.role == "Administrator" %}
+          <div class="form-group">
+            {{gettext('Organización')}}
+            {{form2.company(class="form-control", required="")}}
+          </div>
+          {% endif %}
+          <div class="form-group">
+            {{gettext('Descripción')}}
+            {{form2.description(class="form-control", required="")}}
+          </div>
+          <div class="form-group">
+            {{gettext('Precio')}}
+            {{form2.price(class="form-control", required="")}}
+          </div>
+          <p>
+            <input type="button" name="create_offer" value="Create offer" id="create-offer-button"
+              class="btn btn-outline-dark">
+          </p>
+        </form>
+      </div>
+    </div>
+    <div class="table-container menu-container">
+      <div id="acciones" style="display: none;">
+        {% if actions|length >= 1 %}
+        <p style="font-size:75%;" class="showDetails"><b>{{gettext('Gire la pantalla para más detalles.')}}</b></p>
+        <table class="table" id="acciones" style="table-layout:auto; font-size:70%;">
+          <thead>
+            <tr>
+              <th scope="col" class="nom">{{gettext('Nombre')}}</th>
+              <th scope="col" class="emp">{{gettext('Empresa')}}</th>
+              <th scope="col" class="des">{{gettext('Descripción')}}</th>
+              <th scope="col" class="rec">{{gettext('Recompensa por KPI')}}</th>
+              <th scope="col" class="ind">{{gettext('Indicador')}}</th>
+              <th scope="col" class="est">{{gettext('Estado actual')}}</th>
+              <th scope="col" class="obj">{{gettext('Objetivo')}}</th>
+              <th scope="col" class="qr">{{gettext('Código QR')}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in actions %}
+            <tr>
+              <th scope="row" class="nom">{{a.name}}</th>
+              <td class="emp">{{a.company}}</td>
+              <td class="des">{{a.description}}</td>
+              <td class="rec">{{a.reward}} UDC</td>
+              <td class="ind">{{a.kpi_indicator}}</td>
+              <td class="est">{{a.kpi}}</td>
+              <td class="obj">{{a.kpi_target}}</td>
+              <td><a href="{{ url_for('qr' ,action_id=a.id) }}" target="_blank"
+                  class="qr"><b>{{gettext('Descargar')}}</b></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <h4>{{gettext('No hay acciones para mostrar')}}</h4>
+        {% endif %}
+      </div>
+      <div id="campanyas" style="display: none;">
+        {% if campaigns|length >= 1 %}
+        <table class="table" style="table-layout:fixed; font-size:70%;">
+          <thead>
+            <tr>
+              <th scope="col">{{gettext('Nombre')}}</th>
+              <th scope="col">{{gettext('Empresa')}}</th>
+              <th scope="col">{{gettext('Descripción')}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in campaigns %}
+            <tr>
+              <th scope="row">{{c.name}}</th>
+              <td>{{c.company}}</td>
+              <td>{{c.description}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <h4>{{gettext('No hay campañas para mostrar')}}</h4>
+        {% endif %}
+      </div>
+      <div id="ofertas" style="display: none;">
+        {% if offers|length >= 1 %}
+        <table class="table" style="table-layout:fixed; font-size:70%;">
+          <thead>
+            <tr>
+              <th scope="col">{{gettext('Nombre')}}</th>
+              <th scope="col">{{gettext('Empresa')}}</th>
+              <th scope="col">{{gettext('Descripción')}}</th>
+              <th scope="col">{{gettext('Precio')}}</th>
+              <th scope="col">{{gettext('Código QR')}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for o in offers %}
+            <tr>
+              <th scope="row">{{o.name}}</th>
+              <td>{{o.company}}</td>
+              <td>{{o.description}}</td>
+              <td>{{o.price}} UDC</td>
+              <td><a href="{{ url_for('qr_offers' ,offer_id=o.id) }}"
+                  target="_blank"><b>{{gettext('Descargar')}}</b></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <h4>{{gettext('No hay ofertas para mostrar')}}</h4>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="action-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Do you want to create a new good deed?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" id="action-submit" href="/action">Create</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="campaign-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Do you want to create a new campaign?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" id="campaign-submit" href="/action">Create</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="offer-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Do you want to create a new offer?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" id="offer-submit" href="/action">Create</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#create-action-button').click(function (e) {
+    if ($('#create-action-form').valid()) {
+      $('#action-modal').modal('show');
+    }
+  });
+</script>
+<script>
+  $('#create-campaign-button').click(function (e) {
+    if ($('#create-campaign-form').valid()) {
+      $('#campaign-modal').modal('show');
+    }
+  });
+</script>
+<script>
+  $('#create-offer-button').click(function (e) {
+    if ($('#create-offer-form').valid()) {
+      $('#offer-modal').modal('show');
+    }
+  });
+</script>
+<script>
+  $('#action-submit').click(function (e) {
+    e.preventDefault();
+    let input = $('<input>')
+      .attr("type", "hidden")
+      .attr('name', 'create_action');
+    $('#create-action-form').append(input);
+    $('#create-action-form').submit();
+  });
+</script>
+<script>
+  $('#campaign-submit').click(function (e) {
+    e.preventDefault();
+    let input = $('<input>')
+      .attr("type", "hidden")
+      .attr('name', 'create_campaign');
+    $('#create-campaign-form').append(input);
+    $('#create-campaign-form').submit();
+  })
+</script>
+<script>
+  $('#offer-submit').click(function (e) {
+    e.preventDefault();
+    let input = $('<input>')
+      .attr("type", "hidden")
+      .attr('name', 'create_offer');
+    $('#create-offer-form').append(input);
+    $('#create-offer-form').submit();
+  })
+</script>
+
+<script>
+  $("#create-campaign-form").show();
+  $("#create-action-form").hide();
+  $("#create-offer-form").hide();
+  $("#campanyas").show();
+  $("#acciones").hide();
+  $("#ofertas").hide();
+  $("#select-campaigns").addClass('selected');
+  $("#select-actions").removeClass('selected');
+  $("#select-offers").removeClass('selected');
+</script>
+<script>
+  $(document).ready(function () {
+    $("#select-campaigns").click(function () {
+      $("#create-campaign-form").show();
+      $("#create-action-form").hide();
+      $("#create-offer-form").hide();
+      $("#campanyas").show();
+      $("#acciones").hide();
+      $("#ofertas").hide();
+      $("#select-campaigns").addClass('selected');
+      $("#select-actions").removeClass('selected');
+      $("#select-offers").removeClass('selected');
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $("#select-actions").click(function () {
+      $("#create-campaign-form").hide();
+      $("#create-action-form").show();
+      $("#create-offer-form").hide();
+      $("#campanyas").hide();
+      $("#acciones").show();
+      $("#ofertas").hide();
+      $("#select-campaigns").removeClass('selected');
+      $("#select-actions").addClass('selected');
+      $("#select-offers").removeClass('selected');
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $("#select-offers").click(function () {
+      $("#create-action-form").hide();
+      $("#create-campaign-form").hide();
+      $("#create-offer-form").show();
+      $("#campanyas").hide();
+      $("#acciones").hide();
+      $("#ofertas").show();
+      $("#select-campaigns").removeClass('selected');
+      $("#select-actions").removeClass('selected');
+      $("#select-offers").addClass('selected');
+    });
+  });
+</script>
+{% endblock %}

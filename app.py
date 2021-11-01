@@ -823,5 +823,83 @@ def internal_error(e):
     return render_template("error.html", code="500", type="Internal Server Error"), 500
 
 
+@app.route('/actionNEW', methods=['GET', 'POST'])
+def actionNEW():
+    campaign_form = CreateCampaignForm()
+    offer_form = CreateOfferForm()
+    email = dict(session).get('email', None)
+    user = User.get_by_email(email)
+    given_name = dict(session).get('given_name', None)
+
+    if campaign_form.validate_on_submit() and 'create_campaign' in request.form:
+        s = Session()
+        if user.role == 'Promoter':
+            c = Campaign(request.form['campaign_name'], user.organization, request.form['description'])
+        elif user.role == 'Administrator':
+            c = Campaign(request.form['campaign_name'], request.form['company'], request.form['description'])
+        s.add(c)
+        s.commit()
+        return redirect(url_for('action'))
+    elif offer_form.validate_on_submit() and 'create_offer' in request.form:
+        s = Session()
+        if user.role == 'Promoter':
+            o = Offer(request.form['offer_name'], user.organization, request.form['description'], request.form['price'])
+        elif user.role == 'Administrator':
+            o = Offer(request.form['offer_name'], request.form['company'], request.form['description'], request.form['price'])
+        s.add(o)
+        s.commit()
+        return redirect(url_for('action'))
+    if request.method == 'POST' and 'create_action' in request.form:
+        offer_name = request.form['name']
+        desc = request.form['description']
+        reward = request.form['reward']
+        kpi_indicator = request.form['kpi']
+        kpi_target = request.form['target']
+        campaign = request.form['campaign']
+
+        company_address = User.get_by_email(session['email']).block_addr
+        action_value = int(float(reward) * float(kpi_target) * 100)
+
+        tx_hash = blockchain_manager.mint(caller=admin_address, caller_key=admin_key, to=company_address, value=action_value)
+
+        s = Session()
+        a = Action(offer_name, user.organization, desc, reward, kpi_indicator, kpi_target, campaign)
+        s.add(a)
+        s.commit()
+        return redirect(url_for('action'))
+    if user.role == 'Promoter':
+        campaigns = Campaign.get_campaigns(user.organization)
+        actions = Action.get_actions(user.organization)
+        offers = Offer.get_offers(user.organization)
+    elif user.role == 'Administrator':
+        campaigns = Campaign.get_all_campaigns()
+        actions = Action.get_all_actions()
+        offers = Offer.get_all_offers()
+    else:
+        return redirect('/login')
+    try:
+        for c in campaigns:
+            c.name = translator.translate(c.name, dest=session['lang']).text
+            c.description = translator.translate(c.description, dest=session['lang']).text
+        for a in actions:
+            a.name = translator.translate(a.name, dest=session['lang']).text
+            a.description = translator.translate(a.description, dest=session['lang']).text
+            a.kpi_indicator = translator.translate(a.kpi_indicator, dest=session['lang']).text
+        for o in offers:
+            o.name = translator.translate(o.name, dest=session['lang']).text
+            o.description = translator.translate(o.description, dest=session['lang']).text
+    except:
+        pass
+
+    try:
+        del session['action_id']
+        del session['offer_id']
+    except:
+        pass
+    # Borro las keys para evitar conflictos con cookies
+    return render_template('accionNEW.html', title='Acción', email=email, name=given_name, w3=blockchain_manager.w3,
+                           form=campaign_form, form2=offer_form, user=user, actions=actions, campaigns=campaigns, offers=offers)
+
+
 if __name__ == "__main__":
     app.run()
