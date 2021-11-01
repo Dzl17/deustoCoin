@@ -367,6 +367,7 @@ def action():
             c = Campaign(request.form['campaign_name'], request.form['company'], request.form['description'])
         s.add(c)
         s.commit()
+        return redirect(url_for('action'))
     elif offer_form.validate_on_submit() and 'create_offer' in request.form:
         s = Session()
         if user.role == 'Promoter':
@@ -375,7 +376,7 @@ def action():
             o = Offer(request.form['offer_name'], request.form['company'], request.form['description'], request.form['price'])
         s.add(o)
         s.commit()
-
+        return redirect(url_for('action'))
     if request.method == 'POST' and 'create_action' in request.form:
         offer_name = request.form['name']
         desc = request.form['description']
@@ -393,6 +394,7 @@ def action():
         a = Action(offer_name, user.organization, desc, reward, kpi_indicator, kpi_target, campaign)
         s.add(a)
         s.commit()
+        return redirect(url_for('action'))
     if user.role == 'Promoter':
         campaigns = Campaign.get_campaigns(user.organization)
         actions = Action.get_actions(user.organization)
