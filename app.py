@@ -291,17 +291,17 @@ def register():
         blockchain_address = Web3.toChecksumAddress(keys['address'])
         session['blockchain_address'] = blockchain_address
         pk = keys['key']
-        rol = request.form['role']
+        role = request.form['role']
         org = request.form['organization']
 
         s = Session()
-        u = User(name, email, blockchain_address, pk, picture, rol, org)
+        u = User(name, email, blockchain_address, pk, picture, role, org)
         s.add(u)
         s.commit()
         add_account_to_allowlist(blockchain_address)   # Allows the new registered user to use the permissioned blockchain
-        if rol == 'Collaborator':
+        if role == 'Collaborator':
             return redirect('/wallet')
-        if rol == 'Promoter':
+        if role == 'Promoter':
             return redirect('/action')
     else:
         return render_template("register.html", email=email, name=name)

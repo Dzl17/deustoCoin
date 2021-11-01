@@ -157,7 +157,7 @@ class Action(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     company = Column(String(255), nullable=False)
-    description = Column(String, unique=True, nullable=False)
+    description = Column(String, nullable=False)
     reward = Column(Float, nullable=False)
     kpi_indicator = Column(String, nullable=False)
     campaign_id = Column(Integer, ForeignKey('campaign.id'))
