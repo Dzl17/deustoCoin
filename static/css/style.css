@@ -323,6 +323,24 @@ th:last-child {
     border-top-right-radius: 12px !important;
 }
 
+tr {
+    border: solid;
+    border-width: 1px 0;
+    border-color: hsl(220, 13%, 91%);
+}
+
+tr:first-child {
+    border-top: none;
+}
+
+tr:last-child {
+    border-bottom: none;
+}
+
+td {
+    vertical-align: middle !important;
+}
+
 .main-container {
     display: flex;
     align-items: center;
