@@ -266,6 +266,16 @@ a[data-toggle="collapse"] {
     margin: 0 auto;
 }
 
+.about-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-container p {
+    max-width: 70ch;
+}
+
 @media handheld {
     #sidebar {
         margin-left: -250px;

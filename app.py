@@ -866,7 +866,7 @@ def actionNEW():
         a = Action(offer_name, user.organization, desc, reward, kpi_indicator, kpi_target, campaign)
         s.add(a)
         s.commit()
-        return redirect(url_for('action'))
+        return redirect(url_for('actionNEW'))
     if user.role == 'Promoter':
         campaigns = Campaign.get_campaigns(user.organization)
         actions = Action.get_actions(user.organization)
