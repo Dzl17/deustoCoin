@@ -3,87 +3,6 @@
 {{gettext('Menú principal')}}
 {% endblock %}
 {% block body %}
-<style>
-  .main-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 5px;
-    margin: 5px;
-  }
-
-  .main-container-sub {
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    gap: 5px;
-  }
-
-  .menu-container {
-    border-radius: 12px;
-    padding: 10px;
-  }
-
-  .select-container {
-    flex: 2;
-
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .form-container {
-    flex: 1;
-    height: 100%;
-  }
-
-  .table-container {
-    grid-column: 1;
-    grid-row: 2;
-    height: 100%;
-    width: 100%;
-  }
-
-
-  .select-box {
-    border-radius: 12px;
-    background-color: white;
-    padding: 20px;
-    cursor: pointer;
-    transition: 0.3s all;
-    flex: 1;
-  }
-
-  .select-box.selected {
-    background-color: hsl(208, 85%, 44%);
-    color: #fff;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-  }
-
-  .select-box:hover {
-    background-color: #0EA5E9;
-    color: #fff;
-  }
-
-  .select-box p {
-    text-align: left;
-  }
-
-  @media only screen and (max-width: 576px) {
-    .main-container-sub {
-      flex-direction: column;
-    }
-  }
-
-  @media only screen and (max-width: 1500px) {
-    .select-container {
-      flex-direction: column;
-    }
-  }
-</style>
-
 <div class="view">
   <h2 class="h2 content-title">{{gettext('Menú principal')}}</h2>
 
@@ -221,35 +140,69 @@
         </form>
       </div>
     </div>
-    <div class="table-container menu-container">
-      <div id="acciones" style="display: none;">
+    <div class="tables-container menu-container">
+      <div id="campanyas" class="table-container">
+        {% if campaigns|length >= 1 %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">{{gettext('Nombre')}}</th>
+              <th scope="col">{{gettext('Descripción')}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in campaigns %}
+            <tr>
+              <td scope="row" class="d-flex align-items-start justify-content-center flex-column">
+                <div style="font-weight: 600;">
+                  {{c.name}}
+                </div>
+                <div class="text-secondary">
+                  {{c.company}}
+                </div>
+              </td>
+              <td style="max-width: 120ch;">{{c.description}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <h4>{{gettext('No hay campañas para mostrar')}}</h4>
+        {% endif %}
+      </div>
+      <div id="acciones" class="table-container">
         {% if actions|length >= 1 %}
         <p style="font-size:75%;" class="showDetails"><b>{{gettext('Gire la pantalla para más detalles.')}}</b></p>
-        <table class="table" id="acciones" style="table-layout:auto; font-size:70%;">
+        <table class="table" id="acciones">
           <thead>
             <tr>
               <th scope="col" class="nom">{{gettext('Nombre')}}</th>
-              <th scope="col" class="emp">{{gettext('Empresa')}}</th>
               <th scope="col" class="des">{{gettext('Descripción')}}</th>
-              <th scope="col" class="rec">{{gettext('Recompensa por KPI')}}</th>
+              <th scope="col" class="rec">Reward</th>
               <th scope="col" class="ind">{{gettext('Indicador')}}</th>
-              <th scope="col" class="est">{{gettext('Estado actual')}}</th>
-              <th scope="col" class="obj">{{gettext('Objetivo')}}</th>
+              <th scope="col" class="est">Progress</th>
               <th scope="col" class="qr">{{gettext('Código QR')}}</th>
             </tr>
           </thead>
           <tbody>
             {% for a in actions %}
             <tr>
-              <th scope="row" class="nom">{{a.name}}</th>
-              <td class="emp">{{a.company}}</td>
+              <td scope="row" class="nom d-flex align-items-start justify-content-center flex-column">
+                <div style="font-weight: 600;">
+                  {{a.name}}
+                </div>
+                <div class="text-secondary">
+                  {{a.company}}
+                </div>
+              </td>
               <td class="des">{{a.description}}</td>
               <td class="rec">{{a.reward}} UDC</td>
               <td class="ind">{{a.kpi_indicator}}</td>
-              <td class="est">{{a.kpi}}</td>
-              <td class="obj">{{a.kpi_target}}</td>
-              <td><a href="{{ url_for('qr' ,action_id=a.id) }}" target="_blank"
-                  class="qr"><b>{{gettext('Descargar')}}</b></a>
+              <td class="est">{{a.kpi}}/{{a.kpi_target}}</td>
+              <td>
+                <a href="{{ url_for('qr' ,action_id=a.id) }}" target="_blank" class="qr-link">
+                  <b>{{gettext('Descargar')}}</b>
+                </a>
               </td>
             </tr>
             {% endfor %}
@@ -259,37 +212,12 @@
         <h4>{{gettext('No hay acciones para mostrar')}}</h4>
         {% endif %}
       </div>
-      <div id="campanyas" style="display: none;">
-        {% if campaigns|length >= 1 %}
-        <table class="table" style="table-layout:fixed; font-size:70%;">
-          <thead>
-            <tr>
-              <th scope="col">{{gettext('Nombre')}}</th>
-              <th scope="col">{{gettext('Empresa')}}</th>
-              <th scope="col">{{gettext('Descripción')}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for c in campaigns %}
-            <tr>
-              <th scope="row">{{c.name}}</th>
-              <td>{{c.company}}</td>
-              <td>{{c.description}}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        {% else %}
-        <h4>{{gettext('No hay campañas para mostrar')}}</h4>
-        {% endif %}
-      </div>
-      <div id="ofertas" style="display: none;">
+      <div id="ofertas" class="table-container">
         {% if offers|length >= 1 %}
-        <table class="table" style="table-layout:fixed; font-size:70%;">
+        <table class="table">
           <thead>
             <tr>
               <th scope="col">{{gettext('Nombre')}}</th>
-              <th scope="col">{{gettext('Empresa')}}</th>
               <th scope="col">{{gettext('Descripción')}}</th>
               <th scope="col">{{gettext('Precio')}}</th>
               <th scope="col">{{gettext('Código QR')}}</th>
@@ -298,12 +226,21 @@
           <tbody>
             {% for o in offers %}
             <tr>
-              <th scope="row">{{o.name}}</th>
-              <td>{{o.company}}</td>
+              <td scope="row" class="d-flex align-items-start justify-content-center flex-column">
+                <div style="font-weight: 600;">
+                  {{o.name}}
+                </div>
+                <div class="text-secondary">
+                  {{o.company}}
+                </div>
+              </td>
               <td>{{o.description}}</td>
               <td>{{o.price}} UDC</td>
-              <td><a href="{{ url_for('qr_offers' ,offer_id=o.id) }}"
-                  target="_blank"><b>{{gettext('Descargar')}}</b></a></td>
+              <td>
+                <a href="{{ url_for('qr_offers' ,offer_id=o.id) }}" target="_blank" class="qr-link">
+                  <b>{{gettext('Descargar')}}</b>
+                </a>
+              </td>
             </tr>
             {% endfor %}
           </tbody>
