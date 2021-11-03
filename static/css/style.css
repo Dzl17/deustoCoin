@@ -365,7 +365,7 @@ td {
     padding: 10px;
 }
 
-.select-container {
+.selector-container {
     flex: 2;
     display: flex;
     align-items: stretch;
@@ -373,9 +373,16 @@ td {
     gap: 10px;
 }
 
-.form-container {
+.forms-container {
     flex: 1;
     height: 100%;
+}
+
+.form-box {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    padding: 10px;
 }
 
 .tables-container {
@@ -385,27 +392,28 @@ td {
     width: 100%;
 }
 
-.select-box {
+.selector-box {
     border-radius: 12px;
     background-color: white;
     padding: 20px;
     cursor: pointer;
     transition: 0.3s all;
     flex: 1;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
-.select-box.selected {
+.selector-box.selected {
     background-color: hsl(208, 85%, 44%);
     color: #fff;
-    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
-.select-box:hover {
+.selector-box:hover {
     background-color: #0EA5E9;
     color: #fff;
 }
 
-.select-box p {
+.selector-box p {
     text-align: left;
 }
 
@@ -556,7 +564,19 @@ td {
 }
 
 @media only screen and (max-width: 1500px) {
-    .select-container {
+    .selector-container {
         flex-direction: column;
+    }
+    .selector-box p {
+        display: none;
+    }
+    .selector-box h3 {
+        margin-bottom: 0px !important;
+    }
+    .selector-box.selected h3 {
+        margin-bottom: .5rem !important;
+    }
+    .selector-box.selected p {
+        display: block;
     }
 }
