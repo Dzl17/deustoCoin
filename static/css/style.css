@@ -127,6 +127,11 @@ section:not(.full-width), .full-width>header {
     background: #1177d1;
 }
 
+#sidebar .sidebar-header img{
+    border: 2px solid #fff;
+    border-radius: 100%;
+}
+
 #sidebar ul.components {
     padding: 20px 0;
     border-bottom: 1px solid #47748b;
@@ -382,7 +387,7 @@ td {
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-    padding: 10px;
+    padding: 16px 20px;
 }
 
 .tables-container {
@@ -405,7 +410,7 @@ td {
 .selector-box.selected {
     background-color: hsl(208, 85%, 44%);
     color: #fff;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    box-shadow: inset rgba(0, 0, 0, 0.2) 0px 10px 15px -3px, inset rgba(0, 0, 0, 0.1) 0px 4px 6px -2px;
 }
 
 .selector-box:hover {
