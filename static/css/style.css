@@ -289,7 +289,8 @@ a[data-toggle="collapse"] {
 .table-container {
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     margin-bottom: 1rem;
     display: none;
 }
@@ -388,6 +389,7 @@ td {
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
     padding: 16px 20px;
+    min-width: 310px;
 }
 
 .tables-container {
@@ -440,9 +442,6 @@ td {
 }
 
 @media (orientation:landscape) {
-    .showDetails {
-        display: none;
-    }
     #tabletrans {
         table-layout: auto;
         font-size: 1.2vw;
@@ -462,9 +461,6 @@ td {
     }
     .button-grid {
         grid-template-columns: repeat(1, 1fr);
-    }
-    .showDetails {
-        display: block;
     }
     .rem {
         display: none;
@@ -504,9 +500,6 @@ td {
 @media screen and (max-width: 576px) {
     .card {
         padding: 2rem 1rem !important;
-    }
-    .main-container-sub {
-        flex-direction: column;
     }
 }
 
@@ -557,10 +550,13 @@ td {
     }
 }
 
-@media (orientation:landscape) and (min-width: 1024px) {
-    .showDetails {
-        display: none;
+@media screen and (max-width: 992px) {
+    .main-container-sub {
+        flex-direction: column;
     }
+}
+
+@media (orientation:landscape) and (min-width: 1024px) {
     #tabletrans {
         table-layout: auto;
         font-size: 0.8vw;

@@ -70,21 +70,35 @@
           <form action="/action" id="create-action-form" method="POST">
             <div class="form-group">
               <p>
-                <input type="text" class="form-control" placeholder="{{gettext('Nombre de la acción')}}" name="name"
-                  required></input>
+                <label for="action-name">{{gettext('Nombre de la acción')}}</label>
+                <input type="text" class="form-control" name="name" id="action-name" required></input>
               </p>
             </div>
             <div class="form-group">
               <p>
-                <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="description"
-                  required></input>
+                <label for="action-description">{{gettext('Descripción')}}</label>
+                <input type="text" class="form-control" name="description" id="action-description" required></input>
               </p>
             </div>
             <div class="form-group">
               <p>
-                <input type="number" step="0.01" placeholder="{{gettext('Recompensa por KPI (en UDC)')}}"
-                  class="form-control" name="reward" required></input>
+                <label for="action-kpi">{{gettext('Indicador de KPI')}}</label>
+                <input type="text" class="form-control" name="kpi" id="action-kpi" required></input>
               </p>
+            </div>
+            <div class="d-flex align-items-center justify-content-center"  style="gap: 5px">
+              <div class="form-group" style="flex: 1 1 auto;">
+                <p>
+                  <label for="action-reward">Reward</label>
+                  <input type="number" step="0.01" class="form-control" name="reward" id="action-reward" required></input>
+                </p>
+              </div>
+              <div class="form-group" style="flex: 1 1 auto;">
+                <p>
+                  <label for="action-target">{{gettext('Objetivo')}}</label>
+                  <input type="number" step="0.01" class="form-control" name="target" id="action-target" required></input>
+                </p>
+              </div>
             </div>
             <div class="form-group">
               <p>
@@ -94,18 +108,6 @@
                   <option value='{{c.id}}'>{{c.name}}</option>
                   {% endfor %}
                 </select>
-              </p>
-            </div>
-            <div class="form-group">
-              <p>
-                <input type="text" class="form-control" placeholder="{{gettext('Indicador de KPI')}}" name="kpi"
-                  required></input>
-              </p>
-            </div>
-            <div class="form-group">
-              <p>
-                <input type="number" step="0.01" placeholder="{{gettext('Objetivo')}}" class="form-control"
-                  name="target" required></input>
               </p>
             </div>
             <div class="d-flex w-100 align-items-center justify-content-center">
@@ -167,7 +169,7 @@
                   {{c.company}}
                 </div>
               </td>
-              <td style="max-width: 120ch;">{{c.description}}</td>
+              <td style="max-width: 120ch; min-width: 200px;">{{c.description}}</td>
             </tr>
             {% endfor %}
           </tbody>
@@ -178,7 +180,6 @@
       </div>
       <div id="acciones" class="table-container">
         {% if actions|length >= 1 %}
-        <p style="font-size:75%;" class="showDetails"><b>{{gettext('Gire la pantalla para más detalles.')}}</b></p>
         <table class="table" id="acciones">
           <thead>
             <tr>
