@@ -5,222 +5,259 @@
 {% block body %}
 <div class="view">
   <h2 class="h2 content-title">{{gettext('Menú principal')}}</h2>
-  <div class="bg-light card px-5 py-5 mb-5">
-    <h2>{{ gettext('Hola') }}, {{ name }}.</h2>
-    <h2>
-      <span style="font-size: 1rem">{{ gettext('Bienvenido al menú principal.' )}}</span>
-    </h2>
-    <div class="button-grid">
-      <button class="btn btn-primary btn-large" id="mostrarformacc" style="text-align: center; font-size:70%;">{{
-        gettext('Crear acción') }}</button>
-      <button class="btn btn-primary btn-large" id="mostraracc"
-        style="text-align: center;  font-size:70%;">{{gettext('Mostrar acciones')}}</button>
-      <button class="btn btn-primary btn-large" id="mostrarformcamp" style="text-align: center;  font-size:70%;">{{
-        gettext('Crear campaña') }}</button>
-      <button class="btn btn-primary btn-large" id="mostrarcamp" style="text-align: center;  font-size:70%;">{{
-        gettext('Mostrar campañas') }}</button>
-      <button class="btn btn-primary btn-large" id="crearofertas" style="text-align: center;  font-size:70%;">{{
-        gettext('Crear oferta')}}</button>
-      <button class="btn btn-primary btn-large" id="mostrarofertas" style="text-align: center;  font-size:70%;">{{
-        gettext('Mostrar ofertas') }}</button>
+
+  <div class="main-container">
+    <div class="main-container-sub">
+      <div class="selector-container menu-container">
+        <div class="selector-box" id="select-campaigns">
+          <h3>Campaigns</h3>
+          <p>
+            Campaigns are groups of good deeds with the objective of fulfilling the UN's Sustainable Development Goals.
+            When creating new campaigns, we encourage the promoters to add a detailed description explaining the
+            campaign's objectives and what collaborators can do to help fulfill those objectives.
+          </p>
+        </div>
+        <div class="selector-box" id="select-actions">
+          <h3>Good deeds</h3>
+          <p>
+            Good deeds are actions that collaborators can complete to help fulfill the good deed's campaign's
+            objectives. Actions have a reward for completing them, and a target to complete them. For example, a good
+            deed that encourages using a reusable coffee cup in the cafeteria might reward 0.2UDC (equivalent to 0.2€)
+            and have a target of 1000 total reuses. When creating the good deed, you must indicate its measurement
+            unit/KPI indicator. In this case, it would be 'Number of reuses'.
+          </p>
+        </div>
+        <div class="selector-box" id="select-offers">
+          <h3>Offers</h3>
+          <p>
+            As a promoter, you can reward users that complete good deeds by offering them offers in exchange for the UDC
+            earned. Offers must have a description detailing what the collaborators are paying for, and a price tag.
+          </p>
+          <p>
+            With Deustocoin, the intention is to achieve an equivalence between UDC and the Euro; this is, 1 UDC should
+            be equal to 1€.
+          </p>
+        </div>
+      </div>
+      <div class="forms-container menu-container">
+        <div class="form-box" id="create-campaign">
+          <form id="create-campaign-form" method="POST">
+            {{ form.csrf_token }}
+            <div class="form-group">
+              <p>
+                <label for="exampleInputEmail1">{{ gettext('Nombre de la campaña') }}</label>
+                {{form.campaign_name(class="form-control", required="")}}
+              </p>
+            </div>
+            {% if user.role == "Administrator" %}
+            <div class="form-group">
+              {{ gettext('Empresa') }}
+              {{form.company(class="form-control", required="")}}
+            </div>
+            {% endif %}
+            <div class="form-group">
+              {{gettext('Descripción')}}
+              {{form.description(class="form-control", required="")}}
+            </div>
+            <div class="d-flex w-100 align-items-center justify-content-center">
+              <input type="button" name="create_campaign" value="Create campaign" id="create-campaign-button"
+                class="btn btn-outline-dark">
+            </div>
+          </form>
+        </div>
+
+        <div class="form-box" id="create-action">
+          <form action="/action" id="create-action-form" method="POST">
+            <div class="form-group">
+              <p>
+                <label for="action-name">{{gettext('Nombre de la acción')}}</label>
+                <input type="text" class="form-control" name="name" id="action-name" required></input>
+              </p>
+            </div>
+            <div class="form-group">
+              <p>
+                <label for="action-description">{{gettext('Descripción')}}</label>
+                <input type="text" class="form-control" name="description" id="action-description" required></input>
+              </p>
+            </div>
+            <div class="form-group">
+              <p>
+                <label for="action-kpi">{{gettext('Indicador de KPI')}}</label>
+                <input type="text" class="form-control" name="kpi" id="action-kpi" required></input>
+              </p>
+            </div>
+            <div class="d-flex align-items-center justify-content-center"  style="gap: 5px">
+              <div class="form-group" style="flex: 1 1 auto;">
+                <p>
+                  <label for="action-reward">Reward</label>
+                  <input type="number" step="0.01" class="form-control" name="reward" id="action-reward" required></input>
+                </p>
+              </div>
+              <div class="form-group" style="flex: 1 1 auto;">
+                <p>
+                  <label for="action-target">{{gettext('Objetivo')}}</label>
+                  <input type="number" step="0.01" class="form-control" name="target" id="action-target" required></input>
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <p>
+                <select class="form-control" name="campaign">
+                  <option disabled selected>{{gettext('Campaña')}}</option>
+                  {% for c in campaigns %}
+                  <option value='{{c.id}}'>{{c.name}}</option>
+                  {% endfor %}
+                </select>
+              </p>
+            </div>
+            <div class="d-flex w-100 align-items-center justify-content-center">
+              <input type="button" name="create_action" value="{{gettext('Crear acción')}}" class="btn btn-outline-dark"
+                id="create-action-button">
+            </div>
+          </form>
+        </div>
+
+        <div class="form-box" id="create-offer">
+          <form id="create-offer-form" method="POST">
+            {{ form2.csrf_token }}
+            <div class="form-group">
+              <p>
+                <label for="offer_name">{{gettext('Nombre de la oferta')}}</label>
+                {{form2.offer_name(class="form-control", required="")}}
+              </p>
+            </div>
+            {% if user.role == "Administrator" %}
+            <div class="form-group">
+              {{gettext('Organización')}}
+              {{form2.company(class="form-control", required="")}}
+            </div>
+            {% endif %}
+            <div class="form-group">
+              {{gettext('Descripción')}}
+              {{form2.description(class="form-control", required="")}}
+            </div>
+            <div class="form-group">
+              {{gettext('Precio')}}
+              {{form2.price(class="form-control", required="")}}
+            </div>
+            <div class="d-flex w-100 align-items-center justify-content-center">
+              <input type="button" name="create_offer" value="Create offer" id="create-offer-button"
+                class="btn btn-outline-dark">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="tables-container menu-container">
+      <div id="campanyas" class="table-container">
+        {% if campaigns|length >= 1 %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">{{gettext('Nombre')}}</th>
+              <th scope="col">{{gettext('Descripción')}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in campaigns %}
+            <tr>
+              <td scope="row" class="d-flex align-items-start justify-content-center flex-column">
+                <div style="font-weight: 600;">
+                  {{c.name}}
+                </div>
+                <div class="text-secondary">
+                  {{c.company}}
+                </div>
+              </td>
+              <td style="max-width: 120ch; min-width: 260px;">{{c.description}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <h4>{{gettext('No hay campañas para mostrar')}}</h4>
+        {% endif %}
+      </div>
+      <div id="acciones" class="table-container">
+        {% if actions|length >= 1 %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" class="nom">{{gettext('Nombre')}}</th>
+              <th scope="col" class="des">{{gettext('Descripción')}}</th>
+              <th scope="col" class="rec">Reward</th>
+              <th scope="col" class="ind">{{gettext('Indicador')}}</th>
+              <th scope="col" class="est">Progress</th>
+              <th scope="col" class="qr">{{gettext('Código QR')}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in actions %}
+            <tr>
+              <td scope="row" class="nom d-flex align-items-start justify-content-center flex-column">
+                <div style="font-weight: 600;">
+                  {{a.name}}
+                </div>
+                <div class="text-secondary">
+                  {{a.company}}
+                </div>
+              </td>
+              <td class="des">{{a.description}}</td>
+              <td class="rec">{{a.reward}} UDC</td>
+              <td class="ind">{{a.kpi_indicator}}</td>
+              <td class="est">{{a.kpi}}/{{a.kpi_target}}</td>
+              <td>
+                <a href="{{ url_for('qr' ,action_id=a.id) }}" target="_blank" class="qr-link">
+                  <b>{{gettext('Descargar')}}</b>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <h4>{{gettext('No hay acciones para mostrar')}}</h4>
+        {% endif %}
+      </div>
+      <div id="ofertas" class="table-container">
+        {% if offers|length >= 1 %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">{{gettext('Nombre')}}</th>
+              <th scope="col">{{gettext('Descripción')}}</th>
+              <th scope="col">{{gettext('Precio')}}</th>
+              <th scope="col">{{gettext('Código QR')}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for o in offers %}
+            <tr>
+              <td scope="row" class="d-flex align-items-start justify-content-center flex-column">
+                <div style="font-weight: 600;">
+                  {{o.name}}
+                </div>
+                <div class="text-secondary">
+                  {{o.company}}
+                </div>
+              </td>
+              <td>{{o.description}}</td>
+              <td>{{o.price}} UDC</td>
+              <td>
+                <a href="{{ url_for('qr_offers' ,offer_id=o.id) }}" target="_blank" class="qr-link">
+                  <b>{{gettext('Descargar')}}</b>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <h4>{{gettext('No hay ofertas para mostrar')}}</h4>
+        {% endif %}
+      </div>
     </div>
   </div>
-
-  <form style="display: none;" id="create-campaign-form" method="POST">
-    {{ form.csrf_token }}
-    <div class="form-group">
-      <p>
-        <label for="exampleInputEmail1">{{ gettext('Nombre de la campaña') }}</label>
-
-        <br />
-        {{form.campaign_name(class="form-control", required="")}}
-      </p>
-    </div>
-    {% if user.role == "Administrator" %}
-    <div class="form-group">
-      {{ gettext('Empresa') }}
-      <br />
-      {{form.company(class="form-control", required="")}}
-    </div>
-    {% endif %}
-    <div class="form-group">
-      {{gettext('Descripción')}}
-      <br />
-      {{form.description(class="form-control", required="")}}
-    </div>
-    <p>
-      <input type="button" name="create_campaign" value="Create campaign" id="create-campaign-button"
-        class="btn btn-outline-dark">
-    </p>
-  </form>
-
-  <form style="display: none;" action="/action" id="create-action-form" method="POST">
-    <div class="form-group">
-      <p>
-        <input type="text" class="form-control" placeholder="{{gettext('Nombre de la acción')}}" name="name"
-          required></input>
-      </p>
-    </div>
-    <div class="form-group">
-      <p>
-        <input type="text" class="form-control" placeholder="{{gettext('Descripción')}}" name="description"
-          required></input>
-      </p>
-    </div>
-    <div class="form-group">
-      <p>
-        <input type="number" step="0.01" placeholder="{{gettext('Recompensa por KPI (en UDC)')}}" class="form-control"
-          name="reward" required></input>
-      </p>
-    </div>
-    <div class="form-group">
-      <p>
-        <select class="form-control" name="campaign">
-          <option disabled selected>{{gettext('Campaña')}}</option>
-          {% for c in campaigns %}
-          <option value='{{c.id}}'>{{c.name}}</option>
-          {% endfor %}
-        </select>
-      </p>
-    </div>
-    <div class="form-group">
-      <p>
-        <input type="text" class="form-control" placeholder="{{gettext('Indicador de KPI')}}" name="kpi"
-          required></input>
-      </p>
-    </div>
-    <div class="form-group">
-      <p>
-        <input type="number" step="0.01" placeholder="{{gettext('Objetivo')}}" class="form-control" name="target"
-          required></input>
-      </p>
-    </div>
-    <div class="form-group">
-      <input type="button" name="create_action" value="{{gettext('Crear acción')}}" class="btn btn-outline-dark"
-        id="create-action-button">
-    </div>
-  </form>
-
-  <form style="display: none;" id="create-offer-form" method="POST">
-    {{ form2.csrf_token }}
-    <div class="form-group">
-      <p>
-        <label for="offer_name">{{gettext('Nombre de la oferta')}}</label>
-
-        <br />
-        {{form2.offer_name(class="form-control", required="")}}
-      </p>
-    </div>
-    {% if user.role == "Administrator" %}
-    <div class="form-group">
-      {{gettext('Organización')}}
-      <br />
-      {{form2.company(class="form-control", required="")}}
-    </div>
-    {% endif %}
-    <div class="form-group">
-      {{gettext('Descripción')}}
-      <br />
-      {{form2.description(class="form-control", required="")}}
-    </div>
-    <div class="form-group">
-      {{gettext('Precio')}}
-      <br />
-      {{form2.price(class="form-control", required="")}}
-    </div>
-    <p>
-      <input type="button" name="create_offer" value="Create offer" id="create-offer-button"
-        class="btn btn-outline-dark">
-    </p>
-  </form>
-</div>
-
-<div id="acciones" style="display: none;">
-  {% if actions|length >= 1 %}
-  <table class="table" id="acciones" style="table-layout:auto; font-size:70%;">
-    <thead>
-      <tr>
-        <th scope="col" class="nom">{{gettext('Nombre')}}</th>
-        <th scope="col" class="emp">{{gettext('Empresa')}}</th>
-        <th scope="col" class="des">{{gettext('Descripción')}}</th>
-        <th scope="col" class="rec">{{gettext('Recompensa por KPI')}}</th>
-        <th scope="col" class="ind">{{gettext('Indicador')}}</th>
-        <th scope="col" class="est">{{gettext('Estado actual')}}</th>
-        <th scope="col" class="obj">{{gettext('Objetivo')}}</th>
-        <th scope="col" class="qr">{{gettext('Código QR')}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for a in actions %}
-      <tr>
-        <th scope="row" class="nom">{{a.name}}</th>
-        <td class="emp">{{a.company}}</td>
-        <td class="des">{{a.description}}</td>
-        <td class="rec">{{a.reward}} UDC</td>
-        <td class="ind">{{a.kpi_indicator}}</td>
-        <td class="est">{{a.kpi}}</td>
-        <td class="obj">{{a.kpi_target}}</td>
-        <td><a href="{{ url_for('qr' ,action_id=a.id) }}" target="_blank" class="qr"><b>{{gettext('Descargar')}}</b></a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <h4>{{gettext('No hay acciones para mostrar')}}</h4>
-  {% endif %}
-</div>
-<div id="campanyas" style="display: none;">
-  {% if campaigns|length >= 1 %}
-  <table class="table" style="table-layout:fixed; font-size:70%;">
-    <thead>
-      <tr>
-        <th scope="col">{{gettext('Nombre')}}</th>
-        <th scope="col">{{gettext('Empresa')}}</th>
-        <th scope="col">{{gettext('Descripción')}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for c in campaigns %}
-      <tr>
-        <th scope="row">{{c.name}}</th>
-        <td>{{c.company}}</td>
-        <td>{{c.description}}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <h4>{{gettext('No hay campañas para mostrar')}}</h4>
-  {% endif %}
-</div>
-<div id="ofertas" style="display: none;">
-  {% if offers|length >= 1 %}
-  <table class="table" style="table-layout:fixed; font-size:70%;">
-    <thead>
-      <tr>
-        <th scope="col">{{gettext('Nombre')}}</th>
-        <th scope="col">{{gettext('Empresa')}}</th>
-        <th scope="col">{{gettext('Descripción')}}</th>
-        <th scope="col">{{gettext('Precio')}}</th>
-        <th scope="col">{{gettext('Código QR')}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for o in offers %}
-      <tr>
-        <th scope="row">{{o.name}}</th>
-        <td>{{o.company}}</td>
-        <td>{{o.description}}</td>
-        <td>{{o.price}} UDC</td>
-        <td><a href="{{ url_for('qr_offers' ,offer_id=o.id) }}" target="_blank"><b>{{gettext('Descargar')}}</b></a></td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <h4>{{gettext('No hay ofertas para mostrar')}}</h4>
-  {% endif %}
 </div>
 
 <div class="modal fade" id="action-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -331,75 +368,60 @@
     $('#create-offer-form').submit();
   })
 </script>
+
 <script>
-  $(document).ready(function () {
-    $("#mostrarformcamp").click(function () {
-      $("#create-campaign-form").show();
-      $("#acciones").hide();
-      $("#campanyas").hide();
-      $("#create-action-form").hide();
-      $("#ofertas").hide();
-      $("#create-offer-form").hide();
-    });
-  });
+  $("#create-campaign").show();
+  $("#create-action").hide();
+  $("#create-offer").hide();
+  $("#campanyas").show();
+  $("#acciones").hide();
+  $("#ofertas").hide();
+  $("#select-campaigns").addClass('selected');
+  $("#select-actions").removeClass('selected');
+  $("#select-offers").removeClass('selected');
 </script>
 <script>
   $(document).ready(function () {
-    $("#mostrarcamp").click(function () {
-      $("#create-campaign-form").hide();
-      $("#acciones").hide();
+    $("#select-campaigns").click(function () {
+      $("#create-campaign").show();
+      $("#create-action").hide();
+      $("#create-offer").hide();
       $("#campanyas").show();
-      $("#create-action-form").hide();
-      $("#ofertas").hide();
-      $("#create-offer-form").hide();
-    });
-  });
-</script>
-<script>
-  $(document).ready(function () {
-    $("#mostrarformacc").click(function () {
-      $("#create-action-form").show();
-      $("#campanyas").hide();
-      $("#create-campaign-form").hide();
       $("#acciones").hide();
       $("#ofertas").hide();
-      $("#create-offer-form").hide();
+      $("#select-campaigns").addClass('selected');
+      $("#select-actions").removeClass('selected');
+      $("#select-offers").removeClass('selected');
     });
   });
 </script>
 <script>
   $(document).ready(function () {
-    $("#mostraracc").click(function () {
-      $("#create-action-form").hide();
+    $("#select-actions").click(function () {
+      $("#create-campaign").hide();
+      $("#create-action").show();
+      $("#create-offer").hide();
       $("#campanyas").hide();
-      $("#create-campaign-form").hide();
       $("#acciones").show();
       $("#ofertas").hide();
-      $("#create-offer-form").hide();
+      $("#select-campaigns").removeClass('selected');
+      $("#select-actions").addClass('selected');
+      $("#select-offers").removeClass('selected');
     });
   });
 </script>
 <script>
   $(document).ready(function () {
-    $("#mostrarofertas").click(function () {
-      $("#create-action-form").hide();
+    $("#select-offers").click(function () {
+      $("#create-action").hide();
+      $("#create-campaign").hide();
+      $("#create-offer").show();
       $("#campanyas").hide();
-      $("#create-campaign-form").hide();
       $("#acciones").hide();
       $("#ofertas").show();
-      $("#create-offer-form").hide();
-    });
-  });
-</script>
-<script>
-  $(document).ready(function () {
-    $("#crearofertas").click(function () {
-      $("#create-action-form").hide();
-      $("#campanyas").hide();
-      $("#create-campaign-form").hide();
-      $("#acciones").hide();
-      $("#ofertas").hide();
-      $("#create-offer-form").show();
+      $("#select-campaigns").removeClass('selected');
+      $("#select-actions").removeClass('selected');
+      $("#select-offers").addClass('selected');
     });
   });
 </script>
