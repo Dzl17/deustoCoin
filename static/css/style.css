@@ -462,30 +462,6 @@ td {
     .button-grid {
         grid-template-columns: repeat(1, 1fr);
     }
-    .rem {
-        display: none;
-    }
-    .dest {
-        display: none;
-    }
-    .img {
-        display: none;
-    }
-    .proof {
-        display: none;
-    }
-    .emp {
-        display: none;
-    }
-    .ind {
-        display: none;
-    }
-    .est {
-        display: none;
-    }
-    .obj {
-        display: none;
-    }
 }
 
 @media screen and (max-width: 361px) {
@@ -516,7 +492,7 @@ td {
     }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
     #sidebarCollapse, .content-title {
         display: none !important;
     }
@@ -525,7 +501,7 @@ td {
     }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1023px) {
     .main-content {
         margin-left: 0px;
     }
@@ -550,7 +526,7 @@ td {
     }
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 767px) {
     .main-container-sub {
         flex-direction: column;
     }

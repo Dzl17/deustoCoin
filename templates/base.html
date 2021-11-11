@@ -41,18 +41,18 @@
     <script>
         var $homeIcon = $('#sidebar');
         $(window).resize(function () {
-            if (window.innerWidth >= 768) $homeIcon.removeClass('active');
+            if (window.innerWidth >= 1024) $homeIcon.removeClass('active');
         });
 
     </script>
     <script>
         function sidebarChange() {
             var win = $(this);
-            if (win.width() >= 768 && !$('sidebar').hasClass('active')) {
+            if (win.width() >= 1024 && !$('sidebar').hasClass('active')) {
                 $('#sidebar').removeClass('active');
                 $('#sidebarCollapse').removeClass('active');
                 $('main').removeClass('marginless');
-            } else if (win.width() < 768 && !$('sidebar').hasClass('active')) {
+            } else if (win.width() < 1024 && !$('sidebar').hasClass('active')) {
                 $('#sidebar').addClass('active');
                 $('#sidebarCollapse').addClass('active');
                 $('main').addClass('marginless');
@@ -72,7 +72,7 @@
                 $(e.target).closest('#sidebar').length == 0 &&
                 $(e.target).closest('#sidebarCollapse').length == 0 &&
                 !$('#sidebar').hasClass('active') &&
-                $(this).width() < 768
+                $(this).width() < 1024
             ) {
                 $('#sidebar').toggleClass('active');
                 $('#sidebarCollapse').toggleClass('active');
@@ -228,7 +228,7 @@
                 </div>
             </nav>
 
-            <main role="main" class="pt-3 px-4" style="width:100%;">
+            <main role="main" class="pt-3 px-4">
                 {% block body %} {% endblock %}
             </main>
         </div>
