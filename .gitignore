@@ -6,3 +6,4 @@ todos.txt
 .env
 db.sql
 .vscode
+package-lock.json
