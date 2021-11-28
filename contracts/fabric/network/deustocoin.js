@@ -187,7 +187,7 @@ class DeustocoinContract extends Contract {
      * @param {Integer} amount amount of tokens to be minted
      * @returns {Object} The balance
      */
-    async mint(ctx, amount) {
+    async mint(ctx, to, amount) {
 
         // Check minter authorization - this sample assumes 'ud' is the central banker with privilege to mint new tokens
         const clientMSPID = ctx.clientIdentity.getMSPID();
@@ -195,27 +195,24 @@ class DeustocoinContract extends Contract {
             throw new Error('client is not authorized to mint new tokens');
         }
 
-        // Get ID of submitting client identity
-        const minter = ctx.clientIdentity.getID();
-
         const amountInt = parseInt(amount);
         if (amountInt <= 0) {
             throw new Error('mint amount must be a positive integer');
         }
 
-        const balanceKey = ctx.stub.createCompositeKey(balancePrefix, [minter]);
+        const toBalanceKey = ctx.stub.createCompositeKey(balancePrefix, [to]);
 
-        const currentBalanceBytes = await ctx.stub.getState(balanceKey);
+        const toCurrentBalanceBytes = await ctx.stub.getState(toBalanceKey);
         // If minter current balance doesn't yet exist, we'll create it with a current balance of 0
-        let currentBalance;
-        if (!currentBalanceBytes || currentBalanceBytes.length === 0) {
-            currentBalance = 0;
+        let toCurrentBalance;
+        if (!toCurrentBalanceBytes || toCurrentBalanceBytes.length === 0) {
+            toCurrentBalance = 0;
         } else {
-            currentBalance = parseInt(currentBalanceBytes.toString());
+            toCurrentBalance = parseInt(toCurrentBalanceBytes.toString());
         }
-        const updatedBalance = currentBalance + amountInt;
+        const toUpdatedBalance = toCurrentBalance + amountInt;
 
-        await ctx.stub.putState(balanceKey, Buffer.from(updatedBalance.toString()));
+        await ctx.stub.putState(balanceKey, Buffer.from(toUpdatedBalance.toString()));
 
         // Increase totalSupply
         const totalSupplyBytes = await ctx.stub.getState(totalSupplyKey);
@@ -230,10 +227,10 @@ class DeustocoinContract extends Contract {
         await ctx.stub.putState(totalSupplyKey, Buffer.from(totalSupply.toString()));
 
         // Emit the Transfer event
-        const transferEvent = { from: '0x0', to: minter, value: amountInt };
+        const transferEvent = { from: '0x0', to: to, value: amountInt };
         ctx.stub.setEvent('Transfer', Buffer.from(JSON.stringify(transferEvent)));
 
-        console.log(`minter account ${minter} balance updated from ${currentBalance} to ${updatedBalance}`);
+        console.log(`minter account ${to} balance updated from ${toCurrentBalance} to ${toUpdatedBalance}`);
         return true;
     }
 
@@ -244,7 +241,7 @@ class DeustocoinContract extends Contract {
      * @param {Integer} amount amount of tokens to be burned
      * @returns {Object} The balance
      */
-    async Burn(ctx, amount) {
+    async Burn(ctx, from, amount) {
         // Check minter authorization - this sample assumes 'ud'' is the central banker with privilege to burn tokens
         const clientMSPID = ctx.clientIdentity.getMSPID();
         if (clientMSPID !== adminMSP) {
@@ -255,16 +252,16 @@ class DeustocoinContract extends Contract {
 
         const amountInt = parseInt(amount);
 
-        const balanceKey = ctx.stub.createCompositeKey(balancePrefix, [minter]);
+        const fromBalanceKey = ctx.stub.createCompositeKey(balancePrefix, [from]);
 
-        const currentBalanceBytes = await ctx.stub.getState(balanceKey);
-        if (!currentBalanceBytes || currentBalanceBytes.length === 0) {
+        const fromCurrentBalanceBytes = await ctx.stub.getState(fromBalanceKey);
+        if (!fromCurrentBalanceBytes || fromCurrentBalanceBytes.length === 0) {
             throw new Error('The balance does not exist');
         }
-        const currentBalance = parseInt(currentBalanceBytes.toString());
-        const updatedBalance = currentBalance - amountInt;
+        const fromCurrentBalance = parseInt(fromCurrentBalanceBytes.toString());
+        const fromUpdatedBalance = fromCurrentBalance - amountInt;
 
-        await ctx.stub.putState(balanceKey, Buffer.from(updatedBalance.toString()));
+        await ctx.stub.putState(fromBalanceKey, Buffer.from(fromUpdatedBalance.toString()));
 
         // Decrease totalSupply
         const totalSupplyBytes = await ctx.stub.getState(totalSupplyKey);
@@ -275,10 +272,10 @@ class DeustocoinContract extends Contract {
         await ctx.stub.putState(totalSupplyKey, Buffer.from(totalSupply.toString()));
 
         // Emit the Transfer event
-        const transferEvent = { from: minter, to: '0x0', value: amountInt };
+        const transferEvent = { from: from, to: '0x0', value: amountInt };
         ctx.stub.setEvent('Transfer', Buffer.from(JSON.stringify(transferEvent)));
 
-        console.log(`minter account ${minter} balance updated from ${currentBalance} to ${updatedBalance}`);
+        console.log(`minter account ${minter} balance updated from ${currentBalance} to ${fromUpdatedBalance}`);
         return true;
     }
 

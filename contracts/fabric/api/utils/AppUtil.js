@@ -3,6 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 
+// TODO: change paths to allow connection to the network
+
 exports.buildCCPOrg1 = () => {
 	// load the common connection configuration file
 	const ccpPath = path.resolve(__dirname, '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
