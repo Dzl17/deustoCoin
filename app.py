@@ -226,7 +226,7 @@ def upload():
     except:
         pass
     del session['action_id']
-    return render_template("recompensa.html", name=session['name'], action=c_reward, email=session['email'], user=user)
+    return render_template("upload.html", name=session['name'], action=c_reward, email=session['email'], user=user)
 
 
 @app.route('/authorize')
@@ -251,7 +251,7 @@ def authorize():
         except:
             pass
         if c_reward is not None:
-            return render_template("subirimagen.html", name=session['name'], c_reward=c_reward, email=session['email'],
+            return render_template("uploadimage.html", name=session['name'], c_reward=c_reward, email=session['email'],
                                    session=session, user=user, action_id=c_reward)
         else:
             return redirect('/wallet')
@@ -264,7 +264,7 @@ def authorize():
                 offer.name = translator.translate(offer.name, dest=session['lang']).text
             except:
                 pass
-            return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
+            return render_template("payment.html", name=session['name'], offer=offer, email=session['email'],
                                    session=session, user=user)
         else:
             return redirect('/wallet')
@@ -325,7 +325,7 @@ def wallet():
                 del session['offer_id']
             except:
                 pass
-            return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, 
+            return render_template('wallet.html', title='Cartera', wallet=salary, email=email, name=given_name, 
                 w3=blockchain_manager.w3, form=form, user=user, nouser=1)
     given_name = dict(session).get('given_name', None)
     try:
@@ -333,7 +333,7 @@ def wallet():
         del session['offer_id']
     except:
         pass
-    return render_template('tab1cartera.html', title='Cartera', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
+    return render_template('wallet.html', title='Cartera', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            form=form, user=user, nouser=0)
 
 
@@ -347,7 +347,7 @@ def redeem_offer(offer_id):
         offer.name = translator.translate(offer.name, dest=session['lang']).text
     except:
         pass
-    return render_template("pago.html", name=session['name'], offer=offer, email=session['email'],
+    return render_template("payment.html", name=session['name'], offer=offer, email=session['email'],
                            session=session, user=user)
 
 
@@ -425,7 +425,7 @@ def dashboard():
     except:
         pass
     # Delete keys to avoid cookie conflicts
-    return render_template('accion.html', title='Acción', email=email, name=given_name, w3=blockchain_manager.w3,
+    return render_template('dashboard.html', title='Acción', email=email, name=given_name, w3=blockchain_manager.w3,
                            form=campaign_form, form2=offer_form, user=user, actions=actions, campaigns=campaigns, offers=offers)
 
 
@@ -447,7 +447,7 @@ def campaigns():
         del session['offer_id']
     except:
         pass
-    return render_template('empresas.html', email=email, name=given_name, user=user, campaigns=campaigns, companies=companies)
+    return render_template('campaigns.html', email=email, name=given_name, user=user, campaigns=campaigns, companies=companies)
 
 
 @app.route('/campaigns/<company>', methods=['GET', 'POST'])
@@ -467,7 +467,7 @@ def company(company):
             a.description = translator.translate(a.description, dest=session['lang']).text
     except:
         pass
-    return render_template('campanyas.html', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
+    return render_template('company.html', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            user=user, campaigns=campaigns, company=company, actions=actions)
 
 
@@ -489,7 +489,7 @@ def actions():
         del session['offer_id']
     except:
         pass
-    return render_template('accionalumnos.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
+    return render_template('actions.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            user=user, actions=actions)
 
 
@@ -504,7 +504,7 @@ def register_action(action_id):
         c_reward.kpi_indicator = translator.translate(c_reward.kpi_indicator, dest=session['lang']).text
     except:
         pass
-    return render_template("subirimagen.html", name=session['name'], c_reward=c_reward, email=session['email'],
+    return render_template("uploadimage.html", name=session['name'], c_reward=c_reward, email=session['email'],
                            session=session, user=user, action_id=action_id)
 
 
@@ -526,7 +526,7 @@ def offers():
         del session['offer_id']
     except:
         pass
-    return render_template('ofertas.html', title='Oferta', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
+    return render_template('offers.html', title='Oferta', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            user=user, offers=offers)
 
 
@@ -561,7 +561,7 @@ def campaigns_admin():
         del session['offer_id']
     except:
         pass
-    return render_template('admincampanyas.html', title='Campañas', wallet=salary, email=email, name=given_name,
+    return render_template('campaignsadmin.html', title='Campañas', wallet=salary, email=email, name=given_name,
                            w3=blockchain_manager.w3, user=user, campaigns=campaigns)
 
 
@@ -581,7 +581,7 @@ def campaign_editor(campaign_id):
         query.filter(Campaign.id == campaign_id).update(dictupdate, synchronize_session=False)
         s.commit()
         return redirect('/campaign-editor')
-    return render_template("editorcamp.html", campaign=campaign, email=email, name=given_name, user=user)
+    return render_template('campaigneditor.html', campaign=campaign, email=email, name=given_name, user=user)
 
 
 @app.route('/action-editor/<int:campaign_id>', methods=['GET', 'POST'])
@@ -604,7 +604,7 @@ def actions_admin(campaign_id):
             s.commit()
             actions = Action.get_actions_of_campaign(campaign_id)
 
-    return render_template('adminacciones.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
+    return render_template('actionsadmin.html', title='Acción', wallet=salary, email=email, name=given_name, w3=blockchain_manager.w3,
                            user=user, actions=actions, campaign=campaign)
 
 
@@ -625,7 +625,7 @@ def action_editor(action_id):
         query.filter(Action.id == action_id).update(dictupdate, synchronize_session=False)
         s.commit()
         return redirect(url_for('dashboard', campaign_id=action.campaign_id))
-    return render_template("editoraccion.html", action=action, email=email, name=given_name, user=user)
+    return render_template('actioneditor.html', action=action, email=email, name=given_name, user=user)
 
 
 @app.route('/offer-editor', methods=['GET', 'POST'])
@@ -657,7 +657,7 @@ def offers_admin():
         del session['offer_id']
     except:
         pass
-    return render_template('adminofertas.html', title='Ofertas', wallet=salary, email=email, name=given_name,
+    return render_template('offersadmin.html', title='Ofertas', wallet=salary, email=email, name=given_name,
                            w3=blockchain_manager.w3, user=user, offers=offers)
 
 
@@ -678,7 +678,7 @@ def offer_editor(offer_id):
         query.filter(Offer.id == offer_id).update(dictupdate, synchronize_session=False)
         s.commit()
         return redirect('/offer-editor')
-    return render_template("editoroferta.html", offer=offer, email=email, name=given_name, user=user)
+    return render_template('offereditor.html', offer=offer, email=email, name=given_name, user=user)
 
 
 @app.route('/plot<int:campaign_id>.png')
@@ -744,7 +744,7 @@ def about():
         del session['offer_id']
     except:
         pass
-    return render_template('sobre.html', email=email, name=given_name, user=user)
+    return render_template('about.html', email=email, name=given_name, user=user)
 
 
 @app.route('/transaction-history', methods=['GET', 'POST'])
@@ -778,7 +778,7 @@ def transaction_history():
         del session['offer_id']
     except:
         pass
-    return render_template('historialtrans.html', title='Acción', wallet=salary, email=email, name=name, w3=blockchain_manager.w3,
+    return render_template('transactionhistory.html', title='Acción', wallet=salary, email=email, name=name, w3=blockchain_manager.w3,
                            user=user, transactions=transactions)
 
 
