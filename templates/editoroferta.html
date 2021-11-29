@@ -8,7 +8,7 @@
     <div class="bg-light card px-5 py-5 mb-5">
         <h2>{{offer.name}}</h2>
     </div>
-    <form id="editoroferta" action="{{ url_for('offer_editor',offer_id=offer.id) }}" method="POST">
+    <form id="editoroferta" action="{{ url_for('offer_editor', offer_id=offer.id) }}" method="POST">
         <div class="form-group">
             <p>
                 <label for="name">Offer name</label>

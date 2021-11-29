@@ -22,7 +22,7 @@
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
                     <h5 class="m-0 font-weight-bold">{{o.name}} - {{o.price}} UDC</h5>
 
-                    <form action="{{ url_for('offers_editor') }}" method="post" id="offer-form-{{o.id}}"
+                    <form action="{{ url_for('offers_admin') }}" method="post" id="offer-form-{{o.id}}"
                         class="d-flex align-items-center justify-content-center">
                         <input type="submit" name="edit_offer" class="{{o.id}} btn btn-sm btn-outline-primary mx-1 my-1"
                             value="✎">
@@ -58,7 +58,7 @@
                     <div class="modal-body">Do you want to delete the offer "{{o.name}}"?</div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" id="delete-submit-{{o.id}}" href="/offers-editor">Delete</a>
+                        <a class="btn btn-primary" id="delete-submit-{{o.id}}" href="/offer-editor">Delete</a>
                     </div>
                 </div>
             </div>

@@ -22,7 +22,7 @@
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
                     <h5 class="m-0 font-weight-bold">{{c.name}}</h5>
 
-                    <form action="{{ url_for('campaigns_editor') }}" method="post" id="campaign-form-{{c.id}}"
+                    <form action="{{ url_for('campaigns_admin') }}" method="post" id="campaign-form-{{c.id}}"
                         class="d-flex align-items-center justify-content-center">
                         <input type="submit" name="edit_campaign"
                             class="{{c.id}} btn btn-sm btn-outline-primary mx-1 my-1" value="✎">
@@ -36,7 +36,7 @@
                     <span class="font-weight-bold">Company: {{c.company}}</span>
                     <p class="text-left">{{c.description}}</p>
                     <div class="d-flex align-items-center justify-content-center">
-                        <form action="{{ url_for('editor', campaign_id=c.id) }}" method="post">
+                        <form action="{{ url_for('campaign_editor', campaign_id=c.id) }}" method="post">
                             <input type="submit" name="view_action" class="{{c.id}} btn btn-outline-info btn-sm"
                                 value="{{gettext('Ver acciones')}}">
                             <input value="{{c.id}}" name="id" style="display: none;">
@@ -60,7 +60,7 @@
                             good deeds will also be deleted.</i></div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" id="delete-submit-{{c.id}}" href="/campaigns-editor">Delete</a>
+                        <a class="btn btn-primary" id="delete-submit-{{c.id}}" href="/campaign-editor">Delete</a>
                     </div>
                 </div>
             </div>

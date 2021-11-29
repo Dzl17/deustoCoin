@@ -93,7 +93,7 @@
                     DeustoCoin
                 </a>
                 {% else %}
-                <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('action') }}">
+                <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ url_for('dashboard') }}">
                     <img src="{{ url_for('static', filename='icon/deustoCoin-144.png') }}" alt="logo">
                     DeustoCoin
                 </a>
@@ -103,19 +103,19 @@
                 <ul class="nav flex-column">
                     {% if user.role == "Promoter" or user.role == "Administrator" %}
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ url_for('action')}}">
+                        <a class="nav-link active" href="{{ url_for('dashboard')}}">
                             <span class="iconify" data-icon="grommet-icons:domain" data-inline="false"></span>
                             {{gettext('Menú principal')}}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('campaigns_editor')}}">
+                        <a class="nav-link" href="{{ url_for('campaigns_admin')}}">
                             <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span>
                             {{gettext('Editor de campañas')}}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('offers_editor')}}">
+                        <a class="nav-link" href="{{ url_for('offers_admin')}}">
                             <span class="iconify" data-icon="carbon:tag-edit" data-inline="false"></span>
                             {{gettext('Editor de ofertas')}}
                         </a>
@@ -129,7 +129,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('action_students')}}">
+                        <a class="nav-link" href="{{ url_for('actions')}}">
                             <span class="iconify" data-icon="codicon:github-action" data-inline="false"></span>
                             {{gettext('Acciones')}}
                         </a>
