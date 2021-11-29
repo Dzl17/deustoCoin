@@ -187,7 +187,7 @@ def ipfs_add_file(file):
 @app.route('/')
 def home():
     KPIByDates.save_todays_KPI()
-    return render_template("index.html")
+    return render_template('index.html')
 
 
 @app.route('/language/<lang>')
@@ -226,7 +226,7 @@ def upload():
     except:
         pass
     del session['action_id']
-    return render_template("upload.html", name=session['name'], action=c_reward, email=session['email'], user=user)
+    return render_template('reward.html', name=session['name'], action=c_reward, email=session['email'], user=user)
 
 
 @app.route('/authorize')
@@ -251,7 +251,7 @@ def authorize():
         except:
             pass
         if c_reward is not None:
-            return render_template("uploadimage.html", name=session['name'], c_reward=c_reward, email=session['email'],
+            return render_template('uploadimage.html', name=session['name'], c_reward=c_reward, email=session['email'],
                                    session=session, user=user, action_id=c_reward)
         else:
             return redirect('/wallet')
@@ -264,7 +264,7 @@ def authorize():
                 offer.name = translator.translate(offer.name, dest=session['lang']).text
             except:
                 pass
-            return render_template("payment.html", name=session['name'], offer=offer, email=session['email'],
+            return render_template('payment.html', name=session['name'], offer=offer, email=session['email'],
                                    session=session, user=user)
         else:
             return redirect('/wallet')
@@ -304,7 +304,7 @@ def register():
         if role == 'Promoter':
             return redirect('/dashboard')
     else:
-        return render_template("register.html", email=email, name=name)
+        return render_template('register.html', email=email, name=name)
 
 
 @app.route('/wallet', methods=['GET', 'POST'])
@@ -347,7 +347,7 @@ def redeem_offer(offer_id):
         offer.name = translator.translate(offer.name, dest=session['lang']).text
     except:
         pass
-    return render_template("payment.html", name=session['name'], offer=offer, email=session['email'],
+    return render_template('payment.html', name=session['name'], offer=offer, email=session['email'],
                            session=session, user=user)
 
 
@@ -504,7 +504,7 @@ def register_action(action_id):
         c_reward.kpi_indicator = translator.translate(c_reward.kpi_indicator, dest=session['lang']).text
     except:
         pass
-    return render_template("uploadimage.html", name=session['name'], c_reward=c_reward, email=session['email'],
+    return render_template('uploadimage.html', name=session['name'], c_reward=c_reward, email=session['email'],
                            session=session, user=user, action_id=action_id)
 
 
@@ -800,27 +800,27 @@ def before_request():
 
 @app.errorhandler(400)
 def bad_request(e):
-    return render_template("error.html", code="400", type="Bad Request"), 400
+    return render_template('error.html', code='400', type='Bad Request'), 400
 
 
 @app.errorhandler(401)
 def unauthorized(e):
-    return render_template("error.html", code="401", type="Unauthorized"), 401
+    return render_template('error.html', code='401', type='Unauthorized'), 401
 
 
 @app.errorhandler(403)
 def forbidden(e):
-    return render_template("error.html", code="403", type="Forbidden"), 403
+    return render_template('error.html', code='403', type='Forbidden'), 403
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template("error.html", code="404", type="Not Found"), 404
+    return render_template('error.html', code='404', type='Not Found'), 404
 
 
 @app.errorhandler(500)
 def internal_error(e):
-    return render_template("error.html", code="500", type="Internal Server Error"), 500
+    return render_template('error.html', code='500', type='Internal Server Error'), 500
 
 
 if __name__ == "__main__":
