@@ -584,7 +584,7 @@ def campaign_editor(campaign_id):
     return render_template('campaigneditor.html', campaign=campaign, email=email, name=given_name, user=user)
 
 
-@app.route('/action-editor/<int:campaign_id>', methods=['GET', 'POST'])
+@app.route('/campaign-actions/<int:campaign_id>', methods=['GET', 'POST'])
 def actions_admin(campaign_id):
     email = dict(session).get('email', None)
     user = User.get_by_email(email)

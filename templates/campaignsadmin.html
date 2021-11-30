@@ -36,7 +36,7 @@
                     <span class="font-weight-bold">Company: {{c.company}}</span>
                     <p class="text-left">{{c.description}}</p>
                     <div class="d-flex align-items-center justify-content-center">
-                        <form action="{{ url_for('campaign_editor', campaign_id=c.id) }}" method="post">
+                        <form action="{{ url_for('actions_admin', campaign_id=c.id) }}" method="post">
                             <input type="submit" name="view_action" class="{{c.id}} btn btn-outline-info btn-sm"
                                 value="{{gettext('Ver acciones')}}">
                             <input value="{{c.id}}" name="id" style="display: none;">
