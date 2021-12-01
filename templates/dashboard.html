@@ -71,32 +71,36 @@
             <div class="form-group">
               <p>
                 <label for="action-name">{{gettext('Nombre de la acción')}}</label>
-                <input type="text" class="form-control" name="name" id="action-name" required></input>
+                <input type="text" class="form-control" name="name" id="action-name" required>
               </p>
             </div>
             <div class="form-group">
               <p>
                 <label for="action-description">{{gettext('Descripción')}}</label>
-                <input type="text" class="form-control" name="description" id="action-description" required></input>
+                <input type="text" class="form-control" name="description" id="action-description" required>
               </p>
             </div>
             <div class="form-group">
               <p>
                 <label for="action-kpi">{{gettext('Indicador de KPI')}}</label>
-                <input type="text" class="form-control" name="kpi" id="action-kpi" required></input>
+                <input type="text" class="form-control" name="kpi" id="action-kpi" required>
               </p>
             </div>
-            <div class="d-flex align-items-center justify-content-center"  style="gap: 5px">
+            <div class="d-flex align-items-center justify-content-center" style="gap: 5px">
               <div class="form-group" style="flex: 1 1 auto;">
                 <p>
                   <label for="action-reward">Reward</label>
-                  <input type="number" step="0.01" class="form-control" name="reward" id="action-reward" required></input>
+                  <input type="number" step="0.01" class="form-control" name="reward" id="action-reward"
+                    oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null"
+                    required>
                 </p>
               </div>
               <div class="form-group" style="flex: 1 1 auto;">
                 <p>
                   <label for="action-target">{{gettext('Objetivo')}}</label>
-                  <input type="number" step="0.01" class="form-control" name="target" id="action-target" required></input>
+                  <input type="number" step="0.01" class="form-control" name="target" id="action-target"
+                    oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null"
+                    required>
                 </p>
               </div>
             </div>
@@ -138,7 +142,8 @@
             </div>
             <div class="form-group">
               <label for="offer-price">{{gettext('Precio')}}</label>
-              {{form2.price(class="form-control", required="", id="offer-price")}}
+              {{form2.price(class="form-control", required="", id="offer-price", type="number", oninput="this.value =
+              !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null", step="0.01")}}
             </div>
             <div class="d-flex w-100 align-items-center justify-content-center">
               <input type="button" name="create_offer" value="Create offer" id="create-offer-button"
